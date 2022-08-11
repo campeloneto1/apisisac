@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use DB;
+use App\Models\Subunidade;
+use App\Models\Log;
 
 class SubunidadesController extends Controller
 {
@@ -13,7 +17,7 @@ class SubunidadesController extends Controller
      */
     public function index()
     {
-        //
+        return Subunidade::orderBy('nome')->get();
     }
 
     /**
@@ -34,7 +38,37 @@ class SubunidadesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Subunidade;
+
+        $data->nome = $request->nome;
+        $data->unidade_id = $request->unidade_id;        
+        $data->abreviatura = $request->abreviatura;        
+        $data->email = $request->email;        
+        $data->telefone1 = $request->telefone1;        
+        $data->telefone2 = $request->telefone2;        
+        $data->rua = $request->rua;        
+        $data->numero = $request->numero;        
+        $data->bairro = $request->bairro;        
+        $data->complemento = $request->complemento;        
+        $data->cidade_id = $request->cidade_id;        
+        $data->comandante = $request->comandante;        
+        $data->subcomandante = $request->subcomandante;        
+
+        $data->created_by = Auth::id();      
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Cadastrou uma subunidade';
+            $log->table = 'subunidades';
+            $log->action = 1;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->save();
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
     /**
@@ -45,7 +79,7 @@ class SubunidadesController extends Controller
      */
     public function show($id)
     {
-        //
+        return Subunidade::find($id);
     }
 
     /**
@@ -68,7 +102,39 @@ class SubunidadesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Subunidade::find($id);
+        $dataold = $data;
+
+        $data->nome = $request->nome;
+        $data->unidade_id = $request->unidade_id;        
+        $data->abreviatura = $request->abreviatura;        
+        $data->email = $request->email;        
+        $data->telefone1 = $request->telefone1;        
+        $data->telefone2 = $request->telefone2;        
+        $data->rua = $request->rua;        
+        $data->numero = $request->numero;        
+        $data->bairro = $request->bairro;        
+        $data->complemento = $request->complemento;        
+        $data->cidade_id = $request->cidade_id;        
+        $data->comandante = $request->comandante;        
+        $data->subcomandante = $request->subcomandante;       
+
+        $data->updated_by = Auth::id();
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Editou uma subunidade';
+            $log->table = 'subunidades';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
     /**
@@ -79,6 +145,20 @@ class SubunidadesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Subunidade::find($id);
+         
+         if($data->delete()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Excluiu uma subunidade';
+            $log->table = 'subunidades';
+            $log->action = 3;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->save();
+            return 1;
+          }else{
+            return 2;
+          }
     }
 }

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use DB;
+use App\Models\Setor;
+use App\Models\Log;
+
 
 class SetoresController extends Controller
 {
@@ -13,7 +18,7 @@ class SetoresController extends Controller
      */
     public function index()
     {
-        //
+        return Setor::orderBy('nome')->get();
     }
 
     /**
@@ -34,7 +39,25 @@ class SetoresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Setor;
+
+        $data->nome = $request->nome;     
+
+        $data->created_by = Auth::id();      
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Cadastrou um setor';
+            $log->table = 'setores';
+            $log->action = 1;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->save();
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
     /**
@@ -45,7 +68,7 @@ class SetoresController extends Controller
      */
     public function show($id)
     {
-        //
+        return Setor::find($id);
     }
 
     /**
@@ -68,7 +91,27 @@ class SetoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Setor::find($id);
+        $dataold = $data;
+
+        $data->nome = $request->nome;
+
+        $data->updated_by = Auth::id();
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Editou um setor';
+            $log->table = 'setores';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
     /**
@@ -79,6 +122,20 @@ class SetoresController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Setor::find($id);
+         
+         if($data->delete()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Excluiu um setor';
+            $log->table = 'setores';
+            $log->action = 3;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->save();
+            return 1;
+          }else{
+            return 2;
+          }
     }
 }
