@@ -31,6 +31,16 @@ class CidadesController extends Controller
     }
 
     /**
+     * Return the citys with where condition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function where($id)
+    {
+        return Cidade::where('estado_id', $id)->orderBy('nome')->get();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

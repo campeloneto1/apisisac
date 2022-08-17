@@ -30,6 +30,14 @@ class AuthController extends Controller
         return response()->json($resposta, 200);
     }
 
+    public function check(){
+        return Auth::user();
+    }
+
+    public function home(){
+        return 1;
+    }
+
     public function logout(Request $request){
         //dd($request->user()->token());
         $isUser = $request->user()->token()->revoke();

@@ -18,12 +18,16 @@ class CreateUsersTable extends Migration
             $table->string('nome');
             $table->string('email')->unique()->nullable();
             $table->string('cpf', 15)->unique();
+            $table->string('numeral', 10)->unique()->nullable();
             $table->string('matricula', 15)->unique();
             $table->string('usuario', 15)->unique();
             $table->string('telefone1', 15)->nullable();
             $table->string('telefone2', 15)->nullable();
             $table->date('data_nascimento')->nullable();
+            $table->date('data_ingresso')->nullable();
+            $table->string('nome_guerra', 50)->nullable();
             $table->string('foto', 100)->nullable();
+            $table->integer('sexo_id')->nullable();
             $table->foreignId('graduacao_id')->nullable()->constrained('graduacoes')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('perfil_id')->nullable()->constrained('perfis')->onUpdate('cascade')->onDelete('set null');
             //$table->integer('graduacao_id')->nullable();
@@ -35,9 +39,13 @@ class CreateUsersTable extends Migration
             $table->string('complemento', 150)->nullable();
             //$table->integer('cidade_id')->nullable();
             $table->foreignId('cidade_id')->nullable()->constrained('cidades')->onUpdate('cascade')->onDelete('set null');
+            $table->string('cep', 10)->nullable();
 
             $table->timestamp('email_verified_at')->nullable();            
             $table->string('password', 150);
+
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

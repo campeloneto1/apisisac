@@ -48,9 +48,13 @@ class UsuariosController extends Controller
         $data->telefone1 = $request->telefone1;
         $data->telefone2 = $request->telefone2;
         $data->data_nascimento = $request->data_nascimento;
+        $data->data_ingresso = $request->data_ingresso;
+        $data->nome_guerra = $request->nome_guerra;
+        $data->sexo_id = $request->sexo_id;
         $data->graduacao_id = $request->graduacao_id;
         $data->perfil_id = $request->perfil_id;
         
+        $data->cep = $request->cep;
         $data->rua = $request->rua;
         $data->numero = $request->numero;
         $data->bairro = $request->bairro;
@@ -118,17 +122,20 @@ class UsuariosController extends Controller
         $data->telefone1 = $request->telefone1;
         $data->telefone2 = $request->telefone2;
         $data->data_nascimento = $request->data_nascimento;
+        $data->data_ingresso = $request->data_ingresso;
+        $data->nome_guerra = $request->nome_guerra;
+        $data->sexo_id = $request->sexo_id;
         $data->graduacao_id = $request->graduacao_id;
         $data->perfil_id = $request->perfil_id;
         
+        $data->cep = $request->cep;
         $data->rua = $request->rua;
         $data->numero = $request->numero;
         $data->bairro = $request->bairro;
         $data->complemento = $request->complemento;
         $data->cidade_id = $request->cidade_id;
 
-        $data->usuario = $request->cpf;
-        $data->password = bcrypt('CasaMilitar');
+        $data->usuario = $request->cpf;        
 
         $data->updated_by = Auth::id();
 

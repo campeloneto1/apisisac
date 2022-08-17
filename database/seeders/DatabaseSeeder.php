@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             GraduacoesSeeder::class,
             PerfisSeeder::class,
             PostosSeeder::class,
-            GraduacoesSeeder::class,
+            PaisesSeeder::class,
             SetoresSeeder::class,
             
             TiposDocumentosSeeder::class,

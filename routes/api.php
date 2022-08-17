@@ -46,12 +46,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });*/
 
 Route::group(['middleware' => ['guest:api']], function() {
-    Route::post('/login', [AuthController::class, 'login']);    
-
+    Route::post('/login', [AuthController::class, 'login']);        
 });
 
  Route::group(['middleware' => ['auth:api']], function() {
     Route::get('/logout', [AuthController::class, 'logout']); 
+    Route::get('/check', [AuthController::class, 'check']); 
 
     Route::resource('cidades', UsuariosController::class);
     Route::resource('documentos', DocumentosController::class);
@@ -78,5 +78,8 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('turnos', TurnosController::class);
     Route::resource('unidades', UnidadesController::class);
     Route::resource('usuarios', UsuariosController::class);
+
+    Route::get('estados/{id}/where', [EstadosController::class, 'where']);
+    Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
 
 });

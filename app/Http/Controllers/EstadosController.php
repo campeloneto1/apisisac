@@ -32,6 +32,17 @@ class EstadosController extends Controller
     }
 
     /**
+     * Return the stats with where condition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function where($id)
+    {
+        return Estado::where('pais_id', $id)->orderBy('nome')->get();
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

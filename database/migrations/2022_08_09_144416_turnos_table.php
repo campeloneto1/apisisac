@@ -16,8 +16,8 @@ class TurnosTable extends Migration
         Schema::create('turnos', function (Blueprint $table) {
             $table->id();
             $table->string('nome',100);
-            $table->time('hora_ini');
-            $table->time('hora_fim');
+            $table->time('hora_ini')->nullable();
+            $table->time('hora_fim')->nullable();
             
             
             $table->integer('created_by')->nullable();
