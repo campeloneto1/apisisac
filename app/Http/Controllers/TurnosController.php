@@ -18,7 +18,13 @@ class TurnosController extends Controller
      */
     public function index()
     {
-        return Turno::orderBy('nome')->get();
+        
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Turno::orderBy('nome')->get();
+        }else{ 
+            return Turno::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get(); 
+        }
     }
 
     /**
@@ -39,10 +45,14 @@ class TurnosController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new Turno;
 
-        $data->nome = $request->nome;      
+        $data->nome = $request->nome;    
+        $data->hora_ini = $request->hora_ini; 
+        $data->hora_fim = $request->hora_fim;      
 
+        $data->subunidade_id = $user->subunidade_id; 
         $data->created_by = Auth::id();      
 
         if($data->save()){
@@ -94,7 +104,9 @@ class TurnosController extends Controller
         $data = Turno::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;    
+        $data->nome = $request->nome; 
+        $data->hora_ini = $request->hora_ini; 
+        $data->hora_fim = $request->hora_fim;       
 
         $data->updated_by = Auth::id();
 

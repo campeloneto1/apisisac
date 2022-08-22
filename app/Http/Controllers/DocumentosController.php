@@ -18,7 +18,14 @@ class DocumentosController extends Controller
      */
     public function index()
     {
-        return Documento::orderBy('nome')->get();
+        
+
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Documento::orderBy('nome')->get();
+        }else{ 
+            return Documento::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get(); 
+        }
     }
 
     /**
@@ -39,14 +46,15 @@ class DocumentosController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new Documento;
 
-        $data->subunidade_id = $request->subunidade_id;
         $data->documento_tipo_id = $request->documento_tipo_id;       
         $data->titulo = $request->titulo;       
         $data->corpo = $request->corpo;        
         $data->codigo = $request->codigo;             
 
+        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
@@ -99,7 +107,6 @@ class DocumentosController extends Controller
         $data = Documento::find($id);
         $dataold = $data;
 
-         $data->subunidade_id = $request->subunidade_id;
         $data->documento_tipo_id = $request->documento_tipo_id;       
         $data->titulo = $request->titulo;       
         $data->corpo = $request->corpo;        

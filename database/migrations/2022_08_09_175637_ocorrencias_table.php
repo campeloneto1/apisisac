@@ -15,6 +15,7 @@ class OcorrenciasTable extends Migration
     {
         Schema::create('ocorrencias', function (Blueprint $table) {
             $table->id();
+            
             $table->string('nome',100);
             
             $table->integer('created_by')->nullable();

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Pais;
+use App\Models\UserPublicacao;
 use App\Models\Log;
 
-class PaisesController extends Controller
+class UsuariosPublicacoesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,12 @@ class PaisesController extends Controller
      */
     public function index()
     {
-        return Pais::orderBy('nome')->get();
+       $user = Auth::user();
+        if($user->perfil->administrador){
+             return UserPublicacao::with('user')->orderBy('id', 'desc')->get();
+        }else{  
+             return UserPublicacao::with('user')->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
     }
 
     /**
@@ -38,18 +43,23 @@ class PaisesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Pais;
+        $user = Auth::user();
+        $data = new UserPublicacao;
 
-        $data->nome = $request->nome;     
-        $data->uf = $request->uf;     
+        
+        $data->user_id = $request->user_id;      
+        $data->tipo_publicacao_id = $request->tipo_publicacao_id;   
+        $data->descricao = $request->descricao;   
+        $data->boletim = $request->boletim;      
 
+         $data->subunidade_id = $user->subunidade_id; 
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um pais';
-            $log->table = 'paises';
+            $log->mensagem = 'Cadastrou uma publicacao';
+            $log->table = 'users_publicacoes';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -68,7 +78,7 @@ class PaisesController extends Controller
      */
     public function show($id)
     {
-        return Pais::find($id);
+        return UserPublicacao::with('user')->find($id);
     }
 
     /**
@@ -91,19 +101,21 @@ class PaisesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Pais::find($id);
+        $data = UserPublicacao::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;  
-        $data->uf = $request->uf;      
+        $data->user_id = $request->user_id;      
+        $data->tipo_publicacao_id = $request->tipo_publicacao_id;   
+        $data->descricao = $request->descricao;   
+        $data->boletim = $request->boletim;       
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um pais';
-            $log->table = 'paises';
+            $log->mensagem = 'Editou uma publicação';
+            $log->table = 'users_publicacoes';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -123,13 +135,13 @@ class PaisesController extends Controller
      */
     public function destroy($id)
     {
-        $data = Pais::find($id);
+        $data = UserPublicacao::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um pais';
-            $log->table = 'paises';
+            $log->mensagem = 'Excluiu uma publicação';
+            $log->table = 'users_publicacoes';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

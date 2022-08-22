@@ -24,11 +24,15 @@ use App\Http\Controllers\PaisesController;
 use App\Http\Controllers\PerfisController;
 use App\Http\Controllers\PostosController;
 use App\Http\Controllers\PostosTurnosController;
+
 use App\Http\Controllers\SetoresController;
 use App\Http\Controllers\SubunidadesController;
+use App\Http\Controllers\TiposPublicacoesController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UnidadesController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\UsuariosPublicacoesController;
+use App\Http\Controllers\UsuariosLtsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +57,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('/logout', [AuthController::class, 'logout']); 
     Route::get('/check', [AuthController::class, 'check']); 
 
-    Route::resource('cidades', UsuariosController::class);
+    Route::resource('cidades', CidadesController::class);
     Route::resource('documentos', DocumentosController::class);
     Route::resource('documentos-tipos', DocumentosTiposController::class);
     Route::resource('escalas', EscalasController::class);
@@ -73,13 +77,18 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('perfis', PerfisController::class);
     Route::resource('postos', PostosController::class);
     Route::resource('postos-turnos', PostosTurnosController::class);
+    Route::resource('tipos-publicacoes', TiposPublicacoesController::class);
     Route::resource('setores', SetoresController::class);
     Route::resource('subunidades', SubunidadesController::class);
     Route::resource('turnos', TurnosController::class);
     Route::resource('unidades', UnidadesController::class);
     Route::resource('usuarios', UsuariosController::class);
+    Route::resource('usuarios-publicacoes', UsuariosPublicacoesController::class);
+    Route::resource('usuarios-lts', UsuariosLtsController::class);
 
     Route::get('estados/{id}/where', [EstadosController::class, 'where']);
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
+    Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);
+    Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
 
 });

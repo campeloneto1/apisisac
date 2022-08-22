@@ -17,7 +17,12 @@ class IrsosController extends Controller
      */
     public function index()
     {
-        return Irso::orderBy('nome')->get();
+         $user = Auth::user();
+        if($user->perfil->administrador){
+             return Irso::with('usuarios')->orderBy('data', 'desc')->get();
+        }else{ 
+            return Irso::with('usuarios')->where('subunidade_id', $user->subunidade_id)->orderBy('data', 'desc')->get(); 
+        }
     }
 
     /**
@@ -38,12 +43,15 @@ class IrsosController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new Irso;
 
         $data->nome = $request->nome;
-        $data->subunidade_id = $request->subunidade_id;  
+        
         $data->data = $request->data;        
-        $data->hora = $request->hora;          
+        $data->hora = $request->hora;
+
+        $data->subunidade_id = $user->subunidade_id;            
 
         $data->created_by = Auth::id();      
 
@@ -70,7 +78,7 @@ class IrsosController extends Controller
      */
     public function show($id)
     {
-        return Irso::find($id);
+        return Irso::with('usuarios')->find($id);
     }
 
     /**
@@ -97,7 +105,7 @@ class IrsosController extends Controller
         $dataold = $data;
 
         $data->nome = $request->nome;
-        $data->subunidade_id = $request->subunidade_id;  
+        //$data->subunidade_id = $request->subunidade_id;  
         $data->data = $request->data;        
         $data->hora = $request->hora;         
 

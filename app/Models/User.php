@@ -60,7 +60,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $with = ['perfil', 'graduacao', 'cidade'];
+    protected $with = ['perfil', 'graduacao', 'cidade', 'lts', 'publicacoes', 'subunidade', 'setor'];
 
 
      public function perfil()
@@ -77,4 +77,26 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Cidade::class);
     }
+
+    public function subunidade()
+    {
+        return $this->belongsTo(Subunidade::class);
+    }
+
+    public function setor()
+    {
+        return $this->belongsTo(Setor::class);
+    }
+
+    public function lts()
+    {
+        return $this->hasMany(UserLts::class, 'user_id');
+    }
+
+
+    public function publicacoes()
+    {
+        return $this->hasMany(UserPublicacao::class, 'user_id');
+    }
+
 }

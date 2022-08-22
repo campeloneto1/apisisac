@@ -18,7 +18,12 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        return User::orderBy('nome')->get();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return User::orderBy('nome')->get();
+        }else{  
+            return User::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get();
+        }
     }
 
     /**
@@ -41,6 +46,8 @@ class UsuariosController extends Controller
     {
         $data = new User;
 
+        $data->subunidade_id = $request->subunidade_id;
+        $data->setor_id = $request->setor_id;
         $data->nome = $request->nome;
         $data->email = $request->email;
         $data->cpf = $request->cpf;
@@ -115,6 +122,8 @@ class UsuariosController extends Controller
         $data = User::find($id);
         $dataold = User::find($id);
 
+        $data->subunidade_id = $request->subunidade_id;
+        $data->setor_id = $request->setor_id;
         $data->nome = $request->nome;
         $data->email = $request->email;
         $data->cpf = $request->cpf;

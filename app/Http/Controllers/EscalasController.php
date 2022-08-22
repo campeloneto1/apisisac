@@ -17,7 +17,12 @@ class EscalasController extends Controller
      */
     public function index()
     {
-         return Escala::orderBy('id', 'desc')->get();
+          $user = Auth::user();
+        if($user->perfil->administrador){
+             return Escala::orderBy('id', 'desc')->get();
+        }else{ 
+            return Escala::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
     }
 
     /**
@@ -38,13 +43,15 @@ class EscalasController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new Escala;
 
-        $data->subunidade_id = $request->subunidade_id;
+        //$data->subunidade_id = $request->subunidade_id;
         $data->escala_modelo_id = $request->escala_modelo_id;  
         $data->data = $request->data;  
         $data->codigo = $request->codigo;              
 
+        $data->subunidade_id = $user->subunidade_id;         
         $data->created_by = Auth::id();      
 
         if($data->save()){
@@ -96,7 +103,7 @@ class EscalasController extends Controller
         $data = Escala::find($id);
         $dataold = $data;
 
-        $data->subunidade_id = $request->subunidade_id;
+        //$data->subunidade_id = $request->subunidade_id;
         $data->escala_modelo_id = $request->escala_modelo_id;  
         $data->data = $request->data;  
         $data->codigo = $request->codigo;                  

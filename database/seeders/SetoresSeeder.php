@@ -15,13 +15,13 @@ class SetoresSeeder extends Seeder
     public function run()
     {
         $init = [
-            0 => ['nome' => 'Sargenteação'], 
-            1 => ['nome' => 'Transporte'],                    
-            2 => ['nome' => 'Logística'], 
-            3 => ['nome' => 'Cerimonial'], 
-            4 => ['nome' => 'Consultorio Odontológico'], 
-            5 => ['nome' => 'Estratégico'], 
-            6 => ['nome' => 'Segurança']
+            0 => ['nome' => 'Sargenteação', 'subunidade_id' => 1], 
+            1 => ['nome' => 'Transporte', 'subunidade_id' => 1],                    
+            2 => ['nome' => 'Logística', 'subunidade_id' => 1], 
+            3 => ['nome' => 'Cerimonial', 'subunidade_id' => 1], 
+            4 => ['nome' => 'Consultorio Odontológico', 'subunidade_id' => 1], 
+            5 => ['nome' => 'Estratégico', 'subunidade_id' => 1], 
+            6 => ['nome' => 'Segurança', 'subunidade_id' => 1]
         ];
         DB::table('setores')->insert($init);
     }

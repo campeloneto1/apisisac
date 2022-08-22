@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
+    /** php artisan passport:install
      * Seed the application's database.
      *
      * @return void
@@ -14,18 +15,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        
         $this->call([
+            
             GraduacoesSeeder::class,
             PerfisSeeder::class,
             PostosSeeder::class,
             PaisesSeeder::class,
-            SetoresSeeder::class,
+            
+            TiposPublicacoesSeeder::class,
             
             TiposDocumentosSeeder::class,
             TurnosSeeder::class,
             UnidadesSeeder::class,
+            SubunidadesSeeder::class,
             UsuariosSeeder::class,
-            SubunidadesSeeder::class
+            SetoresSeeder::class
+            
         ]);
+       
     }
 }

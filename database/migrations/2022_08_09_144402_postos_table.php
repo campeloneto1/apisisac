@@ -15,6 +15,7 @@ class PostosTable extends Migration
     {
         Schema::create('postos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
             $table->string('nome',100);
             $table->string('abreviatura', 15)->nullable();
             

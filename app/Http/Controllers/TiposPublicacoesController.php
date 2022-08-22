@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Pais;
+use App\Models\TipoPublicacao;
 use App\Models\Log;
 
-class PaisesController extends Controller
+class TiposPublicacoesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class PaisesController extends Controller
      */
     public function index()
     {
-        return Pais::orderBy('nome')->get();
+        return TipoPublicacao::orderBy('nome')->get();
     }
 
     /**
@@ -38,18 +38,17 @@ class PaisesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Pais;
+        $data = new TipoPublicacao;
 
-        $data->nome = $request->nome;     
-        $data->uf = $request->uf;     
+        $data->nome = $request->nome;      
 
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um pais';
-            $log->table = 'paises';
+            $log->mensagem = 'Cadastrou um tipo de publicacao';
+            $log->table = 'publicacoes';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -68,7 +67,7 @@ class PaisesController extends Controller
      */
     public function show($id)
     {
-        return Pais::find($id);
+        return TipoPublicacao::find($id);
     }
 
     /**
@@ -91,19 +90,18 @@ class PaisesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Pais::find($id);
+        $data = TipoPublicacao::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;  
-        $data->uf = $request->uf;      
+        $data->nome = $request->nome;     
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um pais';
-            $log->table = 'paises';
+            $log->mensagem = 'Editou um tipo de publicação';
+            $log->table = 'publicacoes';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -123,13 +121,13 @@ class PaisesController extends Controller
      */
     public function destroy($id)
     {
-        $data = Pais::find($id);
+        $data = TipoPublicacao::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um pais';
-            $log->table = 'paises';
+            $log->mensagem = 'Excluiu um tipo de publicação';
+            $log->table = 'publicacoes';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

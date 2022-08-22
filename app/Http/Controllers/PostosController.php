@@ -17,7 +17,12 @@ class PostosController extends Controller
      */
     public function index()
     {
-        return Posto::orderBy('nome')->get();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Posto::orderBy('nome')->get();
+        }else{ 
+            return Posto::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get(); 
+        }
     }
 
     /**
@@ -38,11 +43,13 @@ class PostosController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new Posto;
 
         $data->nome = $request->nome;
         $data->abreviatura = $request->abreviatura;        
 
+         $data->subunidade_id = $user->subunidade_id;   
         $data->created_by = Auth::id();      
 
         if($data->save()){

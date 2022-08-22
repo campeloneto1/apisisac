@@ -37,7 +37,7 @@ class Irso extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade', 'usuarios'];    
+    protected $with = ['subunidade'];    
 
     public function subunidade()
     {
@@ -46,6 +46,6 @@ class Irso extends Model
 
     public function usuarios()
     {
-        return $this->hasMany(IrsoUser::class, 'escala_id');
+        return $this->hasMany(IrsoUser::class, 'irso_id');
     }
 }

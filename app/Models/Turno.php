@@ -31,4 +31,16 @@ class Turno extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['subunidade'];
+
+    public function subunidade()
+    {
+        return $this->belongsTo(Subunidade::class);
+    }
 }

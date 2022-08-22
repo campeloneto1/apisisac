@@ -37,10 +37,16 @@ class IrsoUser extends Model
      *
      * @var array
      */
-    protected $with = ['irso'];    
+    protected $with = ['irso', 'user'];    
 
+   
     public function irso()
     {
         return $this->belongsTo(Irso::class);
+    }
+
+     public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

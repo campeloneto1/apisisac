@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class SubunidadesTable extends Migration
+class SetoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class SubunidadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subunidades', function (Blueprint $table) {
+        Schema::create('setores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('unidade_id')->nullable()->constrained('unidades')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
             $table->string('nome',100);
             $table->string('abreviatura', 15)->nullable();
 
@@ -23,15 +23,8 @@ class SubunidadesTable extends Migration
             $table->string('telefone1', 15)->nullable();
             $table->string('telefone2', 15)->nullable();
 
-            $table->string('rua', 150)->nullable();
-            $table->string('numero', 15)->nullable();
-            $table->string('bairro', 50)->nullable();
-            $table->string('complemento', 150)->nullable();
-            //$table->integer('cidade_id')->nullable();
-            $table->foreignId('cidade_id')->nullable()->constrained('cidades')->onDelete('set null')->onUpdate('cascade');
-
-            $table->integer('comandante')->nullable();
-            $table->integer('subcomandante')->nullable();
+            $table->integer('comandante_id')->nullable();
+            $table->integer('subcomandante_id')->nullable();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
@@ -46,6 +39,6 @@ class SubunidadesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companhias');
+        Schema::dropIfExists('setores');
     }
 }

@@ -31,4 +31,22 @@ class Unidade extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['comandante', 'subcomandante'];
+
+
+     public function comandante()
+    {
+        return $this->belongsTo(User::class,'comandante_id');
+    }
+
+    public function subcomandante()
+    {
+        return $this->belongsTo(User::class,'subcomandante_id');
+    }
 }

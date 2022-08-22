@@ -46,13 +46,14 @@ class UnidadesController extends Controller
         $data->email = $request->email;        
         $data->telefone1 = $request->telefone1;        
         $data->telefone2 = $request->telefone2;        
+        $data->cep = $request->cep;        
         $data->rua = $request->rua;        
         $data->numero = $request->numero;        
         $data->bairro = $request->bairro;        
         $data->complemento = $request->complemento;        
         $data->cidade_id = $request->cidade_id;        
-        $data->comandante = $request->comandante;        
-        $data->subcomandante = $request->subcomandante;        
+        $data->comandante_id = $request->comandante_id;        
+        $data->subcomandante_id = $request->subcomandante_id;        
 
         $data->created_by = Auth::id();      
 
@@ -109,14 +110,15 @@ class UnidadesController extends Controller
         $data->abreviatura = $request->abreviatura;        
         $data->email = $request->email;        
         $data->telefone1 = $request->telefone1;        
-        $data->telefone2 = $request->telefone2;        
+        $data->telefone2 = $request->telefone2;    
+        $data->cep = $request->cep;        
         $data->rua = $request->rua;        
         $data->numero = $request->numero;        
         $data->bairro = $request->bairro;        
         $data->complemento = $request->complemento;        
         $data->cidade_id = $request->cidade_id;        
-        $data->comandante = $request->comandante;        
-        $data->subcomandante = $request->subcomandante;       
+        $data->comandante_id = $request->comandante_id;        
+        $data->subcomandante_id = $request->subcomandante_id;       
 
         $data->updated_by = Auth::id();
 

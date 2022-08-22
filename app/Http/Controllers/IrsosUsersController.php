@@ -38,13 +38,32 @@ class IrsosUsersController extends Controller
      */
     public function store(Request $request)
     {
+        $id = $request[0];
+        foreach ($request[1] as $key => $value) {
+             $data = new IrsoUser;
+
+            $data->irso_id = $id;
+            $data->user_id = $value['id'];     
+
+            $data->created_by = Auth::id();      
+
+            if($data->save()){
+                $log = new Log;
+                $log->user_id = Auth::id();
+                $log->mensagem = 'Cadastrou um usuario na irso';
+                $log->table = 'irsos_users';
+                $log->action = 1;
+                $log->fk = $data->id;
+                $log->object = $data;
+                $log->save();               
+            }
+        }
+        return 1;
+        /*
         $data = new IrsoUser;
 
         $data->irso_id = $request->irso_id;
         $data->user_id = $request->user_id;     
-        $data->atrasado = $request->atrasado;     
-        $data->ausente = $request->ausente;        
-        $data->atestado = $request->atestado;     
 
         $data->created_by = Auth::id();      
 
@@ -60,7 +79,7 @@ class IrsosUsersController extends Controller
             return 1;
         }else{
             return 2;
-        }
+        }*/
     }
 
     /**

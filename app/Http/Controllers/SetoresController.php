@@ -22,6 +22,16 @@ class SetoresController extends Controller
     }
 
     /**
+     * Return the citys with where condition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function where($id)
+    {
+        return Setor::where('subunidade_id', $id)->orderBy('nome')->get();
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -41,7 +51,14 @@ class SetoresController extends Controller
     {
         $data = new Setor;
 
-        $data->nome = $request->nome;     
+        $data->nome = $request->nome;
+        $data->subunidade_id = $request->subunidade_id;        
+        $data->abreviatura = $request->abreviatura;        
+        $data->email = $request->email;        
+        $data->telefone1 = $request->telefone1;        
+        $data->telefone2 = $request->telefone2;           
+        $data->comandante_id = $request->comandante_id;        
+        $data->subcomandante_id = $request->subcomandante_id;      
 
         $data->created_by = Auth::id();      
 
@@ -95,6 +112,13 @@ class SetoresController extends Controller
         $dataold = $data;
 
         $data->nome = $request->nome;
+        $data->subunidade_id = $request->subunidade_id;        
+        $data->abreviatura = $request->abreviatura;        
+        $data->email = $request->email;        
+        $data->telefone1 = $request->telefone1;        
+        $data->telefone2 = $request->telefone2;           
+        $data->comandante_id = $request->comandante_id;        
+        $data->subcomandante_id = $request->subcomandante_id;      
 
         $data->updated_by = Auth::id();
 

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Posto extends Model
+class TipoPublicacao extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'postos';
+    protected $table = 'tipos_publicacoes';
 
     /**
      * The attributes that are mass assignable.
@@ -31,16 +31,5 @@ class Posto extends Model
      * @var string
      */
     protected $primaryKey = 'id';
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['subunidade'];
-
-    public function subunidade()
-    {
-        return $this->belongsTo(Subunidade::class);
-    }
+    
 }

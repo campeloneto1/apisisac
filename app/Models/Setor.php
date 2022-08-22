@@ -37,11 +37,21 @@ class Setor extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade'];
+    protected $with = ['subunidade', 'comandante', 'subcomandante'];
 
 
      public function subunidade()
     {
         return $this->belongsTo(Subunidade::class);
+    }
+
+    public function comandante()
+    {
+        return $this->belongsTo(User::class,'comandante_id');
+    }
+
+    public function subcomandante()
+    {
+        return $this->belongsTo(User::class,'subcomandante_id');
     }
 }

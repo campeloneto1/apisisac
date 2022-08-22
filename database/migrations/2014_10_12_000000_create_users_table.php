@@ -30,6 +30,8 @@ class CreateUsersTable extends Migration
             $table->integer('sexo_id')->nullable();
             $table->foreignId('graduacao_id')->nullable()->constrained('graduacoes')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('perfil_id')->nullable()->constrained('perfis')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
+             $table->foreignId('setor_id')->nullable()->constrained('setores')->onUpdate('cascade')->onDelete('set null');
             //$table->integer('graduacao_id')->nullable();
             //$table->integer('perfil_id');
 
