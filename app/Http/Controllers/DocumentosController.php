@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\Documento;
 use App\Models\Log;
-
+use Carbon\Carbon;
 
 class DocumentosController extends Controller
 {
@@ -22,9 +22,9 @@ class DocumentosController extends Controller
 
         $user = Auth::user();
         if($user->perfil->administrador){
-             return Documento::orderBy('nome')->get();
+             return Documento::orderBy('id', 'desc')->get();
         }else{ 
-            return Documento::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get(); 
+            return Documento::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get(); 
         }
     }
 
@@ -46,13 +46,17 @@ class DocumentosController extends Controller
      */
     public function store(Request $request)
     {
+        $hoje = Carbon::now();
+        $cod =  Documento::where('documento_tipo_id', $request->documento_tipo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
+
+
         $user = Auth::user();
         $data = new Documento;
 
         $data->documento_tipo_id = $request->documento_tipo_id;       
         $data->titulo = $request->titulo;       
         $data->corpo = $request->corpo;        
-        $data->codigo = $request->codigo;             
+        $data->codigo = $cod+1;             
 
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      

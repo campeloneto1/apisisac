@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserLts extends Model
+class ModalidadePosto extends Model
 {
     use HasFactory;
 
-    /**
+     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'users_lts';
+    protected $table = 'modalidades_postos';
 
     /**
      * The attributes that are mass assignable.
@@ -37,15 +37,16 @@ class UserLts extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade'];
+    protected $with = [ 'posto'];
 
-    public function subunidade()
+
+     public function modalidade()
     {
-        return $this->belongsTo(Subunidade::class);
+        return $this->belongsTo(Modalidade::class);
     }
 
-     public function user()
+    public function posto()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Posto::class);
     }
 }

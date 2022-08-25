@@ -5,19 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\EscalaPosto;
+use App\Models\UserAfastamento;
 use App\Models\Log;
+use Carbon\Carbon;
 
-class EscalasPostosController extends Controller
+class UsuariosAfastamentosController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return EscalaPosto::orderBy('id', 'desc')->get();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+            return UserAfastamento::with('user')->orderBy('id', 'desc')->get();
+        }else{  
+            return UserAfastamento::with('user')->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
+        
     }
 
     /**
@@ -38,19 +45,31 @@ class EscalasPostosController extends Controller
      */
     public function store(Request $request)
     {
-       /* $data = new EscalaPosto;
+        $user = Auth::user();
+        $data = new UserAfastamento;
 
-        $data->escala_modelo_id = $request->escala_modelo_id;
-        $data->posto_turno_id = $request->posto_turno_id;  
-        $data->visivel = $request->visivel;        
+         $data->afastamento_tipo_id = $request->afastamento_tipo_id;      
+         $data->user_id = $request->user_id;      
+        //$data->descricao = $request->descricao;   
+        $data->cid = $request->cid;     
+        $data->hospital = $request->hospital;     
+        $data->data = $request->data;       
+        $data->dias = $request->dias;   
 
+        $date = Carbon::createFromFormat('Y-m-d', $request->data);
+        $data->data_fim = Carbon::parse($date->addDays($request->dias-1))->format('Y-m-d');
+        $data->apto = $date->addDays(1);
+
+        $data->objeto_servico = $request->objeto_servico;       
+     
+        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um posto na escala';
-            $log->table = 'escalas_postos';
+            $log->mensagem = 'Cadastrou um afastamento';
+            $log->table = 'users_afastamentos';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -58,30 +77,7 @@ class EscalasPostosController extends Controller
             return 1;
         }else{
             return 2;
-        }*/
-
-        $id = $request[0];
-        foreach ($request[1] as $key => $value) {
-             $data = new EscalaPosto;
-
-            $data->escala_modelo_id = $id;
-            $data->posto_turno_id = $value['id'];   
-            $data->visivel = 1;          
-
-            $data->created_by = Auth::id();      
-
-            if($data->save()){
-                $log = new Log;
-                $log->user_id = Auth::id();
-                $log->mensagem = 'Cadastrou um posto na escala';
-                $log->table = 'escalas_postos';
-                $log->action = 1;
-                $log->fk = $data->id;
-                $log->object = $data;
-                $log->save();               
-            }
         }
-        return 1;
     }
 
     /**
@@ -92,7 +88,7 @@ class EscalasPostosController extends Controller
      */
     public function show($id)
     {
-        return EscalaPosto::find($id);
+        return UserAfastamento::with('user')->find($id);
     }
 
     /**
@@ -115,20 +111,34 @@ class EscalasPostosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = EscalaPosto::find($id);
+        $data = UserAfastamento::find($id);
         $dataold = $data;
 
-        $data->escala_modelo_id = $request->escala_modelo_id;
-        $data->posto_turno_id = $request->posto_turno_id;   
-        $data->visivel = $request->visivel;        
+        $data->afastamento_tipo_id = $request->afastamento_tipo_id;      
+        $data->user_id = $request->user_id;      
+        //$data->descricao = $request->descricao;   
+        $data->cid = $request->cid;     
+        $data->hospital = $request->hospital;     
+        $data->data = $request->data;       
+        $data->dias = $request->dias; 
+
+        $date = Carbon::createFromFormat('Y-m-d', $request->data);
+        //return $date->addDays($request->dias);
+        $data->data_fim = Carbon::parse($date->addDays($request->dias-1))->format('Y-m-d');
+        $data->apto = $date->addDays(1);
+   
+        $data->copem = $request->copem;
+        $data->resultado = $request->resultado;
+
+        $data->objeto_servico = $request->objeto_servico;  
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um posto da escala';
-            $log->table = 'escalas_postos';
+            $log->mensagem = 'Editou um afastamento';
+            $log->table = 'users_afastamentos';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -148,13 +158,13 @@ class EscalasPostosController extends Controller
      */
     public function destroy($id)
     {
-        $data = EscalaPosto::find($id);
+        $data = UserAfastamento::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um posto da escala';
-            $log->table = 'escalas_postos';
+            $log->mensagem = 'Excluiu um afastamento';
+            $log->table = 'users_afastamentos';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

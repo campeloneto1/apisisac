@@ -37,7 +37,7 @@ class EscalaPosto extends Model
      *
      * @var array
      */
-    protected $with = ['posto', 'escala_modelo'];
+    protected $with = ['posto_turno', 'escala_modelo'];
 
 
      public function escala_modelo()
@@ -45,8 +45,8 @@ class EscalaPosto extends Model
         return $this->belongsTo(EscalaModelo::class);
     }
 
-    public function posto()
+    public function posto_turno()
     {
-        return $this->belongsTo(Posto::class);
+        return $this->belongsTo(PostoTurno::class, 'posto_turno_id');
     }
 }

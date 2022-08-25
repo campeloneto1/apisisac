@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class EscalasPostosTable extends Migration
+class AfastamentosTipos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class EscalasPostosTable extends Migration
      */
     public function up()
     {
-        Schema::create('escalas_postos', function (Blueprint $table) {
+        Schema::create('afastamentos_tipos', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('escala_modelo_id')->nullable()->constrained('escalas_modelos')->onUpdate('cascade')->onDelete('set null');            
-            $table->foreignId('posto_turno_id')->nullable()->constrained('postos_turnos')->onUpdate('cascade')->onDelete('set null');
-            $table->boolean('visivel')->nullable();           
+            $table->string('nome',100);
+            
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
@@ -32,6 +30,6 @@ class EscalasPostosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('escalas_postos');
+        Schema::dropIfExists('afastamentos_tipos');
     }
 }

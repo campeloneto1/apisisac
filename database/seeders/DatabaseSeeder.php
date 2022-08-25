@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
-    /** php artisan passport:install
+    /** php artisan migrate:fresh --seed
+     * php artisan passport:install
      * Seed the application's database.
      *
      * @return void
@@ -18,11 +19,12 @@ class DatabaseSeeder extends Seeder
         
         $this->call([
             
+            AfastamentosTiposSeeder::class,
             GraduacoesSeeder::class,
             PerfisSeeder::class,
             PostosSeeder::class,
             PaisesSeeder::class,
-            
+                       
             TiposPublicacoesSeeder::class,
             
             TiposDocumentosSeeder::class,
@@ -30,7 +32,8 @@ class DatabaseSeeder extends Seeder
             UnidadesSeeder::class,
             SubunidadesSeeder::class,
             UsuariosSeeder::class,
-            SetoresSeeder::class
+            SetoresSeeder::class,
+            ModalidadesSeeder::class, 
             
         ]);
        

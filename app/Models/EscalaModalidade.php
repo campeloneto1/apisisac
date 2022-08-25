@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Posto extends Model
+class EscalaModalidade extends Model
 {
     use HasFactory;
 
-     /**
+      /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'postos';
+    protected $table = 'escalas_modalidades';
 
     /**
      * The attributes that are mass assignable.
@@ -32,20 +32,20 @@ class Posto extends Model
      */
     protected $primaryKey = 'id';
 
-    /**
+     /**
      * The relationships that should always be loaded.
      *
      * @var array
      */
-    protected $with = ['subunidade', 'turnos'];
+    protected $with = ['modalidade'];        
 
-    public function subunidade()
+    public function escala_modelo()
     {
-        return $this->belongsTo(Subunidade::class);
-    }
+        return $this->belongsTo(EscalaModelo::class);
+    } 
 
-     public function turnos()
+    public function modalidade()
     {
-        return $this->hasMany(PostoTurno::class, 'posto_id');
-    }
+        return $this->belongsTo(Modalidade::class);
+    } 
 }

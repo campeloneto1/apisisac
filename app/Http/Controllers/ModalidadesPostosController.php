@@ -5,25 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\UserLts;
+use App\Models\ModalidadePosto;
 use App\Models\Log;
 
-class UsuariosLtsController extends Controller
+class ModalidadesPostosController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $user = Auth::user();
-        if($user->perfil->administrador){
-            return UserLts::with('user')->orderBy('id', 'desc')->get();
-        }else{  
-            return UserLts::with('user')->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
-        }
-        
+        return ModalidadePosto::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -44,34 +38,28 @@ class UsuariosLtsController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $data = new UserLts;
+        $id = $request[0];
+        foreach ($request[1] as $key => $value) {
+             $data = new ModalidadePosto;
 
-         $data->user_id = $request->user_id;      
-        //$data->descricao = $request->descricao;   
-        $data->cid = $request->cid;     
-        $data->hospital = $request->hospital;     
-        $data->data = $request->data;       
-        $data->dias = $request->dias;   
+            $data->modalidade_id = $id;
+            $data->posto_id = $value['id'];   
+            $data->visivel = 1;          
 
-        $data->objeto_servico = $request->objeto_servico;       
-     
-        $data->subunidade_id = $user->subunidade_id;  
-        $data->created_by = Auth::id();      
+            $data->created_by = Auth::id();      
 
-        if($data->save()){
-            $log = new Log;
-            $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou uma publicacao';
-            $log->table = 'users_publicacoes';
-            $log->action = 1;
-            $log->fk = $data->id;
-            $log->object = $data;
-            $log->save();
-            return 1;
-        }else{
-            return 2;
+            if($data->save()){
+                $log = new Log;
+                $log->user_id = Auth::id();
+                $log->mensagem = 'Cadastrou um posto na modalidade';
+                $log->table = 'modalidades_postos';
+                $log->action = 1;
+                $log->fk = $data->id;
+                $log->object = $data;
+                $log->save();               
+            }
         }
+        return 1;
     }
 
     /**
@@ -82,7 +70,7 @@ class UsuariosLtsController extends Controller
      */
     public function show($id)
     {
-        return UserLts::with('user')->find($id);
+        return ModalidadePosto::find($id);
     }
 
     /**
@@ -105,25 +93,20 @@ class UsuariosLtsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = UserLts::find($id);
+        $data = ModalidadePosto::find($id);
         $dataold = $data;
 
-        $data->user_id = $request->user_id;      
-        //$data->descricao = $request->descricao;   
-        $data->cid = $request->cid;     
-        $data->hospital = $request->hospital;     
-        $data->data = $request->data;       
-        $data->dias = $request->dias;    
-
-        $data->objeto_servico = $request->objeto_servico;  
+        $data->posto_id = $request->posto_id;
+        $data->modalidade_id = $request->modalidade_id;   
+        $data->visivel = $request->visivel;        
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou uma lts';
-            $log->table = 'users_lts';
+            $log->mensagem = 'Editou um posto na modalidade';
+            $log->table = 'modalidades_postos';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -143,13 +126,13 @@ class UsuariosLtsController extends Controller
      */
     public function destroy($id)
     {
-        $data = UserLts::find($id);
+        $data = ModalidadePosto::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu uma lts';
-            $log->table = 'users_lts';
+            $log->mensagem = 'Excluiu um posto na modalidade';
+            $log->table = 'modalidades_postos';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

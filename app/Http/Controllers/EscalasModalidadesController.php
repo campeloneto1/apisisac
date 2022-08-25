@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\EscalaPosto;
+use App\Models\EscalaModalidade;
 use App\Models\Log;
 
-class EscalasPostosController extends Controller
+
+class EscalasModalidadesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +18,7 @@ class EscalasPostosController extends Controller
      */
     public function index()
     {
-        return EscalaPosto::orderBy('id', 'desc')->get();
+        return EscalaModalidade::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -38,34 +39,12 @@ class EscalasPostosController extends Controller
      */
     public function store(Request $request)
     {
-       /* $data = new EscalaPosto;
-
-        $data->escala_modelo_id = $request->escala_modelo_id;
-        $data->posto_turno_id = $request->posto_turno_id;  
-        $data->visivel = $request->visivel;        
-
-        $data->created_by = Auth::id();      
-
-        if($data->save()){
-            $log = new Log;
-            $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um posto na escala';
-            $log->table = 'escalas_postos';
-            $log->action = 1;
-            $log->fk = $data->id;
-            $log->object = $data;
-            $log->save();
-            return 1;
-        }else{
-            return 2;
-        }*/
-
         $id = $request[0];
         foreach ($request[1] as $key => $value) {
-             $data = new EscalaPosto;
+             $data = new EscalaModalidade;
 
             $data->escala_modelo_id = $id;
-            $data->posto_turno_id = $value['id'];   
+            $data->modalidade_id = $value['id'];   
             $data->visivel = 1;          
 
             $data->created_by = Auth::id();      
@@ -73,8 +52,8 @@ class EscalasPostosController extends Controller
             if($data->save()){
                 $log = new Log;
                 $log->user_id = Auth::id();
-                $log->mensagem = 'Cadastrou um posto na escala';
-                $log->table = 'escalas_postos';
+                $log->mensagem = 'Cadastrou uma modalidade na escala';
+                $log->table = 'escalas_modalidades';
                 $log->action = 1;
                 $log->fk = $data->id;
                 $log->object = $data;
@@ -92,7 +71,7 @@ class EscalasPostosController extends Controller
      */
     public function show($id)
     {
-        return EscalaPosto::find($id);
+        return EscalaModalidade::find($id);
     }
 
     /**
@@ -115,11 +94,11 @@ class EscalasPostosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = EscalaPosto::find($id);
+        $data = EscalaModalidade::find($id);
         $dataold = $data;
 
         $data->escala_modelo_id = $request->escala_modelo_id;
-        $data->posto_turno_id = $request->posto_turno_id;   
+        $data->modalidade_id = $request->modalidade_id;   
         $data->visivel = $request->visivel;        
 
         $data->updated_by = Auth::id();
@@ -127,8 +106,8 @@ class EscalasPostosController extends Controller
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um posto da escala';
-            $log->table = 'escalas_postos';
+            $log->mensagem = 'Editou uma modalidade da escala';
+            $log->table = 'escalas_modalidades';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -148,13 +127,13 @@ class EscalasPostosController extends Controller
      */
     public function destroy($id)
     {
-        $data = EscalaPosto::find($id);
+        $data = EscalaModalidade::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um posto da escala';
-            $log->table = 'escalas_postos';
+            $log->mensagem = 'Excluiu uma modalidade da escala';
+            $log->table = 'escalas_modalidades';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

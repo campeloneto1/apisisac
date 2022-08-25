@@ -60,7 +60,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $with = ['perfil', 'graduacao', 'cidade', 'lts', 'publicacoes', 'subunidade', 'setor'];
+    protected $with = ['perfil', 'graduacao', 'cidade', 'subunidade', 'setor'];
 
 
      public function perfil()
@@ -88,9 +88,9 @@ class User extends Authenticatable
         return $this->belongsTo(Setor::class);
     }
 
-    public function lts()
+    public function afastamentos()
     {
-        return $this->hasMany(UserLts::class, 'user_id');
+        return $this->hasMany(UserAfastamento::class, 'user_id');
     }
 
 
@@ -98,5 +98,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserPublicacao::class, 'user_id');
     }
+
+    public function irsos()
+    {
+        return $this->hasMany(IrsoUser::class, 'user_id');
+    }
+
 
 }

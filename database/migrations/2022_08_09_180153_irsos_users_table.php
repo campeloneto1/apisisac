@@ -24,6 +24,8 @@ class IrsosUsersTable extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['irso_id', 'user_id']);
         });
     }
 

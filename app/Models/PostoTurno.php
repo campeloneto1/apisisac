@@ -37,7 +37,7 @@ class PostoTurno extends Model
      *
      * @var array
      */
-    protected $with = ['posto', 'turno'];
+    protected $with = ['turno'];
 
 
      public function posto()

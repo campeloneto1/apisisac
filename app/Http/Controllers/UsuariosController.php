@@ -51,7 +51,8 @@ class UsuariosController extends Controller
         $data->nome = $request->nome;
         $data->email = $request->email;
         $data->cpf = $request->cpf;
-        $data->matricula = $request->matricula;        
+        $data->matricula = $request->matricula;     
+        $data->numeral = $request->numeral;        
         $data->telefone1 = $request->telefone1;
         $data->telefone2 = $request->telefone2;
         $data->data_nascimento = $request->data_nascimento;
@@ -96,7 +97,11 @@ class UsuariosController extends Controller
      */
     public function show($id)
     {
-        return User::find($id);
+        return User::with([
+            'afastamentos' => function ($query) { return $query->orderBy('id','DESC'); }, 
+            'publicacoes' => function ($query) { return $query->orderBy('id','DESC'); }, 
+            'irsos'=> function ($query) { return $query->orderBy('id','DESC'); }
+        ])->find($id);
     }
 
     /**
@@ -127,7 +132,8 @@ class UsuariosController extends Controller
         $data->nome = $request->nome;
         $data->email = $request->email;
         $data->cpf = $request->cpf;
-        $data->matricula = $request->matricula;        
+        $data->matricula = $request->matricula;  
+        $data->numeral = $request->numeral;              
         $data->telefone1 = $request->telefone1;
         $data->telefone2 = $request->telefone2;
         $data->data_nascimento = $request->data_nascimento;

@@ -38,7 +38,7 @@ class PostosTurnosController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new PostoTurno;
+        /*$data = new PostoTurno;
 
         $data->posto_id = $request->posto_id;
         $data->turno_id = $request->turno_id;        
@@ -57,7 +57,29 @@ class PostosTurnosController extends Controller
             return 1;
         }else{
             return 2;
+        }*/
+
+        $id = $request[0];
+        foreach ($request[1] as $key => $value) {
+             $data = new PostoTurno;
+
+            $data->posto_id = $id;
+            $data->turno_id = $value['id'];     
+
+            $data->created_by = Auth::id();      
+
+            if($data->save()){
+                $log = new Log;
+                $log->user_id = Auth::id();
+                $log->mensagem = 'Cadastrou um turno no posto';
+                $log->table = 'postos_turnos';
+                $log->action = 1;
+                $log->fk = $data->id;
+                $log->object = $data;
+                $log->save();               
+            }
         }
+        return 1;
     }
 
     /**

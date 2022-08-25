@@ -26,6 +26,8 @@ class EscalasUsersTable extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['escala_id', 'escala_posto_id', 'user_id']);
         });
     }
 

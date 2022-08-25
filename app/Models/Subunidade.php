@@ -37,8 +37,12 @@ class Subunidade extends Model
      *
      * @var array
      */
-    protected $with = ['unidade', 'comandante', 'subcomandante'];
+    protected $with = ['cidade', 'unidade', 'comandante', 'subcomandante'];
 
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class);
+    }
 
      public function unidade()
     {

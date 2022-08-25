@@ -7,21 +7,22 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\Escala;
 use App\Models\Log;
+use Carbon\Carbon;
 
 class EscalasController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-          $user = Auth::user();
+        $user = Auth::user();
         if($user->perfil->administrador){
              return Escala::orderBy('id', 'desc')->get();
         }else{ 
-            return Escala::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+            return Escala::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get(); 
         }
     }
 
@@ -43,15 +44,18 @@ class EscalasController extends Controller
      */
     public function store(Request $request)
     {
+        $hoje = Carbon::now();
+        $cod =  Escala::where('escala_modelo_id', $request->escala_modelo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
+
+
         $user = Auth::user();
         $data = new Escala;
 
-        //$data->subunidade_id = $request->subunidade_id;
-        $data->escala_modelo_id = $request->escala_modelo_id;  
-        $data->data = $request->data;  
-        $data->codigo = $request->codigo;              
+        $data->escala_modelo_id = $request->escala_modelo_id;       
+        $data->data = $request->data;              
+        $data->codigo = $cod+1;             
 
-        $data->subunidade_id = $user->subunidade_id;         
+        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
@@ -100,13 +104,12 @@ class EscalasController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $data = Escala::find($id);
         $dataold = $data;
 
-        //$data->subunidade_id = $request->subunidade_id;
-        $data->escala_modelo_id = $request->escala_modelo_id;  
-        $data->data = $request->data;  
-        $data->codigo = $request->codigo;                  
+        $data->escala_modelo_id = $request->escala_modelo_id;       
+        $data->data = $request->data;              
 
         $data->updated_by = Auth::id();
 
@@ -134,6 +137,7 @@ class EscalasController extends Controller
      */
     public function destroy($id)
     {
+        
         $data = Escala::find($id);
          
          if($data->delete()){

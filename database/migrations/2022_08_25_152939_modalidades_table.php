@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class IrsosTable extends Migration
+class ModalidadesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class IrsosTable extends Migration
      */
     public function up()
     {
-        Schema::create('irsos', function (Blueprint $table) {
-            $table->id();
-             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
-            $table->string('nome',200);
-            $table->date('data');
-            $table->time('hora');
+        Schema::create('modalidades', function (Blueprint $table) {
+           $table->id();
+           
+           $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
+            $table->string('nome',100);
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
@@ -33,6 +32,6 @@ class IrsosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('irsos');
+        Schema::dropIfExists('modalidades');
     }
 }

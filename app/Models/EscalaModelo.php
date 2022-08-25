@@ -37,10 +37,10 @@ class EscalaModelo extends Model
      *
      * @var array
      */
-    protected $with = ['postos'];        
+    protected $with = ['modalidades'];        
 
-    public function postos()
+    public function modalidades()
     {
-        return $this->belongsToMany(Posto::class, 'escalas_postos')->withPivot('id', 'visivel');
+        return $this->hasMany(EscalaModalidade::class, 'escala_modelo_id');
     }
 }
