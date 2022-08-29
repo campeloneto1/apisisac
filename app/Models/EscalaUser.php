@@ -37,7 +37,7 @@ class EscalaUser extends Model
      *
      * @var array
      */
-    protected $with = ['escala', 'user', 'posto'];
+    protected $with = ['user', 'modalidade', 'posto', 'turno'];
 
 
      public function escala()
@@ -50,8 +50,18 @@ class EscalaUser extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function modalidade()
+    {
+        return $this->belongsTo(Modalidade::class);
+    }
+
     public function posto()
     {
-        return $this->belongsTo(EscalaPosto::class);
+        return $this->belongsTo(Posto::class);
+    }
+
+    public function turno()
+    {
+        return $this->belongsTo(Turno::class);
     }
 }

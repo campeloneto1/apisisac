@@ -104,5 +104,9 @@ class User extends Authenticatable
         return $this->hasMany(IrsoUser::class, 'user_id');
     }
 
+     public function escalas()
+    {
+        return $this->hasMany(EscalaUser::class, 'user_id');
+    }
 
 }

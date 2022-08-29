@@ -37,8 +37,12 @@ class Unidade extends Model
      *
      * @var array
      */
-    protected $with = ['comandante', 'subcomandante'];
+    protected $with = ['cidade','comandante', 'subcomandante'];
 
+     public function cidade()
+    {
+        return $this->belongsTo(Cidade::class);
+    }
 
      public function comandante()
     {

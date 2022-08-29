@@ -40,6 +40,35 @@ class EscalasUsersController extends Controller
     {
         $data = new EscalaUser;
 
+        $escala = $request[0];
+        $modalidade = $request[1];
+        $posto = $request[2];
+        $turno = $request[3];
+        foreach ($request[4] as $key => $value) {
+             $data = new EscalaUser;
+
+            $data->escala_id = $escala;
+            $data->modalidade_id = $modalidade;
+            $data->posto_id = $posto;
+            $data->turno_id = $turno;
+            $data->user_id = $value['id'];     
+
+            $data->created_by = Auth::id();      
+
+            if($data->save()){
+                $log = new Log;
+                $log->user_id = Auth::id();
+                $log->mensagem = 'Cadastrou um usuario na escala';
+                $log->table = 'escalas_users';
+                $log->action = 1;
+                $log->fk = $data->id;
+                $log->object = $data;
+                $log->save();               
+            }
+        }
+        return 1;
+
+        /*
         $data->escala_id = $request->escala_id;
         $data->escala_posto_id = $request->escala_posto_id;    
         $data->user_id = $request->user_id;    
@@ -61,7 +90,9 @@ class EscalasUsersController extends Controller
             return 1;
         }else{
             return 2;
-        }
+        }*/
+
+
     }
 
     /**
