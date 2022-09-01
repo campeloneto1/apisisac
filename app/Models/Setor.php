@@ -54,4 +54,9 @@ class Setor extends Model
     {
         return $this->belongsTo(User::class,'subcomandante_id');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class,'setor_id');
+    }
 }

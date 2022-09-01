@@ -21,6 +21,36 @@ class PerfisTable extends Migration
             $table->boolean('gestor')->nullable();
             $table->boolean('oficial_dia')->nullable();
             
+            $table->boolean('afastamentos')->nullable();
+            $table->boolean('afastamentos_cad')->nullable();
+            $table->boolean('afastamentos_edt')->nullable();
+            $table->boolean('afastamentos_del')->nullable();    
+
+            $table->boolean('documentos')->nullable();
+            $table->boolean('documentos_cad')->nullable();
+            $table->boolean('documentos_edt')->nullable();
+            $table->boolean('documentos_del')->nullable();
+
+            $table->boolean('escalas')->nullable();
+            $table->boolean('escalas_cad')->nullable();
+            $table->boolean('escalas_edt')->nullable();
+            $table->boolean('escalas_del')->nullable();
+
+            $table->boolean('irsos')->nullable();
+            $table->boolean('irsos_cad')->nullable();
+            $table->boolean('irsos_edt')->nullable();
+            $table->boolean('irsos_del')->nullable();
+
+            $table->boolean('publicacoes')->nullable();
+            $table->boolean('publicacoes_cad')->nullable();
+            $table->boolean('publicacoes_edt')->nullable();
+            $table->boolean('publicacoes_del')->nullable();
+
+            $table->boolean('usuarios')->nullable();
+            $table->boolean('usuarios_cad')->nullable();
+            $table->boolean('usuarios_edt')->nullable();
+            $table->boolean('usuarios_del')->nullable();
+            
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

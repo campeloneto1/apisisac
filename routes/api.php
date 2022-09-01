@@ -98,8 +98,10 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
     Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);
     Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
+    Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);    
 
     Route::get('inicio-getpm', [InicioController::class, 'getPm']);
-    Route::get('inicio-afast', [InicioController::class, 'getAfastamento']);
+    Route::get('inicio-afast', [InicioController::class, 'getAfastamentos']);
+    Route::get('inicio-setores', [InicioController::class, 'getSetores']);
 
 });

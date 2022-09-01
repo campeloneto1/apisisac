@@ -32,6 +32,17 @@ class SetoresController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function where2($id)
+    {
+        return Setor::with('users')->where('escala', 1)->where('subunidade_id', $id)->orderBy('nome')->get();
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -58,7 +69,9 @@ class SetoresController extends Controller
         $data->telefone1 = $request->telefone1;        
         $data->telefone2 = $request->telefone2;           
         $data->comandante_id = $request->comandante_id;        
-        $data->subcomandante_id = $request->subcomandante_id;      
+        $data->subcomandante_id = $request->subcomandante_id;  
+
+        $data->escala = $request->escala;      
 
         $data->created_by = Auth::id();      
 
@@ -85,8 +98,10 @@ class SetoresController extends Controller
      */
     public function show($id)
     {
-        return Setor::find($id);
+        return Setor::with('users')->find($id);
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -118,7 +133,9 @@ class SetoresController extends Controller
         $data->telefone1 = $request->telefone1;        
         $data->telefone2 = $request->telefone2;           
         $data->comandante_id = $request->comandante_id;        
-        $data->subcomandante_id = $request->subcomandante_id;      
+        $data->subcomandante_id = $request->subcomandante_id;    
+
+        $data->escala = $request->escala;        
 
         $data->updated_by = Auth::id();
 
