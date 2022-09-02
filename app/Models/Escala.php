@@ -37,7 +37,7 @@ class Escala extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade', 'escala_modelo', 'ocorrencias', 'usuarios'];
+    protected $with = ['subunidade', 'escala_modelo', 'usuarios'];
 
 
      public function subunidade()

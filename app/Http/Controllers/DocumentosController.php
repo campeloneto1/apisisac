@@ -18,8 +18,6 @@ class DocumentosController extends Controller
      */
     public function index()
     {
-        
-
         $user = Auth::user();
         if($user->perfil->administrador){
              return Documento::orderBy('id', 'desc')->get();
@@ -48,7 +46,6 @@ class DocumentosController extends Controller
     {
         $hoje = Carbon::now();
         $cod =  Documento::where('documento_tipo_id', $request->documento_tipo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
-
 
         $user = Auth::user();
         $data = new Documento;

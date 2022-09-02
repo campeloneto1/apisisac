@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\EscalaOcorrencia;
 use App\Models\Log;
+use Carbon\Carbon;
 
 class EscalasOcorrenciasController extends Controller
 {
@@ -17,7 +18,14 @@ class EscalasOcorrenciasController extends Controller
      */
     public function index()
     {
-        return EscalaOcorrencia::orderBy('id', 'desc')->get();
+        
+
+         $user = Auth::user();
+        if($user->perfil->administrador){
+             return EscalaOcorrencia::orderBy('id', 'desc')->get();
+        }else{ 
+            return EscalaOcorrencia::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
     }
 
     /**
@@ -38,12 +46,19 @@ class EscalasOcorrenciasController extends Controller
      */
     public function store(Request $request)
     {
+         $hoje = Carbon::now();
+         $user = Auth::user();
+        $cod =  EscalaOcorrencia::where('ocorrencia_id', $request->ocorrencia_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
         $data = new EscalaOcorrencia;
 
         $data->escala_id = $request->escala_id;
         $data->ocorrencia_id = $request->ocorrencia_id; 
+        $data->codigo = $cod+1;  
+        $data->titulo = $request->titulo;  
         $data->descricao = $request->descricao;        
+        $data->user_id = Auth::id(); 
 
+        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
@@ -97,6 +112,7 @@ class EscalasOcorrenciasController extends Controller
 
         $data->escala_id = $request->escala_id;
         $data->ocorrencia_id = $request->ocorrencia_id; 
+        $data->titulo = $request->titulo;  
         $data->descricao = $request->descricao;        
 
         $data->updated_by = Auth::id();

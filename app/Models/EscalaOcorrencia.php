@@ -37,7 +37,7 @@ class EscalaOcorrencia extends Model
      *
      * @var array
      */
-    protected $with = ['escala', 'ocorrencia'];
+    protected $with = ['escala', 'ocorrencia', 'user', 'subunidade'];
 
 
      public function escala()
@@ -48,5 +48,15 @@ class EscalaOcorrencia extends Model
     public function ocorrencia()
     {
         return $this->belongsTo(Ocorrencia::class);
-    }    
+    } 
+
+    public function subunidade()
+    {
+        return $this->belongsTo(Subunidade::class);
+    }  
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }   
 }
