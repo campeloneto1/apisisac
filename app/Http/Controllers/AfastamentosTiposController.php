@@ -96,8 +96,7 @@ class AfastamentosTiposController extends Controller
         $data = AfastamentoTipo::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;
-        $data->cidade_id = $request->cidade_id;       
+        $data->nome = $request->nome;     
 
         $data->updated_by = Auth::id();
 

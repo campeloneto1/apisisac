@@ -31,6 +31,16 @@ class ModelosController extends Controller
     }
 
     /**
+     * Return the models with where condition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function where($id)
+    {
+        return Modelo::where('marca_id', $id)->orderBy('nome')->get();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

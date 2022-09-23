@@ -37,7 +37,7 @@ class EscalaUser extends Model
      *
      * @var array
      */
-    protected $with = ['user', 'modalidade', 'posto', 'turno'];
+    protected $with = ['user', 'modalidade', 'posto', 'turno', 'escala'];
 
 
      public function escala()

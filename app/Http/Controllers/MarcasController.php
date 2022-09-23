@@ -31,6 +31,16 @@ class MarcasController extends Controller
     }
 
     /**
+     * Return the marcas with where condition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function where($id)
+    {
+        return Modelo::where('tipo_id', $id)->orderBy('nome')->get();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,7 +50,8 @@ class MarcasController extends Controller
     {
         $data = new Marca;
 
-        $data->nome = $request->nome;    
+        $data->nome = $request->nome;
+        $data->tipo_id = $request->tipo_id;    
 
         $data->created_by = Auth::id();      
 
@@ -94,6 +105,7 @@ class MarcasController extends Controller
         $dataold = $data;
 
         $data->nome = $request->nome;   
+        $data->tipo_id = $request->tipo_id;    
 
         $data->updated_by = Auth::id();
 

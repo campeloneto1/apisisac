@@ -101,7 +101,7 @@ class UsuariosController extends Controller
             'afastamentos' => function ($query) { return $query->orderBy('id','DESC'); }, 
             'publicacoes' => function ($query) { return $query->orderBy('id','DESC'); }, 
             'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'escalas'=> function ($query) { return $query->with('escala')->orderBy('id','DESC'); }
+            'escalas'=> function ($query) { return $query->orderBy('id','DESC'); }
         ])->find($id);
     }
 

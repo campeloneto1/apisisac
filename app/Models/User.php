@@ -90,6 +90,7 @@ class User extends Authenticatable
 
     public function afastamentos()
     {
+
         return $this->hasMany(UserAfastamento::class, 'user_id');
     }
 
@@ -101,11 +102,13 @@ class User extends Authenticatable
 
     public function irsos()
     {
-        return $this->hasMany(IrsoUser::class, 'user_id');
+        return $this->belongsToMany(Irso::class, 'irsos_users')->withPivot('id', 'atrasado', 'ausente', 'atestado');
+        //return $this->hasMany(IrsoUser::class, 'user_id');
     }
 
      public function escalas()
     {
+        //return $this->belongsToMany(Escala::class, 'escalas_users', 'user_id', 'escala_id')->withPivot('id', 'modalidade_id', 'posto_id', 'turno_id', 'atrasado', 'ausente', 'atestado');
         return $this->hasMany(EscalaUser::class, 'user_id');
     }
 

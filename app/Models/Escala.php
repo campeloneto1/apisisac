@@ -37,7 +37,7 @@ class Escala extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade', 'escala_modelo', 'usuarios'];
+    protected $with = ['subunidade', 'escala_modelo'];
 
 
      public function subunidade()
@@ -52,11 +52,13 @@ class Escala extends Model
 
     public function ocorrencias()
     {
+        //return $this->belongsToMany(Ocorrencia::class, 'escalas_ocorrencias');
         return $this->hasMany(EscalaOcorrencia::class, 'escala_id');
     }
 
     public function usuarios()
     {
-        return $this->hasMany(EscalaUser::class, 'escala_id');
+        return $this->belongsToMany(User::class, 'escalas_users', 'escala_id', 'user_id')->withPivot('id','escala_id', 'modalidade_id','posto_id','turno_id', 'atrasado', 'ausente', 'atestado');
+        //return $this->hasMany(EscalaUser::class, 'escala_id');
     }
 }

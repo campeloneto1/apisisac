@@ -20,9 +20,9 @@ class UsuariosAfastamentosController extends Controller
     {
         $user = Auth::user();
         if($user->perfil->administrador){
-            return UserAfastamento::with('user')->orderBy('id', 'desc')->get();
+            return UserAfastamento::orderBy('id', 'desc')->get();
         }else{  
-            return UserAfastamento::with('user')->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+            return UserAfastamento::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
         }
         
     }
@@ -88,7 +88,7 @@ class UsuariosAfastamentosController extends Controller
      */
     public function show($id)
     {
-        return UserAfastamento::with('user')->find($id);
+        return UserAfastamento::find($id);
     }
 
     /**

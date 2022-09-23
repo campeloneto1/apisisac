@@ -41,6 +41,7 @@ class EscalaModelo extends Model
 
     public function modalidades()
     {
-        return $this->hasMany(EscalaModalidade::class, 'escala_modelo_id');
+        return $this->belongsToMany(Modalidade::class, 'escalas_modalidades')->withPivot('id', 'visivel');
+        //return $this->hasMany(EscalaModalidade::class, 'escala_modelo_id');
     }
 }

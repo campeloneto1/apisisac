@@ -81,7 +81,7 @@ class EscalasController extends Controller
      */
     public function show($id)
     {
-        return Escala::find($id);
+        return Escala::with('usuarios')->find($id);
     }
 
     /**

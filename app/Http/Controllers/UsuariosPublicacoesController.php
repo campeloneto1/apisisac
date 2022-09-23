@@ -19,9 +19,9 @@ class UsuariosPublicacoesController extends Controller
     {
        $user = Auth::user();
         if($user->perfil->administrador){
-             return UserPublicacao::with('user')->orderBy('id', 'desc')->get();
+             return UserPublicacao::orderBy('id', 'desc')->get();
         }else{  
-             return UserPublicacao::with('user')->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+             return UserPublicacao::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
         }
     }
 
@@ -78,7 +78,7 @@ class UsuariosPublicacoesController extends Controller
      */
     public function show($id)
     {
-        return UserPublicacao::with('user')->find($id);
+        return UserPublicacao::find($id);
     }
 
     /**

@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
 {
     /** php artisan migrate:fresh --seed
      * php artisan passport:install
+     * php artisan key:generate
      * Seed the application's database.
      *
      * @return void
@@ -34,6 +35,10 @@ class DatabaseSeeder extends Seeder
             UsuariosSeeder::class,
             SetoresSeeder::class,
             ModalidadesSeeder::class, 
+
+            MarcasSeeder::class, 
+            ModelosSeeder::class, 
+            ArmamentosTiposSeeder::class
             
         ]);
        

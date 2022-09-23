@@ -37,7 +37,7 @@ class Irso extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade'];    
+    protected $with = ['subunidade', 'usuarios'];    
 
     public function subunidade()
     {
@@ -46,6 +46,7 @@ class Irso extends Model
 
     public function usuarios()
     {
-        return $this->hasMany(IrsoUser::class, 'irso_id');
+         return $this->belongsToMany(User::class, 'irsos_users')->withPivot('id', 'atrasado', 'ausente', 'atestado');
+        //return $this->hasMany(IrsoUser::class, 'irso_id');
     }
 }

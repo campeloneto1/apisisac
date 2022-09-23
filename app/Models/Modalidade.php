@@ -42,6 +42,7 @@ class Modalidade extends Model
 
      public function postos()
     {
-        return $this->hasMany(ModalidadePosto::class, 'modalidade_id');
+        return $this->belongsToMany(Posto::class, 'modalidades_postos')->withPivot('id', 'visivel');
+        //return $this->hasMany(ModalidadePosto::class, 'modalidade_id');
     }
 }

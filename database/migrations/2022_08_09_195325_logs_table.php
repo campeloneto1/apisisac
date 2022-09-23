@@ -15,7 +15,8 @@ class LogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            //$table->integer('user_id');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
             $table->string('mensagem', 50);
             $table->string('table', 50);
             $table->integer('fk')->nullable();

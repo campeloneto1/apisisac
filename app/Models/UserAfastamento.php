@@ -37,7 +37,7 @@ class UserAfastamento extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade', 'afastamento_tipo'];
+    protected $with = ['subunidade', 'afastamento_tipo', 'user'];
 
     public function subunidade()
     {

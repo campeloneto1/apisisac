@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Irso;
+use App\Models\ArmamentoTipo;
 use App\Models\Log;
 
-class IrsosController extends Controller
+class ArmamentosTiposController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,12 +17,7 @@ class IrsosController extends Controller
      */
     public function index()
     {
-         $user = Auth::user();
-        if($user->perfil->administrador){
-             return Irso::orderBy('data', 'desc')->get();
-        }else{ 
-            return Irso::where('subunidade_id', $user->subunidade_id)->orderBy('data', 'desc')->get(); 
-        }
+        return ArmamentoTipo::orderBy('nome')->get();
     }
 
     /**
@@ -35,6 +30,8 @@ class IrsosController extends Controller
         //
     }
 
+   
+
     /**
      * Store a newly created resource in storage.
      *
@@ -43,23 +40,17 @@ class IrsosController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $data = new Irso;
+        $data = new ArmamentoTipo;
 
         $data->nome = $request->nome;
-        
-        $data->data = $request->data;        
-        $data->hora = $request->hora;
-
-        $data->subunidade_id = $user->subunidade_id;            
 
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou uma irso';
-            $log->table = 'irsos';
+            $log->mensagem = 'Cadastrou um tipo de armamento';
+            $log->table = 'armamentos_tipos';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -78,7 +69,7 @@ class IrsosController extends Controller
      */
     public function show($id)
     {
-        return Irso::find($id);
+        return ArmamentoTipo::find($id);
     }
 
     /**
@@ -101,21 +92,18 @@ class IrsosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Irso::find($id);
+        $data = ArmamentoTipo::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;
-        //$data->subunidade_id = $request->subunidade_id;  
-        $data->data = $request->data;        
-        $data->hora = $request->hora;         
+        $data->nome = $request->nome;    
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou uma irso';
-            $log->table = 'irsos';
+            $log->mensagem = 'Editou um tipo de armamento';
+            $log->table = 'armamentos_tipos';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -135,13 +123,13 @@ class IrsosController extends Controller
      */
     public function destroy($id)
     {
-        $data = Irso::find($id);
+        $data = ArmamentoTipo::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu uma irso';
-            $log->table = 'irsos';
+            $log->mensagem = 'Excluiu um tipo de armamento';
+            $log->table = 'armamentos_tipos';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArmamentosController;
+use App\Http\Controllers\ArmamentosTiposController;
 use App\Http\Controllers\AfastamentosTiposController;
 use App\Http\Controllers\CidadesController;
 use App\Http\Controllers\DocumentosController;
@@ -61,6 +63,8 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('/logout', [AuthController::class, 'logout']); 
     Route::get('/check', [AuthController::class, 'check']); 
 
+    Route::resource('armamentos', ArmamentosController::class);
+    Route::resource('armamentos-tipos', ArmamentosTiposController::class);
     Route::resource('afastamentos-tipos', AfastamentosTiposController::class);
     Route::resource('cidades', CidadesController::class);
     Route::resource('documentos', DocumentosController::class);
@@ -98,7 +102,9 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
     Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);
     Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
-    Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);    
+    Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);   
+    Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
+    Route::get('modelos/{id}/where', [ModelosController::class, 'where']); 
 
     Route::get('inicio-getpm', [InicioController::class, 'getPm']);
     Route::get('inicio-afast', [InicioController::class, 'getAfastamentos']);

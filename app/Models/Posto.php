@@ -46,6 +46,7 @@ class Posto extends Model
 
      public function turnos()
     {
-        return $this->hasMany(PostoTurno::class, 'posto_id');
+        return $this->belongsToMany(Turno::class, 'postos_turnos')->withPivot('id');
+        //return $this->hasMany(PostoTurno::class, 'posto_id');
     }
 }

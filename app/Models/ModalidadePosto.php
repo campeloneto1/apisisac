@@ -37,7 +37,7 @@ class ModalidadePosto extends Model
      *
      * @var array
      */
-    protected $with = [ 'posto'];
+    protected $with = [ 'posto', 'modalidade'];
 
 
      public function modalidade()

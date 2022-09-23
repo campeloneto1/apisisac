@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PostoTurno extends Model
+class ArmamentoTipo extends Model
 {
-    use HasFactory;
+     use HasFactory;
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'postos_turnos';
+    protected $table = 'armamentos_tipos';
 
     /**
      * The attributes that are mass assignable.
@@ -31,22 +31,4 @@ class PostoTurno extends Model
      * @var string
      */
     protected $primaryKey = 'id';
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['turno', 'posto'];
-
-
-     public function posto()
-    {
-        return $this->belongsTo(Posto::class);
-    }
-
-    public function turno()
-    {
-        return $this->belongsTo(Turno::class);
-    }
 }
