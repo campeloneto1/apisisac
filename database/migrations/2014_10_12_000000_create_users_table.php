@@ -46,8 +46,11 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();            
             $table->string('password', 150);
 
-            $table->boolean('transferido')->nullable();
-            $table->string('boletim_transferencia', 30)->nullable();
+            $table->string('boletim_inclusao', 30)->nullable();
+            $table->string('boletim_entrada', 30)->nullable();
+            $table->date('data_apresentacao')->nullable();
+            //$table->boolean('transferido')->nullable();
+            $table->string('boletim_saida', 30)->nullable();
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

@@ -41,9 +41,45 @@ class PerfisController extends Controller
         $data = new Perfil;
 
         $data->nome = $request->nome;
+
         $data->administrador = $request->administrador;        
         $data->gestor = $request->gestor;        
-        $data->oficial_dia = $request->oficial_dia;              
+        $data->oficial_dia = $request->oficial_dia;    
+
+        $data->afastamentos = $request->afastamentos;  
+        $data->afastamentos_cad = $request->afastamentos_cad;            
+        $data->afastamentos_edt = $request->afastamentos_edt;  
+        $data->afastamentos_del = $request->afastamentos_del; 
+
+        $data->armamentos = $request->armamentos;  
+        $data->armamentos_cad = $request->armamentos_cad;            
+        $data->armamentos_edt = $request->armamentos_edt;  
+        $data->armamentos_del = $request->armamentos_del; 
+
+        $data->documentos = $request->documentos;  
+        $data->documentos_cad = $request->documentos_cad;            
+        $data->documentos_edt = $request->documentos_edt;  
+        $data->documentos_del = $request->documentos_del;   
+
+        $data->escalas = $request->escalas;  
+        $data->escalas_cad = $request->escalas_cad;            
+        $data->escalas_edt = $request->escalas_edt;  
+        $data->escalas_del = $request->escalas_del;   
+
+        $data->irsos = $request->irsos;  
+        $data->irsos_cad = $request->irsos_cad;            
+        $data->irsos_edt = $request->irsos_edt;  
+        $data->irsos_del = $request->irsos_del;   
+
+        $data->publicacoes = $request->publicacoes;  
+        $data->publicacoes_cad = $request->publicacoes_cad;            
+        $data->publicacoes_edt = $request->publicacoes_edt;  
+        $data->publicacoes_del = $request->publicacoes_del;     
+
+        $data->usuarios = $request->usuarios;  
+        $data->usuarios_cad = $request->usuarios_cad;            
+        $data->usuarios_edt = $request->usuarios_edt;  
+        $data->usuarios_del = $request->usuarios_del;   
 
         $data->created_by = Auth::id();      
 
@@ -99,7 +135,42 @@ class PerfisController extends Controller
         $data->nome = $request->nome;
         $data->administrador = $request->administrador;        
         $data->gestor = $request->gestor;        
-        $data->oficial_dia = $request->oficial_dia;       
+        $data->oficial_dia = $request->oficial_dia;    
+
+        $data->afastamentos = $request->afastamentos;  
+        $data->afastamentos_cad = $request->afastamentos_cad;            
+        $data->afastamentos_edt = $request->afastamentos_edt;  
+        $data->afastamentos_del = $request->afastamentos_del; 
+
+        $data->armamentos = $request->armamentos;  
+        $data->armamentos_cad = $request->armamentos_cad;            
+        $data->armamentos_edt = $request->armamentos_edt;  
+        $data->armamentos_del = $request->armamentos_del; 
+
+        $data->documentos = $request->documentos;  
+        $data->documentos_cad = $request->documentos_cad;            
+        $data->documentos_edt = $request->documentos_edt;  
+        $data->documentos_del = $request->documentos_del;   
+
+        $data->escalas = $request->escalas;  
+        $data->escalas_cad = $request->escalas_cad;            
+        $data->escalas_edt = $request->escalas_edt;  
+        $data->escalas_del = $request->escalas_del;   
+
+        $data->irsos = $request->irsos;  
+        $data->irsos_cad = $request->irsos_cad;            
+        $data->irsos_edt = $request->irsos_edt;  
+        $data->irsos_del = $request->irsos_del;   
+
+        $data->publicacoes = $request->publicacoes;  
+        $data->publicacoes_cad = $request->publicacoes_cad;            
+        $data->publicacoes_edt = $request->publicacoes_edt;  
+        $data->publicacoes_del = $request->publicacoes_del;     
+
+        $data->usuarios = $request->usuarios;  
+        $data->usuarios_cad = $request->usuarios_cad;            
+        $data->usuarios_edt = $request->usuarios_edt;  
+        $data->usuarios_del = $request->usuarios_del;    
 
         $data->updated_by = Auth::id();
 

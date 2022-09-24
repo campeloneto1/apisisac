@@ -18,7 +18,14 @@ class ArmamentosController extends Controller
      */
     public function index()
     {
-        return Armamento::orderBy('nome')->get();
+        //return Armamento::orderBy('serial')->get();
+
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Armamento::orderBy('serial')->get();
+        }else{ 
+            return Armamento::where('subunidade_id', $user->subunidade_id)->orderBy('serial')->get(); 
+        }
     }
 
     /**
@@ -40,14 +47,17 @@ class ArmamentosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $user = Auth::user();
         $data = new Armamento;
 
         $data->serial = $request->serial;
         $data->armamento_tipo_id = $request->armamento_tipo_id;
         $data->marca_id = $request->marca_id;
         $data->modelo_id = $request->modelo_id;
+        $data->data_venc = $request->data_venc;
 
+        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
@@ -96,14 +106,17 @@ class ArmamentosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
         $data = Armamento::find($id);
         $dataold = $data;
 
         $data->serial = $request->serial;
         $data->armamento_tipo_id = $request->armamento_tipo_id;
         $data->marca_id = $request->marca_id;
-        $data->modelo_id = $request->modelo_id; 
+        $data->modelo_id = $request->modelo_id;
+        $data->data_venc = $request->data_venc;
 
+        $data->subunidade_id = $user->subunidade_id;  
         $data->updated_by = Auth::id();
 
         if($data->save()){

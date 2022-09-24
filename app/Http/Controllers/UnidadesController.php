@@ -18,7 +18,7 @@ class UnidadesController extends Controller
      */
     public function index()
     {
-        return Unidade::orderBy('nome')->get();
+        return Unidade::with(['comandante', 'subcomandante'])->orderBy('nome')->get();
     }
 
     /**

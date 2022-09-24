@@ -69,6 +69,12 @@ class UsuariosController extends Controller
         $data->complemento = $request->complemento;
         $data->cidade_id = $request->cidade_id;
 
+        $data->boletim_inclusao = $request->boletim_inclusao;
+        $data->boletim_entrada = $request->boletim_entrada;
+        $data->data_apresentacao = $request->data_apresentacao;
+        //$data->transferido = $request->transferido;
+        $data->boletim_saida = $request->boletim_saida;
+
         $data->usuario = $request->cpf;
         $data->password = bcrypt('CasaMilitar');
 
@@ -101,7 +107,8 @@ class UsuariosController extends Controller
             'afastamentos' => function ($query) { return $query->orderBy('id','DESC'); }, 
             'publicacoes' => function ($query) { return $query->orderBy('id','DESC'); }, 
             'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'escalas'=> function ($query) { return $query->orderBy('id','DESC'); }
+            'escalas'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'armamentos'=> function ($query) { return $query->orderBy('id','DESC'); }
         ])->find($id);
     }
 
@@ -150,6 +157,12 @@ class UsuariosController extends Controller
         $data->bairro = $request->bairro;
         $data->complemento = $request->complemento;
         $data->cidade_id = $request->cidade_id;
+
+        $data->boletim_inclusao = $request->boletim_inclusao;
+        $data->boletim_entrada = $request->boletim_entrada;
+        $data->data_apresentacao = $request->data_apresentacao;
+        //$data->transferido = $request->transferido;
+        $data->boletim_saida = $request->boletim_saida;
 
         $data->usuario = $request->cpf;        
 

@@ -15,9 +15,9 @@ class InicioController extends Controller
     {
         $user = Auth::user();
         if($user->perfil->administrador){
-             return User::count();
+             return User::whereNull('boletim_saida')->count();
         }else{ 
-            return User::where('subunidade_id', $user->subunidade_id)->count();
+            return User::where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->count();
         }
         
     }
@@ -41,6 +41,7 @@ class InicioController extends Controller
            return User::query()
                 ->join('setores', 'setores.id', '=', 'users.setor_id')
                 ->select('setores.nome', DB::raw('COUNT(users.id) as quant'))
+                ->whereNull('boletim_saida')
                 ->groupBy('setores.nome')
                 ->get();
 
@@ -51,6 +52,7 @@ class InicioController extends Controller
                 ->join('setores', 'setores.id', '=', 'users.setor_id')
                 ->where('users.subunidade_id', $user->subunidade_id)
                 ->select('setores.nome', DB::raw('COUNT(users.id) as quant'))
+                ->whereNull('boletim_saida')
                 ->groupBy('setores.nome')
                 ->get();
         }        

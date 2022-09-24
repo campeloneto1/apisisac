@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ArmamentosTable extends Migration
+class UsersArmamentosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,25 @@ class ArmamentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('armamentos', function (Blueprint $table) {
+        Schema::create('users_armamentos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
-            $table->foreignId('armamento_tipo_id')->nullable()->constrained('armamentos_tipos')->onUpdate('cascade')->onDelete('set null'); 
-            $table->foreignId('marca_id')->nullable()->constrained('marcas')->onUpdate('cascade')->onDelete('set null');   
-            $table->foreignId('modelo_id')->nullable()->constrained('modelos')->onUpdate('cascade')->onDelete('set null'); 
-            $table->string('serial',100);    
-            $table->date('data_venc')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('armamento_id')->nullable()->constrained('armamentos')->onUpdate('cascade')->onDelete('set null');
+            
+            $table->integer('quant')->nullable();
+
+            $table->date('data_emp');
+            $table->date('data_dev')->nullable();
             $table->boolean('danificado')->nullable();
             $table->boolean('extraviado')->nullable();
-                        
+            $table->string('observacoes', 1000)->nullable();         
+
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            
         });
     }
 
@@ -37,6 +42,6 @@ class ArmamentosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('armamentos');
+        Schema::dropIfExists('users_armamentos');
     }
 }

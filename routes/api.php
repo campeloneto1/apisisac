@@ -39,7 +39,7 @@ use App\Http\Controllers\UnidadesController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\UsuariosPublicacoesController;
 use App\Http\Controllers\UsuariosAfastamentosController;
-
+use App\Http\Controllers\UsuariosArmamentosController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -97,6 +97,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('usuarios', UsuariosController::class);
     Route::resource('usuarios-publicacoes', UsuariosPublicacoesController::class);
     Route::resource('usuarios-afastamentos', UsuariosAfastamentosController::class);
+    Route::resource('usuarios-armamentos', UsuariosArmamentosController::class);
 
     Route::get('estados/{id}/where', [EstadosController::class, 'where']);
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);

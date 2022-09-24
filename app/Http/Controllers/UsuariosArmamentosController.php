@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Subunidade;
+use App\Models\UserArmamento;
 use App\Models\Log;
+use Carbon\Carbon;
 
-class SubunidadesController extends Controller
+class UsuariosArmamentosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,17 +18,13 @@ class SubunidadesController extends Controller
      */
     public function index()
     {
-        return Subunidade::with(['comandante', 'subcomandante'])->orderBy('nome')->get();
-    }
-
-    /**
-     * Return the citys with where condition.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function where($id)
-    {
-        return Subunidade::where('unidade_id', $id)->orderBy('nome')->get();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+            return UserArmamento::orderBy('id', 'desc')->get();
+        }else{  
+            return UserArmamento::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
+        
     }
 
     /**
@@ -48,30 +45,25 @@ class SubunidadesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Subunidade;
+        $user = Auth::user();
+        $data = new UserArmamento;
 
-        $data->nome = $request->nome;
-        $data->unidade_id = $request->unidade_id;        
-        $data->abreviatura = $request->abreviatura;        
-        $data->email = $request->email;        
-        $data->telefone1 = $request->telefone1;        
-        $data->telefone2 = $request->telefone2;        
-        $data->cep = $request->cep;        
-        $data->rua = $request->rua;        
-        $data->numero = $request->numero;        
-        $data->bairro = $request->bairro;        
-        $data->complemento = $request->complemento;        
-        $data->cidade_id = $request->cidade_id;        
-        $data->comandante_id = $request->comandante_id;        
-        $data->subcomandante_id = $request->subcomandante_id;        
+        $data->armamento_id = $request->armamento_id;      
+        $data->user_id = $request->user_id;      
+        //$data_emp = Carbon::createFromFormat('Y-m-d', Carbon::now());  
+        $data->data_emp = $request->data_emp;  
+        $data->quant = $request->quant;   
 
+        $data->observacoes = $request->observacoes;   
+     
+        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou uma subunidade';
-            $log->table = 'subunidades';
+            $log->mensagem = 'Cadastrou um armamento de um usuario';
+            $log->table = 'users_armamentos';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -90,7 +82,7 @@ class SubunidadesController extends Controller
      */
     public function show($id)
     {
-        return Subunidade::find($id);
+        return UserArmamento::find($id);
     }
 
     /**
@@ -113,31 +105,23 @@ class SubunidadesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Subunidade::find($id);
+        $data = UserArmamento::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;
-        $data->unidade_id = $request->unidade_id;        
-        $data->abreviatura = $request->abreviatura;        
-        $data->email = $request->email;        
-        $data->telefone1 = $request->telefone1;        
-        $data->telefone2 = $request->telefone2;   
-        $data->cep = $request->cep;       
-        $data->rua = $request->rua;        
-        $data->numero = $request->numero;        
-        $data->bairro = $request->bairro;        
-        $data->complemento = $request->complemento;        
-        $data->cidade_id = $request->cidade_id;        
-        $data->comandante_id = $request->comandante_id;        
-        $data->subcomandante_id = $request->subcomandante_id;       
-
+        //$data->armamento_id = $request->armamento_id;      
+        //$data->user_id = $request->user_id;      
+        //$data->quant = $request->quant;   
+        $data->data_dev = $request->data_dev;  
+        $data->danificado = $request->danificado;  
+        $data->extraviado = $request->extraviado;  
+        $data->observacoes = $request->observacoes;   
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou uma subunidade';
-            $log->table = 'subunidades';
+            $log->mensagem = 'Editou um armamento de um usuario';
+            $log->table = 'users_armamentos';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -157,13 +141,13 @@ class SubunidadesController extends Controller
      */
     public function destroy($id)
     {
-        $data = Subunidade::find($id);
+        $data = UserArmamento::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu uma subunidade';
-            $log->table = 'subunidades';
+            $log->mensagem = 'Excluiu um armamento de um usuario';
+            $log->table = 'users_armamentos';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

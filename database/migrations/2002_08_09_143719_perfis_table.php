@@ -24,7 +24,12 @@ class PerfisTable extends Migration
             $table->boolean('afastamentos')->nullable();
             $table->boolean('afastamentos_cad')->nullable();
             $table->boolean('afastamentos_edt')->nullable();
-            $table->boolean('afastamentos_del')->nullable();    
+            $table->boolean('afastamentos_del')->nullable();  
+
+            $table->boolean('armamentos')->nullable();
+            $table->boolean('armamentos_cad')->nullable();
+            $table->boolean('armamentos_edt')->nullable();
+            $table->boolean('armamentos_del')->nullable();  
 
             $table->boolean('documentos')->nullable();
             $table->boolean('documentos_cad')->nullable();

@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Unidade extends Model
+class UserArmamento extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'unidades';
+    protected $table = 'users_armamentos';
 
     /**
      * The attributes that are mass assignable.
@@ -34,23 +34,23 @@ class Unidade extends Model
 
     /**
      * The relationships that should always be loaded.
-     *,'comandante', 'subcomandante'
+     *
      * @var array
      */
-    protected $with = ['cidade'];
+    protected $with = ['subunidade', 'armamento', 'user'];
 
-     public function cidade()
+    public function subunidade()
     {
-        return $this->belongsTo(Cidade::class);
+        return $this->belongsTo(Subunidade::class);
     }
 
-     public function comandante()
+    public function armamento()
     {
-        return $this->belongsTo(User::class,'comandante_id');
+        return $this->belongsTo(Armamento::class);
     }
 
-    public function subcomandante()
+     public function user()
     {
-        return $this->belongsTo(User::class,'subcomandante_id');
+        return $this->belongsTo(User::class);
     }
 }

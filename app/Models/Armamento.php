@@ -37,11 +37,27 @@ class Armamento extends Model
      *
      * @var array
      */
-    protected $with = ['armamento_tipo'];
+    protected $with = ['armamento_tipo', 'marca', 'modelo', 'usuarios'];
 
 
      public function armamento_tipo()
     {
         return $this->belongsTo(ArmamentoTipo::class);
+    }
+
+     public function marca()
+    {
+        return $this->belongsTo(Marca::class);
+    }
+
+     public function modelo()
+    {
+        return $this->belongsTo(Modelo::class);
+    }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 'users_armamentos')->withPivot('id','danificado', 'extraviado','data_emp','data_dev', 'quant', 'observacoes');
+        //return $this->hasMany(EscalaUser::class, 'escala_id');
     }
 }

@@ -112,4 +112,10 @@ class User extends Authenticatable
         return $this->hasMany(EscalaUser::class, 'user_id');
     }
 
+    public function armamentos()
+    {
+        return $this->belongsToMany(Armamento::class, 'users_armamentos')->withPivot('id','danificado', 'extraviado','data_emp','data_dev', 'quant', 'observacoes');
+        //return $this->hasMany(IrsoUser::class, 'user_id');
+    }
+
 }

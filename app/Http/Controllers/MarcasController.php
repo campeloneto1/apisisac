@@ -37,7 +37,7 @@ class MarcasController extends Controller
      */
     public function where($id)
     {
-        return Modelo::where('tipo_id', $id)->orderBy('nome')->get();
+        return Marca::where('tipo_id', $id)->orderBy('nome')->get();
     }
 
     /**

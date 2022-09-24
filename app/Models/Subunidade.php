@@ -34,10 +34,10 @@ class Subunidade extends Model
 
     /**
      * The relationships that should always be loaded.
-     *
+     *, 'comandante', 'subcomandante'
      * @var array
      */
-    protected $with = ['cidade', 'unidade', 'comandante', 'subcomandante'];
+    protected $with = ['cidade', 'unidade'];
 
     public function cidade()
     {
