@@ -11,6 +11,7 @@ use App\Http\Controllers\CidadesController;
 use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DocumentosTiposController;
 use App\Http\Controllers\EscalasController;
+use App\Http\Controllers\EscalasDispensasController;
 use App\Http\Controllers\EscalasModalidadesController;
 use App\Http\Controllers\EscalasModelosController;
 use App\Http\Controllers\EscalasOcorrenciasController;
@@ -70,6 +71,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('documentos', DocumentosController::class);
     Route::resource('documentos-tipos', DocumentosTiposController::class);
     Route::resource('escalas', EscalasController::class);
+    Route::resource('escalas-dispensas', EscalasDispensasController::class);
     Route::resource('escalas-modalidades', EscalasModalidadesController::class);
     Route::resource('escalas-modelos', EscalasModelosController::class);
     Route::resource('escalas-ocorrencias', EscalasOcorrenciasController::class);
@@ -106,6 +108,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);   
     Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
     Route::get('modelos/{id}/where', [ModelosController::class, 'where']); 
+    Route::get('usuarios-afastamentos-ativos', [UsuariosAfastamentosController::class,'ativos']);
 
     Route::get('inicio-getpm', [InicioController::class, 'getPm']);
     Route::get('inicio-afast', [InicioController::class, 'getAfastamentos']);

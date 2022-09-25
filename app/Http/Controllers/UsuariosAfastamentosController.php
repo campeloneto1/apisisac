@@ -38,6 +38,23 @@ class UsuariosAfastamentosController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ativos()
+    {
+        $datahj = Carbon::now();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+            return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->orderBy('id', 'desc')->get();
+        }else{  
+            return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
+        
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

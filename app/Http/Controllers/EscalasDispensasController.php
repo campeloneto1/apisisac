@@ -5,25 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Escala;
+use App\Models\EscalaDispensa;
 use App\Models\Log;
 use Carbon\Carbon;
 
-class EscalasController extends Controller
+class EscalasDispensasController extends Controller
 {
-     /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $user = Auth::user();
-        if($user->perfil->administrador){
-             return Escala::orderBy('id', 'desc')->get();
-        }else{ 
-            return Escala::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get(); 
-        }
+        return EscalaDispensa::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -44,33 +39,27 @@ class EscalasController extends Controller
      */
     public function store(Request $request)
     {
-        $hoje = Carbon::now();
-        $cod =  Escala::where('escala_modelo_id', $request->escala_modelo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
+        $id = $request[0];
+        foreach ($request[1] as $key => $value) {
+             $data = new EscalaDispensa;
 
+            $data->escala_id = $id;
+            $data->user_id = $value['id'];            
 
-        $user = Auth::user();
-        $data = new Escala;
+            $data->created_by = Auth::id();      
 
-        $data->escala_modelo_id = $request->escala_modelo_id;       
-        $data->data = $request->data;              
-        $data->codigo = $cod+1;             
-
-        $data->subunidade_id = $user->subunidade_id;  
-        $data->created_by = Auth::id();      
-
-        if($data->save()){
-            $log = new Log;
-            $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou uma escala';
-            $log->table = 'escalas';
-            $log->action = 1;
-            $log->fk = $data->id;
-            $log->object = $data;
-            $log->save();
-            return 1;
-        }else{
-            return 2;
+            if($data->save()){
+                $log = new Log;
+                $log->user_id = Auth::id();
+                $log->mensagem = 'Cadastrou uma dispensa na escala';
+                $log->table = 'escalas_dispensas';
+                $log->action = 1;
+                $log->fk = $data->id;
+                $log->object = $data;
+                $log->save();               
+            }
         }
+        return 1;
     }
 
     /**
@@ -81,7 +70,7 @@ class EscalasController extends Controller
      */
     public function show($id)
     {
-        return Escala::with(['usuarios', 'dispensas'])->find($id);
+        return EscalaDispensa::find($id);
     }
 
     /**
@@ -104,20 +93,19 @@ class EscalasController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $data = Escala::find($id);
+        $data = EscalaDispensa::find($id);
         $dataold = $data;
 
-        $data->escala_modelo_id = $request->escala_modelo_id;       
-        $data->data = $request->data;              
+        $data->escala_id = $request->escala_id;
+        $data->user_id = $request->user_id;        
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou uma escala';
-            $log->table = 'escalas';
+            $log->mensagem = 'Editou uma dispensa da escala';
+            $log->table = 'escalas_dispensas';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -137,14 +125,13 @@ class EscalasController extends Controller
      */
     public function destroy($id)
     {
-        
-        $data = Escala::find($id);
+        $data = EscalaDispensa::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu uma escala';
-            $log->table = 'escalas';
+            $log->mensagem = 'Excluiu uma dispensa da escala';
+            $log->table = 'escalas_dispensas';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;
