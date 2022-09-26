@@ -20,6 +20,7 @@ class PerfisTable extends Migration
             $table->boolean('administrador')->nullable();
             $table->boolean('gestor')->nullable();
             $table->boolean('oficial_dia')->nullable();
+            $table->boolean('permanente')->nullable();
             
             $table->boolean('afastamentos')->nullable();
             $table->boolean('afastamentos_cad')->nullable();
@@ -36,6 +37,11 @@ class PerfisTable extends Migration
             $table->boolean('documentos_edt')->nullable();
             $table->boolean('documentos_del')->nullable();
 
+            $table->boolean('emprestimos')->nullable();
+            $table->boolean('emprestimos_cad')->nullable();
+            $table->boolean('emprestimos_edt')->nullable();
+            $table->boolean('emprestimos_del')->nullable();
+
             $table->boolean('escalas')->nullable();
             $table->boolean('escalas_cad')->nullable();
             $table->boolean('escalas_edt')->nullable();
@@ -51,10 +57,20 @@ class PerfisTable extends Migration
             $table->boolean('publicacoes_edt')->nullable();
             $table->boolean('publicacoes_del')->nullable();
 
+            $table->boolean('ocorrencias')->nullable();
+            $table->boolean('ocorrencias_cad')->nullable();
+            $table->boolean('ocorrencias_edt')->nullable();
+            $table->boolean('ocorrencias_del')->nullable();
+
             $table->boolean('usuarios')->nullable();
             $table->boolean('usuarios_cad')->nullable();
             $table->boolean('usuarios_edt')->nullable();
             $table->boolean('usuarios_del')->nullable();
+
+            $table->boolean('veiculos')->nullable();
+            $table->boolean('veiculos_cad')->nullable();
+            $table->boolean('veiculos_edt')->nullable();
+            $table->boolean('veiculos_del')->nullable();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

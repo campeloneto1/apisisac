@@ -25,7 +25,7 @@ class UsersArmamentosTable extends Migration
             $table->date('data_dev')->nullable();
             $table->boolean('danificado')->nullable();
             $table->boolean('extraviado')->nullable();
-            $table->string('observacoes', 1000)->nullable();         
+            $table->string('observacoes', 10000)->nullable();         
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

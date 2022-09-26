@@ -118,4 +118,10 @@ class User extends Authenticatable
         //return $this->hasMany(IrsoUser::class, 'user_id');
     }
 
+     public function emprestimos()
+    {
+        return $this->belongsToMany(Veiculo::class, 'emprestimos', 'user_id', 'veiculo_id')->withPivot('id','km_inicial', 'data_saida','hora_saida','data_chegada', 'hora_chegada', 'km_final');
+        //return $this->hasMany(IrsoUser::class, 'user_id');
+    }
+
 }

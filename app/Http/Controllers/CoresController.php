@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Documento;
+use App\Models\Cor;
 use App\Models\Log;
-use Carbon\Carbon;
 
-class DocumentosController extends Controller
+class CoresController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +17,7 @@ class DocumentosController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        if($user->perfil->administrador){
-             return Documento::orderBy('id', 'desc')->get();
-        }else{ 
-            return Documento::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get(); 
-        }
+        return Cor::orderBy('nome')->get();
     }
 
     /**
@@ -44,27 +38,17 @@ class DocumentosController extends Controller
      */
     public function store(Request $request)
     {
-        $hoje = Carbon::now();
-        $cod =  Documento::where('documento_tipo_id', $request->documento_tipo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
+        $data = new Cor;
 
-        $user = Auth::user();
-        $data = new Documento;
+        $data->nome = $request->nome;
 
-        $data->documento_tipo_id = $request->documento_tipo_id;       
-        $data->titulo = $request->titulo;       
-        $data->corpo = $request->corpo;        
-        $data->codigo = $cod+1;  
-
-        $data->key = bcrypt($user->subunidade_id.$request->documento_tipo_id.$cod+1);           
-
-        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um documento';
-            $log->table = 'documentos';
+            $log->mensagem = 'Cadastrou uma cor';
+            $log->table = 'cores';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -83,7 +67,7 @@ class DocumentosController extends Controller
      */
     public function show($id)
     {
-        return Documento::find($id);
+        return Cor::find($id);
     }
 
     /**
@@ -106,22 +90,18 @@ class DocumentosController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $data = Documento::find($id);
+        $data = Cor::find($id);
         $dataold = $data;
 
-        $data->documento_tipo_id = $request->documento_tipo_id;       
-        $data->titulo = $request->titulo;       
-        $data->corpo = $request->corpo;        
-        $data->codigo = $request->codigo;       
+        $data->nome = $request->nome;
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um documento';
-            $log->table = 'documentos';
+            $log->mensagem = 'Editou uma cor';
+            $log->table = 'cores';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -141,14 +121,13 @@ class DocumentosController extends Controller
      */
     public function destroy($id)
     {
-        
-        $data = Documento::find($id);
+        $data = Cor::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um documento';
-            $log->table = 'documentos';
+            $log->mensagem = 'Excluiu uma cor';
+            $log->table = 'cores';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

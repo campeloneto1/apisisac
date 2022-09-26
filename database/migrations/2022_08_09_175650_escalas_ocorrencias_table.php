@@ -21,7 +21,9 @@ class EscalasOcorrenciasTable extends Migration
              $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');       
             $table->integer('codigo');
             $table->string('titulo', 250);            
-            $table->longText('descricao');   
+            $table->longText('descricao');  
+
+            $table->string('key', 250)->nullable();  
                
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

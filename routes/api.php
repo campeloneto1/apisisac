@@ -8,8 +8,10 @@ use App\Http\Controllers\ArmamentosController;
 use App\Http\Controllers\ArmamentosTiposController;
 use App\Http\Controllers\AfastamentosTiposController;
 use App\Http\Controllers\CidadesController;
+use App\Http\Controllers\CoresController;
 use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DocumentosTiposController;
+use App\Http\Controllers\EmprestimosController;
 use App\Http\Controllers\EscalasController;
 use App\Http\Controllers\EscalasDispensasController;
 use App\Http\Controllers\EscalasModalidadesController;
@@ -41,6 +43,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\UsuariosPublicacoesController;
 use App\Http\Controllers\UsuariosAfastamentosController;
 use App\Http\Controllers\UsuariosArmamentosController;
+use App\Http\Controllers\VeiculosController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -68,8 +71,10 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('armamentos-tipos', ArmamentosTiposController::class);
     Route::resource('afastamentos-tipos', AfastamentosTiposController::class);
     Route::resource('cidades', CidadesController::class);
+    Route::resource('cores', CoresController::class);
     Route::resource('documentos', DocumentosController::class);
     Route::resource('documentos-tipos', DocumentosTiposController::class);
+    Route::resource('emprestimos', EmprestimosController::class);
     Route::resource('escalas', EscalasController::class);
     Route::resource('escalas-dispensas', EscalasDispensasController::class);
     Route::resource('escalas-modalidades', EscalasModalidadesController::class);
@@ -100,18 +105,24 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('usuarios-publicacoes', UsuariosPublicacoesController::class);
     Route::resource('usuarios-afastamentos', UsuariosAfastamentosController::class);
     Route::resource('usuarios-armamentos', UsuariosArmamentosController::class);
+    Route::resource('veiculos', VeiculosController::class);
 
-    Route::get('estados/{id}/where', [EstadosController::class, 'where']);
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
-    Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);
-    Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
-    Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);   
-    Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
+    Route::post('emprestimos-receber', [EmprestimosController::class, 'receber']);
+    Route::get('estados/{id}/where', [EstadosController::class, 'where']);
+     Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
     Route::get('modelos/{id}/where', [ModelosController::class, 'where']); 
+    Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
+    Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);  
+    Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);  
     Route::get('usuarios-afastamentos-ativos', [UsuariosAfastamentosController::class,'ativos']);
 
-    Route::get('inicio-getpm', [InicioController::class, 'getPm']);
     Route::get('inicio-afast', [InicioController::class, 'getAfastamentos']);
+    Route::get('inicio-getpm', [InicioController::class, 'getPm']);
     Route::get('inicio-setores', [InicioController::class, 'getSetores']);
+    Route::get('inicio-emprestimos', [InicioController::class, 'getEmprestimos']);
+    Route::get('inicio-trocaoleo', [InicioController::class, 'getTrocaOleo']);
+    Route::get('inicio-vencimentos', [InicioController::class, 'getVencimentos']);
 
+    Route::get('search/{id}', [InicioController::class, 'search']);
 });

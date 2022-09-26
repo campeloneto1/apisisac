@@ -90,7 +90,7 @@ class SubunidadesController extends Controller
      */
     public function show($id)
     {
-        return Subunidade::find($id);
+        return Subunidade::with(['comandante', 'subcomandante'])->find($id);
     }
 
     /**

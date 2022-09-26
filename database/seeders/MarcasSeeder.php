@@ -17,7 +17,9 @@ class MarcasSeeder extends Seeder
         $init = [
             0 => ['nome' => 'SigSauer', 'tipo_id' => '2'],
             1 => ['nome' => 'Taurus', 'tipo_id' => '2'],
-            2 => ['nome' => 'Protecta', 'tipo_id' => '2']
+            2 => ['nome' => 'Protecta', 'tipo_id' => '2'],
+            3 => ['nome' => 'Toyota', 'tipo_id' => '1'],
+            4 => ['nome' => 'Chevrolet', 'tipo_id' => '1']
         ];
         DB::table('marcas')->insert($init);
     }

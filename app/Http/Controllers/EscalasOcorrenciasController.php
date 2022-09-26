@@ -58,6 +58,8 @@ class EscalasOcorrenciasController extends Controller
         $data->descricao = $request->descricao;        
         $data->user_id = Auth::id(); 
 
+        $data->key = bcrypt($user->subunidade_id.$request->escala_id.$request->ocorrencia_id.$cod+1);
+
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 

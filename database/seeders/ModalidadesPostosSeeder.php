@@ -19,7 +19,7 @@ class ModalidadesPostosSeeder extends Seeder
         $init = [
             0 => ['modalidade_id' => 1,'posto_id' => 1],
             1 => ['modalidade_id' => 1,'posto_id' => 2],
-            2 => ['modalidade_id' => 2,'posto_id' => 6],
+            2 => ['modalidade_id' => 1,'posto_id' => 6],
             3 => ['modalidade_id' => 2,'posto_id' => 7],
             4 => ['modalidade_id' => 2,'posto_id' => 8],
             5 => ['modalidade_id' => 2,'posto_id' => 9]

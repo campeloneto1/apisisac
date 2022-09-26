@@ -80,7 +80,7 @@ class UnidadesController extends Controller
      */
     public function show($id)
     {
-        return Unidade::find($id);
+        return Unidade::with(['comandante', 'subcomandante'])->find($id);
     }
 
     /**

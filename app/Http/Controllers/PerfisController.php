@@ -44,7 +44,8 @@ class PerfisController extends Controller
 
         $data->administrador = $request->administrador;        
         $data->gestor = $request->gestor;        
-        $data->oficial_dia = $request->oficial_dia;    
+        $data->oficial_dia = $request->oficial_dia;   
+         $data->permanente = $request->permanente;     
 
         $data->afastamentos = $request->afastamentos;  
         $data->afastamentos_cad = $request->afastamentos_cad;            
@@ -59,7 +60,12 @@ class PerfisController extends Controller
         $data->documentos = $request->documentos;  
         $data->documentos_cad = $request->documentos_cad;            
         $data->documentos_edt = $request->documentos_edt;  
-        $data->documentos_del = $request->documentos_del;   
+        $data->documentos_del = $request->documentos_del; 
+
+        $data->emprestimos = $request->emprestimos;  
+        $data->emprestimos_cad = $request->emprestimos_cad;            
+        $data->emprestimos_edt = $request->emprestimos_edt;  
+        $data->emprestimos_del = $request->emprestimos_del;    
 
         $data->escalas = $request->escalas;  
         $data->escalas_cad = $request->escalas_cad;            
@@ -74,12 +80,22 @@ class PerfisController extends Controller
         $data->publicacoes = $request->publicacoes;  
         $data->publicacoes_cad = $request->publicacoes_cad;            
         $data->publicacoes_edt = $request->publicacoes_edt;  
-        $data->publicacoes_del = $request->publicacoes_del;     
+        $data->publicacoes_del = $request->publicacoes_del;
+
+        $data->ocorrencias = $request->ocorrencias;  
+        $data->ocorrencias_cad = $request->ocorrencias_cad;            
+        $data->ocorrencias_edt = $request->ocorrencias_edt;  
+        $data->ocorrencias_del = $request->ocorrencias_del;       
 
         $data->usuarios = $request->usuarios;  
         $data->usuarios_cad = $request->usuarios_cad;            
         $data->usuarios_edt = $request->usuarios_edt;  
-        $data->usuarios_del = $request->usuarios_del;   
+        $data->usuarios_del = $request->usuarios_del; 
+
+        $data->veiculos = $request->veiculos;  
+        $data->veiculos_cad = $request->veiculos_cad;            
+        $data->veiculos_edt = $request->veiculos_edt;  
+        $data->veiculos_del = $request->veiculos_del;  
 
         $data->created_by = Auth::id();      
 
@@ -135,7 +151,8 @@ class PerfisController extends Controller
         $data->nome = $request->nome;
         $data->administrador = $request->administrador;        
         $data->gestor = $request->gestor;        
-        $data->oficial_dia = $request->oficial_dia;    
+        $data->oficial_dia = $request->oficial_dia;  
+        $data->permanente = $request->permanente;    
 
         $data->afastamentos = $request->afastamentos;  
         $data->afastamentos_cad = $request->afastamentos_cad;            
@@ -150,7 +167,12 @@ class PerfisController extends Controller
         $data->documentos = $request->documentos;  
         $data->documentos_cad = $request->documentos_cad;            
         $data->documentos_edt = $request->documentos_edt;  
-        $data->documentos_del = $request->documentos_del;   
+        $data->documentos_del = $request->documentos_del;  
+
+        $data->emprestimos = $request->emprestimos;  
+        $data->emprestimos_cad = $request->emprestimos_cad;            
+        $data->emprestimos_edt = $request->emprestimos_edt;  
+        $data->emprestimos_del = $request->emprestimos_del;     
 
         $data->escalas = $request->escalas;  
         $data->escalas_cad = $request->escalas_cad;            
@@ -165,12 +187,22 @@ class PerfisController extends Controller
         $data->publicacoes = $request->publicacoes;  
         $data->publicacoes_cad = $request->publicacoes_cad;            
         $data->publicacoes_edt = $request->publicacoes_edt;  
-        $data->publicacoes_del = $request->publicacoes_del;     
+        $data->publicacoes_del = $request->publicacoes_del;   
+
+        $data->ocorrencias = $request->ocorrencias;  
+        $data->ocorrencias_cad = $request->ocorrencias_cad;            
+        $data->ocorrencias_edt = $request->ocorrencias_edt;  
+        $data->ocorrencias_del = $request->ocorrencias_del;        
 
         $data->usuarios = $request->usuarios;  
         $data->usuarios_cad = $request->usuarios_cad;            
         $data->usuarios_edt = $request->usuarios_edt;  
-        $data->usuarios_del = $request->usuarios_del;    
+        $data->usuarios_del = $request->usuarios_del;   
+
+        $data->veiculos = $request->veiculos;  
+        $data->veiculos_cad = $request->veiculos_cad;            
+        $data->veiculos_edt = $request->veiculos_edt;  
+        $data->veiculos_del = $request->veiculos_del;   
 
         $data->updated_by = Auth::id();
 

@@ -18,7 +18,9 @@ class ModelosSeeder extends Seeder
             0 => ['nome' => 'P320', 'marca_id' => '1'],
             1 => ['nome' => 'PT100', 'marca_id' => '2'],
             2 => ['nome' => '24/7', 'marca_id' => '2'],
-            3 => ['nome' => 'Capa Balística', 'marca_id' => '3']
+            3 => ['nome' => 'Capa Balística', 'marca_id' => '3'],
+            4 => ['nome' => 'Corolla', 'marca_id' => '4'],
+            5 => ['nome' => 'Cruze', 'marca_id' => '5']
         ];
         DB::table('modelos')->insert($init);
     }

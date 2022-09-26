@@ -108,7 +108,8 @@ class UsuariosController extends Controller
             'publicacoes' => function ($query) { return $query->orderBy('id','DESC'); }, 
             'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
             'escalas'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'armamentos'=> function ($query) { return $query->orderBy('id','DESC'); }
+            'armamentos'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'emprestimos'=> function ($query) { return $query->orderBy('id','DESC'); }
         ])->find($id);
     }
 
