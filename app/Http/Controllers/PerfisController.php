@@ -62,11 +62,6 @@ class PerfisController extends Controller
         $data->documentos_edt = $request->documentos_edt;  
         $data->documentos_del = $request->documentos_del; 
 
-        $data->emprestimos = $request->emprestimos;  
-        $data->emprestimos_cad = $request->emprestimos_cad;            
-        $data->emprestimos_edt = $request->emprestimos_edt;  
-        $data->emprestimos_del = $request->emprestimos_del;    
-
         $data->escalas = $request->escalas;  
         $data->escalas_cad = $request->escalas_cad;            
         $data->escalas_edt = $request->escalas_edt;  
@@ -75,7 +70,17 @@ class PerfisController extends Controller
         $data->irsos = $request->irsos;  
         $data->irsos_cad = $request->irsos_cad;            
         $data->irsos_edt = $request->irsos_edt;  
-        $data->irsos_del = $request->irsos_del;   
+        $data->irsos_del = $request->irsos_del; 
+
+        $data->materiais = $request->materiais;  
+        $data->materiais_cad = $request->materiais_cad;            
+        $data->materiais_edt = $request->materiais_edt;  
+        $data->materiais_del = $request->materiais_del;
+
+        $data->materiais_emprestimos = $request->materiais_emprestimos;  
+        $data->materiais_emprestimos_cad = $request->materiais_emprestimos_cad;            
+        $data->materiais_emprestimos_edt = $request->materiais_emprestimos_edt;  
+        $data->materiais_emprestimos_del = $request->materiais_emprestimos_del; 
 
         $data->publicacoes = $request->publicacoes;  
         $data->publicacoes_cad = $request->publicacoes_cad;            
@@ -96,6 +101,11 @@ class PerfisController extends Controller
         $data->veiculos_cad = $request->veiculos_cad;            
         $data->veiculos_edt = $request->veiculos_edt;  
         $data->veiculos_del = $request->veiculos_del;  
+
+        $data->veiculos_emprestimos = $request->veiculos_emprestimos;  
+        $data->veiculos_emprestimos_cad = $request->veiculos_emprestimos_cad;            
+        $data->veiculos_emprestimos_edt = $request->veiculos_emprestimos_edt;  
+        $data->veiculos_emprestimos_del = $request->veiculos_emprestimos_del;
 
         $data->created_by = Auth::id();      
 
@@ -169,11 +179,6 @@ class PerfisController extends Controller
         $data->documentos_edt = $request->documentos_edt;  
         $data->documentos_del = $request->documentos_del;  
 
-        $data->emprestimos = $request->emprestimos;  
-        $data->emprestimos_cad = $request->emprestimos_cad;            
-        $data->emprestimos_edt = $request->emprestimos_edt;  
-        $data->emprestimos_del = $request->emprestimos_del;     
-
         $data->escalas = $request->escalas;  
         $data->escalas_cad = $request->escalas_cad;            
         $data->escalas_edt = $request->escalas_edt;  
@@ -183,6 +188,16 @@ class PerfisController extends Controller
         $data->irsos_cad = $request->irsos_cad;            
         $data->irsos_edt = $request->irsos_edt;  
         $data->irsos_del = $request->irsos_del;   
+
+        $data->materiais = $request->materiais;  
+        $data->materiais_cad = $request->materiais_cad;            
+        $data->materiais_edt = $request->materiais_edt;  
+        $data->materiais_del = $request->materiais_del;
+
+         $data->materiais_emprestimos = $request->materiais_emprestimos;  
+        $data->materiais_emprestimos_cad = $request->materiais_emprestimos_cad;            
+        $data->materiais_emprestimos_edt = $request->materiais_emprestimos_edt;  
+        $data->materiais_emprestimos_del = $request->materiais_emprestimos_del; 
 
         $data->publicacoes = $request->publicacoes;  
         $data->publicacoes_cad = $request->publicacoes_cad;            
@@ -202,7 +217,12 @@ class PerfisController extends Controller
         $data->veiculos = $request->veiculos;  
         $data->veiculos_cad = $request->veiculos_cad;            
         $data->veiculos_edt = $request->veiculos_edt;  
-        $data->veiculos_del = $request->veiculos_del;   
+        $data->veiculos_del = $request->veiculos_del; 
+
+        $data->veiculos_emprestimos = $request->veiculos_emprestimos;  
+        $data->veiculos_emprestimos_cad = $request->veiculos_emprestimos_cad;            
+        $data->veiculos_emprestimos_edt = $request->veiculos_emprestimos_edt;  
+        $data->veiculos_emprestimos_del = $request->veiculos_emprestimos_del;  
 
         $data->updated_by = Auth::id();
 

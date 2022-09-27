@@ -37,7 +37,7 @@ class IrsoUser extends Model
      *
      * @var array
      */
-    protected $with = ['irso', 'user'];    
+    protected $with = [ 'user', 'posto'];    
 
    
     public function irso()
@@ -48,5 +48,10 @@ class IrsoUser extends Model
      public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function posto()
+    {
+        return $this->belongsTo(Posto::class);
     }
 }

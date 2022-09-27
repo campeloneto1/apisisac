@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Irso extends Model
+class Material extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'irsos';
+    protected $table = 'materiais';
 
     /**
      * The attributes that are mass assignable.
@@ -32,21 +32,27 @@ class Irso extends Model
      */
     protected $primaryKey = 'id';
 
-     /**
+    /**
      * The relationships that should always be loaded.
      *
      * @var array
      */
-    protected $with = ['subunidade', 'usuarios'];    
+    protected $with = ['material_tipo', 'marca', 'modelo'];
 
-    public function subunidade()
+
+     public function material_tipo()
     {
-        return $this->belongsTo(Subunidade::class);
+        return $this->belongsTo(MaterialTipo::class);
     }
 
-    public function usuarios()
+     public function marca()
     {
-         //return $this->belongsToMany(User::class, 'irsos_users')->withPivot('id', 'posto_id', 'atrasado', 'ausente', 'atestado');
-        return $this->hasMany(IrsoUser::class, 'irso_id');
+        return $this->belongsTo(Marca::class);
     }
+
+     public function modelo()
+    {
+        return $this->belongsTo(Modelo::class);
+    }
+    
 }

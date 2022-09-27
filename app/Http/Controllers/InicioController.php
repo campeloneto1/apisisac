@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\User;
 use App\Models\UserAfastamento;
-use App\Models\Emprestimo;
+use App\Models\VeiculoEmprestimo;
 use App\Models\Veiculo;
 use App\Models\Armamento;
 use App\Models\Documento;
@@ -135,9 +135,9 @@ class InicioController extends Controller
         //$datahj = Carbon::now();
         $user = Auth::user();
         if($user->perfil->administrador){
-             return Emprestimo::whereNull('data_chegada')->get();
+             return VeiculoEmprestimo::whereNull('data_chegada')->get();
         }else{ 
-            return Emprestimo::whereNull('data_chegada')->where('subunidade_id', $user->subunidade_id)->get();
+            return VeiculoEmprestimo::whereNull('data_chegada')->where('subunidade_id', $user->subunidade_id)->get();
         }
         
     }

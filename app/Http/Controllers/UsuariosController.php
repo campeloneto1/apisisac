@@ -109,7 +109,7 @@ class UsuariosController extends Controller
             'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
             'escalas'=> function ($query) { return $query->orderBy('id','DESC'); },
             'armamentos'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'emprestimos'=> function ($query) { return $query->orderBy('id','DESC'); }
+            'emprestimosveiculos'=> function ($query) { return $query->orderBy('id','DESC'); }
         ])->find($id);
     }
 

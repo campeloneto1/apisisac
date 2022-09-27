@@ -35,12 +35,7 @@ class PerfisTable extends Migration
             $table->boolean('documentos')->nullable();
             $table->boolean('documentos_cad')->nullable();
             $table->boolean('documentos_edt')->nullable();
-            $table->boolean('documentos_del')->nullable();
-
-            $table->boolean('emprestimos')->nullable();
-            $table->boolean('emprestimos_cad')->nullable();
-            $table->boolean('emprestimos_edt')->nullable();
-            $table->boolean('emprestimos_del')->nullable();
+            $table->boolean('documentos_del')->nullable();            
 
             $table->boolean('escalas')->nullable();
             $table->boolean('escalas_cad')->nullable();
@@ -51,6 +46,16 @@ class PerfisTable extends Migration
             $table->boolean('irsos_cad')->nullable();
             $table->boolean('irsos_edt')->nullable();
             $table->boolean('irsos_del')->nullable();
+
+            $table->boolean('materiais')->nullable();
+            $table->boolean('materiais_cad')->nullable();
+            $table->boolean('materiais_edt')->nullable();
+            $table->boolean('materiais_del')->nullable();
+
+            $table->boolean('materiais_emprestimos')->nullable();
+            $table->boolean('materiais_emprestimos_cad')->nullable();
+            $table->boolean('materiais_emprestimos_edt')->nullable();
+            $table->boolean('materiais_emprestimos_del')->nullable();
 
             $table->boolean('publicacoes')->nullable();
             $table->boolean('publicacoes_cad')->nullable();
@@ -71,6 +76,11 @@ class PerfisTable extends Migration
             $table->boolean('veiculos_cad')->nullable();
             $table->boolean('veiculos_edt')->nullable();
             $table->boolean('veiculos_del')->nullable();
+
+            $table->boolean('veiculos_emprestimos')->nullable();
+            $table->boolean('veiculos_emprestimos_cad')->nullable();
+            $table->boolean('veiculos_emprestimos_edt')->nullable();
+            $table->boolean('veiculos_emprestimos_del')->nullable();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

@@ -17,6 +17,7 @@ class IrsosUsersTable extends Migration
             $table->id();
             $table->foreignId('irso_id')->nullable()->constrained('irsos')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('posto_id')->nullable()->constrained('postos')->onUpdate('cascade')->onDelete('set null');
             
             $table->boolean('atrasado')->nullable();
             $table->boolean('ausente')->nullable();

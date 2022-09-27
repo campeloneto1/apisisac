@@ -39,11 +39,13 @@ class IrsosUsersController extends Controller
     public function store(Request $request)
     {
         $id = $request[0];
-        foreach ($request[1] as $key => $value) {
+        $posto = $request[1];
+        foreach ($request[2] as $key => $value) {
              $data = new IrsoUser;
 
             $data->irso_id = $id;
             $data->user_id = $value['id'];     
+            $data->posto_id = $posto;
 
             $data->created_by = Auth::id();      
 

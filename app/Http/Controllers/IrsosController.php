@@ -35,6 +35,16 @@ class IrsosController extends Controller
         //
     }
 
+     /**
+     * Return the citys with where condition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function where(Request $request)
+    {
+        return Irso::whereIn('id', $request)->orderBy('data')->orderBy('hora')->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -50,6 +60,7 @@ class IrsosController extends Controller
         
         $data->data = $request->data;        
         $data->hora = $request->hora;
+        $data->duracao = $request->duracao;
 
         $data->subunidade_id = $user->subunidade_id;            
 
@@ -107,7 +118,8 @@ class IrsosController extends Controller
         $data->nome = $request->nome;
         //$data->subunidade_id = $request->subunidade_id;  
         $data->data = $request->data;        
-        $data->hora = $request->hora;         
+        $data->hora = $request->hora;      
+        $data->duracao = $request->duracao;   
 
         $data->updated_by = Auth::id();
 

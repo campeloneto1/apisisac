@@ -5,25 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Escala;
+use App\Models\MaterialTipo;
 use App\Models\Log;
-use Carbon\Carbon;
 
-class EscalasController extends Controller
+
+class MateriaisTiposController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $user = Auth::user();
-        if($user->perfil->administrador){
-             return Escala::orderBy('id', 'desc')->get();
-        }else{ 
-            return Escala::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get(); 
-        }
+        return MaterialTipo::orderBy('nome')->get();
     }
 
     /**
@@ -36,6 +31,8 @@ class EscalasController extends Controller
         //
     }
 
+   
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,25 +41,17 @@ class EscalasController extends Controller
      */
     public function store(Request $request)
     {
-        $hoje = Carbon::now();
-        $cod =  Escala::where('escala_modelo_id', $request->escala_modelo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
+        $data = new MaterialTipo;
 
+        $data->nome = $request->nome;
 
-        $user = Auth::user();
-        $data = new Escala;
-
-        $data->escala_modelo_id = $request->escala_modelo_id;       
-        $data->data = $request->data;              
-        $data->codigo = $cod+1;             
-
-        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou uma escala';
-            $log->table = 'escalas';
+            $log->mensagem = 'Cadastrou um tipo de material';
+            $log->table = 'materiais_tipos';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -81,10 +70,7 @@ class EscalasController extends Controller
      */
     public function show($id)
     {
-        return Escala::with([
-                'usuarios' => function ($query) { return $query->orderBy('matricula','asc'); }, 
-                'dispensas' => function ($query) { return $query->orderBy('matricula','asc'); }
-        ])->find($id);
+        return MaterialTipo::find($id);
     }
 
     /**
@@ -107,20 +93,18 @@ class EscalasController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $data = Escala::find($id);
+        $data = MaterialTipo::find($id);
         $dataold = $data;
 
-        $data->escala_modelo_id = $request->escala_modelo_id;       
-        $data->data = $request->data;              
+        $data->nome = $request->nome;     
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou uma escala';
-            $log->table = 'escalas';
+            $log->mensagem = 'Editou um tipo de material';
+            $log->table = 'materiais_tipos';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -140,14 +124,13 @@ class EscalasController extends Controller
      */
     public function destroy($id)
     {
-        
-        $data = Escala::find($id);
+        $data = MaterialTipo::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu uma escala';
-            $log->table = 'escalas';
+            $log->mensagem = 'Excluiu um tipo de material';
+            $log->table = 'materiais_tipos';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

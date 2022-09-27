@@ -11,7 +11,6 @@ use App\Http\Controllers\CidadesController;
 use App\Http\Controllers\CoresController;
 use App\Http\Controllers\DocumentosController;
 use App\Http\Controllers\DocumentosTiposController;
-use App\Http\Controllers\EmprestimosController;
 use App\Http\Controllers\EscalasController;
 use App\Http\Controllers\EscalasDispensasController;
 use App\Http\Controllers\EscalasModalidadesController;
@@ -26,6 +25,9 @@ use App\Http\Controllers\IrsosController;
 use App\Http\Controllers\IrsosUsersController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\MarcasController;
+use App\Http\Controllers\MateriaisController;
+use App\Http\Controllers\MateriaisEmprestimosController;
+use App\Http\Controllers\MateriaisTiposController;
 use App\Http\Controllers\ModalidadesController;
 use App\Http\Controllers\ModalidadesPostosController;
 use App\Http\Controllers\ModelosController;
@@ -44,6 +46,7 @@ use App\Http\Controllers\UsuariosPublicacoesController;
 use App\Http\Controllers\UsuariosAfastamentosController;
 use App\Http\Controllers\UsuariosArmamentosController;
 use App\Http\Controllers\VeiculosController;
+use App\Http\Controllers\VeiculosEmprestimosController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -73,8 +76,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('cidades', CidadesController::class);
     Route::resource('cores', CoresController::class);
     Route::resource('documentos', DocumentosController::class);
-    Route::resource('documentos-tipos', DocumentosTiposController::class);
-    Route::resource('emprestimos', EmprestimosController::class);
+    Route::resource('documentos-tipos', DocumentosTiposController::class);  
     Route::resource('escalas', EscalasController::class);
     Route::resource('escalas-dispensas', EscalasDispensasController::class);
     Route::resource('escalas-modalidades', EscalasModalidadesController::class);
@@ -88,6 +90,9 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('irsos-users', IrsosUsersController::class);
     Route::resource('logs', LogsController::class);
     Route::resource('marcas', MarcasController::class);
+    Route::resource('materiais', MateriaisController::class);
+    Route::resource('materiais-emprestimos', MateriaisEmprestimosController::class);
+    Route::resource('materiais-tipos', MateriaisTiposController::class);
     Route::resource('modalidades', ModalidadesController::class);
     Route::resource('modalidades-postos', ModalidadesPostosController::class);
     Route::resource('modelos', ModelosController::class);
@@ -106,16 +111,19 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('usuarios-afastamentos', UsuariosAfastamentosController::class);
     Route::resource('usuarios-armamentos', UsuariosArmamentosController::class);
     Route::resource('veiculos', VeiculosController::class);
+    Route::resource('veiculos-emprestimos', VeiculosEmprestimosController::class);
 
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
-    Route::post('emprestimos-receber', [EmprestimosController::class, 'receber']);
+    Route::post('materiais-emprestimos-receber', [MateriaisEmprestimosController::class, 'receber']);
     Route::get('estados/{id}/where', [EstadosController::class, 'where']);
-     Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
+    Route::post('irsos-where', [IrsosController::class, 'where']);
+    Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
     Route::get('modelos/{id}/where', [ModelosController::class, 'where']); 
     Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
     Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);  
     Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);  
     Route::get('usuarios-afastamentos-ativos', [UsuariosAfastamentosController::class,'ativos']);
+    Route::post('veiculos-emprestimos-receber', [VeiculosEmprestimosController::class, 'receber']);
 
     Route::get('inicio-afast', [InicioController::class, 'getAfastamentos']);
     Route::get('inicio-getpm', [InicioController::class, 'getPm']);

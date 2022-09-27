@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class EmprestimosTable extends Migration
+class MateriaisEmprestimosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,20 +14,18 @@ class EmprestimosTable extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::create('emprestimos', function (Blueprint $table) {
+        Schema::create('materiais_emprestimos', function (Blueprint $table) {
             $table->id();
             
             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null'); 
-            $table->foreignId('veiculo_id')->nullable()->constrained('veiculos')->onUpdate('cascade')->onDelete('set null');               
+            $table->foreignId('material_id')->nullable()->constrained('materiais')->onUpdate('cascade')->onDelete('set null');               
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
 
             $table->date('data_saida');
             $table->time('hora_saida');
-            $table->integer('km_inicial'); 
 
             $table->date('data_chegada')->nullable();
             $table->time('hora_chegada')->nullable();
-            $table->integer('km_final')->nullable(); 
 
             $table->string('observacoes', 10000)->nullable(); 
             
@@ -45,6 +43,6 @@ class EmprestimosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('emprestimos');
+        Schema::dropIfExists('materiais_emprestimos');
     }
 }
