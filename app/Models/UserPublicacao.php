@@ -46,7 +46,7 @@ class UserPublicacao extends Model
 
      public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->without(['perfil', 'setor', 'subunidade']);
     }
 
     public function tipo_publicacao()

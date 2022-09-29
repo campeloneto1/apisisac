@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserAfastamento extends Model
+class UserPromocao extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class UserAfastamento extends Model
      *
      * @var string
      */
-    protected $table = 'users_afastamentos';
+    protected $table = 'users_promocoes';
 
     /**
      * The attributes that are mass assignable.
@@ -37,20 +37,20 @@ class UserAfastamento extends Model
      *
      * @var array
      */
-    protected $with = ['subunidade', 'afastamento_tipo', 'user'];
+    protected $with = ['subunidade', 'graduacao', 'user'];
 
     public function subunidade()
     {
         return $this->belongsTo(Subunidade::class);
     }
 
-    public function afastamento_tipo()
+    public function graduacao()
     {
-        return $this->belongsTo(AfastamentoTipo::class);
+        return $this->belongsTo(Graduacao::class);
     }
 
      public function user()
     {
-        return $this->belongsTo(User::class)->without(['perfil', 'setor', 'subunidade']);
+        return $this->belongsTo(User::class);
     }
 }

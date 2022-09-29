@@ -23,6 +23,8 @@ class ArmamentosTable extends Migration
             $table->date('data_venc')->nullable();
             $table->boolean('danificado')->nullable();
             $table->boolean('extraviado')->nullable();
+
+            $table->date('data_baixa')->nullable();
                         
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

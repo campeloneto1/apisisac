@@ -29,6 +29,23 @@ class ArmamentosController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index2()
+    {
+        //return Armamento::orderBy('serial')->get();
+
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Armamento::whereNull('data_baixa')->orderBy('serial')->get();
+        }else{ 
+            return Armamento::whereNull('data_baixa')->where('subunidade_id', $user->subunidade_id)->orderBy('serial')->get(); 
+        }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -56,6 +73,8 @@ class ArmamentosController extends Controller
         $data->marca_id = $request->marca_id;
         $data->modelo_id = $request->modelo_id;
         $data->data_venc = $request->data_venc;
+
+        $data->data_baixa = $request->data_baixa;
 
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
@@ -115,6 +134,8 @@ class ArmamentosController extends Controller
         $data->marca_id = $request->marca_id;
         $data->modelo_id = $request->modelo_id;
         $data->data_venc = $request->data_venc;
+
+        $data->data_baixa = $request->data_baixa;
 
         $data->subunidade_id = $user->subunidade_id;  
         $data->updated_by = Auth::id();

@@ -32,12 +32,15 @@ class VeiculosTable extends Migration
             $table->integer('km_atual')->nullable(); 
 
             $table->integer('troca_oleo')->nullable(); 
+
+            $table->date('data_baixa')->nullable(); 
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
 
             $table->unique(['subunidade_id', 'placa'], 'unique_veiculo');
+            $table->unique(['subunidade_id', 'placa_esp'], 'unique_veiculo2');
         });
         Schema::enableForeignKeyConstraints();
     }

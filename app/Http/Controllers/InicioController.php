@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\User;
-use App\Models\UserAfastamento;
-use App\Models\VeiculoEmprestimo;
-use App\Models\Veiculo;
+
 use App\Models\Armamento;
 use App\Models\Documento;
 use App\Models\EscalaOcorrencia;
+use App\Models\MaterialEmprestimo;
+use App\Models\VeiculoEmprestimo;
+use App\Models\Veiculo;
+use App\Models\User;
+use App\Models\UserAfastamento;
 use Carbon\Carbon;
 
 class InicioController extends Controller
@@ -23,59 +25,59 @@ class InicioController extends Controller
         //$array = array();
         $user = Auth::user();
         if($user->perfil->administrador){
-            $usuarios = User::where('nome', 'like', $id)
-             ->orWhere('matricula', 'like', $id)
-             ->orWhere('cpf', 'like', $id)
+            $usuarios = User::where('nome', 'like', '%'.$id.'%')
+             ->orWhere('matricula', 'like', '%'.$id.'%')
+             ->orWhere('cpf', 'like', '%'.$id.'%')
              ->get();
         }else{ 
             $usuarios = User::where('subunidade_id', $user->subunidade_id)
-            ->where('nome', 'like', $id)
-            ->orWhere('matricula', 'like', $id)
-            ->orWhere('cpf', 'like', $id)
+            ->where('nome', 'like', '%'.$id.'%')
+            ->orWhere('matricula', 'like', '%'.$id.'%')
+            ->orWhere('cpf', 'like', '%'.$id.'%')
             ->get();
         }
 
          if($user->perfil->administrador){
-            $armamentos = Armamento::where('serial', 'like', $id)
+            $armamentos = Armamento::where('serial', 'like', '%'.$id.'%')
              ->get();
         }else{ 
             $armamentos = Armamento::where('subunidade_id', $user->subunidade_id)
-            ->where('serial', 'like', $id)
+            ->where('serial', 'like', '%'.$id.'%')
             ->get();
         }
 
         if($user->perfil->administrador){
-            $documentos = Documento::where('titulo', 'like', $id)
-            ->orWhere('corpo', 'like', $id)
+            $documentos = Documento::where('titulo', 'like', '%'.$id.'%')
+            ->orWhere('corpo', 'like', '%'.$id.'%')
              ->get();
         }else{ 
             $documentos = Documento::where('subunidade_id', $user->subunidade_id)
-            ->where('titulo', 'like', $id)
-            ->orWhere('corpo', 'like', $id)
+            ->where('titulo', 'like', '%'.$id.'%')
+            ->orWhere('corpo', 'like', '%'.$id.'%')
             ->get();
         }
 
         if($user->perfil->administrador){
-            $ocorrencias = EscalaOcorrencia::where('titulo', 'like', $id)
-            ->orWhere('descricao', 'like', $id)
+            $ocorrencias = EscalaOcorrencia::where('titulo', 'like', '%'.$id.'%')
+            ->orWhere('descricao', 'like', '%'.$id.'%')
              ->get();
         }else{ 
             $ocorrencias = EscalaOcorrencia::where('subunidade_id', $user->subunidade_id)
-            ->where('titulo', 'like', $id)
-            ->orWhere('descricao', 'like', $id)
+            ->where('titulo', 'like', '%'.$id.'%')
+            ->orWhere('descricao', 'like', '%'.$id.'%')
             ->get();
         }
 
         if($user->perfil->administrador){
-            $veiculos = Veiculo::where('placa', 'like', $id)
-             ->orWhere('chassi', 'like', $id)
-             ->orWhere('renavam', 'like', $id)
+            $veiculos = Veiculo::where('placa', 'like', '%'.$id.'%')
+             ->orWhere('chassi', 'like', '%'.$id.'%')
+             ->orWhere('renavam', 'like', '%'.$id.'%')
              ->get();
         }else{ 
             $veiculos = Veiculo::where('subunidade_id', $user->subunidade_id)
-            ->where('placa', 'like', $id)
-            ->orWhere('chassi', 'like', $id)
-            ->orWhere('renavam', 'like', $id)
+            ->where('placa', 'like', '%'.$id.'%')
+            ->orWhere('chassi', 'like', '%'.$id.'%')
+            ->orWhere('renavam', 'like', '%'.$id.'%')
             ->get();
         }
         
@@ -83,7 +85,7 @@ class InicioController extends Controller
        return compact('usuarios', 'armamentos', 'documentos', 'ocorrencias', 'veiculos');
     }
 
-    public function getPm()
+    public function getQuantPm()
     {
         $user = Auth::user();
         if($user->perfil->administrador){
@@ -94,7 +96,7 @@ class InicioController extends Controller
         
     }
 
-    public function getAfastamentos()
+    public function getQuantAfastamentos()
     {
         $datahj = Carbon::now();
         $user = Auth::user();
@@ -102,6 +104,17 @@ class InicioController extends Controller
              return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
         }else{ 
             return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
+        }
+        
+    }
+
+     public function getQuantVeiculos()
+    {
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Veiculo::whereNull('data_baixa')->count();
+        }else{ 
+            return Veiculo::where('subunidade_id', $user->subunidade_id)->whereNull('data_baixa')->count();
         }
         
     }
@@ -130,7 +143,7 @@ class InicioController extends Controller
         }        
     }
 
-    public function getEmprestimos()
+    public function getVeiculosEmprestimos()
     {
         //$datahj = Carbon::now();
         $user = Auth::user();
@@ -138,6 +151,18 @@ class InicioController extends Controller
              return VeiculoEmprestimo::whereNull('data_chegada')->get();
         }else{ 
             return VeiculoEmprestimo::whereNull('data_chegada')->where('subunidade_id', $user->subunidade_id)->get();
+        }
+        
+    }
+
+    public function getMateriaisEmprestimos()
+    {
+        //$datahj = Carbon::now();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return MaterialEmprestimo::whereNull('data_chegada')->get();
+        }else{ 
+            return MaterialEmprestimo::whereNull('data_chegada')->where('subunidade_id', $user->subunidade_id)->get();
         }
         
     }

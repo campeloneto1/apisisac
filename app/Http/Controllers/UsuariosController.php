@@ -27,6 +27,21 @@ class UsuariosController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index2()
+    {
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return User::doesntHave('')->orderBy('nome')->get();
+        }else{  
+            return User::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get();
+        }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -109,7 +124,9 @@ class UsuariosController extends Controller
             'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
             'escalas'=> function ($query) { return $query->orderBy('id','DESC'); },
             'armamentos'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'emprestimosveiculos'=> function ($query) { return $query->orderBy('id','DESC'); }
+            'emprestimosveiculos'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'emprestimosmateriais'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'promocoes'=> function ($query) { return $query->orderBy('id','DESC'); }
         ])->find($id);
     }
 
@@ -208,5 +225,40 @@ class UsuariosController extends Controller
           }else{
             return 2;
           }
+    }
+
+    public function foto(Request $request){  
+        if ($request->hasFile('image')){
+            $file      = $request->file('image');
+            $filename  = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $picture   = $request->id.date('dmYHis').".".$extension;
+            //move image to public/img folder
+            $file->move(public_path('imagens'), $picture);
+
+
+            $data = User::find($request->id);
+            $dataold = User::find($request->id);
+            $data->foto =  $picture;
+
+            if($data->save()){
+                $log = new Log;
+                $log->user_id = Auth::id();
+                $log->mensagem = 'Editou foto de usuário';
+                $log->table = 'usuarios';
+                $log->action = 2;
+                $log->fk = $data->id;
+                $log->object = $data;
+                $log->object_old = $dataold;
+                $log->save();
+              return 1;
+            }else{
+              return 2;
+            }
+        }else{
+            return 2;
+        }
+  
+        
     }
 }

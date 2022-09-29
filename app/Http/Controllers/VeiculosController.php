@@ -27,6 +27,22 @@ class VeiculosController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index2()
+    {
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Veiculo::whereNull('data_baixa')->orderBy('placa')->get();
+        }else{ 
+            return Veiculo::whereNull('data_baixa')->where('subunidade_id', $user->subunidade_id)->orderBy('placa')->get(); 
+        }
+        //return Veiculo::orderBy('placa')->get();
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -61,6 +77,8 @@ class VeiculosController extends Controller
         $data->km_inicial = $request->km_inicial;
         $data->km_atual = $request->km_inicial;
         $data->troca_oleo = $request->troca_oleo;
+
+        $data->data_baixa = $request->data_baixa;
 
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();       
@@ -127,6 +145,8 @@ class VeiculosController extends Controller
 
         $data->km_inicial = $request->km_inicial;
         $data->troca_oleo = $request->troca_oleo;
+
+        $data->data_baixa = $request->data_baixa;
 
         $data->updated_by = Auth::id();
 

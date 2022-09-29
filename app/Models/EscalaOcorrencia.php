@@ -42,7 +42,7 @@ class EscalaOcorrencia extends Model
 
      public function escala()
     {
-        return $this->belongsTo(Escala::class);
+        return $this->belongsTo(Escala::class)->without(['subunidade']);
     }
 
     public function ocorrencia()
@@ -57,6 +57,6 @@ class EscalaOcorrencia extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->without(['perfil', 'setor', 'subunidade']);
     }   
 }

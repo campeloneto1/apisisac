@@ -52,6 +52,6 @@ class MaterialEmprestimo extends Model
 
      public function usuario()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->without(['perfil', 'setor', 'subunidade']);
     }
 }

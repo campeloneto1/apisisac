@@ -178,4 +178,37 @@ class EscalasUsersController extends Controller
             return 2;
           }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function falta(Request $request)
+    {
+        $data = EscalaUser::find($request[0]);
+
+        if($request[1] == 1){
+            $data->ausente = 1;
+        }else if($request[1] == 2){
+            $data->atrasado = 1;
+        }else if($request[1] == 3){
+            $data->atestado = 1;
+        }
+         
+         if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Editou um usuario da escala';
+            $log->table = 'escalas_users';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->save();
+            return 1;
+          }else{
+            return 2;
+          }
+    }
 }

@@ -17,6 +17,7 @@ class GraduacoesTable extends Migration
             $table->id();
             $table->string('nome',100);
             $table->string('abreviatura', 15);
+            $table->integer('ordem');
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

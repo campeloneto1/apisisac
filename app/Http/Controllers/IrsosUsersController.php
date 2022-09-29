@@ -38,9 +38,10 @@ class IrsosUsersController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request[0];
-        $posto = $request[1];
-        foreach ($request[2] as $key => $value) {
+        //return $request;
+        $id = $request->id;
+        $posto = $request->posto['id'];
+        foreach ($request->user as $key => $value) {
              $data = new IrsoUser;
 
             $data->irso_id = $id;

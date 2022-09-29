@@ -47,11 +47,11 @@ class VeiculoEmprestimo extends Model
 
     public function veiculo()
     {
-        return $this->belongsTo(Veiculo::class);
+        return $this->belongsTo(Veiculo::class)->without(['subunidade']);
     }
 
      public function usuario()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->without(['perfil', 'setor', 'subunidade']);
     }
 }

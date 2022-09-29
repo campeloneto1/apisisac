@@ -15,18 +15,18 @@ class GraduacoesSeeder extends Seeder
     public function run()
     {
         $init = [
-            0 => ['nome' => 'Soldado', 'abreviatura' => 'SD'],
-            1 => ['nome' => 'Cabo', 'abreviatura' => 'CB'],
-            2 => ['nome' => '3º Sargento', 'abreviatura' => '3º SGT'],
-            3 => ['nome' => '2º Sargento', 'abreviatura' => '2º SGT'],
-            4 => ['nome' => '1º Sargento', 'abreviatura' => '1º SGT'],
-            5 => ['nome' => 'SubTenente', 'abreviatura' => 'Sub'],
-            6 => ['nome' => '2º Tenente', 'abreviatura' => '2º TEN'],
-            7 => ['nome' => '1º Tenente', 'abreviatura' => '1º TEN'],
-            8 => ['nome' => 'Capitão', 'abreviatura' => 'CAP'],
-            9 => ['nome' => 'Major', 'abreviatura' => 'MAJ'],
-            10 => ['nome' => 'Tenente-Coronel', 'abreviatura' => 'TEN-CEL'],
-            11 => ['nome' => 'Coronel', 'abreviatura' => 'CEL']
+            0 => ['nome' => 'Soldado', 'abreviatura' => 'SD', 'ordem' => '1'],
+            1 => ['nome' => 'Cabo', 'abreviatura' => 'CB', 'ordem' => '2'],
+            2 => ['nome' => '3º Sargento', 'abreviatura' => '3º SGT', 'ordem' => '3'],
+            3 => ['nome' => '2º Sargento', 'abreviatura' => '2º SGT', 'ordem' => '4'],
+            4 => ['nome' => '1º Sargento', 'abreviatura' => '1º SGT', 'ordem' => '5'],
+            5 => ['nome' => 'SubTenente', 'abreviatura' => 'Sub', 'ordem' => '6'],
+            6 => ['nome' => '2º Tenente', 'abreviatura' => '2º TEN', 'ordem' => '7'],
+            7 => ['nome' => '1º Tenente', 'abreviatura' => '1º TEN', 'ordem' => '8'],
+            8 => ['nome' => 'Capitão', 'abreviatura' => 'CAP', 'ordem' => '9'],
+            9 => ['nome' => 'Major', 'abreviatura' => 'MAJ', 'ordem' => '10'],
+            10 => ['nome' => 'Tenente-Coronel', 'abreviatura' => 'TEN-CEL', 'ordem' => '11'],
+            11 => ['nome' => 'Coronel', 'abreviatura' => 'CEL', 'ordem' => '12']
         ];
         DB::table('graduacoes')->insert($init);
     }

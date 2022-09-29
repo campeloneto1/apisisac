@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Models\Armamento;
 use App\Models\UserArmamento;
 use App\Models\Log;
 use Carbon\Carbon;
@@ -118,6 +119,8 @@ class UsuariosArmamentosController extends Controller
         $data->updated_by = Auth::id();
 
         if($data->save()){
+            
+
             $log = new Log;
             $log->user_id = Auth::id();
             $log->mensagem = 'Editou um armamento de um usuario';

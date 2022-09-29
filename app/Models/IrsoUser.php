@@ -47,7 +47,7 @@ class IrsoUser extends Model
 
      public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->without(['perfil', 'setor', 'subunidade']);
     }
 
     public function posto()
