@@ -46,13 +46,15 @@ class UsuariosArmamentosController extends Controller
      */
     public function store(Request $request)
     {
+        $hoje = Carbon::now();
         $user = Auth::user();
         $data = new UserArmamento;
 
         $data->armamento_id = $request->armamento_id;      
         $data->user_id = $request->user_id;      
         //$data_emp = Carbon::createFromFormat('Y-m-d', Carbon::now());  
-        $data->data_emp = $request->data_emp;  
+        $data->data_emp = $hoje->format('Y-m-d'); 
+        $data->hora_emp = $hoje->format('H:i:s');   
         $data->quant = $request->quant;   
 
         $data->observacoes = $request->observacoes;   
@@ -106,16 +108,16 @@ class UsuariosArmamentosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $hoje = Carbon::now();
         $data = UserArmamento::find($id);
         $dataold = $data;
 
-        //$data->armamento_id = $request->armamento_id;      
-        //$data->user_id = $request->user_id;      
-        //$data->quant = $request->quant;   
-        $data->data_dev = $request->data_dev;  
-        $data->danificado = $request->danificado;  
-        $data->extraviado = $request->extraviado;  
-        $data->observacoes = $request->observacoes;   
+        $data->armamento_id = $request->armamento_id;      
+        $data->user_id = $request->user_id;      
+        //$data_emp = Carbon::createFromFormat('Y-m-d', Carbon::now());  
+        $data->quant = $request->quant;   
+
+        $data->observacoes = $request->observacoes;  
         $data->updated_by = Auth::id();
 
         if($data->save()){
@@ -159,5 +161,56 @@ class UsuariosArmamentosController extends Controller
           }else{
             return 2;
           }
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function receber(Request $request)
+    {
+        $hoje = Carbon::now();
+        $data = UserArmamento::find($request->id);
+        $dataold = $data;
+
+        //$data->armamento_id = $request->armamento_id;      
+        //$data->user_id = $request->user_id;      
+        //$data->quant = $request->quant;   
+        $data->data_dev = $hoje->format('Y-m-d');
+        $data->hora_dev = $hoje->format('H:i:s');    
+        $data->danificado = $request->danificado;  
+        $data->extraviado = $request->extraviado;  
+        $data->observacoes = $request->observacoes;   
+        $data->updated_by = Auth::id();
+
+        if($data->save()){
+            /**/
+            if($request->extraviado || $request->danificado){
+                $data = Armamento::find($request->armamento_id);
+                
+                if($request->extraviado){
+                    $data->extraviado = 1;
+                }else{
+                    $data->danificado = 1;
+                }
+                $data->save();
+            }
+
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Editou um armamento de um usuario';
+            $log->table = 'users_armamentos';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+            return 1;
+        }else{
+            return 2;
+        }
     }
 }

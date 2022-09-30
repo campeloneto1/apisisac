@@ -57,6 +57,11 @@ class PerfisController extends Controller
         $data->armamentos_edt = $request->armamentos_edt;  
         $data->armamentos_del = $request->armamentos_del; 
 
+        $data->armamentos_emprestimos = $request->armamentos_emprestimos;  
+        $data->armamentos_emprestimos_cad = $request->armamentos_emprestimos_cad;            
+        $data->armamentos_emprestimos_edt = $request->armamentos_emprestimos_edt;  
+        $data->armamentos_emprestimos_del = $request->armamentos_emprestimos_del; 
+
         $data->documentos = $request->documentos;  
         $data->documentos_cad = $request->documentos_cad;            
         $data->documentos_edt = $request->documentos_edt;  
@@ -173,6 +178,11 @@ class PerfisController extends Controller
         $data->armamentos_cad = $request->armamentos_cad;            
         $data->armamentos_edt = $request->armamentos_edt;  
         $data->armamentos_del = $request->armamentos_del; 
+
+        $data->armamentos_emprestimos = $request->armamentos_emprestimos;  
+        $data->armamentos_emprestimos_cad = $request->armamentos_emprestimos_cad;            
+        $data->armamentos_emprestimos_edt = $request->armamentos_emprestimos_edt;  
+        $data->armamentos_emprestimos_del = $request->armamentos_emprestimos_del; 
 
         $data->documentos = $request->documentos;  
         $data->documentos_cad = $request->documentos_cad;            

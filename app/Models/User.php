@@ -94,6 +94,12 @@ class User extends Authenticatable
         return $this->hasMany(UserAfastamento::class, 'user_id')->without(['subunidade', 'user']);
     }
 
+    public function ferias()
+    {
+
+        return $this->hasMany(UserFerias::class, 'user_id')->without(['subunidade', 'user']);
+    }
+
     public function promocoes()
     {
         return $this->belongsToMany(Graduacao::class, 'users_promocoes', 'user_id', 'graduacao_id')->withPivot('id','data', 'boletim','tipo_id')->without(['user']);

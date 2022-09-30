@@ -27,6 +27,9 @@ class MateriaisEmprestimosTable extends Migration
             $table->date('data_chegada')->nullable();
             $table->time('hora_chegada')->nullable();
 
+            $table->boolean('danificado')->nullable();
+            $table->boolean('extraviado')->nullable();
+
             $table->string('observacoes', 10000)->nullable(); 
             
             $table->integer('created_by')->nullable();

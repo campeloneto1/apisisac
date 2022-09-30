@@ -42,6 +42,7 @@ use App\Http\Controllers\TiposPublicacoesController;
 use App\Http\Controllers\TurnosController;
 use App\Http\Controllers\UnidadesController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\UsuariosFeriasController;
 use App\Http\Controllers\UsuariosPromocoesController;
 use App\Http\Controllers\UsuariosPublicacoesController;
 use App\Http\Controllers\UsuariosAfastamentosController;
@@ -108,6 +109,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('turnos', TurnosController::class);
     Route::resource('unidades', UnidadesController::class);
     Route::resource('usuarios', UsuariosController::class);
+    Route::resource('usuarios-ferias', UsuariosFeriasController::class);
     Route::resource('usuarios-promocoes', UsuariosPromocoesController::class);
     Route::resource('usuarios-publicacoes', UsuariosPublicacoesController::class);
     Route::resource('usuarios-afastamentos', UsuariosAfastamentosController::class);
@@ -115,6 +117,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('veiculos', VeiculosController::class);
     Route::resource('veiculos-emprestimos', VeiculosEmprestimosController::class);
 
+    Route::post('usuarios-armamentos-receber', [UsuariosArmamentosController::class, 'receber']);
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
     Route::post('materiais-emprestimos-receber', [MateriaisEmprestimosController::class, 'receber']);
     Route::post('escalas-users-falta', [EscalasUsersController::class, 'falta']);
@@ -127,19 +130,27 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);  
     Route::get('usuarios-afastamentos-ativos', [UsuariosAfastamentosController::class,'ativos']);
     Route::post('usuarios-foto', [UsuariosController::class,'foto']);
+    Route::post('usuarios-changepass', [UsuariosController::class,'change_password']);
+    Route::get('usuarios-resetpass/{id}', [UsuariosController::class,'reset_password']);
     Route::post('veiculos-emprestimos-receber', [VeiculosEmprestimosController::class, 'receber']);
 
     Route::get('armamentos2', [ArmamentosController::class, 'index2']);
+    Route::get('escalas2', [EscalasController::class, 'index2']);
+     Route::get('materiais2', [MateriaisController::class, 'index2']);
+    Route::get('usuarios2', [UsuariosController::class, 'index2']);
     Route::get('veiculos2', [VeiculosController::class, 'index2']);
 
+    Route::get('inicio-escaladia', [InicioController::class, 'getEscalaDia']);
     Route::get('inicio-quantafast', [InicioController::class, 'getQuantAfastamentos']);
+    Route::get('inicio-quantferias', [InicioController::class, 'getQuantFerias']);
     Route::get('inicio-quantpms', [InicioController::class, 'getQuantPm']);
     Route::get('inicio-quantveiculos', [InicioController::class, 'getQuantVeiculos']);
     Route::get('inicio-setores', [InicioController::class, 'getSetores']);
     Route::get('inicio-veiculos-emprestimos', [InicioController::class, 'getVeiculosEmprestimos']);
     Route::get('inicio-materiais-emprestimos', [InicioController::class, 'getMateriaisEmprestimos']);
     Route::get('inicio-trocaoleo', [InicioController::class, 'getTrocaOleo']);
-    Route::get('inicio-vencimentos', [InicioController::class, 'getVencimentos']);
+    Route::get('inicio-armamentos-vencimentos', [InicioController::class, 'getArmVencimentos']);
+    Route::get('inicio-materiais-vencimentos', [InicioController::class, 'getMatVencimentos']);
 
     Route::get('search/{id}', [InicioController::class, 'search']);
 });

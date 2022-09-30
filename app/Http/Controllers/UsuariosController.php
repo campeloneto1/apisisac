@@ -35,9 +35,9 @@ class UsuariosController extends Controller
     {
         $user = Auth::user();
         if($user->perfil->administrador){
-             return User::doesntHave('')->orderBy('nome')->get();
+             return User::whereNull('boletim_saida')->orderBy('nome')->get();
         }else{  
-            return User::where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get();
+            return User::whereNull('boletim_saida')->where('subunidade_id', $user->subunidade_id)->orderBy('nome')->get();
         }
     }
 
@@ -120,13 +120,14 @@ class UsuariosController extends Controller
     {
         return User::with([
             'afastamentos' => function ($query) { return $query->orderBy('id','DESC'); }, 
-            'publicacoes' => function ($query) { return $query->orderBy('id','DESC'); }, 
-            'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'escalas'=> function ($query) { return $query->orderBy('id','DESC'); },
             'armamentos'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'emprestimosveiculos'=> function ($query) { return $query->orderBy('id','DESC'); },
             'emprestimosmateriais'=> function ($query) { return $query->orderBy('id','DESC'); },
-            'promocoes'=> function ($query) { return $query->orderBy('id','DESC'); }
+            'emprestimosveiculos'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'escalas'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'ferias' => function ($query) { return $query->orderBy('id','DESC'); }, 
+            'irsos'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'promocoes'=> function ($query) { return $query->orderBy('id','DESC'); },
+            'publicacoes' => function ($query) { return $query->orderBy('id','DESC'); } 
         ])->find($id);
     }
 
@@ -225,6 +226,54 @@ class UsuariosController extends Controller
           }else{
             return 2;
           }
+    }
+
+    public function reset_password($id){    
+        $data = User::find($id);
+        $dataold = User::find($id);
+         
+        $data->password = bcrypt('sisac2022');
+        
+        $data->updated_by = Auth::id();
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Resetou a senha de acesso';
+            $log->table = 'usuarios';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+          return 1;
+        }else{
+          return 2;
+        }
+    }
+
+    public function change_password(Request $request){    
+        $data = User::find(Auth::id());
+        $dataold = $data;
+         
+        $data->password = bcrypt($request->password);
+        
+        $data->updated_by = Auth::id();
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Alterou a senha de acesso';
+            $log->table = 'usuarios';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+          return 1;
+        }else{
+          return 2;
+        }
     }
 
     public function foto(Request $request){  

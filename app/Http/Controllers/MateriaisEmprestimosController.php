@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Models\Material;
 use App\Models\MaterialEmprestimo;
 use App\Models\Log;
 use Carbon\Carbon;
@@ -54,6 +55,9 @@ class MateriaisEmprestimosController extends Controller
 
         $data->data_saida = $hoje->format('Y-m-d');
         $data->hora_saida = $hoje->format('H:i:s');
+
+        
+
         $data->observacoes = $request->observacoes;
         
         $data->subunidade_id = $user->subunidade_id;  
@@ -113,6 +117,9 @@ class MateriaisEmprestimosController extends Controller
 
         $data->data_saida = $request->data_saida;
         $data->hora_saida = $request->hora_saida;
+
+        
+        
         $data->observacoes = $request->observacoes;            
 
         $data->updated_by = Auth::id();
@@ -147,12 +154,27 @@ class MateriaisEmprestimosController extends Controller
 
         $data->data_chegada = $hoje->format('Y-m-d');
         $data->hora_chegada = $hoje->format('H:i:s');
+
+        $data->danificado = $request->danificado;
+        $data->extraviado = $request->extraviado;
+
         $data->observacoes = $request->observacoes;
         
         $data->updated_by = Auth::id();    
 
         if($data->save()){
-            
+            /**/
+            if($request->extraviado || $request->danificado){
+                $data = Material::find($request->material_id);
+                
+                if($request->extraviado){
+                    $data->extraviado = 1;
+                }else{
+                    $data->danificado = 1;
+                }
+                $data->save();
+            }
+
             $log = new Log;
             $log->user_id = Auth::id();
             $log->mensagem = 'Editou um Material';

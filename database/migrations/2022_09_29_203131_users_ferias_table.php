@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UsersArmamentosTable extends Migration
+class UsersFeriasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,16 @@ class UsersArmamentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_armamentos', function (Blueprint $table) {
+        Schema::create('users_ferias', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
-            $table->foreignId('armamento_id')->nullable()->constrained('armamentos')->onUpdate('cascade')->onDelete('set null');
-            
-            $table->integer('quant')->nullable();
-
-            $table->date('data_emp');
-            $table->time('hora_emp');
-            $table->date('data_dev')->nullable();
-            $table->time('hora_dev')->nullable();
-            $table->boolean('danificado')->nullable();
-            $table->boolean('extraviado')->nullable();
-            $table->string('observacoes', 10000)->nullable();         
+            $table->string('boletim',30);            
+            $table->integer('ano');
+            $table->date('data_ini');
+            $table->integer('dias');
+            $table->date('data_fim');
+            $table->date('apto');
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
@@ -44,6 +39,6 @@ class UsersArmamentosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_armamentos');
+        Schema::dropIfExists('users_ferias');
     }
 }

@@ -39,9 +39,9 @@ class ArmamentosController extends Controller
 
         $user = Auth::user();
         if($user->perfil->administrador){
-             return Armamento::whereNull('data_baixa')->orderBy('serial')->get();
+             return Armamento::whereNull('data_baixa')->whereNull('danificado')->whereNull('extraviado')->orderBy('serial')->get();
         }else{ 
-            return Armamento::whereNull('data_baixa')->where('subunidade_id', $user->subunidade_id)->orderBy('serial')->get(); 
+            return Armamento::whereNull('data_baixa')->whereNull('danificado')->whereNull('extraviado')->where('subunidade_id', $user->subunidade_id)->orderBy('serial')->get(); 
         }
     }
 

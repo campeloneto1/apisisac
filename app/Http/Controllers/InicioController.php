@@ -8,12 +8,15 @@ use DB;
 
 use App\Models\Armamento;
 use App\Models\Documento;
+use App\Models\Escala;
 use App\Models\EscalaOcorrencia;
+use App\Models\Material;
 use App\Models\MaterialEmprestimo;
 use App\Models\VeiculoEmprestimo;
 use App\Models\Veiculo;
 use App\Models\User;
 use App\Models\UserAfastamento;
+use App\Models\UserFerias;
 use Carbon\Carbon;
 
 class InicioController extends Controller
@@ -85,6 +88,13 @@ class InicioController extends Controller
        return compact('usuarios', 'armamentos', 'documentos', 'ocorrencias', 'veiculos');
     }
 
+    public function getEscalaDia()
+    {
+        $user = Auth::user();
+        $datahj = Carbon::now();
+        return Escala::where('subunidade_id', $user->subunidade_id)->where('data', $datahj->format('Y-m-d'))->get();
+    }
+
     public function getQuantPm()
     {
         $user = Auth::user();
@@ -104,6 +114,18 @@ class InicioController extends Controller
              return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
         }else{ 
             return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
+        }
+        
+    }
+
+    public function getQuantFerias()
+    {
+        $datahj = Carbon::now();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
+        }else{ 
+            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
         }
         
     }
@@ -179,7 +201,7 @@ class InicioController extends Controller
         
     }
 
-    public function getVencimentos()
+    public function getArmVencimentos()
     {
         //$datahj = Carbon::now();
         $user = Auth::user();
@@ -187,6 +209,18 @@ class InicioController extends Controller
              return Armamento::where(DB::raw('DATEDIFF(data_venc,CURDATE())'),'<=',7)->get();
         }else{ 
             return Armamento::where(DB::raw('DATEDIFF(data_venc,CURDATE())'),'<=',7)->where('subunidade_id', $user->subunidade_id)->get();
+        }
+        
+    }
+
+    public function getMatVencimentos()
+    {
+        //$datahj = Carbon::now();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+             return Material::where(DB::raw('DATEDIFF(data_venc,CURDATE())'),'<=',7)->get();
+        }else{ 
+            return Material::where(DB::raw('DATEDIFF(data_venc,CURDATE())'),'<=',7)->where('subunidade_id', $user->subunidade_id)->get();
         }
         
     }
