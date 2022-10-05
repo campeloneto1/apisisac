@@ -17,8 +17,8 @@ class SubunidadesTable extends Migration
         Schema::create('subunidades', function (Blueprint $table) {
             $table->id();
             $table->foreignId('unidade_id')->nullable()->constrained('unidades')->onUpdate('cascade')->onDelete('set null');
-            $table->string('nome',100);
-            $table->string('abreviatura', 15)->nullable();
+            $table->string('nome',100)->unique();
+            $table->string('abreviatura', 15)->unique()->nullable();
 
             $table->string('email')->unique()->nullable();
             $table->string('telefone1', 15)->nullable();

@@ -37,7 +37,12 @@ class Armamento extends Model
      *
      * @var array
      */
-    protected $with = ['armamento_tipo', 'marca', 'modelo', 'usuarios'];
+    protected $with = ['armamento_tipo', 'marca', 'modelo', 'subunidade'];
+
+    public function subunidade()
+    {
+        return $this->belongsTo(Subunidade::class);
+    }
 
 
      public function armamento_tipo()

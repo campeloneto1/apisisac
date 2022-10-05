@@ -15,7 +15,7 @@ class PerfisTable extends Migration
     {
         Schema::create('perfis', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
+            $table->string('nome',100)->unique();
 
             $table->boolean('administrador')->nullable();
             $table->boolean('gestor')->nullable();

@@ -64,7 +64,9 @@ class EscalasController extends Controller
 
         $data->escala_modelo_id = $request->escala_modelo_id;       
         $data->data = $request->data;              
-        $data->codigo = $cod+1;             
+        $data->codigo = $cod+1;           
+
+        $data->key = bcrypt($user->subunidade_id.$request->escala_modelo_id.$request->data.$cod+1);  
 
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      

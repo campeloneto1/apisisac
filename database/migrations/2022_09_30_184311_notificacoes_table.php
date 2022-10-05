@@ -20,7 +20,7 @@ class NotificacoesTable extends Migration
             $table->string('notificacao',150);            
             $table->date('data');
             $table->time('hora');
-            $table->integer('tipo_id')
+            $table->integer('tipo_id');
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

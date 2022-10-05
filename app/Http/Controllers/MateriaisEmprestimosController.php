@@ -56,9 +56,11 @@ class MateriaisEmprestimosController extends Controller
         $data->data_saida = $hoje->format('Y-m-d');
         $data->hora_saida = $hoje->format('H:i:s');
 
-        
+        $data->quant = $request->quant;
 
         $data->observacoes = $request->observacoes;
+
+        $data->key = hash("sha512",$user->subunidade_id.$request->material_id.$request->user_id.$hoje->format('Y-m-d').$hoje->format('H:i:s'));
         
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();       
@@ -118,7 +120,7 @@ class MateriaisEmprestimosController extends Controller
         $data->data_saida = $request->data_saida;
         $data->hora_saida = $request->hora_saida;
 
-        
+        $data->quant = $request->quant;
         
         $data->observacoes = $request->observacoes;            
 
@@ -212,5 +214,17 @@ class MateriaisEmprestimosController extends Controller
           }else{
             return 2;
           }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function validar($id)
+    {
+        
+        return MaterialEmprestimo::where('key', addslashes($id))->get(); 
+        
     }
 }

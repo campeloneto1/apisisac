@@ -22,6 +22,8 @@ class EscalasModalidadesTable extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['escala_modelo_id', 'modalidade_id']); 
         });
     }
 

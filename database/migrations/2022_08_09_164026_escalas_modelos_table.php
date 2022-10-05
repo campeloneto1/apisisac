@@ -17,9 +17,12 @@ class EscalasModelosTable extends Migration
             $table->id();
             $table->string('nome',100);            
             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
+            $table->boolean('administrativo')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['subunidade_id', 'nome']); 
         });
     }
 

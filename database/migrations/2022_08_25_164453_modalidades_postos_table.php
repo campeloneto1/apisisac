@@ -23,6 +23,8 @@ class ModalidadesPostosTable extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['modalidade_id', 'posto_id']); 
         });
     }
 

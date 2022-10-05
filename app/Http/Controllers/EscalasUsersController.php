@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\EscalaUser;
+use App\Models\UserAfastamento;
 use App\Models\Log;
+use Carbon\Carbon;
 
 class EscalasUsersController extends Controller
 {
@@ -187,17 +189,40 @@ class EscalasUsersController extends Controller
      */
     public function falta(Request $request)
     {
-        $data = EscalaUser::find($request[0]);
+        $user = Auth::user();
+        $data = EscalaUser::find($request->id);
 
-        if($request[1] == 1){
+        if($request->opcao == 1){
             $data->ausente = 1;
-        }else if($request[1] == 2){
+        }else if($request->opcao == 2){
             $data->atrasado = 1;
-        }else if($request[1] == 3){
+        }else if($request->opcao == 3){
             $data->atestado = 1;
+        }else if($request->opcao == 4){
+            $data->dispensado = 1;
         }
          
          if($data->save()){
+            if($request->opcao == 3){
+                $data2 = new UserAfastamento;
+
+                $data2->afastamento_tipo_id = $request->afastamento_tipo_id;      
+                $data2->user_id = $request->user_id;      
+                //$data->descricao = $request->descricao;     
+                $data2->data = $request->data;       
+                $data2->dias = $request->dias; 
+                $data2->cid = $request->cid;   
+
+                $date = Carbon::createFromFormat('Y-m-d', $request->data);
+                $data2->data_fim = Carbon::parse($date->addDays($request->dias-1))->format('Y-m-d');
+                $data2->apto = $date->addDays(1);      
+             
+                $data2->subunidade_id = $user->subunidade_id;  
+                $data2->created_by = Auth::id();
+                $data2->save();
+            }
+            
+
             $log = new Log;
             $log->user_id = Auth::id();
             $log->mensagem = 'Editou um usuario da escala';

@@ -58,6 +58,8 @@ class UsuariosArmamentosController extends Controller
         $data->quant = $request->quant;   
 
         $data->observacoes = $request->observacoes;   
+
+        $data->key = hash("sha512",$user->subunidade_id.$request->armamento_id.$request->user_id.$hoje->format('Y-m-d').$hoje->format('H:i:s')); 
      
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
@@ -212,5 +214,17 @@ class UsuariosArmamentosController extends Controller
         }else{
             return 2;
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function validar($id)
+    {
+        
+        return UserArmamento::where('key', addslashes($id))->get(); 
+        
     }
 }

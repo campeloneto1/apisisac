@@ -57,6 +57,8 @@ class VeiculosEmprestimosController extends Controller
         $data->hora_saida = $hoje->format('H:i:s');
         $data->km_inicial = $request->km_inicial;
         $data->observacoes = $request->observacoes;
+
+        $data->key = hash("sha512",$user->subunidade_id.$request->veiculo_id.$request->user_id.$hoje->format('Y-m-d').$hoje->format('H:i:s'));
         
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();       
@@ -199,5 +201,17 @@ class VeiculosEmprestimosController extends Controller
           }else{
             return 2;
           }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function validar($id)
+    {
+        
+        return VeiculoEmprestimo::where('key', addslashes($id))->get(); 
+        
     }
 }

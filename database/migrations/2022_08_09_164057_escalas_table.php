@@ -20,10 +20,14 @@ class EscalasTable extends Migration
             $table->foreignId('escala_modelo_id')->nullable()->constrained('escalas_modelos')->onUpdate('cascade')->onDelete('set null');
             $table->date('data');
             $table->integer('codigo');
+
+            $table->string('key', 100)->nullable(); 
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            
         });
     }
 

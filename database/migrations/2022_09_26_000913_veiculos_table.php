@@ -34,6 +34,8 @@ class VeiculosTable extends Migration
             $table->integer('troca_oleo')->nullable(); 
 
             $table->date('data_baixa')->nullable(); 
+
+            $table->string('observacoes', 1000)->nullable(); 
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

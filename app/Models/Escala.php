@@ -65,7 +65,7 @@ class Escala extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'escalas_users', 'escala_id', 'user_id')->withPivot('id','escala_id', 'modalidade_id','posto_id','turno_id', 'atrasado', 'ausente', 'atestado')->without(['perfil', 'setor', 'subunidade']);
+        return $this->belongsToMany(User::class, 'escalas_users', 'escala_id', 'user_id')->withPivot('id','escala_id', 'modalidade_id','posto_id','turno_id', 'atrasado', 'ausente', 'atestado', 'dispensado')->without(['perfil', 'setor', 'subunidade']);
         //return $this->hasMany(EscalaUser::class, 'escala_id');
     }
 }

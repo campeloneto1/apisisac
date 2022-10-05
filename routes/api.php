@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdministracaoController;
 use App\Http\Controllers\ArmamentosController;
 use App\Http\Controllers\ArmamentosTiposController;
 use App\Http\Controllers\AfastamentosTiposController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\EstadosController;
 use App\Http\Controllers\GraduacoesController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\IrsosController;
+use App\Http\Controllers\IrsosFinanceirosController;
 use App\Http\Controllers\IrsosUsersController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\MarcasController;
@@ -65,13 +67,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });*/
 
 Route::group(['middleware' => ['guest:api']], function() {
-    Route::post('/login', [AuthController::class, 'login']);        
+    Route::post('/login', [AuthController::class, 'login']);     
+
+    Route::get('validar-documento/{id}', [DocumentosController::class, 'validar']);
+    Route::get('validar-emparmamento/{id}', [UsuariosArmamentosController::class, 'validar']);
+    Route::get('validar-empmaterial/{id}', [MateriaisEmprestimosController::class, 'validar']);
+    Route::get('validar-empveiculo/{id}', [VeiculosEmprestimosController::class, 'validar']);
+    Route::get('validar-ocorrencia/{id}', [EscalasOcorrenciasController::class, 'validar']);
+    Route::get('validar-ferias/{id}', [UsuariosFeriasController::class, 'validar']);
 });
 
  Route::group(['middleware' => ['auth:api']], function() {
     Route::get('/logout', [AuthController::class, 'logout']); 
     Route::get('/check', [AuthController::class, 'check']); 
 
+    Route::resource('administracao', AdministracaoController::class);
     Route::resource('armamentos', ArmamentosController::class);
     Route::resource('armamentos-tipos', ArmamentosTiposController::class);
     Route::resource('afastamentos-tipos', AfastamentosTiposController::class);
@@ -89,6 +99,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('estados', EstadosController::class);
     Route::resource('graduacoes', GraduacoesController::class);
     Route::resource('irsos', IrsosController::class);
+    Route::resource('irsos-financeiros', IrsosFinanceirosController::class);
     Route::resource('irsos-users', IrsosUsersController::class);
     Route::resource('logs', LogsController::class);
     Route::resource('marcas', MarcasController::class);
@@ -117,18 +128,22 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('veiculos', VeiculosController::class);
     Route::resource('veiculos-emprestimos', VeiculosEmprestimosController::class);
 
+    Route::get('armamentos-reparar/{id}', [ArmamentosController::class, 'reparar']);
     Route::post('usuarios-armamentos-receber', [UsuariosArmamentosController::class, 'receber']);
     Route::get('cidades/{id}/where', [CidadesController::class, 'where']);
-    Route::post('materiais-emprestimos-receber', [MateriaisEmprestimosController::class, 'receber']);
     Route::post('escalas-users-falta', [EscalasUsersController::class, 'falta']);
     Route::get('estados/{id}/where', [EstadosController::class, 'where']);
     Route::post('irsos-where', [IrsosController::class, 'where']);
+    Route::get('irsos-financeiros-mes/{id}', [IrsosFinanceirosController::class,'gastomensal']);
     Route::get('marcas/{id}/where', [MarcasController::class, 'where']); 
+    Route::get('materiais-reparar/{id}', [MateriaisController::class, 'reparar']);
+    Route::post('materiais-emprestimos-receber', [MateriaisEmprestimosController::class, 'receber']);
     Route::get('modelos/{id}/where', [ModelosController::class, 'where']); 
     Route::get('setores/{id}/where', [SetoresController::class, 'where']);    
     Route::get('setores/{id}/where2', [SetoresController::class, 'where2']);  
     Route::get('subunidades/{id}/where', [SubunidadesController::class, 'where']);  
     Route::get('usuarios-afastamentos-ativos', [UsuariosAfastamentosController::class,'ativos']);
+    Route::get('usuarios-ferias-ativos', [UsuariosFeriasController::class,'ativos']);
     Route::post('usuarios-foto', [UsuariosController::class,'foto']);
     Route::post('usuarios-changepass', [UsuariosController::class,'change_password']);
     Route::get('usuarios-resetpass/{id}', [UsuariosController::class,'reset_password']);
@@ -136,7 +151,7 @@ Route::group(['middleware' => ['guest:api']], function() {
 
     Route::get('armamentos2', [ArmamentosController::class, 'index2']);
     Route::get('escalas2', [EscalasController::class, 'index2']);
-     Route::get('materiais2', [MateriaisController::class, 'index2']);
+    Route::get('materiais2', [MateriaisController::class, 'index2']);
     Route::get('usuarios2', [UsuariosController::class, 'index2']);
     Route::get('veiculos2', [VeiculosController::class, 'index2']);
 

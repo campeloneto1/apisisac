@@ -15,8 +15,8 @@ class TiposDocumentosTable extends Migration
     {
         Schema::create('documentos_tipos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
-            $table->string('abreviatura',20);
+            $table->string('nome',100)->unique();
+            $table->string('abreviatura',20)->unique();
             $table->boolean('sigiloso')->nullable();
             $table->string('titulo', 250)->nullable();
             $table->longText('corpo')->nullable();

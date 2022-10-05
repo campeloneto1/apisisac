@@ -21,6 +21,8 @@ class MateriaisEmprestimosTable extends Migration
             $table->foreignId('material_id')->nullable()->constrained('materiais')->onUpdate('cascade')->onDelete('set null');               
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('set null');
 
+            $table->integer('quant')->nullable();
+
             $table->date('data_saida');
             $table->time('hora_saida');
 
@@ -31,6 +33,8 @@ class MateriaisEmprestimosTable extends Migration
             $table->boolean('extraviado')->nullable();
 
             $table->string('observacoes', 10000)->nullable(); 
+
+            $table->string('key', 130)->nullable(); 
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

@@ -27,13 +27,14 @@ class UsersArmamentosTable extends Migration
             $table->time('hora_dev')->nullable();
             $table->boolean('danificado')->nullable();
             $table->boolean('extraviado')->nullable();
-            $table->string('observacoes', 10000)->nullable();         
+            $table->string('observacoes', 10000)->nullable();  
+
+            $table->string('key', 130)->nullable();        
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
 
-            
         });
     }
 

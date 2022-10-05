@@ -22,6 +22,8 @@ class PostosTurnosTable extends Migration
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['posto_id', 'turno_id']); 
         });
     }
 

@@ -24,6 +24,8 @@ class UsersFeriasTable extends Migration
             $table->date('data_fim');
             $table->date('apto');
 
+            $table->string('key', 130)->nullable(); 
+
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

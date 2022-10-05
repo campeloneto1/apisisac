@@ -26,7 +26,7 @@ class UsersPromocoesTable extends Migration
             $table->integer('updated_by')->nullable();
             $table->timestamps();
 
-            
+            $table->unique(['user_id', 'graduacao_id']);
         });
     }
 

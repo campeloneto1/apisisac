@@ -16,8 +16,8 @@ class UnidadesTable extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('unidades', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
-            $table->string('abreviatura', 15)->nullable();
+            $table->string('nome',100)->unique();
+            $table->string('abreviatura', 15)->unique()->nullable();
 
             $table->string('email')->unique()->nullable();
             $table->string('telefone1', 15)->nullable();

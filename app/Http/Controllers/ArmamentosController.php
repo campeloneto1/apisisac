@@ -76,6 +76,8 @@ class ArmamentosController extends Controller
 
         $data->data_baixa = $request->data_baixa;
 
+        $data->observacoes = $request->observacoes;
+
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
@@ -137,7 +139,8 @@ class ArmamentosController extends Controller
 
         $data->data_baixa = $request->data_baixa;
 
-        $data->subunidade_id = $user->subunidade_id;  
+        $data->observacoes = $request->observacoes;
+ 
         $data->updated_by = Auth::id();
 
         if($data->save()){
@@ -179,5 +182,38 @@ class ArmamentosController extends Controller
           }else{
             return 2;
           }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function reparar($id)
+    {
+        $user = Auth::user();
+        $data = Armamento::find($id);
+        $dataold = $data;
+
+        $data->danificado = null;
+ 
+        $data->updated_by = Auth::id();
+
+        if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Reparou um armamento';
+            $log->table = 'armamentos';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+            return 1;
+        }else{
+            return 2;
+        }
     }
 }

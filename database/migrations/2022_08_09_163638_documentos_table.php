@@ -21,7 +21,7 @@ class DocumentosTable extends Migration
             $table->longText('corpo');
             $table->integer('codigo');
 
-            $table->string('key', 250)->nullable(); 
+            $table->string('key', 130)->nullable(); 
 
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

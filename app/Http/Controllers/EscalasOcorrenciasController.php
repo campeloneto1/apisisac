@@ -58,7 +58,7 @@ class EscalasOcorrenciasController extends Controller
         $data->descricao = $request->descricao;        
         $data->user_id = Auth::id(); 
 
-        $data->key = bcrypt($user->subunidade_id.$request->escala_id.$request->ocorrencia_id.$cod+1);
+        $data->key = hash("sha512",$user->subunidade_id.$request->escala_id.$request->ocorrencia_id.$cod+1);
 
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
@@ -158,5 +158,17 @@ class EscalasOcorrenciasController extends Controller
           }else{
             return 2;
           }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function validar($id)
+    {
+        
+        return EscalaOcorrencia::where('key', addslashes($id))->get(); 
+        
     }
 }

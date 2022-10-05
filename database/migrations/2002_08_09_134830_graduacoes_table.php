@@ -15,8 +15,8 @@ class GraduacoesTable extends Migration
     {
         Schema::create('graduacoes', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
-            $table->string('abreviatura', 15);
+            $table->string('nome',100)->unique();
+            $table->string('abreviatura', 15)->unique();
             $table->integer('ordem');
             
             $table->integer('created_by')->nullable();

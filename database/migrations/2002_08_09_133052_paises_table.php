@@ -15,8 +15,8 @@ class PaisesTable extends Migration
     {
         Schema::create('paises', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
-            $table->string('uf', 5);
+            $table->string('nome',100)->unique();
+            $table->string('uf', 5)->unique();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

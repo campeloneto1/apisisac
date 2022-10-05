@@ -17,8 +17,8 @@ class EstadosTable extends Migration
             $table->id();
             //$table->integer('pais_id');
             $table->foreignId('pais_id')->nullable()->constrained('paises')->onUpdate('cascade')->onDelete('set null');
-            $table->string('nome', 100);
-            $table->string('uf', 5);
+            $table->string('nome', 100)->unique();
+            $table->string('uf', 5)->unique();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

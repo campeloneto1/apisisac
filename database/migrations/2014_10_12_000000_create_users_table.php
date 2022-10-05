@@ -56,6 +56,8 @@ class CreateUsersTable extends Migration
             $table->integer('updated_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            
         });
     }
 

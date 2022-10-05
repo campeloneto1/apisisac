@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             UsuariosSeeder::class,
             SetoresSeeder::class,
             ModalidadesSeeder::class, 
-
+            AdministracaoSeeder::class,
             MarcasSeeder::class, 
             ModelosSeeder::class, 
             ArmamentosTiposSeeder::class,

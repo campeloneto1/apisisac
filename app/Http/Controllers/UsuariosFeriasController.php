@@ -38,6 +38,23 @@ class UsuariosFeriasController extends Controller
         //
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ativos()
+    {
+        $datahj = Carbon::now();
+        $user = Auth::user();
+        if($user->perfil->administrador){
+            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->orderBy('id', 'desc')->get();
+        }else{  
+            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get();
+        }
+        
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -58,7 +75,9 @@ class UsuariosFeriasController extends Controller
 
         $date = Carbon::createFromFormat('Y-m-d', $request->data_ini);
         $data->data_fim = Carbon::parse($date->addDays($request->dias-1))->format('Y-m-d');
-        $data->apto = $date->addDays(1);         
+        $data->apto = $date->addDays(1);   
+
+        $data->key = hash("sha512",$user->subunidade_id.$request->user_id.$request->boletim.$request->ano.$request->data_ini.$request->dias);      
      
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
@@ -163,5 +182,17 @@ class UsuariosFeriasController extends Controller
           }else{
             return 2;
           }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function validar($id)
+    {
+        
+        return UserFerias::where('key', addslashes($id))->get(); 
+        
     }
 }

@@ -80,6 +80,8 @@ class VeiculosController extends Controller
 
         $data->data_baixa = $request->data_baixa;
 
+        $data->observacoes = $request->observacoes;
+
         $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();       
 
@@ -131,8 +133,7 @@ class VeiculosController extends Controller
     {
         $data = Veiculo::find($id);
         $dataold = $data;
-
-        $data->subunidade_id = $request->subunidade_id;
+        
         $data->marca_id = $request->marca_id;
         $data->modelo_id = $request->modelo_id;
         $data->cor_id = $request->cor_id;
@@ -147,6 +148,8 @@ class VeiculosController extends Controller
         $data->troca_oleo = $request->troca_oleo;
 
         $data->data_baixa = $request->data_baixa;
+
+        $data->observacoes = $request->observacoes;
 
         $data->updated_by = Auth::id();
 

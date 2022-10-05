@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Documento;
+use App\Models\Administracao;
 use App\Models\Log;
-use Carbon\Carbon;
 
-class DocumentosController extends Controller
+class AdministracaoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,11 +17,11 @@ class DocumentosController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+       $user = Auth::user();
         if($user->perfil->administrador){
-             return Documento::orderBy('id', 'desc')->get();
+             return Administracao::orderBy('subunidade_id')->get();
         }else{ 
-            return Documento::where('subunidade_id', $user->subunidade_id)->orderBy('id', 'desc')->get(); 
+            return Administracao::where('subunidade_id', $user->subunidade_id)->orderBy('subunidade_id')->get(); 
         }
     }
 
@@ -45,27 +43,29 @@ class DocumentosController extends Controller
      */
     public function store(Request $request)
     {
-        $hoje = Carbon::now();
-        $cod =  Documento::where('documento_tipo_id', $request->documento_tipo_id)->whereYear('created_at', $hoje->format('Y'))->max('codigo');
+        $data = new Administracao;
 
-        $user = Auth::user();
-        $data = new Documento;
+        $data->valor_irso_sd = $request->valor_irso_sd;     
+        $data->valor_irso_cb = $request->valor_irso_cb;   
+        $data->valor_irso_3sgt = $request->valor_irso_3sgt;      
+        $data->valor_irso_2sgt = $request->valor_irso_2sgt;   
+        $data->valor_irso_1sgt = $request->valor_irso_1sgt;   
+        $data->valor_irso_st = $request->valor_irso_st;   
+        $data->valor_irso_2ten = $request->valor_irso_2ten;   
+        $data->valor_irso_1ten = $request->valor_irso_1ten;   
+        $data->valor_irso_cap = $request->valor_irso_cap;   
+        $data->valor_irso_maj = $request->valor_irso_maj;   
+        $data->valor_irso_tencel = $request->valor_irso_tencel;   
+        $data->valor_irso_cel = $request->valor_irso_cel;   
 
-        $data->documento_tipo_id = $request->documento_tipo_id;       
-        $data->titulo = $request->titulo;       
-        $data->corpo = $request->corpo;        
-        $data->codigo = $cod+1;  
 
-        $data->key = hash("sha512",$user->subunidade_id.$request->documento_tipo_id.$cod+1);           
-
-        $data->subunidade_id = $user->subunidade_id;  
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um documento';
-            $log->table = 'documentos';
+            $log->mensagem = 'Cadastrou um pais';
+            $log->table = 'paises';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -84,7 +84,7 @@ class DocumentosController extends Controller
      */
     public function show($id)
     {
-        return Documento::find($id);
+        return Administracao::find($id);
     }
 
     /**
@@ -107,22 +107,28 @@ class DocumentosController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $data = Documento::find($id);
+        $data = Administracao::find($id);
         $dataold = $data;
 
-        $data->documento_tipo_id = $request->documento_tipo_id;       
-        $data->titulo = $request->titulo;       
-        $data->corpo = $request->corpo;        
-        $data->codigo = $request->codigo;       
-
+        $data->valor_irso_sd = $request->valor_irso_sd;     
+        $data->valor_irso_cb = $request->valor_irso_cb;   
+        $data->valor_irso_3sgt = $request->valor_irso_3sgt;      
+        $data->valor_irso_2sgt = $request->valor_irso_2sgt;   
+        $data->valor_irso_1sgt = $request->valor_irso_1sgt;   
+        $data->valor_irso_st = $request->valor_irso_st;   
+        $data->valor_irso_2ten = $request->valor_irso_2ten;   
+        $data->valor_irso_1ten = $request->valor_irso_1ten;   
+        $data->valor_irso_cap = $request->valor_irso_cap;   
+        $data->valor_irso_maj = $request->valor_irso_maj;   
+        $data->valor_irso_tencel = $request->valor_irso_tencel;   
+        $data->valor_irso_cel = $request->valor_irso_cel;   
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um documento';
-            $log->table = 'documentos';
+            $log->mensagem = 'Editou um pais';
+            $log->table = 'paises';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -142,14 +148,13 @@ class DocumentosController extends Controller
      */
     public function destroy($id)
     {
-        
-        $data = Documento::find($id);
+        $data = Administracao::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um documento';
-            $log->table = 'documentos';
+            $log->mensagem = 'Excluiu um pais';
+            $log->table = 'paises';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;
@@ -158,17 +163,5 @@ class DocumentosController extends Controller
           }else{
             return 2;
           }
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function validar($id)
-    {
-        
-        return Documento::where('key', addslashes($id))->get(); 
-        
     }
 }

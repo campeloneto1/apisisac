@@ -23,7 +23,7 @@ class EscalasOcorrenciasTable extends Migration
             $table->string('titulo', 250);            
             $table->longText('descricao');  
 
-            $table->string('key', 250)->nullable();  
+            $table->string('key', 130)->nullable();  
                
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

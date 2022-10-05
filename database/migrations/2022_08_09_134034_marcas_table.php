@@ -15,7 +15,7 @@ class MarcasTable extends Migration
     {
         Schema::create('marcas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
+            $table->string('nome',100)->unique();
             $table->integer('tipo_id');
             
             $table->integer('created_by')->nullable();

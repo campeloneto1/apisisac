@@ -30,6 +30,8 @@ class VeiculosEmprestimosTable extends Migration
             $table->integer('km_final')->nullable(); 
 
             $table->string('observacoes', 10000)->nullable(); 
+
+            $table->string('key', 130)->nullable(); 
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

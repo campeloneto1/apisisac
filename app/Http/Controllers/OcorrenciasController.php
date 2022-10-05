@@ -137,4 +137,16 @@ class OcorrenciasController extends Controller
             return 2;
           }
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function validar($id)
+    {
+        
+        return Ocorrencia::where('key', addslashes($id))->get(); 
+        
+    }
 }

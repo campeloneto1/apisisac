@@ -25,6 +25,7 @@ class EscalasUsersTable extends Migration
             $table->boolean('atrasado')->nullable();
             $table->boolean('ausente')->nullable();
             $table->boolean('atestado')->nullable();
+            $table->boolean('dispensado')->nullable();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

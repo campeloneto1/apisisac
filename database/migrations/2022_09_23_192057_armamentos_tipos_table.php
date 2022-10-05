@@ -15,7 +15,7 @@ class ArmamentosTiposTable extends Migration
     {
         Schema::create('armamentos_tipos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
+            $table->string('nome',100)->unique();
                         
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
