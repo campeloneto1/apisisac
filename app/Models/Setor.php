@@ -57,6 +57,6 @@ class Setor extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class,'setor_id');
+        return $this->hasMany(User::class,'setor_id')->whereNull('users.boletim_saida');
     }
 }
