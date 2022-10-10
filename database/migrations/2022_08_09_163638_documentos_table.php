@@ -18,8 +18,10 @@ class DocumentosTable extends Migration
             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');         
             $table->foreignId('documento_tipo_id')->nullable()->constrained('documentos_tipos')->onUpdate('cascade')->onDelete('set null');
             $table->string('titulo', 250);
-            $table->longText('corpo');
+            //$table->longText('corpo');
+            $table->string('corpo', 30000);
             $table->integer('codigo');
+
 
             $table->string('key', 130)->nullable(); 
 

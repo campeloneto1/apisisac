@@ -56,7 +56,9 @@ class AdministracaoController extends Controller
         $data->valor_irso_cap = $request->valor_irso_cap;   
         $data->valor_irso_maj = $request->valor_irso_maj;   
         $data->valor_irso_tencel = $request->valor_irso_tencel;   
-        $data->valor_irso_cel = $request->valor_irso_cel;   
+        $data->valor_irso_cel = $request->valor_irso_cel;  
+
+        $data->observacoes_escala = $request->observacoes_escala;   
 
 
         $data->created_by = Auth::id();      
@@ -121,7 +123,10 @@ class AdministracaoController extends Controller
         $data->valor_irso_cap = $request->valor_irso_cap;   
         $data->valor_irso_maj = $request->valor_irso_maj;   
         $data->valor_irso_tencel = $request->valor_irso_tencel;   
-        $data->valor_irso_cel = $request->valor_irso_cel;   
+        $data->valor_irso_cel = $request->valor_irso_cel;  
+
+        $data->observacoes_escala = $request->observacoes_escala;  
+         
         $data->updated_by = Auth::id();
 
         if($data->save()){

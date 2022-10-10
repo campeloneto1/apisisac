@@ -30,6 +30,8 @@ class AdministracaoTable extends Migration
             $table->double('valor_irso_tencel',5,2); 
             $table->double('valor_irso_cel',5,2); 
 
+            $table->string('observacoes_escala', 30000);
+
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
