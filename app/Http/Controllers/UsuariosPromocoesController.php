@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\UserPromocao;
+use App\Models\User;
 use App\Models\Log;
 use Carbon\Carbon;
 
@@ -60,6 +61,11 @@ class UsuariosPromocoesController extends Controller
         $data->created_by = Auth::id();      
 
         if($data->save()){
+
+            $user = User::find($request->user_id);
+            $user->graduacao_id = $request->graduacao_id;
+            $user->save();
+
             $log = new Log;
             $log->user_id = Auth::id();
             $log->mensagem = 'Cadastrou uma promocao';

@@ -90,7 +90,7 @@ class UsuariosController extends Controller
         //$data->transferido = $request->transferido;
         $data->boletim_saida = $request->boletim_saida;
 
-        $data->usuario = $request->cpf;
+        $data->usuario = $request->matricula;
         $data->password = bcrypt('CasaMilitar');
 
         $data->created_by = Auth::id();      
@@ -183,7 +183,7 @@ class UsuariosController extends Controller
         //$data->transferido = $request->transferido;
         $data->boletim_saida = $request->boletim_saida;
 
-        $data->usuario = $request->cpf;        
+        $data->usuario = $request->matricula;        
 
         $data->updated_by = Auth::id();
 

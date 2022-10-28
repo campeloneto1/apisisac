@@ -57,6 +57,6 @@ class Setor extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class,'setor_id')->whereNull('users.boletim_saida');
+        return $this->hasMany(User::class,'setor_id')->whereNull('users.boletim_saida')->orderBy('graduacao_id', 'desc')->orderBy('numeral', 'asc')->orderBy('matricula', 'asc');
     }
 }
