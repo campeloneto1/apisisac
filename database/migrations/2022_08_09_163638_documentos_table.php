@@ -19,7 +19,7 @@ class DocumentosTable extends Migration
             $table->foreignId('documento_tipo_id')->nullable()->constrained('documentos_tipos')->onUpdate('cascade')->onDelete('set null');
             $table->string('titulo', 250);
             //$table->longText('corpo');
-            $table->string('corpo', 30000);
+            $table->mediumText('corpo');
             $table->integer('codigo');
 
 

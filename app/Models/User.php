@@ -125,7 +125,8 @@ class User extends Authenticatable
 
     public function armamentos()
     {
-        return $this->belongsToMany(Armamento::class, 'users_armamentos')->withPivot('id','danificado', 'extraviado','data_emp','data_dev', 'quant', 'observacoes')->without(['usuarios']);
+        return $this->hasMany(UserArmamento::class, 'user_id')->without(['user', 'subunidade']);
+        //return $this->belongsToMany(Armamento::class, 'users_armamentos')->withPivot('id','danificado', 'extraviado','data_emp','data_dev', 'quant', 'observacoes')->without(['usuarios']);
         //return $this->hasMany(IrsoUser::class, 'user_id');
     }
 

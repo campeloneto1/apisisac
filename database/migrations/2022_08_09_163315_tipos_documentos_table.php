@@ -20,7 +20,7 @@ class TiposDocumentosTable extends Migration
             $table->boolean('sigiloso')->nullable();
             $table->string('titulo', 250)->nullable();
             //$table->longText('corpo')->nullable();
-            $table->string('corpo', 30000);
+            $table->mediumText('corpo')->nullable();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\Armamento;
 use App\Models\UserArmamento;
+use App\Models\ArmamentoItem;
 use App\Models\Log;
 use Carbon\Carbon;
 
@@ -50,12 +51,12 @@ class UsuariosArmamentosController extends Controller
         $user = Auth::user();
         $data = new UserArmamento;
 
-        $data->armamento_id = $request->armamento_id;      
+        //$data->armamento_id = $request->armamento_id;      
         $data->user_id = $request->user_id;      
         //$data_emp = Carbon::createFromFormat('Y-m-d', Carbon::now());  
         $data->data_emp = $hoje->format('Y-m-d'); 
         $data->hora_emp = $hoje->format('H:i:s');   
-        $data->quant = $request->quant;   
+        //$data->quant = $request->quant;   
 
         $data->observacoes = $request->observacoes;   
 
@@ -65,6 +66,25 @@ class UsuariosArmamentosController extends Controller
         $data->created_by = Auth::id();      
 
         if($data->save()){
+
+            foreach ($request->armamentos as $key => $value) {
+                //return $value['id'];
+                $data2 = new ArmamentoItem;
+
+                $data2->user_armamento_id = $data->id;
+                $data2->armamento_id = $value['id'];
+
+                if(!empty($value['carregadores'])){
+                    $data2->carregadores = $value['carregadores'];
+                }
+
+                if(!empty($value['quant'])){
+                    $data2->quant = $value['quant'];
+                }
+
+                $data2->save();
+            }
+
             $log = new Log;
             $log->user_id = Auth::id();
             $log->mensagem = 'Cadastrou um armamento de um usuario';
@@ -114,10 +134,10 @@ class UsuariosArmamentosController extends Controller
         $data = UserArmamento::find($id);
         $dataold = $data;
 
-        $data->armamento_id = $request->armamento_id;      
+        //$data->armamento_id = $request->armamento_id;      
         $data->user_id = $request->user_id;      
         //$data_emp = Carbon::createFromFormat('Y-m-d', Carbon::now());  
-        $data->quant = $request->quant;   
+        //$data->quant = $request->quant;   
 
         $data->observacoes = $request->observacoes;  
         $data->updated_by = Auth::id();
@@ -183,13 +203,13 @@ class UsuariosArmamentosController extends Controller
         //$data->quant = $request->quant;   
         $data->data_dev = $hoje->format('Y-m-d');
         $data->hora_dev = $hoje->format('H:i:s');    
-        $data->danificado = $request->danificado;  
-        $data->extraviado = $request->extraviado;  
+        //$data->danificado = $request->danificado;  
+        //$data->extraviado = $request->extraviado;  
         $data->observacoes = $request->observacoes;   
         $data->updated_by = Auth::id();
 
         if($data->save()){
-            /**/
+            /*
             if($request->extraviado || $request->danificado){
                 $data = Armamento::find($request->armamento_id);
                 
@@ -199,7 +219,7 @@ class UsuariosArmamentosController extends Controller
                     $data->danificado = 1;
                 }
                 $data->save();
-            }
+            }*/
 
             $log = new Log;
             $log->user_id = Auth::id();

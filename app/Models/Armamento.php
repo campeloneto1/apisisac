@@ -62,7 +62,7 @@ class Armamento extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'users_armamentos')->withPivot('id','danificado', 'extraviado','data_emp','data_dev', 'quant', 'observacoes')->without(['perfil', 'setor', 'subunidade']);
+        return $this->belongsToMany(User::class, 'users_armamentos')->withPivot('id', 'observacoes')->without(['perfil', 'setor', 'subunidade']);
         //return $this->hasMany(EscalaUser::class, 'escala_id');
     }
 }
