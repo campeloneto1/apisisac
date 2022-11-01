@@ -31,7 +31,9 @@ class SetoresSeeder extends Seeder
             13 => ['nome' => 'SubComando', 'subunidade_id' => 1, 'escala' => 0],
             14 => ['nome' => 'Vice-Governadoria', 'subunidade_id' => 1, 'escala' => 0],
             15 => ['nome' => 'Chefia', 'subunidade_id' => 1, 'escala' => 0],
-            16 => ['nome' => 'Armeiro', 'subunidade_id' => 1, 'escala' => 0]
+            16 => ['nome' => 'Armeiro', 'subunidade_id' => 1, 'escala' => 0],
+            17 => ['nome' => 'BSP', 'subunidade_id' => 1, 'escala' => 0],
+            18 => ['nome' => 'Emprestado', 'subunidade_id' => 1, 'escala' => 0]
         ];
         DB::table('setores')->insert($init);
     }

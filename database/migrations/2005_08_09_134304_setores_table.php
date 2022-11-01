@@ -27,6 +27,7 @@ class SetoresTable extends Migration
             $table->integer('subcomandante_id')->nullable();
 
             $table->boolean('escala')->nullable();
+            $table->boolean('final_semana')->nullable();
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

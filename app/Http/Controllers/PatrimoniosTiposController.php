@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
-use App\Models\Setor;
+use App\Models\PatrimonioTipo;
 use App\Models\Log;
 
 
-class SetoresController extends Controller
+class PatrimoniosTiposController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,28 +18,7 @@ class SetoresController extends Controller
      */
     public function index()
     {
-        return Setor::orderBy('nome')->get();
-    }
-
-    /**
-     * Return the citys with where condition.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function where($id)
-    {
-        return Setor::where('subunidade_id', $id)->orderBy('nome')->get();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function where2($id)
-    {
-        return Setor::with('users')->where('escala', 1)->where('subunidade_id', $id)->orderBy('nome')->get();
+        return PatrimonioTipo::orderBy('nome')->get();
     }
 
     /**
@@ -60,27 +39,17 @@ class SetoresController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Setor;
+        $data = new PatrimonioTipo;
 
         $data->nome = $request->nome;
-        $data->subunidade_id = $request->subunidade_id;        
-        $data->abreviatura = $request->abreviatura;        
-        $data->email = $request->email;        
-        $data->telefone1 = $request->telefone1;        
-        $data->telefone2 = $request->telefone2;           
-        $data->comandante_id = $request->comandante_id;        
-        $data->subcomandante_id = $request->subcomandante_id;  
-
-        $data->escala = $request->escala;      
-        $data->final_semana = $request->final_semana;      
 
         $data->created_by = Auth::id();      
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Cadastrou um setor';
-            $log->table = 'setores';
+            $log->mensagem = 'Cadastrou um tipo de patrimonio';
+            $log->table = 'patrimonios_tipos';
             $log->action = 1;
             $log->fk = $data->id;
             $log->object = $data;
@@ -99,10 +68,8 @@ class SetoresController extends Controller
      */
     public function show($id)
     {
-        return Setor::with('users')->find($id);
+        return PatrimonioTipo::find($id);
     }
-
-    
 
     /**
      * Show the form for editing the specified resource.
@@ -124,28 +91,18 @@ class SetoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = Setor::find($id);
+        $data = PatrimonioTipo::find($id);
         $dataold = $data;
 
-        $data->nome = $request->nome;
-        $data->subunidade_id = $request->subunidade_id;        
-        $data->abreviatura = $request->abreviatura;        
-        $data->email = $request->email;        
-        $data->telefone1 = $request->telefone1;        
-        $data->telefone2 = $request->telefone2;           
-        $data->comandante_id = $request->comandante_id;        
-        $data->subcomandante_id = $request->subcomandante_id;    
-
-        $data->escala = $request->escala;        
-        $data->final_semana = $request->final_semana;    
+        $data->nome = $request->nome;     
 
         $data->updated_by = Auth::id();
 
         if($data->save()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Editou um setor';
-            $log->table = 'setores';
+            $log->mensagem = 'Editou um tipo de patrimonio';
+            $log->table = 'patrimonios_tipos';
             $log->action = 2;
             $log->fk = $data->id;
             $log->object = $data;
@@ -165,13 +122,13 @@ class SetoresController extends Controller
      */
     public function destroy($id)
     {
-        $data = Setor::find($id);
+        $data = PatrimonioTipo::find($id);
          
          if($data->delete()){
             $log = new Log;
             $log->user_id = Auth::id();
-            $log->mensagem = 'Excluiu um setor';
-            $log->table = 'setores';
+            $log->mensagem = 'Excluiu um tipo de patrimonio';
+            $log->table = 'patrimonios_tipos';
             $log->action = 3;
             $log->fk = $data->id;
             $log->object = $data;

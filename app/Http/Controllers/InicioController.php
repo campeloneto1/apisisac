@@ -99,9 +99,9 @@ class InicioController extends Controller
     {
         $user = Auth::user();
         if($user->perfil->administrador){
-             return User::whereNull('boletim_saida')->count();
+             return User::whereNull('boletim_saida')->where('conta', 1)->count();
         }else{ 
-            return User::where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->count();
+            return User::where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->where('conta', 1)->count();
         }
         
     }
@@ -111,9 +111,9 @@ class InicioController extends Controller
         $datahj = Carbon::now();
         $user = Auth::user();
         if($user->perfil->administrador){
-             return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
+             return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->whereNull('boletim_saida')->where('conta', 1)->count();
         }else{ 
-            return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
+            return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->where('conta', 1)->count();
         }
         
     }
@@ -123,9 +123,9 @@ class InicioController extends Controller
         $datahj = Carbon::now();
         $user = Auth::user();
         if($user->perfil->administrador){
-             return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
+             return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->whereNull('boletim_saida')->where('conta', 1)->count();
         }else{ 
-            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
+            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->where('conta', 1)->count();
         }
         
     }
@@ -149,6 +149,7 @@ class InicioController extends Controller
                 ->join('setores', 'setores.id', '=', 'users.setor_id')
                 ->select('setores.nome', DB::raw('COUNT(users.id) as quant'))
                 ->whereNull('boletim_saida')
+                ->where('conta', 1)
                 ->groupBy('setores.nome')
                 ->get();
 
@@ -160,6 +161,7 @@ class InicioController extends Controller
                 ->where('users.subunidade_id', $user->subunidade_id)
                 ->select('setores.nome', DB::raw('COUNT(users.id) as quant'))
                 ->whereNull('boletim_saida')
+                ->where('conta', 1)
                 ->groupBy('setores.nome')
                 ->get();
         }        

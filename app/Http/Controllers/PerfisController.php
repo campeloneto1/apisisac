@@ -87,6 +87,11 @@ class PerfisController extends Controller
         $data->materiais_emprestimos_edt = $request->materiais_emprestimos_edt;  
         $data->materiais_emprestimos_del = $request->materiais_emprestimos_del; 
 
+        $data->patrimonios = $request->patrimonios;  
+        $data->patrimonios_cad = $request->patrimonios_cad;            
+        $data->patrimonios_edt = $request->patrimonios_edt;  
+        $data->patrimonios_del = $request->patrimonios_del;
+
         $data->publicacoes = $request->publicacoes;  
         $data->publicacoes_cad = $request->publicacoes_cad;            
         $data->publicacoes_edt = $request->publicacoes_edt;  
@@ -208,6 +213,11 @@ class PerfisController extends Controller
         $data->materiais_emprestimos_cad = $request->materiais_emprestimos_cad;            
         $data->materiais_emprestimos_edt = $request->materiais_emprestimos_edt;  
         $data->materiais_emprestimos_del = $request->materiais_emprestimos_del; 
+
+        $data->patrimonios = $request->patrimonios;  
+        $data->patrimonios_cad = $request->patrimonios_cad;            
+        $data->patrimonios_edt = $request->patrimonios_edt;  
+        $data->patrimonios_del = $request->patrimonios_del;
 
         $data->publicacoes = $request->publicacoes;  
         $data->publicacoes_cad = $request->publicacoes_cad;            

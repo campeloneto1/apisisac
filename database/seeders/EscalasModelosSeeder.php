@@ -16,7 +16,7 @@ class EscalasModelosSeeder extends Seeder
     public function run()
     {
         $init = [
-            0 => ['nome' => 'Escala de Serviço Diária']
+            0 => ['nome' => 'Escala de Serviço Diária', 'administrativo' => 1, 'subunidade_id' => 1]
         ];
         DB::table('escalas_modelos')->insert($init);
     }

@@ -50,7 +50,7 @@ class EscalasModelosController extends Controller
         $data->nome = $request->nome;
         //$data->subunidade_id = $request->subunidade_id; 
         $data->subunidade_id = $user->subunidade_id;   
-        $data->administrativo = $user->administrativo;   
+        $data->administrativo = $request->administrativo;   
         $data->created_by = Auth::id();      
 
         if($data->save()){

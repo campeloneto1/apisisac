@@ -17,11 +17,13 @@ class CidadesTable extends Migration
             $table->id();
             //$table->integer('estado_id');
             $table->foreignId('estado_id')->nullable()->constrained('estados')->onUpdate('cascade')->onDelete('set null');
-            $table->string('nome',100)->unique();
+            $table->string('nome',100);
             
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
+
+            $table->unique(['estado_id', 'nome']); 
         });
     }
 

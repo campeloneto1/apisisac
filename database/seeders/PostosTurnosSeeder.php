@@ -47,8 +47,10 @@ class PostosTurnosSeeder extends Seeder
             27 => ['posto_id' => 14,'turno_id' => 2],
             28 => ['posto_id' => 15,'turno_id' => 1],
             29 => ['posto_id' => 15,'turno_id' => 2],
-            30 => ['posto_id' => 17,'turno_id' => 1],
-            31 => ['posto_id' => 17,'turno_id' => 2]
+            30 => ['posto_id' => 16,'turno_id' => 1],
+            31 => ['posto_id' => 16,'turno_id' => 2],
+            32 => ['posto_id' => 17,'turno_id' => 1],
+            33 => ['posto_id' => 17,'turno_id' => 2]
 
         ];
         DB::table('postos_turnos')->insert($init);

@@ -15,9 +15,14 @@ class CoresSeeder extends Seeder
     public function run()
     {
         $init = [
-            0 => ['nome' => 'Azul'],
-            1 => ['nome' => 'Preto'],
-            2 => ['nome' => 'Vermelho']
+            0 => ['nome' => 'Branco'],
+            1 => ['nome' => 'Cinza'],
+            2 => ['nome' => 'Preto'],
+            3 => ['nome' => 'Azul'],
+            4 => ['nome' => 'Vermelho'],
+            5 => ['nome' => 'Marrom'],
+            6 => ['nome' => 'Verde'],
+            7 => ['nome' => 'Amarelo']
         ];
         DB::table('cores')->insert($init);
     }

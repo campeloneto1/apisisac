@@ -62,6 +62,11 @@ class PerfisTable extends Migration
             $table->boolean('materiais_emprestimos_edt')->nullable();
             $table->boolean('materiais_emprestimos_del')->nullable();
 
+            $table->boolean('patrimonios')->nullable();
+            $table->boolean('patrimonios_cad')->nullable();
+            $table->boolean('patrimonios_edt')->nullable();
+            $table->boolean('patrimonios_del')->nullable();
+
             $table->boolean('publicacoes')->nullable();
             $table->boolean('publicacoes_cad')->nullable();
             $table->boolean('publicacoes_edt')->nullable();

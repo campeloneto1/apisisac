@@ -193,4 +193,32 @@ class VeiculosController extends Controller
             return 2;
           }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function trocaoleo(Request $request)
+    {
+        $data = Veiculo::find($request->id);
+        $dataold = $data;
+        $data->troca_oleo = $request->troca_oleo;
+         
+         if($data->save()){
+            $log = new Log;
+            $log->user_id = Auth::id();
+            $log->mensagem = 'Editou um Veiculo';
+            $log->table = 'veiculos';
+            $log->action = 2;
+            $log->fk = $data->id;
+            $log->object = $data;
+            $log->object_old = $dataold;
+            $log->save();
+            return 1;
+          }else{
+            return 2;
+          }
+    }
 }

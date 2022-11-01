@@ -35,6 +35,8 @@ use App\Http\Controllers\ModalidadesPostosController;
 use App\Http\Controllers\ModelosController;
 use App\Http\Controllers\OcorrenciasController;
 use App\Http\Controllers\PaisesController;
+use App\Http\Controllers\PatrimoniosController;
+use App\Http\Controllers\PatrimoniosTiposController;
 use App\Http\Controllers\PerfisController;
 use App\Http\Controllers\PostosController;
 use App\Http\Controllers\PostosTurnosController;
@@ -111,6 +113,8 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::resource('modelos', ModelosController::class);
     Route::resource('ocorrencias', OcorrenciasController::class);
     Route::resource('paises', PaisesController::class);
+    Route::resource('patrimonios', PatrimoniosController::class);
+    Route::resource('patrimonios-tipos', PatrimoniosTiposController::class);
     Route::resource('perfis', PerfisController::class);
     Route::resource('postos', PostosController::class);
     Route::resource('postos-turnos', PostosTurnosController::class);
@@ -148,6 +152,7 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::post('usuarios-changepass', [UsuariosController::class,'change_password']);
     Route::get('usuarios-resetpass/{id}', [UsuariosController::class,'reset_password']);
     Route::post('veiculos-emprestimos-receber', [VeiculosEmprestimosController::class, 'receber']);
+    Route::post('veiculos-trocaoleo', [VeiculosController::class, 'trocaoleo']);
 
     Route::get('armamentos2', [ArmamentosController::class, 'index2']);
     Route::get('escalas2', [EscalasController::class, 'index2']);

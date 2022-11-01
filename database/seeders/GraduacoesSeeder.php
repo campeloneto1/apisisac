@@ -20,7 +20,7 @@ class GraduacoesSeeder extends Seeder
             2 => ['nome' => '3º Sargento', 'abreviatura' => '3º SGT', 'ordem' => '3'],
             3 => ['nome' => '2º Sargento', 'abreviatura' => '2º SGT', 'ordem' => '4'],
             4 => ['nome' => '1º Sargento', 'abreviatura' => '1º SGT', 'ordem' => '5'],
-            5 => ['nome' => 'SubTenente', 'abreviatura' => 'Sub', 'ordem' => '6'],
+            5 => ['nome' => 'SubTenente', 'abreviatura' => 'ST', 'ordem' => '6'],
             6 => ['nome' => '2º Tenente', 'abreviatura' => '2º TEN', 'ordem' => '7'],
             7 => ['nome' => '1º Tenente', 'abreviatura' => '1º TEN', 'ordem' => '8'],
             8 => ['nome' => 'Capitão', 'abreviatura' => 'CAP', 'ordem' => '9'],

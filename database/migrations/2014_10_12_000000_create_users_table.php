@@ -52,6 +52,8 @@ class CreateUsersTable extends Migration
             //$table->boolean('transferido')->nullable();
             $table->string('boletim_saida', 30)->nullable();
 
+            $table->boolean('conta')->default(0);
+
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->rememberToken();
