@@ -44,6 +44,7 @@ class PatrimoniosController extends Controller
         $data->setor_id = $request->setor_id;     
         $data->patrimonio_tipo_id = $request->patrimonio_tipo_id;  
         $data->serial = $request->serial;     
+        $data->tombo = $request->tombo;     
         $data->observacoes = $request->observacoes;     
         $data->subunidade_id = $user->subunidade_id;     
         $data->created_by = Auth::id();      
@@ -100,6 +101,7 @@ class PatrimoniosController extends Controller
         $data->setor_id = $request->setor_id;     
         $data->patrimonio_tipo_id = $request->patrimonio_tipo_id;  
         $data->serial = $request->serial;     
+        $data->tombo = $request->tombo;   
         $data->observacoes = $request->observacoes;     
         $data->data_baixa = $request->data_baixa;     
 

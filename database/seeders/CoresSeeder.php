@@ -22,7 +22,8 @@ class CoresSeeder extends Seeder
             4 => ['nome' => 'Vermelho'],
             5 => ['nome' => 'Marrom'],
             6 => ['nome' => 'Verde'],
-            7 => ['nome' => 'Amarelo']
+            7 => ['nome' => 'Amarelo'],
+            8 => ['nome' => 'Prata']
         ];
         DB::table('cores')->insert($init);
     }

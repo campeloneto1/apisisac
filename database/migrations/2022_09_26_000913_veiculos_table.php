@@ -21,7 +21,8 @@ class VeiculosTable extends Migration
             $table->foreignId('marca_id')->nullable()->constrained('marcas')->onUpdate('cascade')->onDelete('set null');               
             $table->foreignId('modelo_id')->nullable()->constrained('modelos')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('cor_id')->nullable()->constrained('cores')->onUpdate('cascade')->onDelete('set null');
-            $table->integer('ano');
+            $table->string('ano', 9);
+            $table->integer('tipo_id');
 
             $table->string('placa',20);
             $table->string('placa_esp',20)->nullable(); 

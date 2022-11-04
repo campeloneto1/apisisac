@@ -18,7 +18,8 @@ class PatrimoniosTable extends Migration
             $table->foreignId('subunidade_id')->nullable()->constrained('subunidades')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('setor_id')->nullable()->constrained('setores')->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('patrimonio_tipo_id')->nullable()->constrained('patrimonios_tipos')->onUpdate('cascade')->onDelete('set null');
-            $table->string('serial',100)->unique();
+            $table->string('serial',50)->unique()->nullable();
+            $table->string('tombo',30)->unique();
 
             $table->date('data_baixa')->nullable(); 
             $table->string('observacoes', 1000)->nullable(); 

@@ -73,6 +73,7 @@ class VeiculosController extends Controller
         $data->chassi = $request->chassi;
         $data->renavam = $request->renavam;
         $data->ano = $request->ano;
+        $data->tipo_id = $request->tipo_id;
 
         $data->km_inicial = $request->km_inicial;
         $data->km_atual = $request->km_inicial;
@@ -143,6 +144,7 @@ class VeiculosController extends Controller
         $data->chassi = $request->chassi;
         $data->renavam = $request->renavam;
         $data->ano = $request->ano;
+        $data->tipo_id = $request->tipo_id;
 
         $data->km_inicial = $request->km_inicial;
         $data->troca_oleo = $request->troca_oleo;
