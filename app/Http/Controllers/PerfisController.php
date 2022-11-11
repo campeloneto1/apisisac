@@ -46,6 +46,7 @@ class PerfisController extends Controller
         $data->gestor = $request->gestor;        
         $data->oficial_dia = $request->oficial_dia;   
          $data->permanente = $request->permanente;     
+         $data->relatorios = $request->relatorios;     
 
         $data->afastamentos = $request->afastamentos;  
         $data->afastamentos_cad = $request->afastamentos_cad;            
@@ -172,7 +173,8 @@ class PerfisController extends Controller
         $data->administrador = $request->administrador;        
         $data->gestor = $request->gestor;        
         $data->oficial_dia = $request->oficial_dia;  
-        $data->permanente = $request->permanente;    
+        $data->permanente = $request->permanente;  
+        $data->relatorios = $request->relatorios;       
 
         $data->afastamentos = $request->afastamentos;  
         $data->afastamentos_cad = $request->afastamentos_cad;            

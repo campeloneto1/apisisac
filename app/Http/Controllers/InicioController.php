@@ -151,11 +151,9 @@ class InicioController extends Controller
                 ->whereNull('boletim_saida')
                 ->where('conta', 1)
                 ->groupBy('setores.nome')
+                ->orderBy('setores.nome')
                 ->get();
-
-             //return User::with('setores')->select(DB::raw('setores.nome', 'COUNT(users.id)'))->groupBy('setores.nome')->get();
         }else{ 
-            //return User::with('setores')->select(DB::raw('setores.nome', 'COUNT(users.id)'))->where('subunidade_id', $user->subunidade_id)->groupBy('setores.nome')->get();
              return User::query()
                 ->join('setores', 'setores.id', '=', 'users.setor_id')
                 ->where('users.subunidade_id', $user->subunidade_id)
@@ -163,6 +161,33 @@ class InicioController extends Controller
                 ->whereNull('boletim_saida')
                 ->where('conta', 1)
                 ->groupBy('setores.nome')
+                ->orderBy('setores.nome')
+                ->get();
+        }        
+    }
+
+    public function getGraduacoes()
+    {
+        $user = Auth::user();
+        if($user->perfil->administrador){
+           return User::query()
+                ->join('graduacoes', 'graduacoes.id', '=', 'users.graduacao_id')
+                ->select('graduacoes.nome', DB::raw('COUNT(users.id) as quant'))
+                ->whereNull('boletim_saida')
+                ->where('conta', 1)
+                ->groupBy('graduacoes.nome')
+                ->orderBy('ordem', 'desc')
+                ->get();
+
+        }else{ 
+             return User::query()
+                ->join('graduacoes', 'graduacoes.id', '=', 'users.graduacao_id')
+                ->where('users.subunidade_id', $user->subunidade_id)
+                ->select('graduacoes.nome', DB::raw('COUNT(users.id) as quant'))
+                ->whereNull('boletim_saida')
+                ->where('conta', 1)
+                ->groupBy('graduacoes.nome')
+                ->orderBy('ordem', 'desc')
                 ->get();
         }        
     }

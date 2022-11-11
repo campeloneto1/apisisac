@@ -40,6 +40,7 @@ use App\Http\Controllers\PatrimoniosTiposController;
 use App\Http\Controllers\PerfisController;
 use App\Http\Controllers\PostosController;
 use App\Http\Controllers\PostosTurnosController;
+use App\Http\Controllers\RelatoriosController;
 use App\Http\Controllers\SetoresController;
 use App\Http\Controllers\SubunidadesController;
 use App\Http\Controllers\TiposPublicacoesController;
@@ -166,11 +167,18 @@ Route::group(['middleware' => ['guest:api']], function() {
     Route::get('inicio-quantpms', [InicioController::class, 'getQuantPm']);
     Route::get('inicio-quantveiculos', [InicioController::class, 'getQuantVeiculos']);
     Route::get('inicio-setores', [InicioController::class, 'getSetores']);
+    Route::get('inicio-graduacoes', [InicioController::class, 'getGraduacoes']);
     Route::get('inicio-veiculos-emprestimos', [InicioController::class, 'getVeiculosEmprestimos']);
     Route::get('inicio-materiais-emprestimos', [InicioController::class, 'getMateriaisEmprestimos']);
     Route::get('inicio-trocaoleo', [InicioController::class, 'getTrocaOleo']);
     Route::get('inicio-armamentos-vencimentos', [InicioController::class, 'getArmVencimentos']);
     Route::get('inicio-materiais-vencimentos', [InicioController::class, 'getMatVencimentos']);
+
+    Route::post('relatorios-emparmamentos', [RelatoriosController::class, 'getEmpArmamentos']);
+    Route::post('relatorios-empmateriais', [RelatoriosController::class, 'getEmpMateriais']);
+    Route::post('relatorios-empveiculos', [RelatoriosController::class, 'getEmpVeiculos']);
+    Route::post('relatorios-promocoes', [RelatoriosController::class, 'getPromocoes']);
+
 
     Route::get('search/{id}', [InicioController::class, 'search']);
 });

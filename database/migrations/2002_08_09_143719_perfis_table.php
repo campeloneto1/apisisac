@@ -21,6 +21,7 @@ class PerfisTable extends Migration
             $table->boolean('gestor')->nullable();
             $table->boolean('oficial_dia')->nullable();
             $table->boolean('permanente')->nullable();
+            $table->boolean('relatorios')->nullable();
             
             $table->boolean('afastamentos')->nullable();
             $table->boolean('afastamentos_cad')->nullable();

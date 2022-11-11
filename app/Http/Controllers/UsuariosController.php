@@ -187,9 +187,9 @@ class UsuariosController extends Controller
         //$data->transferido = $request->transferido;
         $data->boletim_saida = $request->boletim_saida;
 
-        if($request->conta){
+        
             $data->conta = $request->conta;
-        }
+        
 
         $data->usuario = $request->matricula;        
 
