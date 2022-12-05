@@ -79,7 +79,7 @@ class RelatoriosController extends Controller
 
     public function getPromocoes(Request $request){
         $user = Auth::user();
-        $data = UserPromocao::where('data_saida', '>=', $request->dt_ini)->where('data_saida', '<=', $request->dt_fim);
+        $data = UserPromocao::whereRaw('year(data) = '.$request->ano);
 
         if($request->boletim){
             $data->where('boletim', 'like', '%'.$request->boletim.'%');
