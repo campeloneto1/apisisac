@@ -11,7 +11,11 @@ class AuthController extends Controller
 {
      public function login(Request $request){
         $credenciais = request(['usuario', 'password']);
+        //return dd($credenciais['password']);
 
+        //return dd(base64_decode(substr($credenciais['password'], 6, -6)));
+        $credenciais['usuario'] = substr(base64_decode(substr($credenciais['usuario'], 6, -6)), 6);
+        $credenciais['password'] = substr(base64_decode(substr($credenciais['password'], 6, -6)), 6);
         if(!Auth::attempt($credenciais)){
             $erro = "Usuario nao autorizado!";
             $cod = 171;

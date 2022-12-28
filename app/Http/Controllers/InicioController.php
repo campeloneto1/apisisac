@@ -111,11 +111,11 @@ class InicioController extends Controller
         $datahj = Carbon::now();
         $user = Auth::user();
         if($user->perfil->administrador){
-             return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->whereNull('boletim_saida')->where('conta', 1)->count();
+             return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
         }else{ 
-            return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->where('conta', 1)->count();
+            return UserAfastamento::where('data', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
         }
-        
+        //->whereNull('boletim_saida')->where('conta', 1)
     }
 
     public function getQuantFerias()
@@ -123,9 +123,9 @@ class InicioController extends Controller
         $datahj = Carbon::now();
         $user = Auth::user();
         if($user->perfil->administrador){
-             return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->whereNull('boletim_saida')->where('conta', 1)->count();
+             return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->count();
         }else{ 
-            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->whereNull('boletim_saida')->where('conta', 1)->count();
+            return UserFerias::where('data_ini', '<=', $datahj->format('Y-m-d'))->where('data_fim', '>=', $datahj->format('Y-m-d'))->where('subunidade_id', $user->subunidade_id)->count();
         }
         
     }

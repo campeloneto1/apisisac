@@ -69,7 +69,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });*/
 
-Route::group(['middleware' => ['guest:api']], function() {
+Route::group(['middleware' => ['guest:api', 'middleware' => 'throttle:5,1']], function() {
     Route::post('/login', [AuthController::class, 'login']);     
 
     Route::get('validar-documento/{id}', [DocumentosController::class, 'validar']);
