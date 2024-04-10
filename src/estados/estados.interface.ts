@@ -1,10 +1,11 @@
+import { Pais } from "src/paises/paises.interface";
 import { User } from "src/users/user.interface";
 
-export interface Perfil{
+export interface Estado{
     id?: number;
     nome: string;
-    administrador?: boolean;
-    gestor?: boolean;
+    abreviatura: string;
+    pais: Pais;
 
     created_by: User;
     updated_by: User;
@@ -12,4 +13,4 @@ export interface Perfil{
     updated_at: Date;
 }
 
-export type Perfis = Array<Perfil>;
+export type Estados = Array<Estado>;

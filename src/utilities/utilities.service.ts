@@ -7,7 +7,7 @@ export class UtilitiesService {
 
     constructor(private lazyModuleLoader: LazyModuleLoader){}
 
-    generateSalt(length:number):string{
+    async generateSalt(length:number):Promise<string>{
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const charactersLength = characters.length;

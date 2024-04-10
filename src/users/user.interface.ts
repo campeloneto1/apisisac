@@ -1,3 +1,5 @@
+import { Perfil } from "src/perfis/perfis.interface";
+
 export interface User{
     id?: number;
     nome: string;
@@ -6,6 +8,12 @@ export interface User{
     cpf: string;
     password: string;
     salt: string;
+    perfil: Perfil;
+
+    created_by: User;
+    updated_by: User;
+    created_at: Date;
+    updated_at: Date;
 }
 
 export type Users = Array<User>;

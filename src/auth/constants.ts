@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 export const jwtConstants = {
-    secret: 'HBhA8wTSBwpUWmuN7gSkvTYCbAi9hJY1c65qzV21fG5DyduiWJ34C6pNYYCCBSHet3vLP9RRm1HfN7FtbPxQMNxz8a3HL7bkUWRp11qFGzAALZV9i2cb1zf4ewNQknkGKVSXZQU750PGqgjVe4xUGDPREFREazgVeJwMMcURFjnp5xhP1KJCna2QaDSgdbHU9kMdyYP7LySnQL4bug94HjQ2HgLZEq0LfNiRnvmF8AxkEYSdxmMni7qUCVZmmYGv',
+    secret: process.env.JWT_SECRET,
 };

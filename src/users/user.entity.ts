@@ -1,12 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
-import { UtilitiesService } from 'src/utilities/utilities.service';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Perfil } from '../perfis/perfis.entity';
 
 @Entity('users')
 export class User {
-  constructor(private utilitiesService: UtilitiesService){}
 
     @PrimaryGeneratedColumn()
-    id?: number;
+    id!: number;
   
     @Column({
       nullable: false,
@@ -18,14 +17,14 @@ export class User {
       length: 11,
       nullable: true,
     })
-    telefone?: string;
+    telefone!: string;
   
     @Column({
       length: 100,
       nullable: true,
       unique: true
     })
-    email?: string;
+    email!: string;
   
     @Column({
       length: 11,
@@ -49,9 +48,26 @@ export class User {
     })
     salt!: string;
 
-    @BeforeInsert()
-    async hashPassword() {
-      this.salt = this.utilitiesService.generateSalt(60);
-      this.password = await this.utilitiesService.hashString(`${this.cpf}${this.salt}`);
-    }
+    @ManyToOne(() => Perfil, (perfil) => perfil.id, {
+        eager: true,
+    })
+    perfil!: User;
+
+    @ManyToOne(() => User, (user) => user.id)
+    created_by!: User;
+
+    @ManyToOne(() => User, (user) => user.id)
+    updated_by!: User;
+
+    @CreateDateColumn()
+    created_at!: Date;
+
+    @UpdateDateColumn()
+    updated_at!: Date;
+
+    // @BeforeInsert()
+    //  async hashPassword() {
+    //   this.salt = await this.utilitiesService.generateSalt(60);
+    //   this.password = await this.utilitiesService.hashString(`${this.cpf}${this.salt}`);
+    // }
 }

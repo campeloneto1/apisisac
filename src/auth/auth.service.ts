@@ -30,8 +30,6 @@ export class AuthService {
                 access_token: response,
                 user: user
             };
-           
-           //return user;
         }else{
             throw new UnauthorizedException();
         }
@@ -39,4 +37,6 @@ export class AuthService {
         throw new UnauthorizedException();
     }
   }
+
+  
 }

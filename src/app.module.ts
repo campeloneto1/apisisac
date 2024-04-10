@@ -12,11 +12,12 @@ import { AuthModule } from './auth/auth.module';
 import { PerfisModule } from './perfis/perfis.module';
 import { UsersModule } from './users/users.module';
 import { UtilitiesModule } from './utilities/utilities.module';
+import { PaisesModule } from './paises/paises.module';
+import { EstadosModule } from './estados/estados.module';
 
 
 @Module({
   imports: [
-    UsersModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -37,8 +38,11 @@ import { UtilitiesModule } from './utilities/utilities.module';
       limit: 30,
     }]),
     AuthModule,
+    PaisesModule,
+    PerfisModule,
+    UsersModule,
     UtilitiesModule,
-    PerfisModule
+    EstadosModule,
   ],
   controllers: [AppController],
   providers: [AppService,
