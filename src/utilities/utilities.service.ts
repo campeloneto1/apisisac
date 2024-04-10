@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { LazyModuleLoader } from '@nestjs/core';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UtilitiesService {
+
+    constructor(private lazyModuleLoader: LazyModuleLoader){}
 
     generateSalt(length:number):string{
         let result = '';

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User as UserEntity } from './user.entity';
 import { User as UserInterface, Users as UsersInterface } from './user.interface';
+import { LazyModuleLoader } from '@nestjs/core';
 
 @Injectable()
 export class UsersService {
@@ -10,6 +11,7 @@ export class UsersService {
     constructor(
       @InjectRepository(UserEntity)
       private usersRepository: Repository<UserEntity>,
+      private lazyModuleLoader: LazyModuleLoader
     ) {}
 
     async index(): Promise<UsersInterface> {

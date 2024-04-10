@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/user.interface';
 import { UsersService } from 'src/users/users.service';
 import { UtilitiesService } from 'src/utilities/utilities.service';
+import { LazyModuleLoader } from '@nestjs/core';
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,8 @@ export class AuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService,
-        private utilitiesService: UtilitiesService
+        private utilitiesService: UtilitiesService,
+        private lazyModuleLoader: LazyModuleLoader
       ) {}
 
   async signIn(username: string, senha: string): Promise<any> {

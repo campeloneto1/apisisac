@@ -4,14 +4,15 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-
-import { User } from './users/user.entity';
-import { AuthModule } from './auth/auth.module';
-import { UtilitiesModule } from './utilities/utilities.module';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+
+import { AuthModule } from './auth/auth.module';
+import { PerfisModule } from './perfis/perfis.module';
+import { UsersModule } from './users/users.module';
+import { UtilitiesModule } from './utilities/utilities.module';
+
 
 @Module({
   imports: [
@@ -26,8 +27,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
         username: configService.get('TORM_USER'),
         password: configService.get('TORM_PASS'),
         database: configService.get('TORM_DB'),
-        entities: [User],
         synchronize: true,
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
@@ -36,7 +37,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
       limit: 30,
     }]),
     AuthModule,
-    UtilitiesModule
+    UtilitiesModule,
+    PerfisModule
   ],
   controllers: [AppController],
   providers: [AppService,
