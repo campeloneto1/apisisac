@@ -1,4 +1,4 @@
-import { Perfil } from "src/perfis/perfis.interface";
+import { Perfil } from "src/perfis/perfil.interface";
 
 export interface User{
     id?: number;

@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
 import { EstadosService } from './estados.service';
-import {Estado, Estados} from './estados.interface'
+import {Estado, Estados} from './estado.interface'
 
 @Controller('estados')
 export class EstadosController {

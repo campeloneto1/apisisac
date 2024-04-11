@@ -1,0 +1,33 @@
+import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { MarcasService } from './marcas.service';
+import { Marca, Marcas } from './marca.interface';
+
+@Controller('marcas')
+export class MarcasController {
+    constructor(private marcasService: MarcasService){}
+
+    @Get()
+    async index():Promise<Marcas>{
+        return this.marcasService.index();
+    }
+
+    @Get(':id')
+    async find(@Param('id') id: number):Promise<Marca>  {
+        return await this.marcasService.find(id);
+    }
+    
+    @Post()
+    async create(@Body() object: Marca, @Request() req) {
+        return await this.marcasService.create(object, req);
+    }
+
+    @Put(':id')
+    async update(@Param('id') id: number, @Body() object: Marca, @Request() req) {
+        return await this.marcasService.update(id, object, req);
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: number, @Request() req) {
+        return await this.marcasService.remove(id, req);
+    }
+}

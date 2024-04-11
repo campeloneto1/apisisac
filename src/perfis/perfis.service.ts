@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
-import { Perfil as PerfilEntity } from './perfis.entity';
-import { Perfil as PerfilInterface, Perfis as PerfisInterface } from './perfis.interface';
+import { Perfil as PerfilEntity } from './perfil.entity';
+import { Perfil as PerfilInterface, Perfis as PerfisInterface } from './perfil.interface';
 import { User } from 'src/users/user.interface';
 
 @Injectable()

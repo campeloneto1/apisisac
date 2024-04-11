@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Param, Put, Delete, Request  } from '@nestjs/common';
 import { PaisesService } from './paises.service';
-import { Pais, Paises } from './paises.interface';
+import { Pais, Paises } from './pais.interface';
 
 @Controller('paises')
 export class PaisesController {

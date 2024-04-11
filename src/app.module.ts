@@ -14,6 +14,15 @@ import { UsersModule } from './users/users.module';
 import { UtilitiesModule } from './utilities/utilities.module';
 import { PaisesModule } from './paises/paises.module';
 import { EstadosModule } from './estados/estados.module';
+import { CidadesModule } from './cidades/cidades.module';
+import { UnidadesModule } from './unidades/unidades.module';
+import { SubunidadesModule } from './subunidades/subunidades.module';
+import { SetoresModule } from './setores/setores.module';
+import { GraduacoesModule } from './graduacoes/graduacoes.module';
+import { SexosModule } from './sexos/sexos.module';
+import { MarcasModule } from './marcas/marcas.module';
+import { ModelosModule } from './modelos/modelos.module';
+import { PoliciaisModule } from './policiais/policiais.module';
 
 
 @Module({
@@ -43,6 +52,15 @@ import { EstadosModule } from './estados/estados.module';
     UsersModule,
     UtilitiesModule,
     EstadosModule,
+    CidadesModule,
+    UnidadesModule,
+    SubunidadesModule,
+    SetoresModule,
+    GraduacoesModule,
+    SexosModule,
+    MarcasModule,
+    ModelosModule,
+    PoliciaisModule,
   ],
   controllers: [AppController],
   providers: [AppService,

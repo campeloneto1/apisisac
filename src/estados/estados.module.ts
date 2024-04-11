@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { EstadosService } from './estados.service';
 import { EstadosController } from './estados.controller';
-import { Estado } from './estados.entity';
+import { Estado } from './estado.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

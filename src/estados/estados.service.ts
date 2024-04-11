@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Estado as EstadoEntity} from './estados.entity';
-import { Estado as EstadoInterface, Estados as EstadosInterface } from './estados.interface';
+import { Estado as EstadoEntity} from './estado.entity';
+import { Estado as EstadoInterface, Estados as EstadosInterface } from './estado.interface';
 import { Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { User } from 'src/users/user.interface';

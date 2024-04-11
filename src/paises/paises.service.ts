@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pais as PaisEntity } from './paises.entity';
-import { Pais as PaisInterface, Paises as PaisesInterface } from './paises.interface';
+import { Pais as PaisEntity } from './pais.entity';
+import { Pais as PaisInterface, Paises as PaisesInterface } from './pais.interface';
 import { Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { User } from 'src/users/user.interface';

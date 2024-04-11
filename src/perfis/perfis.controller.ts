@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
 import { PerfisService } from './perfis.service';
-import { Perfil, Perfis } from './perfis.interface';
+import { Perfil, Perfis } from './perfil.interface';
 @Controller('perfis')
 export class PerfisController {
     constructor(private perfisService: PerfisService){}

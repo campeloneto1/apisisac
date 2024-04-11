@@ -1,9 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
-import { Estado } from 'src/estados/estados.entity';
+import { Pais } from 'src/paises/pais.entity';
+import { Cidade } from 'src/cidades/cidade.entity';
 
-@Entity('paises')
-export class Pais {
+@Entity('estados')
+export class Estado {
 
     @PrimaryGeneratedColumn()
     id!: number;
@@ -20,8 +21,13 @@ export class Pais {
     })
     abreviatura!: string;
 
-    @OneToMany(type => Estado, estado => estado.pais)
-    estados: Estado[];
+    @ManyToOne(() => Pais, (pais) => pais.id, {
+      eager: true,
+  })
+    pais!: Pais;
+
+    @OneToMany(type => Cidade, cidade => cidade.estado)
+    cidades: Cidade[];
 
     @ManyToOne(() => User, (user) => user.id)
     created_by!: User;

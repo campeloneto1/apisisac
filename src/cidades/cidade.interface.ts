@@ -1,11 +1,11 @@
-import { Pais } from "src/paises/paises.interface";
+import { Estado } from "src/estados/estado.interface";
 import { User } from "src/users/user.interface";
 
-export interface Estado{
+export interface Cidade{
     id?: number;
     nome: string;
     abreviatura: string;
-    pais: Pais;
+    estado: Estado
 
     created_by: User;
     updated_by: User;
@@ -13,4 +13,4 @@ export interface Estado{
     updated_at: Date;
 }
 
-export type Estados = Array<Estado>;
+export type Cidades = Array<Cidade>;

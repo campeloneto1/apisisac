@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Perfil } from '../perfis/perfis.entity';
+import { Perfil } from '../perfis/perfil.entity';
 
 @Entity('users')
 export class User {

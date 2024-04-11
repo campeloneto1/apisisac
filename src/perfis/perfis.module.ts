@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PerfisController } from './perfis.controller';
 import { PerfisService } from './perfis.service';
-import { Perfil } from './perfis.entity';
+import { Perfil } from './perfil.entity';
 
 @Module({
   imports: [ TypeOrmModule.forFeature([Perfil]),],
