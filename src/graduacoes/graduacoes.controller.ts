@@ -18,16 +18,16 @@ export class GraduacoesController {
     
     @Post()
     async create(@Body() object: Graduacao, @Request() req) {
-        return await this.graduacoesService.create(object, req);
+        return await this.graduacoesService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Graduacao, @Request() req) {
-        return await this.graduacoesService.update(id, object, req);
+        return await this.graduacoesService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.graduacoesService.remove(id, req);
+        return await this.graduacoesService.remove(id, req.user);
     }
 }

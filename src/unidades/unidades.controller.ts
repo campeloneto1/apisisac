@@ -18,16 +18,16 @@ export class UnidadesController {
     
     @Post()
     async create(@Body() object: Unidade, @Request() req) {
-        return await this.unidadesService.create(object, req);
+        return await this.unidadesService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Unidade, @Request() req) {
-        return await this.unidadesService.update(id, object, req);
+        return await this.unidadesService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.unidadesService.remove(id, req);
+        return await this.unidadesService.remove(id, req.user);
     }
 }

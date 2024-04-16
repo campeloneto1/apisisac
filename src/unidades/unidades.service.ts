@@ -23,12 +23,14 @@ export class UnidadesService {
       }
   
       async create(object: UnidadeInterface, idUser: User) {
+        console.log(object)
         var object:UnidadeInterface = this.unidadeRepository.create({...object, created_by: idUser}) 
         await this.unidadeRepository.save(object);      
       }
   
       async update(id:number, object: UnidadeInterface, idUser: User) {
         var data: UnidadeInterface = await this.unidadeRepository.findOneBy({id: id});
+        
         data = {...object}
         await this.unidadeRepository.update({id:id},{...data, updated_by: idUser});
       }

@@ -17,12 +17,12 @@ export class PerfisController {
     
     @Post()
     async create(@Body() object: Perfil, @Request() req) {
-        return await this.perfisService.create(object, req);
+        return await this.perfisService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Perfil, @Request() req) {
-        return await this.perfisService.update(id, object, req);
+        return await this.perfisService.update(id, object, req.user);
     }
 
     @Delete(':id')

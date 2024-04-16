@@ -21,6 +21,11 @@ export class Perfil {
         nullable: true,
       })
       gestor!: boolean;
+
+      @Column({
+        nullable: true,
+      })
+      relatorios!: boolean;
   
       @OneToMany(type => User, user => user.perfil)
       users: User[];

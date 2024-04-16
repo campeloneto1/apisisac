@@ -19,16 +19,16 @@ export class PoliciaisController {
     
     @Post()
     async create(@Body() object: Policial, @Request() req) {
-        return await this.policiaisService.create(object, req);
+        return await this.policiaisService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Policial, @Request() req) {
-        return await this.policiaisService.update(id, object, req);
+        return await this.policiaisService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.policiaisService.remove(id, req);
+        return await this.policiaisService.remove(id, req.user);
     }
 }

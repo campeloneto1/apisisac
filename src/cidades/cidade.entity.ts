@@ -15,7 +15,7 @@ export class Cidade {
     nome!: string;
   
     @Column({
-      nullable: false,
+      nullable: true,
       length: 5
     })
     abreviatura!: string;

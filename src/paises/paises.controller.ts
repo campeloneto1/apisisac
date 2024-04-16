@@ -4,7 +4,9 @@ import { Pais, Paises } from './pais.interface';
 
 @Controller('paises')
 export class PaisesController {
-    constructor(private paisesService: PaisesService){}
+    constructor(
+        private paisesService: PaisesService
+    ){}
 
     @Get()
     async index():Promise<Paises>{
@@ -18,16 +20,18 @@ export class PaisesController {
     
     @Post()
     async create(@Body() object: Pais, @Request() req) {
-        return await this.paisesService.create(object, req);
+        return await this.paisesService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Pais, @Request() req) {
-        return await this.paisesService.update(id, object, req);
+        return await this.paisesService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.paisesService.remove(id, req);
+        return await this.paisesService.remove(id, req.user);
     }
+
+    
 }

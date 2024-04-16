@@ -18,16 +18,16 @@ export class MarcasController {
     
     @Post()
     async create(@Body() object: Marca, @Request() req) {
-        return await this.marcasService.create(object, req);
+        return await this.marcasService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Marca, @Request() req) {
-        return await this.marcasService.update(id, object, req);
+        return await this.marcasService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.marcasService.remove(id, req);
+        return await this.marcasService.remove(id, req.user);
     }
 }

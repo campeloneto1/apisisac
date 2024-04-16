@@ -8,7 +8,7 @@ export class SubunidadesController {
 
     @Get()
     async index():Promise<Subunidades>{
-        return this.subunidadesService.index();
+        return await this.subunidadesService.index();
     }
 
     @Get(':id')
@@ -18,16 +18,21 @@ export class SubunidadesController {
     
     @Post()
     async create(@Body() object: Subunidade, @Request() req) {
-        return await this.subunidadesService.create(object, req);
+        return await this.subunidadesService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Subunidade, @Request() req) {
-        return await this.subunidadesService.update(id, object, req);
+        return await this.subunidadesService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.subunidadesService.remove(id, req);
+        return await this.subunidadesService.remove(id, req.user);
+    }
+
+    @Get(':id/whereUnidade')
+    async wherePais(@Param('id') id: number):Promise<Subunidades>  {
+        return await this.subunidadesService.whereUnidade(id);
     }
 }

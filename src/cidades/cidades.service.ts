@@ -36,4 +36,14 @@ export class CidadesService {
       async remove(id: number, idUser: User) {
         return await this.cidadeRepository.delete(id);;
       }
+
+      async whereEstado(id: number): Promise<CidadesInterface | null> {
+        return await this.cidadeRepository.find({
+          where: {
+            estado: {
+              id: id,
+            },
+          },
+        });
+      }
 }

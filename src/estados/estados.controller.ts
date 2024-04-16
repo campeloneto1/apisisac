@@ -18,16 +18,21 @@ export class EstadosController {
     
     @Post()
     async create(@Body() object: Estado, @Request() req) {
-        return await this.estadosService.create(object, req);
+        return await this.estadosService.create(object, req.user);
     }
 
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Estado, @Request() req) {
-        return await this.estadosService.update(id, object, req);
+        return await this.estadosService.update(id, object, req.user);
     }
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.estadosService.remove(id, req);
+        return await this.estadosService.remove(id, req.user);
+    }
+
+    @Get(':id/wherePais')
+    async wherePais(@Param('id') id: number):Promise<Estados>  {
+        return await this.estadosService.wherePais(id);
     }
 }

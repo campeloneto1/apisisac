@@ -16,7 +16,7 @@ export class Setor {
 
     @Column({
         nullable: true,
-        length: 50,
+        length: 20,
     })
     abreviatura!: string;
 

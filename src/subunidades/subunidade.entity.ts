@@ -18,7 +18,7 @@ export class Subunidade {
 
     @Column({
         nullable: false,
-        length: 50,
+        length: 20,
     })
     abreviatura!: string;
 
@@ -59,7 +59,9 @@ export class Subunidade {
     })
     cep!: string;
 
-    @ManyToOne(() => Cidade, (cidade) => cidade.id)
+    @ManyToOne(() => Cidade, (cidade) => cidade.id, {
+        eager: true,
+    })
     cidade!: Cidade;
 
     @ManyToOne(() => Unidade, (unidade) => unidade.id, {

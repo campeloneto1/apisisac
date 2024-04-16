@@ -34,6 +34,16 @@ export class SubunidadesService {
       }
   
       async remove(id: number, idUser: User) {
-        return await this.subunidadeRepository.delete(id);;
+        return await this.subunidadeRepository.delete(id);
+      }
+
+      async whereUnidade(id: number): Promise<SubunidadesInterface | null> {
+        return await this.subunidadeRepository.find({
+          where: {
+            unidade: {
+              id: id,
+            },
+          },
+        });
       }
 }

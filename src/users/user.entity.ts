@@ -64,10 +64,4 @@ export class User {
 
     @UpdateDateColumn()
     updated_at!: Date;
-
-    // @BeforeInsert()
-    //  async hashPassword() {
-    //   this.salt = await this.utilitiesService.generateSalt(60);
-    //   this.password = await this.utilitiesService.hashString(`${this.cpf}${this.salt}`);
-    // }
 }

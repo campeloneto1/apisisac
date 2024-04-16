@@ -7,7 +7,7 @@ export interface Setor{
     abreviatura?: string;
     telefone?: string;
     email?: string;
-    subunidade: Subunidade
+    subunidade: Subunidade;
 
     created_by: User;
     updated_by: User;

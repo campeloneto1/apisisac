@@ -5,6 +5,7 @@ export interface Perfil{
     nome: string;
     administrador?: boolean;
     gestor?: boolean;
+    relatorios?: boolean;
 
     created_by: User;
     updated_by: User;
