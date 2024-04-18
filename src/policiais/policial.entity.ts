@@ -64,6 +64,7 @@ export class Policial {
 
     @Column({
         nullable: true,
+        type: 'date'
     })
     data_nascimento!: Date;
 
@@ -93,11 +94,13 @@ export class Policial {
 
     @Column({
         nullable: true,
+        type: 'date'
     })
-    data_ingresso!: Date;
+    data_inclusao!: Date;
 
     @Column({
         nullable: true,
+        type: 'date'
     })
     data_apresentacao!: Date;
 
@@ -119,10 +122,14 @@ export class Policial {
     })
     boletim_transferencia!: string;
 
-    @ManyToOne(() => Cidade, (cidade) => cidade.id)
+    @ManyToOne(() => Cidade, (cidade) => cidade.id, {
+        eager: true,
+    })
     cidade!: Cidade;
 
-    @ManyToOne(() => Sexo, (sexo) => sexo.id)
+    @ManyToOne(() => Sexo, (sexo) => sexo.id, {
+        eager: true,
+    })
     sexo!: Sexo;
 
     @ManyToOne(() => Graduacao, (graduacao) => graduacao.id, {

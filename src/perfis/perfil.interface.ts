@@ -7,10 +7,10 @@ export interface Perfil{
     gestor?: boolean;
     relatorios?: boolean;
 
-    created_by: User;
-    updated_by: User;
-    created_at: Date;
-    updated_at: Date;
+    created_by?: User;
+    updated_by?: User;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 export type Perfis = Array<Perfil>;

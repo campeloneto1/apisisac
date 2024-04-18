@@ -30,4 +30,11 @@ export class SetoresController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.setoresService.remove(id, req);
     }
+
+    @Get(':id/whereSubunidade')
+    async whereSubunidade(@Param('id') id: number):Promise<Setores>  {
+        return await this.setoresService.whereSubunidade(id);
+    }
+
+    
 }

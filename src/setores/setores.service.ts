@@ -36,4 +36,14 @@ export class SetoresService {
       async remove(id: number, idUser: User) {
         return await this.setorRepository.delete(id);;
       }
+
+      async whereSubunidade(id: number): Promise<SetoresInterface | null> {
+        return await this.setorRepository.find({
+          where: {
+            subunidade: {
+              id: id,
+            },
+          },
+        });
+      }
 }

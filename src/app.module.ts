@@ -23,6 +23,10 @@ import { SexosModule } from './sexos/sexos.module';
 import { MarcasModule } from './marcas/marcas.module';
 import { ModelosModule } from './modelos/modelos.module';
 import { PoliciaisModule } from './policiais/policiais.module';
+import { PoliciaisAtestadosModule } from './policiais-atestados/policiais-atestados.module';
+import { PoliciaisFeriasModule } from './policiais-ferias/policiais-ferias.module';
+import { PoliciaisPublicacoesModule } from './policiais-publicacoes/policiais-publicacoes.module';
+import { PublicacoesTiposModule } from './publicacoes-tipos/publicacoes-tipos.module';
 
 
 @Module({
@@ -61,6 +65,10 @@ import { PoliciaisModule } from './policiais/policiais.module';
     MarcasModule,
     ModelosModule,
     PoliciaisModule,
+    PoliciaisAtestadosModule,
+    PoliciaisFeriasModule,
+    PoliciaisPublicacoesModule,
+    PublicacoesTiposModule,
   ],
   controllers: [AppController],
   providers: [AppService,
