@@ -30,4 +30,9 @@ export class ModelosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.modelosService.remove(id, req.user);
     }
+
+    @Get(':id/whereMarca')
+    async whereMarca(@Param('id') id: number):Promise<Modelos>  {
+        return await this.modelosService.whereMarca(id);
+    }
 }

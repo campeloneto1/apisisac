@@ -15,12 +15,14 @@ export class Modelo {
     nome!: string;
   
     @Column({
-      nullable: false,
+      nullable: true,
       length: 5
     })
     abreviatura!: string;
 
-    @ManyToOne(() => Marca, (marca) => marca.id)
+    @ManyToOne(() => Marca, (marca) => marca.id, {
+      eager: true,
+  })
     marca!: Marca;
 
     @ManyToOne(() => User, (user) => user.id)

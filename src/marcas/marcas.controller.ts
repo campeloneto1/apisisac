@@ -11,6 +11,21 @@ export class MarcasController {
         return this.marcasService.index();
     }
 
+    @Get('armamentos')
+    async marcasArmamentos():Promise<Marcas>{
+        return this.marcasService.marcasArmamentos();
+    }
+
+    @Get('logistica')
+    async marcasLogisica():Promise<Marcas>{
+        return this.marcasService.marcasLogistica();
+    }
+
+    @Get('transporte')
+    async marcasTransporte():Promise<Marcas>{
+        return this.marcasService.marcasTransporte();
+    }
+
     @Get(':id')
     async find(@Param('id') id: number):Promise<Marca>  {
         return await this.marcasService.find(id);
@@ -30,4 +45,6 @@ export class MarcasController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.marcasService.remove(id, req.user);
     }
+
+    
 }

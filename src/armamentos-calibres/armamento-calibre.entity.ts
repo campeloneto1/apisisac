@@ -1,9 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
-import { Modelo } from 'src/modelos/modelo.entity';
 
-@Entity('marcas')
-export class Marca {
+@Entity('armamentos_calibres')
+export class ArmamentoCalibre {
 
     @PrimaryGeneratedColumn()
     id!: number;
@@ -13,30 +12,6 @@ export class Marca {
       length: 100,
     })
     nome!: string;
-  
-    @Column({
-      nullable: true,
-      length: 5
-    })
-    abreviatura!: string;
-
-    @Column({
-      nullable: true,
-    })
-    armamento!: boolean;
-
-    @Column({
-      nullable: true,
-    })
-    logistica!: boolean;
-
-    @Column({
-      nullable: true,
-    })
-    transporte!: boolean;
-
-    @OneToMany(type => Modelo, modelo => modelo.marca)
-    modelos: Modelo[];
 
     @ManyToOne(() => User, (user) => user.id)
     created_by!: User;

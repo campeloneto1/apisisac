@@ -36,4 +36,14 @@ export class ModelosService {
       async remove(id: number, idUser: User) {
         return await this.modeloRepository.delete(id);;
       }
+
+      async whereMarca(id: number): Promise<ModelosInterface | null> {
+        return await this.modeloRepository.find({
+          where: {
+            marca: {
+              id: id,
+            },
+          },
+        });
+      }
 }

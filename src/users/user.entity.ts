@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Perfil } from '../perfis/perfil.entity';
+import { Subunidade } from 'src/subunidades/subunidade.entity';
 
 @Entity('users')
 export class User {
@@ -52,6 +53,11 @@ export class User {
         eager: true,
     })
     perfil!: User;
+
+    @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
+        eager: true,
+    })
+    subunidade!: Subunidade;
 
     @ManyToOne(() => User, (user) => user.id)
     created_by!: User;

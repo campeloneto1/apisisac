@@ -36,4 +36,16 @@ export class MarcasService {
       async remove(id: number, idUser: User) {
         return await this.paisRepository.delete(id);;
       }
+
+      async marcasArmamentos(): Promise<MarcasInterface> {
+        return await this.paisRepository.find({where: {armamento: true}});
+      }
+
+      async marcasLogistica(): Promise<MarcasInterface> {
+        return await this.paisRepository.find({where: {logistica: true}});
+      }
+
+      async marcasTransporte(): Promise<MarcasInterface> {
+        return await this.paisRepository.find({where: {transporte: true}});
+      }
 }

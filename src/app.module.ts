@@ -27,6 +27,12 @@ import { PoliciaisAtestadosModule } from './policiais-atestados/policiais-atesta
 import { PoliciaisFeriasModule } from './policiais-ferias/policiais-ferias.module';
 import { PoliciaisPublicacoesModule } from './policiais-publicacoes/policiais-publicacoes.module';
 import { PublicacoesTiposModule } from './publicacoes-tipos/publicacoes-tipos.module';
+import { ArmamentosModule } from './armamentos/armamentos.module';
+import { ArmamentosTiposModule } from './armamentos-tipos/armamentos-tipos.module';
+import { ArmamentosTamanhosModule } from './armamentos-tamanhos/armamentos-tamanhos.module';
+import { ArmamentosCalibresModule } from './armamentos-calibres/armamentos-calibres.module';
+import { ArmamentosEmprestimosModule } from './armamentos-emprestimos/armamentos-emprestimos.module';
+import { ArmamentosEmprestimosItensModule } from './armamentos-emprestimos-itens/armamentos-emprestimos-itens.module';
 
 
 @Module({
@@ -69,6 +75,12 @@ import { PublicacoesTiposModule } from './publicacoes-tipos/publicacoes-tipos.mo
     PoliciaisFeriasModule,
     PoliciaisPublicacoesModule,
     PublicacoesTiposModule,
+    ArmamentosModule,
+    ArmamentosTiposModule,
+    ArmamentosTamanhosModule,
+    ArmamentosCalibresModule,
+    ArmamentosEmprestimosModule,
+    ArmamentosEmprestimosItensModule,
   ],
   controllers: [AppController],
   providers: [AppService,

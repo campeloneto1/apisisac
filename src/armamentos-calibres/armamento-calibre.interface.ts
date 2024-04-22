@@ -1,12 +1,8 @@
 import { User } from "src/users/user.interface";
 
-export interface Marca{
+export interface ArmamentoCalibre{
     id?: number;
     nome: string;
-    abreviatura?: string;
-    armamento?: boolean;
-    logistica?: boolean;
-    transporte?: boolean;
 
     created_by: User;
     updated_by: User;
@@ -14,4 +10,4 @@ export interface Marca{
     updated_at: Date;
 }
 
-export type Marcas = Array<Marca>;
+export type ArmamentosCalibres = Array<ArmamentoCalibre>;
