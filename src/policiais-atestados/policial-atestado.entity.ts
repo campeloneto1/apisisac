@@ -9,6 +9,8 @@ export class PolicialAtestado {
 
     @ManyToOne(() => Policial, (policial) => policial.id, {
       eager: true,
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
   })
     policial!: Policial;
   
@@ -41,10 +43,16 @@ export class PolicialAtestado {
       })
       crm!: string;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

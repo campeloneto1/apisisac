@@ -12,33 +12,63 @@ export class Perfil {
     })
     nome!: string;
   
-    @Column({
-      nullable: true,
+    @Column({ nullable: true, }) administrador!: boolean;
+    @Column({ nullable: true, }) gestor!: boolean;
+    @Column({ nullable: true, }) relatorios!: boolean;
+
+    @Column({ nullable: true, }) usuarios!: boolean;
+    @Column({ nullable: true, }) usuarios_cad!: boolean;
+    @Column({ nullable: true, }) usuarios_edt!: boolean;
+    @Column({ nullable: true, }) usuarios_del!: boolean;
+
+    @Column({ nullable: true, }) policiais!: boolean;
+    @Column({ nullable: true, }) policiais_cad!: boolean;
+    @Column({ nullable: true, }) policiais_edt!: boolean;
+    @Column({ nullable: true, }) policiais_del!: boolean;
+
+    @Column({ nullable: true, }) policiais_atestados!: boolean;
+    @Column({ nullable: true, }) policiais_atestados_cad!: boolean;
+    @Column({ nullable: true, }) policiais_atestados_edt!: boolean;
+    @Column({ nullable: true, }) policiais_atestados_del!: boolean;
+
+    @Column({ nullable: true, }) policiais_ferias!: boolean;
+    @Column({ nullable: true, }) policiais_ferias_cad!: boolean;
+    @Column({ nullable: true, }) policiais_ferias_edt!: boolean;
+    @Column({ nullable: true, }) policiais_ferias_del!: boolean;
+
+    @Column({ nullable: true, }) policiais_publicacoes!: boolean;
+    @Column({ nullable: true, }) policiais_publicacoes_cad!: boolean;
+    @Column({ nullable: true, }) policiais_publicacoes_edt!: boolean;
+    @Column({ nullable: true, }) policiais_publicacoes_del!: boolean;
+
+    @Column({ nullable: true, }) armamentos!: boolean;
+    @Column({ nullable: true, }) armamentos_cad!: boolean;
+    @Column({ nullable: true, }) armamentos_edt!: boolean;
+    @Column({ nullable: true, }) armamentos_del!: boolean;
+
+    @Column({ nullable: true, }) armamentos_emprestimos!: boolean;
+    @Column({ nullable: true, }) armamentos_emprestimos_cad!: boolean;
+    @Column({ nullable: true, }) armamentos_emprestimos_edt!: boolean;
+    @Column({ nullable: true, }) armamentos_emprestimos_del!: boolean;
+
+    @OneToMany(type => User, user => user.perfil)
+    users: User[];
+
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE'
     })
-    administrador!: boolean;
+    created_by!: User;
 
-    @Column({
-        nullable: true,
-      })
-      gestor!: boolean;
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE'
+    })
+    updated_by!: User;
 
-      @Column({
-        nullable: true,
-      })
-      relatorios!: boolean;
-  
-      @OneToMany(type => User, user => user.perfil)
-      users: User[];
+    @CreateDateColumn()
+    created_at!: Date;
 
-      @ManyToOne(() => User, (user) => user.id)
-      created_by!: User;
-
-      @ManyToOne(() => User, (user) => user.id)
-      updated_by!: User;
-
-      @CreateDateColumn()
-      created_at!: Date;
-
-      @UpdateDateColumn()
-      updated_at!: Date;
+    @UpdateDateColumn()
+    updated_at!: Date;
 }

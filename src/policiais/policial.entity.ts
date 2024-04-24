@@ -1,9 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Sexo } from 'src/sexos/sexo.entity';
 import { Graduacao } from 'src/graduacoes/graduacao.entity';
 import { Setor } from 'src/setores/setor.entity';
+import { PolicialPublicacao } from 'src/policiais-publicacoes/policial-publicacao.entity';
+import { PolicialFerias } from 'src/policiais-ferias/policial-ferias.entity';
+import { PolicialAtestado } from 'src/policiais-atestados/policial-atestado.entity';
+import { ArmamentoEmprestimo } from 'src/armamentos-emprestimos/armamento-emprestimo.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -122,30 +126,62 @@ export class Policial {
     })
     boletim_transferencia!: string;
 
+    @Column({
+        nullable: true,
+        length: 100,
+    })
+    foto!: string;
+
     @ManyToOne(() => Cidade, (cidade) => cidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     cidade!: Cidade;
 
     @ManyToOne(() => Sexo, (sexo) => sexo.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     sexo!: Sexo;
 
     @ManyToOne(() => Graduacao, (graduacao) => graduacao.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     graduacao!: Graduacao;
 
     @ManyToOne(() => Setor, (setor) => setor.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     setor!: Setor;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @OneToMany(type => PolicialPublicacao, policialpublicacao => policialpublicacao.policial)
+    policiais_publicacoes: PolicialPublicacao[];
+
+    @OneToMany(type => PolicialFerias, policialferias => policialferias.policial)
+    policiais_ferias: PolicialFerias[];
+
+    @OneToMany(type => PolicialAtestado, policialatestado => policialatestado.policial)
+    policiais_atestados: PolicialAtestado[];
+
+    @OneToMany(type => ArmamentoEmprestimo, armamentoemprestimo => armamentoemprestimo.policial)
+    armamentos_emprestimos: ArmamentoEmprestimo[];
+
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

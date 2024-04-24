@@ -7,6 +7,7 @@ export interface ArmamentoEmprestimo{
     data_emprestimo: Date;
     data_devolucao?: Date;
     observacoes? : string;
+    armamentos?: any;
 
     created_by: User;
     updated_by: User;

@@ -16,13 +16,15 @@ export interface Policial{
     telefone2?: string;
     data_nascimento?: Date;
 
+    foto?: string;
+
     rua?: string;
     numero?: string;
     bairro?: string;
     cidade?: Cidade;
     cep?: string;
 
-    data_ingresso?: Date;
+    data_inclusao?: Date;
     boletim_inclusao?: string;
     data_apresentacao?: Date;
     boletim_apresentacao?: string;

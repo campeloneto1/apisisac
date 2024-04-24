@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, U
 import { User } from 'src/users/user.entity';
 import { Policial } from 'src/policiais/policial.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
+import { ArmamentoEmprestimoItem } from 'src/armamentos-emprestimos-itens/armamento-emprestimo-item.entity';
 
 @Entity('armamentos_emprestimos')
 export class ArmamentoEmprestimo {
@@ -29,18 +30,31 @@ export class ArmamentoEmprestimo {
 
       @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
       })
       subunidade!: Subunidade;
 
       @ManyToOne(() => Policial, (policial) => policial.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
       })
       policial!: Policial;
 
-      @ManyToOne(() => User, (user) => user.id)
+      @OneToMany(type => ArmamentoEmprestimoItem, armamentoemprestimoitens => armamentoemprestimoitens.armamento_emprestimo)
+    armamentos_emprestimos_itens: ArmamentoEmprestimoItem[];
+
+      @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+      })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

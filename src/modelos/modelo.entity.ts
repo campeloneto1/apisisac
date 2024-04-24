@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Marca } from 'src/marcas/marca.entity';
+import { Armamento } from 'src/armamentos/armamento.entity';
 
 @Entity('modelos')
 export class Modelo {
@@ -22,13 +23,24 @@ export class Modelo {
 
     @ManyToOne(() => Marca, (marca) => marca.id, {
       eager: true,
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
   })
     marca!: Marca;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @OneToMany(type => Armamento, armamento => armamento.modelo)
+    armamentos: Armamento[];
+    
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

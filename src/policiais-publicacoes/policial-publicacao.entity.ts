@@ -10,11 +10,15 @@ export class PolicialPublicacao {
 
     @ManyToOne(() => Policial, (policial) => policial.id, {
       eager: true,
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
   })
     policial!: Policial;
 
     @ManyToOne(() => PublicacaoTipo, (publicacaoTipo) => publicacaoTipo.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     publicacao_tipo!: PublicacaoTipo;
   
@@ -30,10 +34,16 @@ export class PolicialPublicacao {
       })
       boletim!: string;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

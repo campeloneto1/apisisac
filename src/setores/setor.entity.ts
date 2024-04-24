@@ -35,16 +35,24 @@ export class Setor {
 
     @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     subunidade!: Subunidade;
 
     @OneToMany(type => Policial, policial => policial.setor)
     policiais: Policial[];
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

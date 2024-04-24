@@ -12,6 +12,11 @@ export class PoliciaisController {
         return this.policiaisService.index();
     }
 
+    @Get('disponiveis')
+    async disponiveis():Promise<Policiais>{
+        return this.policiaisService.disponiveis();
+    }
+
     @Get(':id')
     async find(@Param('id') id: number):Promise<Policial>  {
         return await this.policiaisService.find(id);

@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
+import { PolicialPublicacao } from 'src/policiais-publicacoes/policial-publicacao.entity';
 
 @Entity('publicacoes_tipos')
 export class PublicacaoTipo {
@@ -13,10 +14,19 @@ export class PublicacaoTipo {
     })
     nome!: string;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @OneToMany(type => PolicialPublicacao, policialpublicacao => policialpublicacao.publicacao_tipo)
+    policiais: PolicialPublicacao[];
+
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull, MoreThan, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { Armamento as ArmamentoEntity } from './armamento.entity';
 import { Armamento as ArmamentoInterface, Armamentos as ArmamentosInterface } from './armamento.interface';
@@ -23,7 +23,7 @@ export class ArmamentosService {
       }
   
       async create(object: ArmamentoInterface, idUser: User) {
-        var object:ArmamentoInterface = this.armamentoRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:ArmamentoInterface = this.armamentoRepository.create({...object, quantidade_disponivel: object.quantidade, subunidade: idUser.subunidade, created_by: idUser}) 
         await this.armamentoRepository.save(object);      
       }
   
@@ -40,7 +40,19 @@ export class ArmamentosService {
       async disponiveis(): Promise<ArmamentosInterface> {
         return await this.armamentoRepository.find({where: {
           data_baixa: IsNull(),
-          
+          quantidade_disponivel: MoreThan(0)
         }});
+      }
+
+      async atualizarQuantidadeUp(id:number, quantidade:number):Promise<void>{
+        var data: ArmamentoInterface = await this.armamentoRepository.findOneBy({id: id});
+        data.quantidade_disponivel = data.quantidade_disponivel + quantidade;
+        await this.armamentoRepository.update({id:id},{...data});
+      }
+
+      async atualizarQuantidadeDown(id:number, quantidade:number):Promise<void>{
+        var data: ArmamentoInterface = await this.armamentoRepository.findOneBy({id: id});
+        data.quantidade_disponivel = data.quantidade_disponivel - quantidade;
+        await this.armamentoRepository.update({id:id},{...data});
       }
 }

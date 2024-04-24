@@ -59,16 +59,24 @@ export class Unidade {
 
     @ManyToOne(() => Cidade, (cidade) => cidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     cidade!: Cidade;
 
     @OneToMany(type => Subunidade, subunidade => subunidade.unidade)
     subunidades: Subunidade[];
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

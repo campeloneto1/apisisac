@@ -3,6 +3,8 @@ import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Unidade } from 'src/unidades/unidade.entity';
 import { Setor } from 'src/setores/setor.entity';
+import { Armamento } from 'src/armamentos/armamento.entity';
+import { ArmamentoEmprestimo } from 'src/armamentos-emprestimos/armamento-emprestimo.entity';
 
 @Entity('subunidades')
 export class Subunidade {
@@ -61,21 +63,40 @@ export class Subunidade {
 
     @ManyToOne(() => Cidade, (cidade) => cidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     cidade!: Cidade;
 
     @ManyToOne(() => Unidade, (unidade) => unidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     unidade!: Unidade;
 
     @OneToMany(type => Setor, setor => setor.subunidade)
     setores: Setor[];
 
-    @ManyToOne(() => User, (user) => user.id)
+    @OneToMany(type => Armamento, armamento => armamento.subunidade)
+    armamentos: Armamento[];
+
+    @OneToMany(type => ArmamentoEmprestimo, armamentoemprestimo => armamentoemprestimo.subunidade)
+    armamentos_emprestimos: ArmamentoEmprestimo[];
+
+    @OneToMany(type => User, user => user.subunidade)
+    users: User[];
+
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
     updated_by!: User;
 
     @CreateDateColumn()

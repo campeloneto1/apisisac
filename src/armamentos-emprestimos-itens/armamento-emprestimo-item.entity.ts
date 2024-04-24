@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Policial } from 'src/policiais/policial.entity';
@@ -24,12 +25,14 @@ export class ArmamentoEmprestimoItem {
   quantidade!: number;
 
   @Column({
-    nullable: false,
+    nullable: true,
   })
   quantidade_devolucao!: number;
 
   @ManyToOne(() => Armamento, (armamento) => armamento.id, {
     eager: true,
+    onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
   })
   armamento!: Armamento;
 
@@ -38,14 +41,23 @@ export class ArmamentoEmprestimoItem {
     (armamento_emprestimo) => armamento_emprestimo.id,
     {
       eager: true,
+      onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     },
   )
+  @JoinColumn()
   armamento_emprestimo!: ArmamentoEmprestimo;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+  })
   created_by!: User;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+  })
   updated_by!: User;
 
   @CreateDateColumn()

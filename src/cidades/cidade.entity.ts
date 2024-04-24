@@ -1,39 +1,66 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Estado } from 'src/estados/estado.entity';
+import { Unidade } from 'src/unidades/unidade.entity';
+import { Subunidade } from 'src/subunidades/subunidade.entity';
+import { Policial } from 'src/policiais/policial.entity';
 
 @Entity('cidades')
 export class Cidade {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
-  
-    @Column({
-      nullable: false,
-      length: 100,
-    })
-    nome!: string;
-  
-    @Column({
-      nullable: true,
-      length: 5
-    })
-    abreviatura!: string;
+  @Column({
+    nullable: false,
+    length: 100,
+  })
+  nome!: string;
 
-    @ManyToOne(() => Estado, (estado) => estado.id, {
-      eager: true,
+  @Column({
+    nullable: true,
+    length: 5,
+  })
+  abreviatura!: string;
+
+  @ManyToOne(() => Estado, (estado) => estado.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
   })
   estado!: Estado;
 
-    @ManyToOne(() => User, (user) => user.id)
-    created_by!: User;
+  @OneToMany((type) => Unidade, (unidade) => unidade.cidade)
+  unidades: Unidade[];
 
-    @ManyToOne(() => User, (user) => user.id)
-    updated_by!: User;
+  @OneToMany((type) => Subunidade, (subunidade) => subunidade.cidade)
+  subunidades: Subunidade[];
 
-    @CreateDateColumn()
-    created_at!: Date;
+  @OneToMany((type) => Policial, (policial) => policial.cidade)
+  policiais: Policial[];
 
-    @UpdateDateColumn()
-    updated_at!: Date;
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+  })
+  created_by!: User;
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+  })
+  updated_by!: User;
+
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

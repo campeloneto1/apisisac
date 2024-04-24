@@ -51,18 +51,26 @@ export class User {
 
     @ManyToOne(() => Perfil, (perfil) => perfil.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     perfil!: User;
 
     @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
         eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     })
     subunidade!: Subunidade;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL'
+    })
     created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+      onDelete: 'SET NULL'
+    })
     updated_by!: User;
 
     @CreateDateColumn()
