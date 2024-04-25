@@ -30,4 +30,9 @@ export class ArmamentosEmprestimosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.armamentosEmprestimosService.remove(id, req.user);
     }
+
+    @Post('receber')
+    async receber(@Body() object: any, @Request() req) {
+        return await this.armamentosEmprestimosService.receber(object, req.user);
+    }
 }

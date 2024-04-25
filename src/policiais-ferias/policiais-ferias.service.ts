@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { PolicialFerias as PolicialFeriasEntity } from './policial-ferias.entity';
 import { PolicialFerias as PolicialFeriasInterface, PoliciaisFerias as PoliciaisFeriasInterface } from './policial-ferias.interface';
 import { User } from 'src/users/user.interface';
@@ -36,5 +36,12 @@ export class PoliciaisFeriasService {
   
       async remove(id: number, idUser: User) {
         return await this.policialFeriasRepository.delete(id);;
+      }
+
+      async quantidade(): Promise<number> {
+        return await this.policialFeriasRepository.count({where: {
+          data_inicial: LessThanOrEqual(new Date()),
+          data_final: MoreThanOrEqual(new Date())
+        }});
       }
 }

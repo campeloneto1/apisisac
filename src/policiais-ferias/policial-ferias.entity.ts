@@ -13,6 +13,11 @@ export class PolicialFerias {
         onUpdate: 'CASCADE'
   })
     policial!: Policial;
+
+    @Column({
+      nullable: false,
+    })
+    ano!: number;
   
     @Column({
       nullable: true,
@@ -24,6 +29,12 @@ export class PolicialFerias {
       nullable: false,
     })
     dias!: number;
+
+    @Column({
+      nullable: true,
+        type: 'date'
+    })
+    data_final!: Date;
 
     @Column({
         nullable: true,

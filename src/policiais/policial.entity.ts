@@ -8,6 +8,8 @@ import { PolicialPublicacao } from 'src/policiais-publicacoes/policial-publicaca
 import { PolicialFerias } from 'src/policiais-ferias/policial-ferias.entity';
 import { PolicialAtestado } from 'src/policiais-atestados/policial-atestado.entity';
 import { ArmamentoEmprestimo } from 'src/armamentos-emprestimos/armamento-emprestimo.entity';
+import { Unidade } from 'src/unidades/unidade.entity';
+import { Subunidade } from 'src/subunidades/subunidade.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -171,6 +173,18 @@ export class Policial {
 
     @OneToMany(type => ArmamentoEmprestimo, armamentoemprestimo => armamentoemprestimo.policial)
     armamentos_emprestimos: ArmamentoEmprestimo[];
+
+    @OneToMany(type => Unidade, unidade => unidade.comandante)
+    comandantes_unidades: Unidade[];
+    
+    @OneToMany(type => Unidade, unidade => unidade.subcomandante)
+    subcomandantes_unidades: Unidade[];
+
+    @OneToMany(type => Subunidade, subunidade => subunidade.comandante)
+    comandantes_subunidades: Subunidade[];
+    
+    @OneToMany(type => Subunidade, subunidade => subunidade.subcomandante)
+    subcomandantes_subunidades: Subunidade[];
 
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',

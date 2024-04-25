@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, U
 import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
+import { Policial } from 'src/policiais/policial.entity';
 
 @Entity('unidades')
 export class Unidade {
@@ -63,6 +64,18 @@ export class Unidade {
         onUpdate: 'CASCADE'
     })
     cidade!: Cidade;
+
+    @ManyToOne(() => Policial, (policial) => policial.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    comandante!: Policial;
+
+    @ManyToOne(() => Policial, (policial) => policial.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    subcomandante!: Policial;
 
     @OneToMany(type => Subunidade, subunidade => subunidade.unidade)
     subunidades: Subunidade[];

@@ -66,4 +66,10 @@ export class PoliciaisService {
       where: { boletim_transferencia: IsNull() },
     });
   }
+
+  async quantidade(): Promise<number> {
+    return await this.policialRepository.count({
+      where: { boletim_transferencia: IsNull() },
+    });
+  }
 }

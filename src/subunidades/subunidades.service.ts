@@ -15,11 +15,25 @@ export class SubunidadesService {
     ){}
 
     async index(): Promise<SubunidadesInterface> {
-        return await this.subunidadeRepository.find();
+        return await this.subunidadeRepository.find({relations: {
+          comandante: {
+            setor:false,
+          },
+          subcomandante: {
+            setor: false,
+          }
+        }});
       }
   
       async find(id: number): Promise<SubunidadeInterface | null> {
-        return await this.subunidadeRepository.findOne({where: {id: id}});
+        return await this.subunidadeRepository.findOne({where: {id: id}, relations: {
+          comandante: {
+            setor:false,
+          },
+          subcomandante: {
+            setor: false,
+          }
+        }});
       }
   
       async create(object: SubunidadeInterface, idUser: User) {

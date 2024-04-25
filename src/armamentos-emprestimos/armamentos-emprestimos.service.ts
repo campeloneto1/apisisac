@@ -7,6 +7,8 @@ import { ArmamentoEmprestimo as ArmamentoEmprestimoEnity } from './armamento-emp
 import { ArmamentoEmprestimo as ArmamentoEmprestimoInterface, ArmamentosEmprestimos as ArmamentosEmprestimosInterface } from './armamento-emprestimo.interface';
 import { ArmamentosEmprestimosItensService } from 'src/armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
 import { ArmamentosService } from 'src/armamentos/armamentos.service';
+import { ArmamentoEmprestimoItem } from 'src/armamentos-emprestimos-itens/armamento-emprestimo-item.interface';
+import { Armamento } from 'src/armamentos/armamento.interface';
 
 @Injectable()
 export class ArmamentosEmprestimosService {
@@ -16,6 +18,7 @@ export class ArmamentosEmprestimosService {
         private lazyModuleLoader: LazyModuleLoader,
         private armamentosEmprestimosItensService: ArmamentosEmprestimosItensService,
         private armamentoService: ArmamentosService,
+        
     ){}
 
     async index(): Promise<ArmamentosEmprestimosInterface> {
@@ -27,7 +30,9 @@ export class ArmamentosEmprestimosService {
           where: {id: id} ,
           relations: {
             armamentos_emprestimos_itens: {
-              armamento: true,
+              armamento: {
+                modelo: true
+              },
               armamento_emprestimo: false
             }
           }
@@ -64,5 +69,30 @@ export class ArmamentosEmprestimosService {
         })
 
         return await this.armamentoEmprestimoRepository.delete(id);;
+      }
+
+      async receber(object,  idUser: User){
+        var data: ArmamentoEmprestimoInterface = await this.armamentoEmprestimoRepository.findOneBy({id: object.id});
+        data.observacoes = object.observacoes;
+        await this.armamentoEmprestimoRepository.update({id:object.id},{...data, data_devolucao: new Date(), updated_by: idUser});
+        
+         object.armamentos.forEach(async element => {
+          var armemp:ArmamentoEmprestimoItem = await this.armamentosEmprestimosItensService.find(element.id);
+          if(element.quantidade != armemp.quantidade){
+            await this.armamentoService.atualizarQuantidadeUp(armemp.armamento.id, element.quantidade);
+            armemp.quantidade_devolucao = element.quantidade;
+            await this.armamentosEmprestimosItensService.update(armemp.id, armemp, idUser);
+            var dif = armemp.quantidade - element.quantidade;
+            var arma:Armamento = await this.armamentoService.find(armemp.armamento.id);
+            arma.quantidade = arma.quantidade - dif;
+            await this.armamentoService.update(arma.id, arma, idUser);
+          }else{
+            await this.armamentoService.atualizarQuantidadeUp(armemp.armamento.id, element.quantidade);
+            armemp.quantidade_devolucao = element.quantidade;
+            await this.armamentosEmprestimosItensService.update(armemp.id, armemp, idUser);
+          }
+         
+        });
+
       }
 }

@@ -26,6 +26,13 @@ export class PolicialAtestado {
     dias!: number;
 
     @Column({
+      nullable: true,
+        type: 'date'
+    })
+    data_final!: Date;
+  
+
+    @Column({
         nullable: true,
         length: 20,
       })

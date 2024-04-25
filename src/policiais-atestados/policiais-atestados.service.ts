@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PolicialAtestado as PolicialAtestadoEntity } from './policial-atestado.entity';
 import { PolicialAtestado as PolicialAtestadoInterface, PoliciaisAtestados as PoliciaisAtestadosInterface } from './policial-atestado.interface';
-import { Repository } from 'typeorm';
+import { LessThan, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { User } from 'src/users/user.interface';
+import { format } from 'date-fns';
 
 @Injectable()
 export class PoliciaisAtestadosService {
@@ -35,5 +36,12 @@ export class PoliciaisAtestadosService {
   
       async remove(id: number, idUser: User) {
         return await this.policialAtestadoRepository.delete(id);;
+      }
+
+      async quantidade(): Promise<number> {
+        return await this.policialAtestadoRepository.count({where: {
+          data_inicial: LessThanOrEqual(new Date()),
+          data_final: MoreThanOrEqual(new Date())
+        }});
       }
 }

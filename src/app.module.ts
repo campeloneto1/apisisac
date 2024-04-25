@@ -33,6 +33,7 @@ import { ArmamentosTamanhosModule } from './armamentos-tamanhos/armamentos-taman
 import { ArmamentosCalibresModule } from './armamentos-calibres/armamentos-calibres.module';
 import { ArmamentosEmprestimosModule } from './armamentos-emprestimos/armamentos-emprestimos.module';
 import { ArmamentosEmprestimosItensModule } from './armamentos-emprestimos-itens/armamentos-emprestimos-itens.module';
+import { HomeModule } from './home/home.module';
 
 
 @Module({
@@ -81,6 +82,7 @@ import { ArmamentosEmprestimosItensModule } from './armamentos-emprestimos-itens
     ArmamentosCalibresModule,
     ArmamentosEmprestimosModule,
     ArmamentosEmprestimosItensModule,
+    HomeModule,
   ],
   controllers: [AppController],
   providers: [AppService,

@@ -5,6 +5,7 @@ import { Unidade } from 'src/unidades/unidade.entity';
 import { Setor } from 'src/setores/setor.entity';
 import { Armamento } from 'src/armamentos/armamento.entity';
 import { ArmamentoEmprestimo } from 'src/armamentos-emprestimos/armamento-emprestimo.entity';
+import { Policial } from 'src/policiais/policial.entity';
 
 @Entity('subunidades')
 export class Subunidade {
@@ -74,6 +75,18 @@ export class Subunidade {
         onUpdate: 'CASCADE'
     })
     unidade!: Unidade;
+
+    @ManyToOne(() => Policial, (policial) => policial.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    comandante!: Policial;
+
+    @ManyToOne(() => Policial, (policial) => policial.id, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    subcomandante!: Policial;
 
     @OneToMany(type => Setor, setor => setor.subunidade)
     setores: Setor[];
