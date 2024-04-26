@@ -31,7 +31,9 @@ export class PoliciaisService {
         armamentos_emprestimos: { 
           policial: false,
           armamentos_emprestimos_itens: {
-            armamento: true
+            armamento: {
+              modelo: true
+            }
           }
         },
       },

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { Setor as SetorEntity } from './setor.entity';
 import { Setor as SetorInterface, Setores as SetoresInterface } from './setor.interface';
 import { User } from 'src/users/user.interface';
@@ -45,5 +45,18 @@ export class SetoresService {
             },
           },
         });
+      }
+
+      async policiaisSetor():Promise<any>{
+        const photosSums = await this.setorRepository
+          .createQueryBuilder("setores")
+          .select("setores.nome")
+          .addSelect("count(policiais.id)", "quant")
+          .leftJoinAndSelect("setores.policiais", "policiais")
+          .where("policiais.boletim_transferencia IS NULL")
+          .groupBy("setores.nome")
+          .addGroupBy("setores.id")
+          .orderBy("setores.nome", "ASC")
+          .getMany()
       }
 }

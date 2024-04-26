@@ -35,6 +35,4 @@ export class SetoresController {
     async whereSubunidade(@Param('id') id: number):Promise<Setores>  {
         return await this.setoresService.whereSubunidade(id);
     }
-
-    
 }

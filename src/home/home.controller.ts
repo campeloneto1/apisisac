@@ -19,4 +19,9 @@ export class HomeController {
     async ferias():Promise<number>{
         return this.homeService.ferias();
     }
+
+    @Get('policiaisSetores')
+    async policiaisSetores():Promise<number>{
+        return this.homeService.policiaisSetores();
+    }
 }
