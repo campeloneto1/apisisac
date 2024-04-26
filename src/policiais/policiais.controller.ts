@@ -8,18 +8,18 @@ export class PoliciaisController {
     constructor(private policiaisService: PoliciaisService){}
 
     @Get()
-    async index():Promise<Policiais>{
-        return this.policiaisService.index();
+    async index(@Request() req):Promise<Policiais>{
+        return this.policiaisService.index(req.user);
     }
 
     @Get('disponiveis')
-    async disponiveis():Promise<Policiais>{
-        return this.policiaisService.disponiveis();
+    async disponiveis(@Request() req):Promise<Policiais>{
+        return this.policiaisService.disponiveis(req.user);
     }
 
     @Get(':id')
-    async find(@Param('id') id: number):Promise<Policial>  {
-        return await this.policiaisService.find(id);
+    async find(@Param('id') id: number, @Request() req):Promise<Policial>  {
+        return await this.policiaisService.find(id, req.user);
     }
     
     @Post()

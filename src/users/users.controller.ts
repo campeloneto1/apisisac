@@ -11,7 +11,7 @@ export class UsersController {
     async index():Promise<Users> {
         return await this.usersService.index();
     }
-    
+
     @Get(':id')
     async find(@Param('id') id: number):Promise<User>  {
         return await this.usersService.find(id);
@@ -30,5 +30,15 @@ export class UsersController {
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
         return await this.usersService.remove(id, req);
+    }
+
+    @Post('reset')
+    async resetPass(@Body() object:User, @Request() req) {
+        return await this.usersService.resetPass(object, req.user);
+    }
+
+    @Post('change')
+    async changePass(@Body() object:any) {
+        return await this.usersService.changePass(object);
     }
 }

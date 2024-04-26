@@ -7,18 +7,23 @@ export class ArmamentosController {
     constructor(private armamentosService: ArmamentosService){}
 
     @Get()
-    async index():Promise<Armamentos>{
-        return this.armamentosService.index();
+    async index(@Request() req):Promise<Armamentos>{
+        return this.armamentosService.index(req.user);
     }
 
     @Get('disponiveis')
-    async disponiveis():Promise<Armamentos>{
-        return this.armamentosService.disponiveis();
+    async disponiveis(@Request() req):Promise<Armamentos>{
+        return this.armamentosService.disponiveis(req.user);
+    }
+
+    @Get('vencendo')
+    async vencendo(@Request() req):Promise<Armamentos>{
+        return this.armamentosService.vencendo(req.user);
     }
 
     @Get(':id')
-    async find(@Param('id') id: number):Promise<Armamento>  {
-        return await this.armamentosService.find(id);
+    async find(@Param('id') id: number, @Request() req):Promise<Armamento>  {
+        return await this.armamentosService.find(id, req.user);
     }
     
     @Post()

@@ -34,6 +34,8 @@ export interface Policial{
     graduacao: Graduacao;
     setor: Setor;
 
+    usuario?: User;
+
     created_by: User;
     updated_by: User;
     created_at: Date;

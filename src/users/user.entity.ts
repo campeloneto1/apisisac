@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Perfil } from '../perfis/perfil.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
+import { Policial } from 'src/policiais/policial.entity';
 
 @Entity('users')
 export class User {
@@ -48,6 +49,14 @@ export class User {
       select: false
     })
     salt!: string;
+
+    @OneToOne(() => Policial, (policial) => policial.id, {
+        eager: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    }) // specify inverse side as a second parameter
+    @JoinColumn()
+    policial: Policial
 
     @ManyToOne(() => Perfil, (perfil) => perfil.id, {
         eager: true,

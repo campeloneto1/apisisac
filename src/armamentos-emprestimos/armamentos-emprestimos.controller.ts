@@ -7,13 +7,13 @@ export class ArmamentosEmprestimosController {
     constructor(private armamentosEmprestimosService: ArmamentosEmprestimosService){}
 
     @Get()
-    async index():Promise<ArmamentosEmprestimos>{
-        return this.armamentosEmprestimosService.index();
+    async index(@Request() req):Promise<ArmamentosEmprestimos>{
+        return this.armamentosEmprestimosService.index(req.user);
     }
 
     @Get(':id')
-    async find(@Param('id') id: number):Promise<ArmamentoEmprestimo>  {
-        return await this.armamentosEmprestimosService.find(id);
+    async find(@Param('id') id: number, @Request() req):Promise<ArmamentoEmprestimo>  {
+        return await this.armamentosEmprestimosService.find(id, req.user);
     }
     
     @Post()

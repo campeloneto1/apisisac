@@ -34,6 +34,10 @@ import { ArmamentosCalibresModule } from './armamentos-calibres/armamentos-calib
 import { ArmamentosEmprestimosModule } from './armamentos-emprestimos/armamentos-emprestimos.module';
 import { ArmamentosEmprestimosItensModule } from './armamentos-emprestimos-itens/armamentos-emprestimos-itens.module';
 import { HomeModule } from './home/home.module';
+import { CoresModule } from './cores/cores.module';
+import { OficinasModule } from './oficinas/oficinas.module';
+import { ManutencoesTiposModule } from './manutencoes-tipos/manutencoes-tipos.module';
+import { VeiculosTiposModule } from './veiculos-tipos/veiculos-tipos.module';
 
 
 @Module({
@@ -83,6 +87,10 @@ import { HomeModule } from './home/home.module';
     ArmamentosEmprestimosModule,
     ArmamentosEmprestimosItensModule,
     HomeModule,
+    CoresModule,
+    OficinasModule,
+    ManutencoesTiposModule,
+    VeiculosTiposModule,
   ],
   controllers: [AppController],
   providers: [AppService,

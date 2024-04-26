@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { User as UserEntity } from './user.entity';
 import { User as UserInterface, Users as UsersInterface } from './user.interface';
@@ -44,7 +44,9 @@ export class UsersService {
 
     async signIn(username: string): Promise<UserInterface> {
       const user: UserInterface = await this.usersRepository.findOne({
-          where: {cpf: username}, 
+          where: {
+            cpf: username,
+          }, 
           select: {
               id: true,
               nome: true,
@@ -56,4 +58,22 @@ export class UsersService {
       });
       return user;
     }
+
+    async resetPass(object:UserInterface, idUser: UserInterface){
+      var user = await this.usersRepository.findOne({where: {id: object.id}});
+      user.salt = await this.utilitiesService.generateSalt(10);
+      user.password = await this.utilitiesService.hashString(`${user.cpf}${user.salt}`);
+      await this.usersRepository.update({id:object.id},{...user});
+    }
+
+    async changePass(object:any){
+      var user = await this.usersRepository.findOne({where: {id: object.id}});
+      user.salt = await this.utilitiesService.generateSalt(10);
+      user.password = await this.utilitiesService.hashString(`${object.password}${user.salt}`);
+      await this.usersRepository.update({id:object.id},{...user});
+    }
 }
+/*
+ policial: {
+              boletim_transferencia: IsNull()
+            }*/

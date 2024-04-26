@@ -7,13 +7,13 @@ export class PoliciaisFeriasController {
     constructor(private policiaisAtestadosService: PoliciaisFeriasService){}
 
     @Get()
-    async index():Promise<PoliciaisFerias>{
-        return this.policiaisAtestadosService.index();
+    async index(@Request() req):Promise<PoliciaisFerias>{
+        return this.policiaisAtestadosService.index(req.user);
     }
 
     @Get(':id')
-    async find(@Param('id') id: number):Promise<PolicialFerias>  {
-        return await this.policiaisAtestadosService.find(id);
+    async find(@Param('id') id: number, @Request() req):Promise<PolicialFerias>  {
+        return await this.policiaisAtestadosService.find(id, req.user);
     }
     
     @Post()

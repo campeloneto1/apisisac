@@ -8,6 +8,8 @@ import {
   Policiais as PoliciaisInterface,
 } from './policial.interface';
 import { User } from 'src/users/user.interface';
+import { UsersService } from 'src/users/users.service';
+import { UtilitiesService } from 'src/utilities/utilities.service';
 
 @Injectable()
 export class PoliciaisService {
@@ -15,15 +17,41 @@ export class PoliciaisService {
     @InjectRepository(PolicialEntity)
     private policialRepository: Repository<PolicialEntity>,
     private lazyModuleLoader: LazyModuleLoader,
+    private usersService: UsersService,
+    private utilitiesService: UtilitiesService,
   ) {}
 
-  async index(): Promise<PoliciaisInterface> {
-    return await this.policialRepository.find();
+  async index(idUser: User): Promise<PoliciaisInterface> {
+    return await this.policialRepository.find({
+      where:{
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }
+      },
+      relations: {
+        user: {
+         policial: false,
+          perfil: false
+        },
+        
+      }
+    });
   }
 
-  async find(id: number): Promise<PolicialInterface | null> {
+  async find(id: number, idUser: User): Promise<PolicialInterface | null> {
     return await this.policialRepository.findOne({
-      where: { id: id },
+      where: { 
+        id: id,
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }
+       },
       relations: {
         policiais_publicacoes: { policial: false },
         policiais_ferias: { policial: false },
@@ -45,7 +73,20 @@ export class PoliciaisService {
       ...object,
       created_by: idUser,
     });
-    await this.policialRepository.save(object);
+    var policial = await this.policialRepository.save(object);
+    var salt = await this.utilitiesService.generateSalt(10);
+    var password = await this.utilitiesService.hashString(`${object.cpf}${salt}`);
+    var user: User = {
+        nome: object.nome,
+        cpf: object.cpf,
+        password: password,
+        salt: salt,
+        subunidade: policial.setor.subunidade,
+        policial: policial,
+        //@ts-ignore
+        perfil: 3
+    }
+    await this.usersService.create(user, idUser);
   }
 
   async update(id: number, object: PolicialInterface, idUser: User) {
@@ -63,15 +104,31 @@ export class PoliciaisService {
     return await this.policialRepository.delete(id);
   }
 
-  async disponiveis(): Promise<PoliciaisInterface> {
+  async disponiveis(idUser: User): Promise<PoliciaisInterface> {
     return await this.policialRepository.find({
-      where: { boletim_transferencia: IsNull() },
+      where: { 
+        boletim_transferencia: IsNull(),
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }
+      },
     });
   }
 
-  async quantidade(): Promise<number> {
+  async quantidade(idUser: User): Promise<number> {
     return await this.policialRepository.count({
-      where: { boletim_transferencia: IsNull() },
+      where: { 
+        boletim_transferencia: IsNull(),
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }
+      },
     });
   }
 }

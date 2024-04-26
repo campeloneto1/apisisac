@@ -21,13 +21,26 @@ export class ArmamentosEmprestimosService {
         
     ){}
 
-    async index(): Promise<ArmamentosEmprestimosInterface> {
-        return await this.armamentoEmprestimoRepository.find();
+    async index(idUser: User): Promise<ArmamentosEmprestimosInterface> {
+        return await this.armamentoEmprestimoRepository.find({
+          where: {
+            //@ts-ignore
+            subunidade: {
+              id: idUser.subunidade.id
+            }
+          }
+        });
       }
   
-      async find(id: number): Promise<ArmamentoEmprestimoInterface | null> {
+      async find(id: number, idUser: User): Promise<ArmamentoEmprestimoInterface | null> {
         return await this.armamentoEmprestimoRepository.findOne({
-          where: {id: id} ,
+          where: {
+            id: id,
+            //@ts-ignore
+            subunidade: {
+              id: idUser.subunidade.id
+            }
+          } ,
           relations: {
             armamentos_emprestimos_itens: {
               armamento: {
@@ -83,7 +96,7 @@ export class ArmamentosEmprestimosService {
             armemp.quantidade_devolucao = element.quantidade;
             await this.armamentosEmprestimosItensService.update(armemp.id, armemp, idUser);
             var dif = armemp.quantidade - element.quantidade;
-            var arma:Armamento = await this.armamentoService.find(armemp.armamento.id);
+            var arma:Armamento = await this.armamentoService.find(armemp.armamento.id, idUser);
             arma.quantidade = arma.quantidade - dif;
             await this.armamentoService.update(arma.id, arma, idUser);
           }else{

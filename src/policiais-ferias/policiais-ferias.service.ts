@@ -5,6 +5,7 @@ import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { PolicialFerias as PolicialFeriasEntity } from './policial-ferias.entity';
 import { PolicialFerias as PolicialFeriasInterface, PoliciaisFerias as PoliciaisFeriasInterface } from './policial-ferias.interface';
 import { User } from 'src/users/user.interface';
+import { format } from 'date-fns';
 
 
 @Injectable()
@@ -15,12 +16,33 @@ export class PoliciaisFeriasService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(): Promise<PoliciaisFeriasInterface> {
-        return await this.policialFeriasRepository.find();
+    async index(idUser: User): Promise<PoliciaisFeriasInterface> {
+        return await this.policialFeriasRepository.find({
+          where: {
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: idUser.subunidade.id
+                }
+              }
+            }
+          }
+        });
       }
   
-      async find(id: number): Promise<PolicialFeriasInterface | null> {
-        return await this.policialFeriasRepository.findOne({where: {id: id}});
+      async find(id: number, idUser: User): Promise<PolicialFeriasInterface | null> {
+        return await this.policialFeriasRepository.findOne({where: {
+          id: id,
+          //@ts-ignore
+          policial: {
+            setor: {
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          }
+        }});
       }
   
       async create(object: PolicialFeriasInterface, idUser: User) {
@@ -38,10 +60,20 @@ export class PoliciaisFeriasService {
         return await this.policialFeriasRepository.delete(id);;
       }
 
-      async quantidade(): Promise<number> {
+      async quantidade(idUser: User): Promise<number> {
         return await this.policialFeriasRepository.count({where: {
-          data_inicial: LessThanOrEqual(new Date()),
-          data_final: MoreThanOrEqual(new Date())
+          //@ts-ignore
+          data_inicial: LessThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
+          //@ts-ignore
+          data_final: MoreThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
+          //@ts-ignore
+          policial: {
+            setor: {
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          }
         }});
       }
 }

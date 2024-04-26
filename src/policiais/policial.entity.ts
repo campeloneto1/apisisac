@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, OneToOne } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Sexo } from 'src/sexos/sexo.entity';
@@ -161,6 +161,9 @@ export class Policial {
         onUpdate: 'CASCADE'
     })
     setor!: Setor;
+
+    @OneToOne(() => User, (user) => user.policial) // specify inverse side as a second parameter
+    user: User
 
     @OneToMany(type => PolicialPublicacao, policialpublicacao => policialpublicacao.policial)
     policiais_publicacoes: PolicialPublicacao[];

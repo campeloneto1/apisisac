@@ -1,4 +1,5 @@
 import { Policial } from "src/policiais/policial.interface";
+import { Subunidade } from "src/subunidades/subunidade.entity";
 import { User } from "src/users/user.interface";
 
 export interface ArmamentoEmprestimo{
@@ -8,6 +9,7 @@ export interface ArmamentoEmprestimo{
     data_devolucao?: Date;
     observacoes? : string;
     armamentos?: any;
+    subunidade: Subunidade;
 
     created_by: User;
     updated_by: User;

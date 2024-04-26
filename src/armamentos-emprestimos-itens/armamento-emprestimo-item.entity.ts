@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Policial } from 'src/policiais/policial.entity';
@@ -15,6 +16,7 @@ import { Armamento } from 'src/armamentos/armamento.entity';
 import { ArmamentoEmprestimo } from 'src/armamentos-emprestimos/armamento-emprestimo.entity';
 
 @Entity('armamentos_emprestimos_itens')
+@Index(['armamento', 'armamento_emprestimo'], { unique: true }) 
 export class ArmamentoEmprestimoItem {
   @PrimaryGeneratedColumn()
   id!: number;

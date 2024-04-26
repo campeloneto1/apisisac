@@ -15,12 +15,33 @@ export class PoliciaisAtestadosService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(): Promise<PoliciaisAtestadosInterface> {
-        return await this.policialAtestadoRepository.find();
+    async index(idUser: User): Promise<PoliciaisAtestadosInterface> {
+        return await this.policialAtestadoRepository.find({
+          where: {
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: idUser.subunidade.id
+                }
+              }
+            }
+          }
+        });
       }
   
-      async find(id: number): Promise<PolicialAtestadoInterface | null> {
-        return await this.policialAtestadoRepository.findOne({where: {id: id}});
+      async find(id: number, idUser: User): Promise<PolicialAtestadoInterface | null> {
+        return await this.policialAtestadoRepository.findOne({where: {
+          id: id,
+          //@ts-ignore
+          policial: {
+            setor: {
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          }
+        }});
       }
   
       async create(object: PolicialAtestadoInterface, idUser: User) {
@@ -38,10 +59,20 @@ export class PoliciaisAtestadosService {
         return await this.policialAtestadoRepository.delete(id);;
       }
 
-      async quantidade(): Promise<number> {
+      async quantidade(idUser: User): Promise<number> {
         return await this.policialAtestadoRepository.count({where: {
-          data_inicial: LessThanOrEqual(new Date()),
-          data_final: MoreThanOrEqual(new Date())
+          //@ts-ignore
+          data_inicial: LessThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
+          //@ts-ignore
+          data_final: MoreThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
+          //@ts-ignore
+          policial: {
+            setor: {
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          }
         }});
       }
 }

@@ -14,12 +14,33 @@ export class PoliciaisPublicacoesService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(): Promise<PoliciaisPublicacoesInterface> {
-        return await this.policialFeriasRepository.find();
+    async index(idUser: User): Promise<PoliciaisPublicacoesInterface> {
+        return await this.policialFeriasRepository.find({
+          where: {
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: idUser.subunidade.id
+                }
+              }
+            }
+          }
+        });
       }
   
-      async find(id: number): Promise<PolicialPublicacaoInterface | null> {
-        return await this.policialFeriasRepository.findOne({where: {id: id}});
+      async find(id: number, idUser: User): Promise<PolicialPublicacaoInterface | null> {
+        return await this.policialFeriasRepository.findOne({where: {
+          id: id,
+          //@ts-ignore
+          policial: {
+            setor: {
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          }
+        }});
       }
   
       async create(object: PolicialPublicacaoInterface, idUser: User) {
