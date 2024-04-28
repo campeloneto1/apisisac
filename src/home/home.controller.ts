@@ -1,6 +1,8 @@
 import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
 import { HomeService } from './home.service';
 import { Armamentos } from 'src/armamentos/armamento.interface';
+import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interface';
+import { Veiculos } from 'src/veiculos/veiculo.interface';
 
 @Controller('home')
 export class HomeController {
@@ -23,11 +25,21 @@ export class HomeController {
 
     @Get('policiais-setores')
     async policiaisSetores(@Request() req):Promise<number>{
-        return this.homeService.policiaisSetores();
+        return this.homeService.policiaisSetores(req.user);
     }
 
     @Get('armamentos-vencendo')
     async armamentosVencendo(@Request() req):Promise<Armamentos>{
         return this.homeService.armamentosVencendo(req.user);
+    }
+
+    @Get('veiculos-manutencao')
+    async veiculosManutencao(@Request() req):Promise<VeiculosOficinas>{
+        return this.homeService.veiculosManutencao(req.user);
+    }
+
+    @Get('veiculos-troca-oleo')
+    async veiculosTrocaOleo(@Request() req):Promise<Veiculos>{
+        return this.homeService.veiculosTrocaOleo(req.user);
     }
 }

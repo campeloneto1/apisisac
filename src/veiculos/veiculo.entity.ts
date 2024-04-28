@@ -1,76 +1,96 @@
 import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
-import { Cidade } from 'src/cidades/cidade.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
-import { Policial } from 'src/policiais/policial.entity';
+import { Cor } from 'src/cores/cor.entity';
+import { Modelo } from 'src/modelos/modelo.entity';
+import { VeiculoTipo } from 'src/veiculos-tipos/veiculo-tipo.entity';
 import { VeiculoOficina } from 'src/veiculos-oficinas/veiculo-oficina.entity';
 
-@Entity('oficinas')
-export class Oficina {
-
+@Entity('veiculos')
+export class Veiculo {
     @PrimaryGeneratedColumn()
     id!: number;
     
     @Column({
         nullable: false,
-        length: 100,
+        length: 20,
     })
-    nome!: string;
-
-    @Column({
-        nullable: true,
-        length: 11,
-    })
-    telefone1!: string;
-
-    @Column({
-        nullable: true,
-        length: 11,
-    })
-    telefone2!: string;
-
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    email!: string;
-
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    gerente!: string;
-
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    rua!: string;
+    placa!: string;
 
     @Column({
         nullable: true,
         length: 20,
     })
-    numero!: string;
+    placa_especial!: string;
 
     @Column({
         nullable: true,
-        length: 100,
+        length: 20,
     })
-    bairro!: string;
+    chassi!: string;
 
     @Column({
         nullable: true,
-        length: 8,
+        length: 20,
     })
-    cep!: string;
+    renavam!: string;
 
-    @ManyToOne(() => Cidade, (cidade) => cidade.id, {
+    @Column({
+        nullable: true,
+    })
+    ano!: number;
+
+    @Column({
+        nullable: true,
+    })
+    blindado!: boolean;
+
+    @Column({
+        nullable: true,
+    })
+    organico!: boolean;
+
+    @Column({
+        nullable: false,
+    })
+    km_inicial!: number;
+
+    @Column({
+        nullable: false,
+    })
+    km_atual!: number;
+
+    @Column({
+        nullable: true,
+    })
+    km_troca_oleo!: number;
+
+    @Column({
+        nullable: true,
+        length: 2000,
+      })
+      observacoes!: string;
+
+    @ManyToOne(() => Cor, (cor) => cor.id, {
         eager: true,
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
     })
-    cidade!: Cidade;
+    cor!: Cor;
+
+    @ManyToOne(() => VeiculoTipo, (veiculotipo) => veiculotipo.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    veiculo_tipo!: VeiculoTipo;
+
+    @ManyToOne(() => Modelo, (modelo) => modelo.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    modelo!: Modelo;
 
     @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
         eager: true,
@@ -79,7 +99,7 @@ export class Oficina {
     })
     subunidade!: Subunidade;
 
-    @OneToMany(type => VeiculoOficina, veiculosoficinal => veiculosoficinal.oficina)
+    @OneToMany(type => VeiculoOficina, veiculosoficinal => veiculosoficinal.veiculo)
     veiculos_oficinas: VeiculoOficina[];
 
     @ManyToOne(() => User, (user) => user.id, {

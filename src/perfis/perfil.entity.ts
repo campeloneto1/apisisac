@@ -51,6 +51,16 @@ export class Perfil {
     @Column({ nullable: true, }) armamentos_emprestimos_edt!: boolean;
     @Column({ nullable: true, }) armamentos_emprestimos_del!: boolean;
 
+    @Column({ nullable: true, }) veiculos!: boolean;
+    @Column({ nullable: true, }) veiculos_cad!: boolean;
+    @Column({ nullable: true, }) veiculos_edt!: boolean;
+    @Column({ nullable: true, }) veiculos_del!: boolean;
+
+    @Column({ nullable: true, }) veiculos_oficinas!: boolean;
+    @Column({ nullable: true, }) veiculos_oficinas_cad!: boolean;
+    @Column({ nullable: true, }) veiculos_oficinas_edt!: boolean;
+    @Column({ nullable: true, }) veiculos_oficinas_del!: boolean;
+
     @OneToMany(type => User, user => user.perfil)
     users: User[];
 

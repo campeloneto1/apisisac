@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from 'src/users/user.entity';
+import { Veiculo } from 'src/veiculos/veiculo.entity';
 
 @Entity('cores')
 export class Cor {
@@ -12,6 +13,10 @@ export class Cor {
         length: 100,
       })
       nome!: string;
+
+      @OneToMany(type => Veiculo, veiculo => veiculo.cor)
+    veiculos: Veiculo[];
+    
 
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',

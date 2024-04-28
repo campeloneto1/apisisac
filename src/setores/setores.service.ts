@@ -47,16 +47,16 @@ export class SetoresService {
         });
       }
 
-      async policiaisSetor():Promise<any>{
-        const photosSums = await this.setorRepository
-          .createQueryBuilder("setores")
-          .select("setores.nome")
-          .addSelect("count(policiais.id)", "quant")
-          .leftJoinAndSelect("setores.policiais", "policiais")
-          .where("policiais.boletim_transferencia IS NULL")
-          .groupBy("setores.nome")
-          .addGroupBy("setores.id")
-          .orderBy("setores.nome", "ASC")
-          .getMany()
+      async policiaisSetor(idUser: User):Promise<any>{
+        return await this.setorRepository
+          .query(`
+            SELECT setores.nome, count(policiais.id) as quantidade
+            FROM setores
+            LEFT JOIN policiais ON setores.id = policiais.setorId
+            WHERE policiais.boletim_transferencia IS NULL
+            AND setores.subunidadeId = ${idUser.subunidade.id}
+            GROUP BY setores.nome
+            ORDER BY setores.nome
+          `);
       }
 }

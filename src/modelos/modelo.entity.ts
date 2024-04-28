@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, U
 import { User } from 'src/users/user.entity';
 import { Marca } from 'src/marcas/marca.entity';
 import { Armamento } from 'src/armamentos/armamento.entity';
+import { Veiculo } from 'src/veiculos/veiculo.entity';
 
 @Entity('modelos')
 export class Modelo {
@@ -31,6 +32,9 @@ export class Modelo {
     @OneToMany(type => Armamento, armamento => armamento.modelo)
     armamentos: Armamento[];
     
+    @OneToMany(type => Veiculo, veiculo => veiculo.modelo)
+    veiculos: Veiculo[];
+
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',
         onUpdate: 'CASCADE'

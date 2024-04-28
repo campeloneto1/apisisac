@@ -38,6 +38,8 @@ import { CoresModule } from './cores/cores.module';
 import { OficinasModule } from './oficinas/oficinas.module';
 import { ManutencoesTiposModule } from './manutencoes-tipos/manutencoes-tipos.module';
 import { VeiculosTiposModule } from './veiculos-tipos/veiculos-tipos.module';
+import { VeiculosModule } from './veiculos/veiculos.module';
+import { VeiculosOficinasModule } from './veiculos-oficinas/veiculos-oficinas.module';
 
 
 @Module({
@@ -91,6 +93,8 @@ import { VeiculosTiposModule } from './veiculos-tipos/veiculos-tipos.module';
     OficinasModule,
     ManutencoesTiposModule,
     VeiculosTiposModule,
+    VeiculosModule,
+    VeiculosOficinasModule,
   ],
   controllers: [AppController],
   providers: [AppService,

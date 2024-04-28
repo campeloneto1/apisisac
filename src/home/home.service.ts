@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
+import { Armamentos } from 'src/armamentos/armamento.interface';
 import { ArmamentosService } from 'src/armamentos/armamentos.service';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
 import { PoliciaisFeriasService } from 'src/policiais-ferias/policiais-ferias.service';
 import { PoliciaisService } from 'src/policiais/policiais.service';
 import { SetoresService } from 'src/setores/setores.service';
 import { User } from 'src/users/user.interface';
+import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interface';
+import { VeiculosOficinasService } from 'src/veiculos-oficinas/veiculos-oficinas.service';
+import { Veiculos } from 'src/veiculos/veiculo.interface';
+import { VeiculosService } from 'src/veiculos/veiculos.service';
 
 @Injectable()
 export class HomeService {
@@ -15,6 +20,8 @@ export class HomeService {
         private policiaisService: PoliciaisService,
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisFeriasService: PoliciaisFeriasService,
+        private veiculosService: VeiculosService,
+        private veiculosOficinasService: VeiculosOficinasService,
         private setoresService: SetoresService
 
     ){}
@@ -31,12 +38,20 @@ export class HomeService {
         return this.policiaisFeriasService.quantidade(idUser);
     }
 
-    async policiaisSetores(): Promise<any>{
-        return this.setoresService.policiaisSetor();
+    async policiaisSetores(idUser: User): Promise<any>{
+        return this.setoresService.policiaisSetor(idUser);
     }
 
-    async armamentosVencendo(idUser: User): Promise<any>{
+    async armamentosVencendo(idUser: User): Promise<Armamentos>{
         return this.armamentosService.vencendo(idUser);
+    }
+
+    async veiculosManutencao(idUser: User): Promise<VeiculosOficinas>{
+        return this.veiculosOficinasService.emmanutencao(idUser);
+    }
+
+    async veiculosTrocaOleo(idUser: User): Promise<Veiculos>{
+        return this.veiculosService.trocaoleo(idUser);
     }
 
 }
