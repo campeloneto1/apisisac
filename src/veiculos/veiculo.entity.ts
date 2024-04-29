@@ -5,6 +5,7 @@ import { Cor } from 'src/cores/cor.entity';
 import { Modelo } from 'src/modelos/modelo.entity';
 import { VeiculoTipo } from 'src/veiculos-tipos/veiculo-tipo.entity';
 import { VeiculoOficina } from 'src/veiculos-oficinas/veiculo-oficina.entity';
+import { VeiculoPolicial } from 'src/veiculos-policiais/veiculo-policial.entity';
 
 @Entity('veiculos')
 export class Veiculo {
@@ -101,6 +102,9 @@ export class Veiculo {
 
     @OneToMany(type => VeiculoOficina, veiculosoficinal => veiculosoficinal.veiculo)
     veiculos_oficinas: VeiculoOficina[];
+
+    @OneToMany(type => VeiculoPolicial, veiculospolicial => veiculospolicial.veiculo)
+    veiculos_policiais: VeiculoPolicial[];
 
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',

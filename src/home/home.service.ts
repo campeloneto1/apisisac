@@ -9,6 +9,8 @@ import { SetoresService } from 'src/setores/setores.service';
 import { User } from 'src/users/user.interface';
 import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interface';
 import { VeiculosOficinasService } from 'src/veiculos-oficinas/veiculos-oficinas.service';
+import { VeiculosPoliciais } from 'src/veiculos-policiais/veiculo-policial.interface';
+import { VeiculosPoliciaisService } from 'src/veiculos-policiais/veiculos-policiais.service';
 import { Veiculos } from 'src/veiculos/veiculo.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
 
@@ -22,6 +24,7 @@ export class HomeService {
         private policiaisFeriasService: PoliciaisFeriasService,
         private veiculosService: VeiculosService,
         private veiculosOficinasService: VeiculosOficinasService,
+        private veiculosPoliciaisService: VeiculosPoliciaisService,
         private setoresService: SetoresService
 
     ){}
@@ -52,6 +55,10 @@ export class HomeService {
 
     async veiculosTrocaOleo(idUser: User): Promise<Veiculos>{
         return this.veiculosService.trocaoleo(idUser);
+    }
+
+    async veiculosEmprestados(idUser: User): Promise<VeiculosPoliciais>{
+        return this.veiculosPoliciaisService.emprestados(idUser);
     }
 
 }

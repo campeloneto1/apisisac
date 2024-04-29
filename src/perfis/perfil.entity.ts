@@ -61,6 +61,11 @@ export class Perfil {
     @Column({ nullable: true, }) veiculos_oficinas_edt!: boolean;
     @Column({ nullable: true, }) veiculos_oficinas_del!: boolean;
 
+    @Column({ nullable: true, }) veiculos_policiais!: boolean;
+    @Column({ nullable: true, }) veiculos_policiais_cad!: boolean;
+    @Column({ nullable: true, }) veiculos_policiais_edt!: boolean;
+    @Column({ nullable: true, }) veiculos_policiais_del!: boolean;
+
     @OneToMany(type => User, user => user.perfil)
     users: User[];
 

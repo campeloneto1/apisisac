@@ -3,6 +3,7 @@ import { HomeService } from './home.service';
 import { Armamentos } from 'src/armamentos/armamento.interface';
 import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interface';
 import { Veiculos } from 'src/veiculos/veiculo.interface';
+import { VeiculosPoliciais } from 'src/veiculos-policiais/veiculo-policial.interface';
 
 @Controller('home')
 export class HomeController {
@@ -41,5 +42,10 @@ export class HomeController {
     @Get('veiculos-troca-oleo')
     async veiculosTrocaOleo(@Request() req):Promise<Veiculos>{
         return this.homeService.veiculosTrocaOleo(req.user);
+    }
+
+    @Get('veiculos-emprestados')
+    async veiculosEmprestados(@Request() req):Promise<VeiculosPoliciais>{
+        return this.homeService.veiculosEmprestados(req.user);
     }
 }

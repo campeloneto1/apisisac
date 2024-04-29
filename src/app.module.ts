@@ -40,6 +40,8 @@ import { ManutencoesTiposModule } from './manutencoes-tipos/manutencoes-tipos.mo
 import { VeiculosTiposModule } from './veiculos-tipos/veiculos-tipos.module';
 import { VeiculosModule } from './veiculos/veiculos.module';
 import { VeiculosOficinasModule } from './veiculos-oficinas/veiculos-oficinas.module';
+import { VeiculosPoliciaisModule } from './veiculos-policiais/veiculos-policiais.module';
+import { VeiculosPoliciaisAlteracoesModule } from './veiculos-policiais-alteracoes/veiculos-policiais-alteracoes.module';
 
 
 @Module({
@@ -95,6 +97,8 @@ import { VeiculosOficinasModule } from './veiculos-oficinas/veiculos-oficinas.mo
     VeiculosTiposModule,
     VeiculosModule,
     VeiculosOficinasModule,
+    VeiculosPoliciaisModule,
+    VeiculosPoliciaisAlteracoesModule,
   ],
   controllers: [AppController],
   providers: [AppService,

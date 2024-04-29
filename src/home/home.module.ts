@@ -8,6 +8,7 @@ import { SetoresModule } from 'src/setores/setores.module';
 import { ArmamentosModule } from 'src/armamentos/armamentos.module';
 import { VeiculosOficinasModule } from 'src/veiculos-oficinas/veiculos-oficinas.module';
 import { VeiculosModule } from 'src/veiculos/veiculos.module';
+import { VeiculosPoliciaisModule } from 'src/veiculos-policiais/veiculos-policiais.module';
 
 
 @Module({
@@ -18,7 +19,8 @@ import { VeiculosModule } from 'src/veiculos/veiculos.module';
     PoliciaisFeriasModule,
     SetoresModule,
     VeiculosModule,
-    VeiculosOficinasModule
+    VeiculosOficinasModule,
+    VeiculosPoliciaisModule
   ],
   providers: [HomeService],
   controllers: [HomeController],

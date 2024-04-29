@@ -2,11 +2,11 @@ import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, U
 import { User } from 'src/users/user.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Veiculo } from 'src/veiculos/veiculo.entity';
-import { Oficina } from 'src/oficinas/oficina.entity';
-import { ManutencaoTipo } from 'src/manutencoes-tipos/manutencao-tipo.entity';
+import { Policial } from 'src/policiais/policial.entity';
+import { Cidade } from 'src/cidades/cidade.entity';
 
-@Entity('veiculos-oficinas')
-export class VeiculoOficina {
+@Entity('veiculos-policiais')
+export class VeiculoPolicial {
     @PrimaryGeneratedColumn()
     id!: number;
     
@@ -17,20 +17,12 @@ export class VeiculoOficina {
     })
     veiculo!: Veiculo;
 
-    @ManyToOne(() => Oficina, (oficina) => oficina.id, {
+    @ManyToOne(() => Policial, (policial) => policial.id, {
         eager: true,
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
     })
-    oficina!: Oficina;
-
-
-    @ManyToOne(() => ManutencaoTipo, (manutencaotipo) => manutencaotipo.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    manutencao_tipo!: ManutencaoTipo;
+    policial!: Policial;
 
     @Column({
         nullable: false,
@@ -57,6 +49,13 @@ export class VeiculoOficina {
         length: 2000,
       })
       observacoes!: string;
+
+      @ManyToOne(() => Cidade, (cidade) => cidade.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    cidade!: Cidade;
 
     @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
         eager: true,
