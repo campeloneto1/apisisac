@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { VeiculosPoliciaisService } from './veiculos-policiais.service';
 import { VeiculosPoliciaisController } from './veiculos-policiais.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,7 +8,8 @@ import { VeiculosModule } from 'src/veiculos/veiculos.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([VeiculoPolicial]),
-    VeiculosModule
+    forwardRef(() => VeiculosModule)
+    
   ],
   providers: [VeiculosPoliciaisService],
   controllers: [VeiculosPoliciaisController],

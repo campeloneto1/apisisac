@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, U
 import { User } from 'src/users/user.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Policial } from 'src/policiais/policial.entity';
+import { Patrimonio } from 'src/patrimonios/patrimonio.entity';
 
 @Entity('setores')
 export class Setor {
@@ -42,6 +43,9 @@ export class Setor {
 
     @OneToMany(type => Policial, policial => policial.setor)
     policiais: Policial[];
+
+    @OneToMany(type => Patrimonio, patrimonio => patrimonio.setor)
+    patrimonios: Patrimonio[];
 
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',

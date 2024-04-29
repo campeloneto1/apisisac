@@ -42,6 +42,8 @@ import { VeiculosModule } from './veiculos/veiculos.module';
 import { VeiculosOficinasModule } from './veiculos-oficinas/veiculos-oficinas.module';
 import { VeiculosPoliciaisModule } from './veiculos-policiais/veiculos-policiais.module';
 import { VeiculosPoliciaisAlteracoesModule } from './veiculos-policiais-alteracoes/veiculos-policiais-alteracoes.module';
+import { PatrimoniosTiposModule } from './patrimonios-tipos/patrimonios-tipos.module';
+import { PatrimoniosModule } from './patrimonios/patrimonios.module';
 
 
 @Module({
@@ -99,6 +101,8 @@ import { VeiculosPoliciaisAlteracoesModule } from './veiculos-policiais-alteraco
     VeiculosOficinasModule,
     VeiculosPoliciaisModule,
     VeiculosPoliciaisAlteracoesModule,
+    PatrimoniosTiposModule,
+    PatrimoniosModule,
   ],
   controllers: [AppController],
   providers: [AppService,

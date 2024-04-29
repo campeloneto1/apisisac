@@ -64,6 +64,14 @@ export class PoliciaisService {
             }
           }
         },
+        veiculos_policiais: {
+          policial: false,
+          veiculo: {
+            modelo: {
+              marca: true
+            }
+          }
+        }
       },
     });
   }

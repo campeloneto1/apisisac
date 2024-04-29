@@ -21,6 +21,11 @@ export class Perfil {
     @Column({ nullable: true, }) usuarios_edt!: boolean;
     @Column({ nullable: true, }) usuarios_del!: boolean;
 
+    @Column({ nullable: true, }) patrimonios!: boolean;
+    @Column({ nullable: true, }) patrimonios_cad!: boolean;
+    @Column({ nullable: true, }) patrimonios_edt!: boolean;
+    @Column({ nullable: true, }) patrimonios_del!: boolean;
+
     @Column({ nullable: true, }) policiais!: boolean;
     @Column({ nullable: true, }) policiais_cad!: boolean;
     @Column({ nullable: true, }) policiais_edt!: boolean;

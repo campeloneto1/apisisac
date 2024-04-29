@@ -6,6 +6,7 @@ import { Veiculo as VeiculoEntity } from './veiculo.entity';
 import { Veiculo as VeiculoInterface, Veiculos as VeiculosInterface } from './veiculo.interface';
 import { User } from 'src/users/user.interface';
 import { VeiculosOficinasService } from 'src/veiculos-oficinas/veiculos-oficinas.service';
+import { VeiculosPoliciaisService } from 'src/veiculos-policiais/veiculos-policiais.service';
 
 @Injectable()
 export class VeiculosService {
@@ -14,6 +15,8 @@ export class VeiculosService {
         private veiculoRepository: Repository<VeiculoEntity>,
         @Inject(forwardRef(() => VeiculosOficinasService))
         private veiculosOficinasService: VeiculosOficinasService,
+        @Inject(forwardRef(() => VeiculosPoliciaisService))
+        private veiculosPoliciaisService: VeiculosPoliciaisService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -29,7 +32,16 @@ export class VeiculosService {
       }
   
       async find(id: number, idUser: User): Promise<VeiculoInterface | null> {
-        return await this.veiculoRepository.findOne({where: {
+        return await this.veiculoRepository.findOne({
+          relations: {
+            veiculos_oficinas: true,
+            veiculos_policiais: {
+              policial: {
+                graduacao: true
+              }
+            }
+          },
+          where: {
           id: id,
           //@ts-ignore
           subunidade: {
@@ -55,10 +67,14 @@ export class VeiculosService {
 
       async disponiveis(idUser: User): Promise<VeiculosInterface> {
         var naoficina = await this.veiculosOficinasService.emmanutencao(idUser);
+        var emprestados = await this.veiculosPoliciaisService.emprestados(idUser);
         var ids = [];
         naoficina.forEach(element => {
           ids.push(element.veiculo.id)
         });
+         emprestados.forEach(element => {
+           ids.push(element.veiculo.id)
+         });
 
         return await this.veiculoRepository.find({
           where: {
