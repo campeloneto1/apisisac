@@ -100,7 +100,7 @@ export class Veiculo {
     })
     subunidade!: Subunidade;
 
-    @OneToMany(type => VeiculoOficina, veiculosoficinal => veiculosoficinal.veiculo)
+    @OneToMany(type => VeiculoOficina, veiculosoficinas => veiculosoficinas.veiculo)
     veiculos_oficinas: VeiculoOficina[];
 
     @OneToMany(type => VeiculoPolicial, veiculospolicial => veiculospolicial.veiculo)

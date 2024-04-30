@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Between, IsNull, MoreThan, Repository } from 'typeorm';
+import { Between, IsNull, LessThanOrEqual, MoreThan, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { Armamento as ArmamentoEntity } from './armamento.entity';
 import { Armamento as ArmamentoInterface, Armamentos as ArmamentosInterface } from './armamento.interface';
@@ -27,6 +27,28 @@ export class ArmamentosService {
       }
   
       async find(id: number, idUser: User): Promise<ArmamentoInterface | null> {
+        return await this.armamentoRepository.findOne({
+          relations:{
+            
+            armamentos_emprestimos_itens: {
+              armamento: false,
+              armamento_emprestimo: {
+                policial: {
+                  graduacao: true
+                }
+              }
+            }
+          },
+          where: {
+          id: id,
+          //@ts-ignore
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }});
+      }
+
+      async find2(id: number, idUser: User): Promise<ArmamentoInterface | null> {
         return await this.armamentoRepository.findOne({where: {
           id: id,
           //@ts-ignore
@@ -35,6 +57,7 @@ export class ArmamentosService {
           }
         }});
       }
+  
   
       async create(object: ArmamentoInterface, idUser: User) {
         var object:ArmamentoInterface = this.armamentoRepository.create({...object, quantidade_disponivel: object.quantidade, subunidade: idUser.subunidade, created_by: idUser}) 
@@ -74,8 +97,7 @@ export class ArmamentosService {
 
       async vencendo(idUser: User): Promise<ArmamentosInterface> {
         let result = new Date();
-        var ontem = result.setDate(result.getDate() - 1);
-        var proxsemana = result.setDate(result.getDate() + 7);
+        var proxsemana = result.setDate(result.getDate() + 30);
 
         return await this.armamentoRepository.find({where: {
           //@ts-ignore
@@ -84,7 +106,7 @@ export class ArmamentosService {
           },
           data_baixa: IsNull(),
           //@ts-ignore
-          data_validade: Between(format(ontem, 'yyyy-MM-dd') , format(proxsemana, 'yyyy-MM-dd'))
+          data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
         }});
       }
 }

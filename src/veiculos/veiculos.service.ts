@@ -34,13 +34,27 @@ export class VeiculosService {
       async find(id: number, idUser: User): Promise<VeiculoInterface | null> {
         return await this.veiculoRepository.findOne({
           relations: {
-            veiculos_oficinas: true,
+            veiculos_oficinas: {
+              veiculo: false
+            },
             veiculos_policiais: {
               policial: {
                 graduacao: true
-              }
+              },
+              veiculo: false
             }
           },
+          where: {
+          id: id,
+          //@ts-ignore
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }});
+      }
+
+      async find2(id: number, idUser: User): Promise<VeiculoInterface | null> {
+        return await this.veiculoRepository.findOne({
           where: {
           id: id,
           //@ts-ignore
@@ -58,6 +72,7 @@ export class VeiculosService {
       async update(id:number, object: VeiculoInterface, idUser: User) {
         var data: VeiculoInterface = await this.veiculoRepository.findOneBy({id: id});
         data = {...object}
+       
         await this.veiculoRepository.update({id:id},{...data, updated_by: idUser});
       }
   

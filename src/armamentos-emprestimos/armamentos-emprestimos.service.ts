@@ -96,7 +96,7 @@ export class ArmamentosEmprestimosService {
             armemp.quantidade_devolucao = element.quantidade;
             await this.armamentosEmprestimosItensService.update(armemp.id, armemp, idUser);
             var dif = armemp.quantidade - element.quantidade;
-            var arma:Armamento = await this.armamentoService.find(armemp.armamento.id, idUser);
+            var arma:Armamento = await this.armamentoService.find2(armemp.armamento.id, idUser);
             arma.quantidade = arma.quantidade - dif;
             await this.armamentoService.update(arma.id, arma, idUser);
           }else{

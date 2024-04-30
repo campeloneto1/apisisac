@@ -34,7 +34,7 @@ export class ArmamentoEmprestimoItem {
   @ManyToOne(() => Armamento, (armamento) => armamento.id, {
     eager: true,
     onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE'
   })
   armamento!: Armamento;
 
@@ -44,7 +44,7 @@ export class ArmamentoEmprestimoItem {
     {
       eager: true,
       onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+      onUpdate: 'CASCADE'
     },
   )
   @JoinColumn()

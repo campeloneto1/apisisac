@@ -40,7 +40,7 @@ export class VeiculosOficinasService {
   
       async create(object: VeiculoOficinaInterface, idUser: User) {
         //@ts-ignore
-        var veiculo = await this.veiculosService.find(object.veiculo, idUser);
+        var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
         var object:VeiculoOficinaInterface = this.veiculoOficinaRository.create({
           ...object, 
           data_inicial: new Date(), 
@@ -52,7 +52,7 @@ export class VeiculosOficinasService {
   
       async update(id:number, object: VeiculoOficinaInterface, idUser: User) {
          //@ts-ignore
-         var veiculo = await this.veiculosService.find(object.veiculo, idUser);
+         var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
 
         var data: VeiculoOficinaInterface = await this.veiculoOficinaRository.findOneBy({id: id});
         data = {...object, km_inicial: veiculo.km_atual,}
@@ -68,7 +68,7 @@ export class VeiculosOficinasService {
         data = {...data, data_final: new Date(), km_final: object.km_final, observacoes: object.observacoes}
         await this.veiculoOficinaRository.update({id: object.id},{...data, updated_by: idUser});
 
-        var veiculo = await this.veiculosService.find(data.veiculo.id, idUser );
+        var veiculo = await this.veiculosService.find2(data.veiculo.id, idUser );
         veiculo.km_atual = object.km_final;
         await this.veiculosService.update(veiculo.id, veiculo, idUser);
       }
