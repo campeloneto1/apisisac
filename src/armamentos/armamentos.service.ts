@@ -16,14 +16,18 @@ export class ArmamentosService {
     ){}
 
     async index(idUser: User): Promise<ArmamentosInterface> {
-        return await this.armamentoRepository.find({
-          where: {
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
+        if(idUser.perfil.administrador){
+          return await this.armamentoRepository.find();
+        }else{
+          return await this.armamentoRepository.find({
+            where: {
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
             }
-          }
-        });
+          });
+        }
       }
   
       async find(id: number, idUser: User): Promise<ArmamentoInterface | null> {
@@ -75,12 +79,19 @@ export class ArmamentosService {
       }
 
       async disponiveis(idUser: User): Promise<ArmamentosInterface> {
-        return await this.armamentoRepository.find({where: {
-          data_baixa: IsNull(),
-          quantidade_disponivel: MoreThan(0),
-          //@ts-ignore
-          subunidade: idUser.subunidade.id
-        }});
+        if(idUser.perfil.administrador){
+          return await this.armamentoRepository.find({where: {
+            data_baixa: IsNull(),
+            quantidade_disponivel: MoreThan(0),
+          }});
+        }else{
+          return await this.armamentoRepository.find({where: {
+            data_baixa: IsNull(),
+            quantidade_disponivel: MoreThan(0),
+            //@ts-ignore
+            subunidade: idUser.subunidade.id
+          }});
+        }
       }
 
       async atualizarQuantidadeUp(id:number, quantidade:number):Promise<void>{
@@ -99,14 +110,23 @@ export class ArmamentosService {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
-        return await this.armamentoRepository.find({where: {
-          //@ts-ignore
-          subunidade: {
-            id: idUser.subunidade.id
-          },
-          data_baixa: IsNull(),
-          //@ts-ignore
-          data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
-        }});
+        if(idUser.perfil.administrador){
+          return await this.armamentoRepository.find({where: {
+            
+            data_baixa: IsNull(),
+            //@ts-ignore
+            data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
+          }});
+        }else{
+          return await this.armamentoRepository.find({where: {
+            //@ts-ignore
+            subunidade: {
+              id: idUser.subunidade.id
+            },
+            data_baixa: IsNull(),
+            //@ts-ignore
+            data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
+          }});
+        }
       }
 }

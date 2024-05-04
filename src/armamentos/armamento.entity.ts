@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, Index } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Modelo } from 'src/modelos/modelo.entity';
 import { ArmamentoTipo } from 'src/armamentos-tipos/armamento-tipo.entity';
@@ -8,6 +8,7 @@ import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { ArmamentoEmprestimoItem } from 'src/armamentos-emprestimos-itens/armamento-emprestimo-item.entity';
 
 @Entity('armamentos')
+@Index(['serial', 'subunidade'], { unique: true }) 
 export class Armamento {
 
     @PrimaryGeneratedColumn()

@@ -22,23 +22,36 @@ export class PoliciaisService {
   ) {}
 
   async index(idUser: User): Promise<PoliciaisInterface> {
-    return await this.policialRepository.find({
-      where:{
-        //@ts-ignore
-        setor: {
-          subunidade: {
-            id: idUser.subunidade.id
-          }
+
+    if (idUser.perfil.administrador) {
+      return await this.policialRepository.find({
+        relations: {
+          user: {
+           policial: false,
+            perfil: false
+          },
+          
         }
-      },
-      relations: {
-        user: {
-         policial: false,
-          perfil: false
+      });
+    } else {
+      return await this.policialRepository.find({
+        where:{
+          //@ts-ignore
+          setor: {
+            subunidade: {
+              id: idUser.subunidade.id
+            }
+          }
         },
-        
-      }
-    });
+        relations: {
+          user: {
+           policial: false,
+            perfil: false
+          },
+          
+        }
+      });
+    }
   }
 
   async find(id: number, idUser: User): Promise<PolicialInterface | null> {
@@ -113,17 +126,25 @@ export class PoliciaisService {
   }
 
   async disponiveis(idUser: User): Promise<PoliciaisInterface> {
-    return await this.policialRepository.find({
-      where: { 
-        boletim_transferencia: IsNull(),
-        //@ts-ignore
-        setor: {
-          subunidade: {
-            id: idUser.subunidade.id
+    if(idUser.perfil.administrador){
+      return await this.policialRepository.find({
+        where: { 
+          boletim_transferencia: IsNull(),
+        },
+      });
+    }else{
+      return await this.policialRepository.find({
+        where: { 
+          boletim_transferencia: IsNull(),
+          //@ts-ignore
+          setor: {
+            subunidade: {
+              id: idUser.subunidade.id
+            }
           }
-        }
-      },
-    });
+        },
+      });
+    }
   }
 
   async quantidade(idUser: User): Promise<number> {

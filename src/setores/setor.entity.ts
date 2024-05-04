@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany, Index } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Policial } from 'src/policiais/policial.entity';
 import { Patrimonio } from 'src/patrimonios/patrimonio.entity';
 
 @Entity('setores')
+@Index(['nome', 'subunidade'], { unique: true }) 
 export class Setor {
     @PrimaryGeneratedColumn()
     id!: number;

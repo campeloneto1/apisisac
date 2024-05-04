@@ -2,10 +2,11 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { IsNull, Repository } from 'typeorm';
+import { Between, IsNull, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { VeiculoOficina as VeiculoOficinaEntity } from './veiculo-oficina.entity';
 import { VeiculoOficina as VeiculoOficinaInterface, VeiculosOficinas as VeiculosOficinasInterface } from './veiculo-oficina.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
+import { addHours } from 'date-fns';
 
 @Injectable()
 export class VeiculosOficinasService {
@@ -18,14 +19,18 @@ export class VeiculosOficinasService {
     ){}
 
     async index(idUser: User): Promise<VeiculosOficinasInterface> {
-        return await this.veiculoOficinaRository.find({
-          where: {
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
-            }
+          if(idUser.perfil.administrador){
+            return await this.veiculoOficinaRository.find();
+          }else{
+            return await this.veiculoOficinaRository.find({
+              where: {
+                //@ts-ignore
+                subunidade: {
+                  id: idUser.subunidade.id
+                }
+              }
+            });
           }
-        });
       }
   
       async find(id: number, idUser: User): Promise<VeiculoOficinaInterface | null> {
@@ -74,14 +79,61 @@ export class VeiculosOficinasService {
       }
 
       async emmanutencao(idUser: User): Promise<VeiculosOficinasInterface> {
-        return await this.veiculoOficinaRository.find({
+        if(idUser.perfil.administrador){
+          return await this.veiculoOficinaRository.find({
+            where: {
+              data_final: IsNull(),
+              
+            }
+          });
+        }else{
+          return await this.veiculoOficinaRository.find({
+            where: {
+              data_final: IsNull(),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          });
+        }
+      }
+
+      async relatorio(object:any, idUser: User): Promise<VeiculosOficinasInterface>{
+        var finaldate = new Date(object.data_final);
+        finaldate = addHours(finaldate, 23);
+        var veiculos = await this.veiculoOficinaRository.find({
           where: {
-            data_final: IsNull(),
+            data_inicial: Between(object.data_inicial, finaldate),
             //@ts-ignore
             subunidade: {
               id: idUser.subunidade.id
             }
+          },
+          order: {
+            id: "DESC"
           }
         });
+
+        if(object.veiculo){
+          veiculos = veiculos.filter((element) => {
+            return element.veiculo.id === object.veiculo
+          })
+        }
+
+        if(object.oficina){
+          veiculos = veiculos.filter((element) => {
+            return element.oficina.id === object.oficina
+          })
+        }
+
+        if(object.manutencao_tipo){
+          veiculos = veiculos.filter((element) => {
+            return element.manutencao_tipo.id === object.manutencao_tipo
+          })
+        }
+
+        return veiculos;
+
       }
 }

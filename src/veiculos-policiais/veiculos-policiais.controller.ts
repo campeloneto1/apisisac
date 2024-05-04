@@ -40,4 +40,9 @@ export class VeiculosPoliciaisController {
     async receber(@Body() object: any, @Request() req) {
         return await this.veiculosPoliciaisService.receber(object, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.veiculosPoliciaisService.relatorio(object, req.user);
+    }
 }

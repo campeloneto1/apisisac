@@ -11,6 +11,7 @@ export class VeiculoTipo {
     @Column({
       nullable: false,
       length: 100,
+      unique: true
     })
     nome!: string;
 

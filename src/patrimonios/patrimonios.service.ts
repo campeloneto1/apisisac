@@ -15,16 +15,20 @@ export class PatrimoniosService {
     ){}
 
     async index(idUser: User): Promise<PatrimoniosInterface> {
-        return await this.patrimonioRepository.find({
-          where: {
-            //@ts-ignore
-            setor: {
-                subunidade: {
-                    id: idUser.subunidade.id
-                  }
+        if (idUser.perfil.administrador) {
+          return await this.patrimonioRepository.find();
+        } else {
+          return await this.patrimonioRepository.find({
+            where: {
+              //@ts-ignore
+              setor: {
+                  subunidade: {
+                      id: idUser.subunidade.id
+                    }
+              }
             }
-          }
-        });
+          });
+        }
       }
   
       async find(id: number, idUser: User): Promise<PatrimonioInterface | null> {

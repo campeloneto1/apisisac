@@ -14,15 +14,30 @@ export class SubunidadesService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(): Promise<SubunidadesInterface> {
-        return await this.subunidadeRepository.find({relations: {
-          comandante: {
-            setor:false,
+    async index(idUser: User): Promise<SubunidadesInterface> {
+        if(idUser.perfil.administrador){
+          return await this.subunidadeRepository.find({relations: {
+            comandante: {
+              setor:false,
+            },
+            subcomandante: {
+              setor: false,
+            }
+          }});
+        }else{
+          return await this.subunidadeRepository.find({relations: {
+            comandante: {
+              setor:false,
+            },
+            subcomandante: {
+              setor: false,
+            }
           },
-          subcomandante: {
-            setor: false,
+          where: {
+            id: idUser.subunidade.id
           }
-        }});
+        });
+        }
       }
   
       async find(id: number): Promise<SubunidadeInterface | null> {

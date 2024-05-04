@@ -21,14 +21,18 @@ export class VeiculosService {
     ){}
 
     async index(idUser: User): Promise<VeiculosInterface> {
-        return await this.veiculoRepository.find({
-          where: {
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
+        if(idUser.perfil.administrador){
+          return await this.veiculoRepository.find();
+        }else{
+          return await this.veiculoRepository.find({
+            where: {
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
             }
-          }
-        });
+          });
+        }
       }
   
       async find(id: number, idUser: User): Promise<VeiculoInterface | null> {
@@ -91,15 +95,23 @@ export class VeiculosService {
            ids.push(element.veiculo.id)
          });
 
-        return await this.veiculoRepository.find({
-          where: {
-            id: Not(In(ids)),
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
+        if(idUser.perfil.administrador){
+          return await this.veiculoRepository.find({
+            where: {
+              id: Not(In(ids)),
             }
-          }
-        });
+          });
+        }else{
+          return await this.veiculoRepository.find({
+            where: {
+              id: Not(In(ids)),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          });
+        }
       }
   
       async trocaoleo(idUser: User): Promise<VeiculosInterface> {

@@ -3,9 +3,10 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
-import { IsNull, Repository } from 'typeorm';
+import { Between, IsNull, Repository } from 'typeorm';
 import { VeiculoPolicial as VeiculoPolicialEntity } from './veiculo-policial.entity';
 import { VeiculoPolicial as VeiculoPolicialInterface, VeiculosPoliciais as VeiculosPoliciaisInterface } from './veiculo-policial.interface';
+import { addHours } from 'date-fns';
 
 @Injectable()
 export class VeiculosPoliciaisService {
@@ -18,6 +19,9 @@ export class VeiculosPoliciaisService {
     ){}
 
     async index(idUser: User): Promise<VeiculosPoliciaisInterface> {
+       if(idUser.perfil.administrador){
+        return await this.veiculoPolicialRository.find();
+       }else{
         return await this.veiculoPolicialRository.find({
           where: {
             //@ts-ignore
@@ -26,6 +30,7 @@ export class VeiculosPoliciaisService {
             }
           }
         });
+       }
       }
   
       async find(id: number, idUser: User): Promise<VeiculoPolicialInterface | null> {
@@ -74,14 +79,53 @@ export class VeiculosPoliciaisService {
       }
 
       async emprestados(idUser: User): Promise<VeiculosPoliciaisInterface> {
-        return await this.veiculoPolicialRository.find({
+        if(idUser.perfil.administrador){
+          return await this.veiculoPolicialRository.find({
+            where: {
+              data_final: IsNull(),
+            }
+          });
+        }else{
+          return await this.veiculoPolicialRository.find({
+            where: {
+              data_final: IsNull(),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          });
+        }
+      }
+
+      async relatorio(object:any, idUser: User): Promise<VeiculosPoliciaisInterface>{
+        var finaldate = new Date(object.data_final);
+        finaldate = addHours(finaldate, 23);
+        var veiculos = await this.veiculoPolicialRository.find({
           where: {
-            data_final: IsNull(),
+            data_inicial: Between(object.data_inicial, finaldate),
             //@ts-ignore
             subunidade: {
               id: idUser.subunidade.id
             }
+          },
+          order: {
+            id: "DESC"
           }
         });
+
+        if(object.veiculo){
+          veiculos = veiculos.filter((element) => {
+            return element.veiculo.id === object.veiculo
+          })
+        }
+
+        if(object.policial){
+          veiculos = veiculos.filter((element) => {
+            return element.policial.id === object.policial
+          })
+        }
+        return veiculos;
+
       }
 }

@@ -7,8 +7,8 @@ export class SubunidadesController {
     constructor(private subunidadesService: SubunidadesService){}
 
     @Get()
-    async index():Promise<Subunidades>{
-        return await this.subunidadesService.index();
+    async index(@Request() req):Promise<Subunidades>{
+        return await this.subunidadesService.index(req.user);
     }
 
     @Get(':id')

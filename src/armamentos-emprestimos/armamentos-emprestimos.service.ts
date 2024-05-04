@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Raw, Repository } from 'typeorm';
 import { ArmamentoEmprestimo as ArmamentoEmprestimoEnity } from './armamento-emprestimo.entity';
 import { ArmamentoEmprestimo as ArmamentoEmprestimoInterface, ArmamentosEmprestimos as ArmamentosEmprestimosInterface } from './armamento-emprestimo.interface';
 import { ArmamentosEmprestimosItensService } from 'src/armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
@@ -22,14 +22,18 @@ export class ArmamentosEmprestimosService {
     ){}
 
     async index(idUser: User): Promise<ArmamentosEmprestimosInterface> {
-        return await this.armamentoEmprestimoRepository.find({
-          where: {
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
+        if(idUser.perfil.administrador){
+          return await this.armamentoEmprestimoRepository.find();
+        }else{
+          return await this.armamentoEmprestimoRepository.find({
+            where: {
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
             }
-          }
-        });
+          });
+        }
       }
   
       async find(id: number, idUser: User): Promise<ArmamentoEmprestimoInterface | null> {
@@ -106,6 +110,23 @@ export class ArmamentosEmprestimosService {
           }
          
         });
+      }
 
+      async emprestados(idUser:User): Promise<ArmamentosEmprestimosInterface>{
+          return this.armamentoEmprestimoRepository.find({
+            where: {
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              },
+              cautela: IsNull(),
+              data_devolucao: IsNull()
+            },
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            }
+          })
       }
 }

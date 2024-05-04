@@ -17,18 +17,22 @@ export class PoliciaisFeriasService {
     ){}
 
     async index(idUser: User): Promise<PoliciaisFeriasInterface> {
-        return await this.policialFeriasRepository.find({
-          where: {
-            //@ts-ignore
-            policial: {
-              setor: {
-                subunidade: {
-                  id: idUser.subunidade.id
+        if(idUser.perfil.administrador){
+          return await this.policialFeriasRepository.find();
+        }else{
+          return await this.policialFeriasRepository.find({
+            where: {
+              //@ts-ignore
+              policial: {
+                setor: {
+                  subunidade: {
+                    id: idUser.subunidade.id
+                  }
                 }
               }
             }
-          }
-        });
+          });
+        }
       }
   
       async find(id: number, idUser: User): Promise<PolicialFeriasInterface | null> {

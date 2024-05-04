@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany, Index } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Cor } from 'src/cores/cor.entity';
@@ -8,6 +8,7 @@ import { VeiculoOficina } from 'src/veiculos-oficinas/veiculo-oficina.entity';
 import { VeiculoPolicial } from 'src/veiculos-policiais/veiculo-policial.entity';
 
 @Entity('veiculos')
+@Index(['placa', 'subunidade'], { unique: true }) 
 export class Veiculo {
     @PrimaryGeneratedColumn()
     id!: number;

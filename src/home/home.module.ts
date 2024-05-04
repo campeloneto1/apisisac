@@ -9,11 +9,13 @@ import { ArmamentosModule } from 'src/armamentos/armamentos.module';
 import { VeiculosOficinasModule } from 'src/veiculos-oficinas/veiculos-oficinas.module';
 import { VeiculosModule } from 'src/veiculos/veiculos.module';
 import { VeiculosPoliciaisModule } from 'src/veiculos-policiais/veiculos-policiais.module';
+import { ArmamentosEmprestimosModule } from 'src/armamentos-emprestimos/armamentos-emprestimos.module';
 
 
 @Module({
   imports: [
     ArmamentosModule,
+    ArmamentosEmprestimosModule,
     PoliciaisModule,
     PoliciaisAtestadosModule,
     PoliciaisFeriasModule,

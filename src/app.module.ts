@@ -44,6 +44,7 @@ import { VeiculosPoliciaisModule } from './veiculos-policiais/veiculos-policiais
 import { VeiculosPoliciaisAlteracoesModule } from './veiculos-policiais-alteracoes/veiculos-policiais-alteracoes.module';
 import { PatrimoniosTiposModule } from './patrimonios-tipos/patrimonios-tipos.module';
 import { PatrimoniosModule } from './patrimonios/patrimonios.module';
+import { LogsModule } from './logs/logs.module';
 
 
 @Module({
@@ -103,6 +104,7 @@ import { PatrimoniosModule } from './patrimonios/patrimonios.module';
     VeiculosPoliciaisAlteracoesModule,
     PatrimoniosTiposModule,
     PatrimoniosModule,
+    LogsModule,
   ],
   controllers: [AppController],
   providers: [AppService,

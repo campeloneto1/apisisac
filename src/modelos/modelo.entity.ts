@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, Index } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Marca } from 'src/marcas/marca.entity';
 import { Armamento } from 'src/armamentos/armamento.entity';
 import { Veiculo } from 'src/veiculos/veiculo.entity';
 
 @Entity('modelos')
+@Index(['nome', 'marca'], { unique: true }) 
 export class Modelo {
 
     @PrimaryGeneratedColumn()

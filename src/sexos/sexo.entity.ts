@@ -11,6 +11,7 @@ export class Sexo {
     @Column({
       nullable: false,
       length: 100,
+      unique: true
     })
     nome!: string;
 

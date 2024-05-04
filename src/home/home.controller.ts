@@ -4,6 +4,7 @@ import { Armamentos } from 'src/armamentos/armamento.interface';
 import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interface';
 import { Veiculos } from 'src/veiculos/veiculo.interface';
 import { VeiculosPoliciais } from 'src/veiculos-policiais/veiculo-policial.interface';
+import { ArmamentosEmprestimos } from 'src/armamentos-emprestimos/armamento-emprestimo.interface';
 
 @Controller('home')
 export class HomeController {
@@ -33,6 +34,12 @@ export class HomeController {
     async armamentosVencendo(@Request() req):Promise<Armamentos>{
         return this.homeService.armamentosVencendo(req.user);
     }
+
+    @Get('armamentos-emprestados')
+    async armamentosEmprestimos(@Request() req):Promise<ArmamentosEmprestimos>{
+        return this.homeService.armamentosEmprestados(req.user);
+    }
+
 
     @Get('veiculos-manutencao')
     async veiculosManutencao(@Request() req):Promise<VeiculosOficinas>{

@@ -15,6 +15,7 @@ export class ArmamentosCalibresService {
     ){}
 
     async index(): Promise<ArmamentosCalibresInterface> {
+      
         return await this.armamentoCalibreRepository.find();
       }
   

@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  Index,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Estado } from 'src/estados/estado.entity';
@@ -14,6 +15,7 @@ import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Policial } from 'src/policiais/policial.entity';
 
 @Entity('cidades')
+@Index(['nome', 'estado'], { unique: true }) 
 export class Cidade {
   @PrimaryGeneratedColumn()
   id!: number;

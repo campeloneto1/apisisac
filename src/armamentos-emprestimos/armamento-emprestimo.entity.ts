@@ -28,6 +28,11 @@ export class ArmamentoEmprestimo {
       })
       observacoes!: string;
 
+      @Column({
+        nullable: true,
+      })
+      cautela!: boolean;
+
       @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
         eager: true,
         onDelete: 'SET NULL',

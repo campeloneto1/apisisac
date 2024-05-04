@@ -8,6 +8,7 @@ export interface ArmamentoEmprestimo{
     data_emprestimo: Date;
     data_devolucao?: Date;
     observacoes? : string;
+    cautela?: boolean;
     armamentos?: any;
     subunidade: Subunidade;
 

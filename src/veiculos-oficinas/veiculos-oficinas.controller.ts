@@ -40,4 +40,9 @@ export class VeiculosOficinasController {
     async receber(@Body() object: any, @Request() req) {
         return await this.veiculosOficinasService.receber(object, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.veiculosOficinasService.relatorio(object, req.user);
+    }
 }

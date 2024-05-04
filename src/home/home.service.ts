@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
+import { ArmamentosEmprestimos } from 'src/armamentos-emprestimos/armamento-emprestimo.interface';
+import { ArmamentosEmprestimosService } from 'src/armamentos-emprestimos/armamentos-emprestimos.service';
 import { Armamentos } from 'src/armamentos/armamento.interface';
 import { ArmamentosService } from 'src/armamentos/armamentos.service';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
@@ -19,6 +21,7 @@ export class HomeService {
     constructor(
         private lazyModuleLoader: LazyModuleLoader,
         private armamentosService: ArmamentosService,
+        private armamentosEmprestimosService: ArmamentosEmprestimosService,
         private policiaisService: PoliciaisService,
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisFeriasService: PoliciaisFeriasService,
@@ -47,6 +50,10 @@ export class HomeService {
 
     async armamentosVencendo(idUser: User): Promise<Armamentos>{
         return this.armamentosService.vencendo(idUser);
+    }
+
+    async armamentosEmprestados(idUser: User): Promise<ArmamentosEmprestimos>{
+        return this.armamentosEmprestimosService.emprestados(idUser);
     }
 
     async veiculosManutencao(idUser: User): Promise<VeiculosOficinas>{

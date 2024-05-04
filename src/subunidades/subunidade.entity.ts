@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn,OneToMany, Index } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Unidade } from 'src/unidades/unidade.entity';
@@ -9,6 +9,7 @@ import { Policial } from 'src/policiais/policial.entity';
 import { Oficina } from 'src/oficinas/oficina.entity';
 
 @Entity('subunidades')
+@Index(['nome', 'unidade'], { unique: true }) 
 export class Subunidade {
 
     @PrimaryGeneratedColumn()

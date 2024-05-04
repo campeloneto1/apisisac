@@ -38,6 +38,7 @@ export class Patrimonio {
     @Column({
         nullable: false,
         length: 50,
+        unique: true
       })
       tombo!: string;
 

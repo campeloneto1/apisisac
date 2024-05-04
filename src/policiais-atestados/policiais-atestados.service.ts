@@ -16,18 +16,22 @@ export class PoliciaisAtestadosService {
     ){}
 
     async index(idUser: User): Promise<PoliciaisAtestadosInterface> {
-        return await this.policialAtestadoRepository.find({
-          where: {
-            //@ts-ignore
-            policial: {
-              setor: {
-                subunidade: {
-                  id: idUser.subunidade.id
+        if(idUser.perfil.administrador){
+          return await this.policialAtestadoRepository.find();
+        }else{
+          return await this.policialAtestadoRepository.find({
+            where: {
+              //@ts-ignore
+              policial: {
+                setor: {
+                  subunidade: {
+                    id: idUser.subunidade.id
+                  }
                 }
               }
             }
-          }
-        });
+          });
+        }
       }
   
       async find(id: number, idUser: User): Promise<PolicialAtestadoInterface | null> {
