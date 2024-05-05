@@ -35,4 +35,9 @@ export class ArmamentosEmprestimosController {
     async receber(@Body() object: any, @Request() req) {
         return await this.armamentosEmprestimosService.receber(object, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.armamentosEmprestimosService.relatorio(object, req.user);
+    }
 }

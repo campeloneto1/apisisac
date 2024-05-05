@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { IsNull, Not, Raw, Repository } from 'typeorm';
+import { Between, IsNull, Not, Raw, Repository } from 'typeorm';
 import { ArmamentoEmprestimo as ArmamentoEmprestimoEnity } from './armamento-emprestimo.entity';
 import { ArmamentoEmprestimo as ArmamentoEmprestimoInterface, ArmamentosEmprestimos as ArmamentosEmprestimosInterface } from './armamento-emprestimo.interface';
 import { ArmamentosEmprestimosItensService } from 'src/armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
 import { ArmamentosService } from 'src/armamentos/armamentos.service';
 import { ArmamentoEmprestimoItem } from 'src/armamentos-emprestimos-itens/armamento-emprestimo-item.interface';
 import { Armamento } from 'src/armamentos/armamento.interface';
+import { addHours, addMinutes } from 'date-fns';
 
 @Injectable()
 export class ArmamentosEmprestimosService {
@@ -129,4 +130,77 @@ export class ArmamentosEmprestimosService {
             }
           })
       }
+
+      async relatorio(object: any, idUser: User): Promise<ArmamentoEmprestimoInterface | null> {
+        var finaldate = new Date(object.data_final);
+        finaldate = addHours(finaldate, 23);
+        finaldate = addMinutes(finaldate, 59);
+        var armamentos;
+        if(idUser.perfil.administrador){
+          armamentos = await this.armamentoEmprestimoRepository.find({
+            where: {
+              data_emprestimo: Between(object.data_inicial, finaldate),
+              
+            },
+            order: {
+              id: "DESC"
+            },
+            relations: {
+              armamentos_emprestimos_itens: {
+                armamento: {
+                  modelo: true
+                },
+                armamento_emprestimo: false
+              }
+            }
+          });
+  
+        }else{
+          armamentos = await this.armamentoEmprestimoRepository.find({
+            where: {
+              data_emprestimo: Between(object.data_inicial, finaldate),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            },
+            order: {
+              id: "DESC"
+            },
+            relations: {
+              armamentos_emprestimos_itens: {
+                armamento: {
+                  modelo: true
+                },
+                armamento_emprestimo: false
+              }
+            }
+          });
+  
+        }
+        
+        if(object.policial){
+          armamentos = armamentos.filter(element => {
+            return element.policial.id === object.policial
+          })
+        }
+
+        if(object.armamento){
+          armamentos = armamentos.filter(element => {
+            let teste = false
+             element.armamentos_emprestimos_itens.forEach(item => {
+               if (object.armamento === item.armamento.id){
+                teste = true
+               }
+            });
+            if(teste){
+              return element;
+            }
+          })
+        }
+
+        return armamentos;
+
+      }
+  
 }

@@ -6,7 +6,7 @@ import { Between, IsNull, LessThanOrEqual, MoreThanOrEqual, Repository } from 't
 import { VeiculoOficina as VeiculoOficinaEntity } from './veiculo-oficina.entity';
 import { VeiculoOficina as VeiculoOficinaInterface, VeiculosOficinas as VeiculosOficinasInterface } from './veiculo-oficina.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
-import { addHours } from 'date-fns';
+import { addHours, addMinutes } from 'date-fns';
 
 @Injectable()
 export class VeiculosOficinasService {
@@ -102,18 +102,32 @@ export class VeiculosOficinasService {
       async relatorio(object:any, idUser: User): Promise<VeiculosOficinasInterface>{
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);
-        var veiculos = await this.veiculoOficinaRository.find({
-          where: {
-            data_inicial: Between(object.data_inicial, finaldate),
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
+        finaldate = addMinutes(finaldate, 59);
+        var veiculos;
+        if(idUser.perfil.administrador){
+          veiculos = await this.veiculoOficinaRository.find({
+            where: {
+              data_inicial: Between(object.data_inicial, finaldate),
+            },
+            order: {
+              id: "DESC"
             }
-          },
-          order: {
-            id: "DESC"
-          }
-        });
+          });
+        }else{
+          veiculos = await this.veiculoOficinaRository.find({
+            where: {
+              data_inicial: Between(object.data_inicial, finaldate),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            },
+            order: {
+              id: "DESC"
+            }
+          });
+        }
+       
 
         if(object.veiculo){
           veiculos = veiculos.filter((element) => {

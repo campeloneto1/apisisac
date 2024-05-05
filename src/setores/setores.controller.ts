@@ -7,8 +7,8 @@ export class SetoresController {
     constructor(private setoresService: SetoresService){}
 
     @Get()
-    async index():Promise<Setores>{
-        return this.setoresService.index();
+    async index(@Request() req):Promise<Setores>{
+        return this.setoresService.index(req.user);
     }
 
     @Get(':id')

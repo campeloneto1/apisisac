@@ -14,8 +14,20 @@ export class SetoresService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(): Promise<SetoresInterface> {
-        return await this.setorRepository.find();
+    async index(idUser: User): Promise<SetoresInterface> {
+        
+        if(idUser.perfil.administrador){
+          return await this.setorRepository.find();
+        }else{
+          return await this.setorRepository.find({
+            where: {
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          });
+        }
       }
   
       async find(id: number): Promise<SetorInterface | null> {

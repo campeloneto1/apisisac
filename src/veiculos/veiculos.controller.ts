@@ -35,4 +35,9 @@ export class VeiculosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.veiculosService.remove(id, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.veiculosService.relatorio(object, req.user);
+    }
 }

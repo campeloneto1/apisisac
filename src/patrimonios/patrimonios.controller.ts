@@ -35,4 +35,9 @@ export class PatrimoniosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.patrimoniosService.remove(id, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.patrimoniosService.relatorio(object, req.user);
+    }
 }

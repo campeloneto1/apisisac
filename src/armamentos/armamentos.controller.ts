@@ -40,4 +40,9 @@ export class ArmamentosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.armamentosService.remove(id, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.armamentosService.relatorio(object, req.user);
+    }
 }

@@ -6,7 +6,7 @@ import { VeiculosService } from 'src/veiculos/veiculos.service';
 import { Between, IsNull, Repository } from 'typeorm';
 import { VeiculoPolicial as VeiculoPolicialEntity } from './veiculo-policial.entity';
 import { VeiculoPolicial as VeiculoPolicialInterface, VeiculosPoliciais as VeiculosPoliciaisInterface } from './veiculo-policial.interface';
-import { addHours } from 'date-fns';
+import { addHours, addMinutes } from 'date-fns';
 
 @Injectable()
 export class VeiculosPoliciaisService {
@@ -101,18 +101,32 @@ export class VeiculosPoliciaisService {
       async relatorio(object:any, idUser: User): Promise<VeiculosPoliciaisInterface>{
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);
-        var veiculos = await this.veiculoPolicialRository.find({
-          where: {
-            data_inicial: Between(object.data_inicial, finaldate),
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
+        finaldate = addMinutes(finaldate, 59);
+        var veiculos;
+        if(idUser.perfil.administrador){
+          veiculos = await this.veiculoPolicialRository.find({
+            where: {
+              data_inicial: Between(object.data_inicial, finaldate),
+            },
+            order: {
+              id: "DESC"
             }
-          },
-          order: {
-            id: "DESC"
-          }
-        });
+          });
+        }else{
+          veiculos = await this.veiculoPolicialRository.find({
+            where: {
+              data_inicial: Between(object.data_inicial, finaldate),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            },
+            order: {
+              id: "DESC"
+            }
+          });
+        }
+        
 
         if(object.veiculo){
           veiculos = veiculos.filter((element) => {

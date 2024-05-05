@@ -99,12 +99,14 @@ export class VeiculosService {
           return await this.veiculoRepository.find({
             where: {
               id: Not(In(ids)),
+              data_baixa: IsNull()
             }
           });
         }else{
           return await this.veiculoRepository.find({
             where: {
               id: Not(In(ids)),
+              data_baixa: IsNull(),
               //@ts-ignore
               subunidade: {
                 id: idUser.subunidade.id
@@ -119,11 +121,78 @@ export class VeiculosService {
           where: {
             km_troca_oleo: Not(IsNull()),
             km_atual:  Raw((alias) => `${alias} >= km_troca_oleo - 100`),
+            data_baixa: IsNull(),
             //@ts-ignore
             subunidade: {
               id: idUser.subunidade.id
             }
           }
         });
+      }
+
+      async relatorio(object: any, idUser: User): Promise<VeiculosInterface>{
+        var veiculos;
+
+        if(idUser.perfil.administrador){
+          veiculos = await this.veiculoRepository.find({
+            where: {
+              data_baixa: IsNull(),
+            },
+            order: {
+              placa: 'ASC'
+            }
+          });
+        }else{
+          veiculos = await this.veiculoRepository.find({
+            where: {
+              data_baixa: IsNull(),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            },
+            order: {
+              placa: 'ASC'
+            }
+          });
+        }
+
+        if(object.marca){
+          veiculos = veiculos.filter(element => {
+            return element.modelo.marca.id === object.marca;
+          })
+        }
+
+        if(object.modelo){
+          veiculos = veiculos.filter(element => {
+            return element.modelo.id === object.modelo;
+          })
+        }
+
+        if(object.veiculo_tipo){
+          veiculos = veiculos.filter(element => {
+            return element.veiculo_tipo.id === object.veiculo_tipo;
+          })
+        }
+
+        if(object.organico){
+          veiculos = veiculos.filter(element => {
+            return element.organico !== null;
+          })
+        }
+
+        if(object.locado){
+          veiculos = veiculos.filter(element => {
+            return element.organico === null;
+          })
+        }
+
+        if(object.data_baixa){
+          veiculos = veiculos.filter(element => {
+            return element.data_baixa !== null;
+          })
+        }
+
+        return veiculos
       }
 }

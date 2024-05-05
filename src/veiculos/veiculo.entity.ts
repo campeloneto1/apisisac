@@ -69,6 +69,12 @@ export class Veiculo {
 
     @Column({
         nullable: true,
+        type: 'date'
+      })
+      data_baixa!: Date;
+
+    @Column({
+        nullable: true,
         length: 2000,
       })
       observacoes!: string;

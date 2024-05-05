@@ -69,4 +69,49 @@ export class PatrimoniosService {
           }
         }});
       }
+
+      async relatorio(object:any , idUser: User): Promise<PatrimoniosInterface> {
+
+        var patrimonios;
+        if(idUser.perfil.administrador){
+          patrimonios = await this.patrimonioRepository.find({order: {
+            tombo: "ASC"
+          }});
+        }else{
+          patrimonios = await this.patrimonioRepository.find({where: {
+            //@ts-ignore
+            setor: {
+              subunidade: {
+                  id: idUser.subunidade.id
+              }
+            }
+          },
+          order: {
+            tombo: "ASC"
+          }
+          });
+        }
+        
+
+        if(object.data_baixa){
+          patrimonios = patrimonios.filter(element => {
+            return element.data_baixa !== null;
+          })
+        }
+
+        if(object.setor){
+          patrimonios = patrimonios.filter(element => {
+            return element.setor.id === object.setor;
+          })
+        }
+
+        if(object.patrimonio_tipo){
+          patrimonios = patrimonios.filter(element => {
+            return element.patrimonio_tipo.id === object.patrimonio_tipo;
+          })
+        }
+
+        return patrimonios;
+      }
+
 }
