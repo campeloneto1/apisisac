@@ -6,12 +6,14 @@ import { LessThan, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm'
 import { LazyModuleLoader } from '@nestjs/core';
 import { User } from 'src/users/user.interface';
 import { format } from 'date-fns';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class PoliciaisAtestadosService {
     constructor(
         @InjectRepository(PolicialAtestadoEntity)
         private policialAtestadoRepository: Repository<PolicialAtestadoEntity>,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -50,17 +52,46 @@ export class PoliciaisAtestadosService {
   
       async create(object: PolicialAtestadoInterface, idUser: User) {
         var object:PolicialAtestadoInterface = this.policialAtestadoRepository.create({...object, created_by: idUser}) 
-        await this.policialAtestadoRepository.save(object);      
+        var save = await this.policialAtestadoRepository.save(object);      
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou um Atestado de Policial',
+          tipo: 1,
+          table: 'policiais_atestados',
+          fk: save.id,
+          user: idUser
+        });
       }
   
       async update(id:number, object: PolicialAtestadoInterface, idUser: User) {
         var data: PolicialAtestadoInterface = await this.policialAtestadoRepository.findOneBy({id: id});
         data = {...object}
         await this.policialAtestadoRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um Atestado de Policial',
+          tipo: 2,
+          table: 'policiais_atestados',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.policialAtestadoRepository.delete(id);;
+        var data = await this.policialAtestadoRepository.findOne({where: {
+          id: id,
+        }});
+        await this.policialAtestadoRepository.delete(id);
+
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um Atestado de Policial',
+          tipo: 3,
+          table: 'policiais_atestados',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async quantidade(idUser: User): Promise<number> {

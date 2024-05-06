@@ -10,6 +10,7 @@ import { ArmamentosService } from 'src/armamentos/armamentos.service';
 import { ArmamentoEmprestimoItem } from 'src/armamentos-emprestimos-itens/armamento-emprestimo-item.interface';
 import { Armamento } from 'src/armamentos/armamento.interface';
 import { addHours, addMinutes } from 'date-fns';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class ArmamentosEmprestimosService {
@@ -19,7 +20,7 @@ export class ArmamentosEmprestimosService {
         private lazyModuleLoader: LazyModuleLoader,
         private armamentosEmprestimosItensService: ArmamentosEmprestimosItensService,
         private armamentoService: ArmamentosService,
-        
+        private logsService: LogsService
     ){}
 
     async index(idUser: User): Promise<ArmamentosEmprestimosInterface> {
@@ -72,21 +73,54 @@ export class ArmamentosEmprestimosService {
               idUser
             );
         });
+
+        await this.logsService.create({
+          object: JSON.stringify(emp),
+          mensagem: 'Cadastrou um Emprestimo de Armamento',
+          tipo: 1,
+          table: 'armamentos_emprestimos',
+          fk: emp.id,
+          user: idUser
+        });
       }
   
       async update(id:number, object: ArmamentoEmprestimoInterface, idUser: User) {
         var data: ArmamentoEmprestimoInterface = await this.armamentoEmprestimoRepository.findOneBy({id: id});
         data = {...object}
         await this.armamentoEmprestimoRepository.update({id:id},{...data, updated_by: idUser});
+
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um Emprestimo de Armamento',
+          tipo: 2,
+          table: 'armamentos_emprestimos',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
         var arms = await this.armamentosEmprestimosItensService.whereArmEmp(id);
+
+        var data = await this.armamentoEmprestimoRepository.findOne({where: {
+          id: id,
+        }});
+
         arms.forEach((arm) => {
           this.armamentoService.atualizarQuantidadeUp(arm.armamento.id, arm.quantidade);
         })
 
-        return await this.armamentoEmprestimoRepository.delete(id);;
+        await this.armamentoEmprestimoRepository.delete(id);
+
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um Emprestimo de Armamento',
+          tipo: 3,
+          table: 'armamentos_emprestimos',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async receber(object,  idUser: User){
@@ -110,6 +144,16 @@ export class ArmamentosEmprestimosService {
             await this.armamentosEmprestimosItensService.update(armemp.id, armemp, idUser);
           }
          
+        });
+
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Recebeu um Emprestimo de Armamento',
+          tipo: 2,
+          table: 'armamentos_emprestimos',
+          fk: object.id,
+          user: idUser
         });
       }
 

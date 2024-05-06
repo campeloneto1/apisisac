@@ -24,7 +24,7 @@ export class ArmamentoEmprestimo {
 
       @Column({
         nullable: true,
-        length: 2000,
+        type: 'text'
       })
       observacoes!: string;
 

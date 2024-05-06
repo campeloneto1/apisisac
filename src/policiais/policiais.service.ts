@@ -10,6 +10,7 @@ import {
 import { User } from 'src/users/user.interface';
 import { UsersService } from 'src/users/users.service';
 import { UtilitiesService } from 'src/utilities/utilities.service';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class PoliciaisService {
@@ -19,6 +20,7 @@ export class PoliciaisService {
     private lazyModuleLoader: LazyModuleLoader,
     private usersService: UsersService,
     private utilitiesService: UtilitiesService,
+    private logsService: LogsService
   ) {}
 
   async index(idUser: User): Promise<PoliciaisInterface> {
@@ -67,6 +69,7 @@ export class PoliciaisService {
        },
       relations: {
         policiais_publicacoes: { policial: false },
+        policiais_cursos: { policial: false },
         policiais_ferias: { policial: false },
         policiais_atestados: { policial: false },
         armamentos_emprestimos: { 
@@ -95,6 +98,16 @@ export class PoliciaisService {
       created_by: idUser,
     });
     var policial = await this.policialRepository.save(object);
+
+    await this.logsService.create({
+      object: JSON.stringify(policial),
+      mensagem: 'Cadastrou um Policial',
+      tipo: 1,
+      table: 'policiais',
+      fk: policial.id,
+      user: idUser
+    });
+
     var salt = await this.utilitiesService.generateSalt(10);
     var password = await this.utilitiesService.hashString(`${object.cpf}${salt}`);
     var user: User = {
@@ -114,15 +127,39 @@ export class PoliciaisService {
     var data: PolicialInterface = await this.policialRepository.findOneBy({
       id: id,
     });
+    var dataold = data;
     data = { ...object };
     await this.policialRepository.update(
       { id: id },
       { ...data, updated_by: idUser },
     );
+
+    await this.logsService.create({
+      object: JSON.stringify(data),
+      object_old: JSON.stringify(dataold),
+      mensagem: 'Editou um Policial',
+      tipo: 2,
+      table: 'policiais',
+      fk: id,
+      user: idUser
+    });
   }
 
   async remove(id: number, idUser: User) {
-    return await this.policialRepository.delete(id);
+    var del = this.policialRepository.findOne({
+      where: { 
+        id: id,
+       }
+    });
+    await this.logsService.create({
+      object: JSON.stringify(del),
+      mensagem: 'Excluiu um Policial',
+      tipo: 3,
+      table: 'policiais',
+      fk: id,
+      user: idUser
+    });
+    await this.policialRepository.delete(id);
   }
 
   async disponiveis(idUser: User): Promise<PoliciaisInterface> {
@@ -159,5 +196,52 @@ export class PoliciaisService {
         }
       },
     });
+  }
+
+  async relatorio(object:any, idUser: User): Promise<PoliciaisInterface> {
+    var policiais;
+    if(idUser.perfil.administrador){
+      policiais = await this.policialRepository.find();
+    }else{
+      policiais = await this.policialRepository.find({
+        where: { 
+          //@ts-ignore
+          setor: {
+            subunidade: {
+              id: idUser.subunidade.id
+            }
+          }
+        },
+      });
+    }
+
+    if(object.setor){
+      policiais = policiais.filter(element => {
+        return element.setor.id === object.setor;
+      })
+    }
+
+    if(object.graduacao){
+      policiais = policiais.filter(element => {
+        return element.graduacao.id === object.graduacao;
+      })
+    }
+
+    if(object.sexo){
+      policiais = policiais.filter(element => {
+        if(element.sexo){
+          return element.sexo.id === object.sexo;
+        }
+        
+      })
+    }
+
+    if(object.transferido){
+      policiais = policiais.filter(element => {
+        return element.boletim_transferencia !== null;
+      })
+    }
+
+    return policiais;
   }
 }

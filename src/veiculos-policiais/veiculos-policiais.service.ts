@@ -7,6 +7,7 @@ import { Between, IsNull, Repository } from 'typeorm';
 import { VeiculoPolicial as VeiculoPolicialEntity } from './veiculo-policial.entity';
 import { VeiculoPolicial as VeiculoPolicialInterface, VeiculosPoliciais as VeiculosPoliciaisInterface } from './veiculo-policial.interface';
 import { addHours, addMinutes } from 'date-fns';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class VeiculosPoliciaisService {
@@ -15,6 +16,7 @@ export class VeiculosPoliciaisService {
         private veiculoPolicialRository: Repository<VeiculoPolicialEntity>,
         @Inject(forwardRef(() => VeiculosService))
         private veiculosService: VeiculosService,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -52,7 +54,16 @@ export class VeiculosPoliciaisService {
           km_inicial: veiculo.km_atual,
           subunidade: idUser.subunidade, 
           created_by: idUser}) 
-        await this.veiculoPolicialRository.save(object);      
+        var save = await this.veiculoPolicialRository.save(object);  
+        
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou um Emprestimo de Veiculo',
+          tipo: 1,
+          table: 'veiculos_policiais',
+          fk: save.id,
+          user: idUser
+        });
       }
   
       async update(id:number, object: VeiculoPolicialInterface, idUser: User) {
@@ -62,10 +73,31 @@ export class VeiculosPoliciaisService {
         var data: VeiculoPolicialInterface = await this.veiculoPolicialRository.findOneBy({id: id});
         data = {...object, km_inicial: veiculo.km_atual,}
         await this.veiculoPolicialRository.update({id:id},{...data, updated_by: idUser});
+
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um Emprestimo de Veiculo',
+          tipo: 2,
+          table: 'veiculos_policiais',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.veiculoPolicialRository.delete(id);;
+        var data = await this.veiculoPolicialRository.findOne({where: {
+          id: id,
+        }});
+        await this.veiculoPolicialRository.delete(id);
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um Emprestimo de Veiculo',
+          tipo: 3,
+          table: 'veiculos_policiais',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async receber(object:any, idUser: User){
@@ -76,6 +108,16 @@ export class VeiculosPoliciaisService {
         var veiculo = await this.veiculosService.find2(data.veiculo.id, idUser);
         veiculo.km_atual = object.km_final;
         await this.veiculosService.update(veiculo.id, veiculo, idUser);
+
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Recebeu um Emprestimo de Veiculo',
+          tipo: 2,
+          table: 'veiculos_policiais',
+          fk: object.id,
+          user: idUser
+        });
       }
 
       async emprestados(idUser: User): Promise<VeiculosPoliciaisInterface> {

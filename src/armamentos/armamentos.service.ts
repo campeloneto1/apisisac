@@ -6,12 +6,14 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { Armamento as ArmamentoEntity } from './armamento.entity';
 import { Armamento as ArmamentoInterface, Armamentos as ArmamentosInterface } from './armamento.interface';
 import { format } from 'date-fns';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class ArmamentosService {
     constructor(
         @InjectRepository(ArmamentoEntity)
         private armamentoRepository: Repository<ArmamentoEntity>,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -65,17 +67,45 @@ export class ArmamentosService {
   
       async create(object: ArmamentoInterface, idUser: User) {
         var object:ArmamentoInterface = this.armamentoRepository.create({...object, quantidade_disponivel: object.quantidade, subunidade: idUser.subunidade, created_by: idUser}) 
-        await this.armamentoRepository.save(object);      
+        var save = await this.armamentoRepository.save(object);  
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou um Armamento',
+          tipo: 1,
+          table: 'armamentos',
+          fk: save.id,
+          user: idUser
+        });    
       }
   
       async update(id:number, object: ArmamentoInterface, idUser: User) {
         var data: ArmamentoInterface = await this.armamentoRepository.findOneBy({id: id});
         data = {...object, quantidade_disponivel: object.quantidade}
         await this.armamentoRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um Armamento',
+          tipo: 2,
+          table: 'armamentos',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.armamentoRepository.delete(id);;
+        var data = await this.armamentoRepository.findOne({where: {
+          id: id,
+        }});
+        await this.armamentoRepository.delete(id);
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um Armamento',
+          tipo: 3,
+          table: 'armamentos',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async disponiveis(idUser: User): Promise<ArmamentosInterface> {

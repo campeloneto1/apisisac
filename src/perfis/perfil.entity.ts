@@ -37,6 +37,12 @@ export class Perfil {
     @Column({ nullable: true, }) policiais_atestados_edt!: boolean;
     @Column({ nullable: true, }) policiais_atestados_del!: boolean;
 
+    @Column({ nullable: true, }) policiais_cursos!: boolean;
+    @Column({ nullable: true, }) policiais_cursos_cad!: boolean;
+    @Column({ nullable: true, }) policiais_cursos_edt!: boolean;
+    @Column({ nullable: true, }) policiais_cursos_del!: boolean;
+
+
     @Column({ nullable: true, }) policiais_ferias!: boolean;
     @Column({ nullable: true, }) policiais_ferias_cad!: boolean;
     @Column({ nullable: true, }) policiais_ferias_edt!: boolean;

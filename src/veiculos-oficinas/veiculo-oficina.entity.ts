@@ -54,7 +54,7 @@ export class VeiculoOficina {
 
     @Column({
         nullable: true,
-        length: 2000,
+        type: 'text'
       })
       observacoes!: string;
 

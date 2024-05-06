@@ -7,12 +7,14 @@ import { Veiculo as VeiculoInterface, Veiculos as VeiculosInterface } from './ve
 import { User } from 'src/users/user.interface';
 import { VeiculosOficinasService } from 'src/veiculos-oficinas/veiculos-oficinas.service';
 import { VeiculosPoliciaisService } from 'src/veiculos-policiais/veiculos-policiais.service';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class VeiculosService {
     constructor(
         @InjectRepository(VeiculoEntity)
         private veiculoRepository: Repository<VeiculoEntity>,
+        private logsService: LogsService,
         @Inject(forwardRef(() => VeiculosOficinasService))
         private veiculosOficinasService: VeiculosOficinasService,
         @Inject(forwardRef(() => VeiculosPoliciaisService))
@@ -70,7 +72,15 @@ export class VeiculosService {
   
       async create(object: VeiculoInterface, idUser: User) {
         var object:VeiculoInterface = this.veiculoRepository.create({...object, km_atual: object.km_inicial, subunidade: idUser.subunidade, created_by: idUser}) 
-        await this.veiculoRepository.save(object);      
+        var save = await this.veiculoRepository.save(object);   
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou um Veiculo',
+          tipo: 1,
+          table: 'veiculos',
+          fk: save.id,
+          user: idUser
+        });   
       }
   
       async update(id:number, object: VeiculoInterface, idUser: User) {
@@ -78,10 +88,32 @@ export class VeiculosService {
         data = {...object}
        
         await this.veiculoRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um Veiculo',
+          tipo: 2,
+          table: 'veiculos',
+          fk: id,
+          user: idUser
+        });
+
       }
   
       async remove(id: number, idUser: User) {
-        return await this.veiculoRepository.delete(id);;
+        var data = await this.veiculoRepository.findOne({where: {
+          id: id,
+        }});
+        await this.veiculoRepository.delete(id);
+
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um Veiculo',
+          tipo: 3,
+          table: 'veiculos',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async disponiveis(idUser: User): Promise<VeiculosInterface> {
@@ -175,18 +207,24 @@ export class VeiculosService {
           })
         }
 
+        if(object.blindado){
+          veiculos = veiculos.filter(element => {
+            return element.blindado === true;
+          })
+        }
+
         if(object.organico){
           veiculos = veiculos.filter(element => {
-            return element.organico !== null;
+            return element.organico === true;
           })
         }
 
         if(object.locado){
           veiculos = veiculos.filter(element => {
-            return element.organico === null;
+            return element.organico !== true;
           })
         }
-
+        
         if(object.data_baixa){
           veiculos = veiculos.filter(element => {
             return element.data_baixa !== null;

@@ -5,12 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Policial } from './policial.entity';
 import { UsersModule } from 'src/users/users.module';
 import { UtilitiesModule } from 'src/utilities/utilities.module';
+import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Policial]),
     UsersModule,
     UtilitiesModule,
+    LogsModule
   ],
   providers: [PoliciaisService],
   controllers: [PoliciaisController],

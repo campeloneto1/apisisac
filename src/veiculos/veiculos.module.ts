@@ -5,10 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Veiculo } from './veiculo.entity';
 import { VeiculosOficinasModule } from 'src/veiculos-oficinas/veiculos-oficinas.module';
 import { VeiculosPoliciaisModule } from 'src/veiculos-policiais/veiculos-policiais.module';
+import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Veiculo]),
+    LogsModule,
     forwardRef(() => VeiculosPoliciaisModule),
     forwardRef(() => VeiculosOficinasModule),
   ],

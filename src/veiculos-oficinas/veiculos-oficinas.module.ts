@@ -4,11 +4,13 @@ import { VeiculosOficinasController } from './veiculos-oficinas.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VeiculoOficina } from './veiculo-oficina.entity';
 import { VeiculosModule } from 'src/veiculos/veiculos.module';
+import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([VeiculoOficina]),
-    forwardRef(() => VeiculosModule)
+    forwardRef(() => VeiculosModule),
+    LogsModule
   ],
   providers: [VeiculosOficinasService],
   controllers: [VeiculosOficinasController],

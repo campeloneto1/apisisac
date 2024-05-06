@@ -50,7 +50,7 @@ export class Patrimonio {
 
       @Column({
         nullable: true,
-        length: 2000,
+        length: 10000,
       })
       observacoes!: string;
 

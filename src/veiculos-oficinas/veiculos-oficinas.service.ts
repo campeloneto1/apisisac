@@ -7,6 +7,7 @@ import { VeiculoOficina as VeiculoOficinaEntity } from './veiculo-oficina.entity
 import { VeiculoOficina as VeiculoOficinaInterface, VeiculosOficinas as VeiculosOficinasInterface } from './veiculo-oficina.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
 import { addHours, addMinutes } from 'date-fns';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class VeiculosOficinasService {
@@ -15,6 +16,7 @@ export class VeiculosOficinasService {
         private veiculoOficinaRository: Repository<VeiculoOficinaEntity>,
         @Inject(forwardRef(() => VeiculosService))
         private veiculosService: VeiculosService,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -52,7 +54,16 @@ export class VeiculosOficinasService {
           km_inicial: veiculo.km_atual,
           subunidade: idUser.subunidade, 
           created_by: idUser}) 
-        await this.veiculoOficinaRository.save(object);      
+        var save = await this.veiculoOficinaRository.save(object);      
+
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou uma Manutencao de Veiculo',
+          tipo: 1,
+          table: 'veiculos_oficinas',
+          fk: save.id,
+          user: idUser
+        });
       }
   
       async update(id:number, object: VeiculoOficinaInterface, idUser: User) {
@@ -62,10 +73,32 @@ export class VeiculosOficinasService {
         var data: VeiculoOficinaInterface = await this.veiculoOficinaRository.findOneBy({id: id});
         data = {...object, km_inicial: veiculo.km_atual,}
         await this.veiculoOficinaRository.update({id:id},{...data, updated_by: idUser});
+
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou uma Manutencao de Veiculo',
+          tipo: 2,
+          table: 'veiculos_oficinas',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.veiculoOficinaRository.delete(id);;
+        var data = await this.veiculoOficinaRository.findOne({where: {
+          id: id,
+        }});
+        await this.veiculoOficinaRository.delete(id);
+
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu uma Manutencao de Veiculo',
+          tipo: 3,
+          table: 'veiculos_oficinas',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async receber(object:any, idUser: User){
@@ -76,6 +109,16 @@ export class VeiculosOficinasService {
         var veiculo = await this.veiculosService.find2(data.veiculo.id, idUser );
         veiculo.km_atual = object.km_final;
         await this.veiculosService.update(veiculo.id, veiculo, idUser);
+
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Recebeu uma Manutencao de Veiculo',
+          tipo: 2,
+          table: 'veiculos_oficinas',
+          fk: object.id,
+          user: idUser
+        });
       }
 
       async emmanutencao(idUser: User): Promise<VeiculosOficinasInterface> {
