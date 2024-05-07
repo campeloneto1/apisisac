@@ -27,6 +27,6 @@ export class PerfisController {
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.perfisService.remove(id, req);
+        return await this.perfisService.remove(id, req.user);
     }
 }

@@ -26,8 +26,8 @@ export class ArmamentosEmprestimosItensService {
         return await this.armamentoEmprestimoItemRepository.findOne({where: {id: id}});
       }
   
-      async create(object: ArmamentoEsmprestimoItemInterface, idUser: User) {
-        var object:ArmamentoEsmprestimoItemInterface = this.armamentoEmprestimoItemRepository.create({...object, created_by: idUser}) 
+      async create(objectreq: ArmamentoEsmprestimoItemInterface, idUser: User) {
+        var object:ArmamentoEsmprestimoItemInterface = this.armamentoEmprestimoItemRepository.create({...objectreq, created_by: idUser}) 
         var save = await this.armamentoEmprestimoItemRepository.save(object);      
 
         //@ts-ignore

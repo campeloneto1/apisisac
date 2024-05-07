@@ -47,6 +47,10 @@ import { PatrimoniosModule } from './patrimonios/patrimonios.module';
 import { LogsModule } from './logs/logs.module';
 import { CursosModule } from './cursos/cursos.module';
 import { PoliciaisCursosModule } from './policiais-cursos/policiais-cursos.module';
+import { MateriaisConsumoTiposModule } from './materiais-consumo-tipos/materiais-consumo-tipos.module';
+import { MateriaisConsumoModule } from './materiais-consumo/materiais-consumo.module';
+import { MateriaisConsumoSaidasModule } from './materiais-consumo-saidas/materiais-consumo-saidas.module';
+import { MateriaisConsumoSaidasItensModule } from './materiais-consumo-saidas-itens/materiais-consumo-saidas-itens.module';
 
 
 @Module({
@@ -109,6 +113,10 @@ import { PoliciaisCursosModule } from './policiais-cursos/policiais-cursos.modul
     LogsModule,
     CursosModule,
     PoliciaisCursosModule,
+    MateriaisConsumoTiposModule,
+    MateriaisConsumoModule,
+    MateriaisConsumoSaidasModule,
+    MateriaisConsumoSaidasItensModule,
   ],
   controllers: [AppController],
   providers: [AppService,

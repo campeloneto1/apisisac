@@ -28,7 +28,7 @@ export class SetoresController {
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.setoresService.remove(id, req);
+        return await this.setoresService.remove(id, req.user);
     }
 
     @Get(':id/whereSubunidade')

@@ -29,7 +29,7 @@ export class UsersController {
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.usersService.remove(id, req);
+        return await this.usersService.remove(id, req.user);
     }
 
     @Post('reset')

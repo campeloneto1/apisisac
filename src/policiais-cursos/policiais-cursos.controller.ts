@@ -28,6 +28,6 @@ export class PoliciaisCursosController {
 
     @Delete(':id')
     async remove(@Param('id') id: number, @Request() req) {
-        return await this.policiaisCursosService.remove(id, req);
+        return await this.policiaisCursosService.remove(id, req.user);
     }
 }
