@@ -8,12 +8,14 @@ import {
   Oficina as OficinaInterface,
   Oficinas as OficinasInterface,
 } from './oficina.interface';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class OficinasService {
   constructor(
     @InjectRepository(OficinaEntity)
     private oficinaRepository: Repository<OficinaEntity>,
+    private logsService: LogsService,
     private lazyModuleLoader: LazyModuleLoader,
   ) {}
 
@@ -50,7 +52,15 @@ export class OficinasService {
       subunidade: idUser.subunidade,
       created_by: idUser,
     });
-    await this.oficinaRepository.save(object);
+    var save = await this.oficinaRepository.save(object);
+    await this.logsService.create({
+      object: JSON.stringify(save),
+      mensagem: 'Cadastrou uma oficina',
+      tipo: 1,
+      table: 'oficinas',
+      fk: save.id,
+      user: idUser
+    });
   }
 
   async update(id: number, object: OficinaInterface, idUser: User) {
@@ -62,9 +72,29 @@ export class OficinasService {
       { id: id },
       { ...data, updated_by: idUser },
     );
+    await this.logsService.create({
+      object: JSON.stringify(object),
+      object_old: JSON.stringify(data),
+      mensagem: 'Editou uma oficina',
+      tipo: 2,
+      table: 'oficinas',
+      fk: id,
+      user: idUser
+    });
   }
 
   async remove(id: number, idUser: User) {
-    return await this.oficinaRepository.delete(id);
+    var data = await this.oficinaRepository.findOne({where: {
+      id: id,
+    }});
+    await this.oficinaRepository.delete(id);
+    await this.logsService.create({
+      object: JSON.stringify(data),
+      mensagem: 'Excluiu uma oficina',
+      tipo: 3,
+      table: 'oficinas',
+      fk: data.id,
+      user: idUser
+    });
   }
 }

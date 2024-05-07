@@ -30,6 +30,11 @@ export class HomeController {
         return this.homeService.policiaisSetores(req.user);
     }
 
+    @Get('policiais-graduacoes')
+    async policiaisGraduacoes(@Request() req):Promise<number>{
+        return this.homeService.policiaisGraduacoes(req.user);
+    }
+
     @Get('armamentos-vencendo')
     async armamentosVencendo(@Request() req):Promise<Armamentos>{
         return this.homeService.armamentosVencendo(req.user);

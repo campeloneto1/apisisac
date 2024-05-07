@@ -5,12 +5,14 @@ import { Repository } from 'typeorm';
 import { Subunidade as SubunidadeEntity } from './subunidade.entity';
 import { Subunidade as SubunidadeInterface, Subunidades as SubunidadesInterface } from './subunidade.interface';
 import { User } from 'src/users/user.interface';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class SubunidadesService {
     constructor(
         @InjectRepository(SubunidadeEntity)
         private subunidadeRepository: Repository<SubunidadeEntity>,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -53,17 +55,46 @@ export class SubunidadesService {
   
       async create(object: SubunidadeInterface, idUser: User) {
         var object:SubunidadeInterface = this.subunidadeRepository.create({...object, created_by: idUser}) 
-        await this.subunidadeRepository.save(object);      
+        var save = await this.subunidadeRepository.save(object);      
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou uma subunidade',
+          tipo: 1,
+          table: 'subunidades',
+          fk: save.id,
+          user: idUser
+        });
+
       }
   
       async update(id:number, object: SubunidadeInterface, idUser: User) {
         var data: SubunidadeInterface = await this.subunidadeRepository.findOneBy({id: id});
         data = {...object}
         await this.subunidadeRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou uma subunidade',
+          tipo: 2,
+          table: 'subunidades',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.subunidadeRepository.delete(id);
+        var data = await this.subunidadeRepository.findOne({where: {
+          id: id,
+        }});
+        await this.subunidadeRepository.delete(id);
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu uma subunidade',
+          tipo: 3,
+          table: 'subunidades',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async whereUnidade(id: number): Promise<SubunidadesInterface | null> {

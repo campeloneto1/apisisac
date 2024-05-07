@@ -4,9 +4,14 @@ import { ArmamentosEmprestimosItensController } from './armamentos-emprestimos-i
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArmamentoEmprestimoItem } from './armamento-emprestimo-item.entity';
 import { ArmamentosModule } from 'src/armamentos/armamentos.module';
+import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ArmamentoEmprestimoItem]), ArmamentosModule],
+  imports: [
+    TypeOrmModule.forFeature([ArmamentoEmprestimoItem]), 
+    ArmamentosModule,
+    LogsModule
+  ],
   providers: [ArmamentosEmprestimosItensService],
   controllers: [ArmamentosEmprestimosItensController],
   exports: [ArmamentosEmprestimosItensService]

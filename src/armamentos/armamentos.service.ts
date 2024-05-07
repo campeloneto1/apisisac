@@ -35,7 +35,6 @@ export class ArmamentosService {
       async find(id: number, idUser: User): Promise<ArmamentoInterface | null> {
         return await this.armamentoRepository.findOne({
           relations:{
-            
             armamentos_emprestimos_itens: {
               armamento: false,
               armamento_emprestimo: {

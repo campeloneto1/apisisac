@@ -5,12 +5,14 @@ import { IsNull, Repository } from 'typeorm';
 import { Setor as SetorEntity } from './setor.entity';
 import { Setor as SetorInterface, Setores as SetoresInterface } from './setor.interface';
 import { User } from 'src/users/user.interface';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class SetoresService {
     constructor(
         @InjectRepository(SetorEntity)
         private setorRepository: Repository<SetorEntity>,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -36,17 +38,45 @@ export class SetoresService {
   
       async create(object: SetorInterface, idUser: User) {
         var object:SetorInterface = this.setorRepository.create({...object, created_by: idUser}) 
-        await this.setorRepository.save(object);      
+        var save = await this.setorRepository.save(object);     
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou um setor',
+          tipo: 1,
+          table: 'setores',
+          fk: save.id,
+          user: idUser
+        }); 
       }
   
       async update(id:number, object: SetorInterface, idUser: User) {
         var data: SetorInterface = await this.setorRepository.findOneBy({id: id});
         data = {...object}
         await this.setorRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um setor',
+          tipo: 2,
+          table: 'setores',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.setorRepository.delete(id);;
+        var data = await this.setorRepository.findOne({where: {
+          id: id,
+        }});
+        await this.setorRepository.delete(id);
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um setor',
+          tipo: 3,
+          table: 'setores',
+          fk: data.id,
+          user: idUser
+        });
       }
 
       async whereSubunidade(id: number): Promise<SetoresInterface | null> {

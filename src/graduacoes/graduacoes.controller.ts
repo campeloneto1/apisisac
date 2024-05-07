@@ -11,6 +11,11 @@ export class GraduacoesController {
         return this.graduacoesService.index();
     }
 
+    @Get('policiais-graduacoes')
+    async policiaisGraduacoes(@Request() req):Promise<Graduacao>  {
+        return await this.graduacoesService.policiaisGraduacoes(req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number):Promise<Graduacao>  {
         return await this.graduacoesService.find(id);

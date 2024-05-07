@@ -5,12 +5,14 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { Perfil as PerfilEntity } from './perfil.entity';
 import { Perfil as PerfilInterface, Perfis as PerfisInterface } from './perfil.interface';
 import { User } from 'src/users/user.interface';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class PerfisService {
     constructor(
         @InjectRepository(PerfilEntity)
         private perfilRepository: Repository<PerfilEntity>,
+        private logsService: LogsService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -24,16 +26,44 @@ export class PerfisService {
   
       async create(object: PerfilInterface, idUser: User) {
         var object:PerfilInterface = this.perfilRepository.create({...object, created_by: idUser}) 
-        await this.perfilRepository.save(object);      
+        var save = await this.perfilRepository.save(object);     
+        await this.logsService.create({
+          object: JSON.stringify(save),
+          mensagem: 'Cadastrou um perfil',
+          tipo: 1,
+          table: 'perfis',
+          fk: save.id,
+          user: idUser
+        }); 
       }
   
       async update(id:number, object: PerfilInterface, idUser: User) {
         var data: PerfilInterface = await this.perfilRepository.findOneBy({id: id});
         data = {...object}
         await this.perfilRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Editou um perfil',
+          tipo: 2,
+          table: 'perfis',
+          fk: id,
+          user: idUser
+        });
       }
   
       async remove(id: number, idUser: User) {
-        return await this.perfilRepository.delete(id);;
+        var data = await this.perfilRepository.findOne({where: {
+          id: id,
+        }});
+        await this.perfilRepository.delete(id);
+        await this.logsService.create({
+          object: JSON.stringify(data),
+          mensagem: 'Excluiu um perfil',
+          tipo: 3,
+          table: 'perfis',
+          fk: data.id,
+          user: idUser
+        });
       }
 }

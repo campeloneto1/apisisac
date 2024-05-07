@@ -5,6 +5,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { User as UserEntity } from './user.entity';
 import { User as UserInterface, Users as UsersInterface } from './user.interface';
 import { UtilitiesService } from 'src/utilities/utilities.service';
+import { LogsService } from 'src/logs/logs.service';
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,7 @@ export class UsersService {
       @InjectRepository(UserEntity)
       private usersRepository: Repository<UserEntity>,
       private utilitiesService: UtilitiesService,
+      private logsService: LogsService,
       private lazyModuleLoader: LazyModuleLoader
     ) {}
 
@@ -29,17 +31,46 @@ export class UsersService {
       object.password = await this.utilitiesService.hashString(`${object.cpf}${object.salt}`);
 
       var object:UserInterface = this.usersRepository.create({...object, created_by: idUser}) 
-      await this.usersRepository.save(object);      
+      var save = await this.usersRepository.save(object);      
+
+      await this.logsService.create({
+        object: JSON.stringify(save),
+        mensagem: 'Cadastrou um usuário',
+        tipo: 1,
+        table: 'users',
+        fk: save.id,
+        user: idUser
+      });
     }
 
     async update(id:number, object: UserInterface, idUser: UserInterface) {
       var data: UserInterface = await this.usersRepository.findOneBy({id: id});
       data = {...object}
       await this.usersRepository.update({id:id},{...data, updated_by: idUser});
+      await this.logsService.create({
+        object: JSON.stringify(object),
+        object_old: JSON.stringify(data),
+        mensagem: 'Editou um usuário',
+        tipo: 2,
+        table: 'users',
+        fk: id,
+        user: idUser
+      });
     }
 
     async remove(id: number, idUser: UserInterface) {
-      return await this.usersRepository.delete(id);;
+      var data = await this.usersRepository.findOne({where: {
+        id: id,
+      }});
+      await this.usersRepository.delete(id);
+      await this.logsService.create({
+        object: JSON.stringify(data),
+        mensagem: 'Excluiu um usuário',
+        tipo: 3,
+        table: 'users',
+        fk: data.id,
+        user: idUser
+      });
     }
 
     async signIn(username: string): Promise<UserInterface> {
@@ -63,14 +94,23 @@ export class UsersService {
       var user = await this.usersRepository.findOne({where: {id: object.id}});
       user.salt = await this.utilitiesService.generateSalt(10);
       user.password = await this.utilitiesService.hashString(`${user.cpf}${user.salt}`);
-      await this.usersRepository.update({id:object.id},{...user});
+      var update = await this.usersRepository.update({id:object.id},{...user});
+      await this.logsService.create({
+        object: JSON.stringify(update),
+        object_old: JSON.stringify(user),
+        mensagem: 'Resetou a senha de um usuário',
+        tipo: 2,
+        table: 'users',
+        fk: object.id,
+        user: idUser
+      });
     }
 
     async changePass(object:any){
       var user = await this.usersRepository.findOne({where: {id: object.id}});
       user.salt = await this.utilitiesService.generateSalt(10);
       user.password = await this.utilitiesService.hashString(`${object.password}${user.salt}`);
-      await this.usersRepository.update({id:object.id},{...user});
+      var update = await this.usersRepository.update({id:object.id},{...user});
     }
 }
 /*

@@ -4,6 +4,7 @@ import { ArmamentosEmprestimos } from 'src/armamentos-emprestimos/armamento-empr
 import { ArmamentosEmprestimosService } from 'src/armamentos-emprestimos/armamentos-emprestimos.service';
 import { Armamentos } from 'src/armamentos/armamento.interface';
 import { ArmamentosService } from 'src/armamentos/armamentos.service';
+import { GraduacoesService } from 'src/graduacoes/graduacoes.service';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
 import { PoliciaisFeriasService } from 'src/policiais-ferias/policiais-ferias.service';
 import { PoliciaisService } from 'src/policiais/policiais.service';
@@ -22,6 +23,7 @@ export class HomeService {
         private lazyModuleLoader: LazyModuleLoader,
         private armamentosService: ArmamentosService,
         private armamentosEmprestimosService: ArmamentosEmprestimosService,
+        private graduacoesService: GraduacoesService,
         private policiaisService: PoliciaisService,
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisFeriasService: PoliciaisFeriasService,
@@ -42,6 +44,10 @@ export class HomeService {
 
     async ferias(idUser: User): Promise<number> {
         return this.policiaisFeriasService.quantidade(idUser);
+    }
+
+    async policiaisGraduacoes(idUser: User): Promise<any>{
+        return this.graduacoesService.policiaisGraduacoes(idUser);
     }
 
     async policiaisSetores(idUser: User): Promise<any>{
