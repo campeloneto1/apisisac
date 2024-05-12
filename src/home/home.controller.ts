@@ -5,10 +5,38 @@ import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interfac
 import { Veiculos } from 'src/veiculos/veiculo.interface';
 import { VeiculosPoliciais } from 'src/veiculos-policiais/veiculo-policial.interface';
 import { ArmamentosEmprestimos } from 'src/armamentos-emprestimos/armamento-emprestimo.interface';
+import { MateriaisConsumo } from 'src/materiais-consumo/material-consumo.interface';
+import { MateriaisPoliciais } from 'src/materiais-policiais/material-policial.interface';
 
 @Controller('home')
 export class HomeController {
     constructor(private homeService: HomeService){}
+
+    @Get('armamentos-vencendo')
+    async armamentosVencendo(@Request() req):Promise<Armamentos>{
+        return this.homeService.armamentosVencendo(req.user);
+    }
+
+    @Get('armamentos-emprestados')
+    async armamentosEmprestimos(@Request() req):Promise<ArmamentosEmprestimos>{
+        return this.homeService.armamentosEmprestados(req.user);
+    }
+
+    @Get('materiais-consumo-vencendo')
+    async materiaisConsumoVencendo(@Request() req):Promise<MateriaisConsumo>{
+        return this.homeService.materiaisVencendo(req.user);
+    }
+
+    @Get('materiais-policiais-emprestados')
+    async materiaisPoliciaisEmprestados(@Request() req):Promise<MateriaisPoliciais>{
+        return this.homeService.materiaisEmprestados(req.user);
+    }
+
+    @Get('materiais-consumo-alerta')
+    async materiaisConsumoAlerta(@Request() req):Promise<MateriaisConsumo>{
+        return this.homeService.materiaisAlerta(req.user);
+    }
+
 
     @Get('policiais')
     async policiais(@Request() req):Promise<number>{
@@ -33,16 +61,6 @@ export class HomeController {
     @Get('policiais-graduacoes')
     async policiaisGraduacoes(@Request() req):Promise<number>{
         return this.homeService.policiaisGraduacoes(req.user);
-    }
-
-    @Get('armamentos-vencendo')
-    async armamentosVencendo(@Request() req):Promise<Armamentos>{
-        return this.homeService.armamentosVencendo(req.user);
-    }
-
-    @Get('armamentos-emprestados')
-    async armamentosEmprestimos(@Request() req):Promise<ArmamentosEmprestimos>{
-        return this.homeService.armamentosEmprestados(req.user);
     }
 
 

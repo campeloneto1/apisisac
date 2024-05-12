@@ -27,6 +27,16 @@ export class Perfil {
     @Column({ nullable: true, }) patrimonios_edt!: boolean;
     @Column({ nullable: true, }) patrimonios_del!: boolean;
 
+    @Column({ nullable: true, }) materiais!: boolean;
+    @Column({ nullable: true, }) materiais_cad!: boolean;
+    @Column({ nullable: true, }) materiais_edt!: boolean;
+    @Column({ nullable: true, }) materiais_del!: boolean;
+
+    @Column({ nullable: true, }) materiais_policiais!: boolean;
+    @Column({ nullable: true, }) materiais_policiais_cad!: boolean;
+    @Column({ nullable: true, }) materiais_policiais_edt!: boolean;
+    @Column({ nullable: true, }) materiais_policiais_del!: boolean;
+
     @Column({ nullable: true, }) materiais_consumo!: boolean;
     @Column({ nullable: true, }) materiais_consumo_cad!: boolean;
     @Column({ nullable: true, }) materiais_consumo_edt!: boolean;
@@ -36,6 +46,11 @@ export class Perfil {
     @Column({ nullable: true, }) materiais_consumo_saidas_cad!: boolean;
     @Column({ nullable: true, }) materiais_consumo_saidas_edt!: boolean;
     @Column({ nullable: true, }) materiais_consumo_saidas_del!: boolean;
+
+    @Column({ nullable: true, }) materiais_consumo_entradas!: boolean;
+    @Column({ nullable: true, }) materiais_consumo_entradas_cad!: boolean;
+    @Column({ nullable: true, }) materiais_consumo_entradas_edt!: boolean;
+    @Column({ nullable: true, }) materiais_consumo_entradas_del!: boolean;
 
     @Column({ nullable: true, }) policiais!: boolean;
     @Column({ nullable: true, }) policiais_cad!: boolean;

@@ -1,18 +1,18 @@
-import { MaterialConsumoTipo } from "src/materiais-consumo-tipos/material-consumo-tipo.interface";
+import { MaterialTipo } from "src/materiais-tipos/material-tipo.interface";
 import { Modelo } from "src/modelos/modelo.interface";
 import { Subunidade } from "src/subunidades/subunidade.interface";
 import { User } from "src/users/user.interface";
 
-export interface MaterialConsumo{
+export interface Material{
     id?: number;
     subunidade: Subunidade;
-    material_consumo_tipo: MaterialConsumoTipo;
+    material_tipo: MaterialTipo;
     modelo: Modelo;
     serial?: string;
     data_validade?: Date;
     quantidade: number;
-    quantidade_alerta: number;
-    
+    quantidade_disponivel: number;
+
     data_baixa?: Date;
     observacoes?: string;
 
@@ -22,4 +22,4 @@ export interface MaterialConsumo{
     updated_at: Date;
 }
 
-export type MateriaisConsumo = Array<MaterialConsumo>;
+export type Materiais = Array<Material>;

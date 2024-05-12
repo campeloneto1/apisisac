@@ -9,7 +9,7 @@ export interface MaterialConsumoSaida{
     data_saida: Date;
     observacoes? : string;
     materiais_consumo_saidas_itens: MateriaisConsumoSaidasItens;
-    materiais_consumo?: any;
+    materiais?: any;
 
     created_by: User;
     updated_by: User;

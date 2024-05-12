@@ -31,7 +31,7 @@ export class MateriaisConsumoSaidasItensService {
         var save = await this.materialConsumoSaidaItemRepository.save(object);      
 
         //@ts-ignore
-        this.armamentosService.atualizarQuantidadeDown(object.material_consumo, object.quantidade);
+        this.materiaisConsumoService.atualizarQuantidadeDown(object.material_consumo, object.quantidade);
 
         await this.logsService.create({
           object: JSON.stringify(save),
@@ -68,7 +68,7 @@ export class MateriaisConsumoSaidasItensService {
       async whereMatCon(id:number): Promise<MateriaisConsumoSaidasItensInterface>{
         return await this.materialConsumoSaidaItemRepository.find({
           where: {
-            material_consumo: {
+            material_consumo_saida: {
               id: id
             }
           }

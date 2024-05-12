@@ -5,6 +5,10 @@ import { ArmamentosEmprestimosService } from 'src/armamentos-emprestimos/armamen
 import { Armamentos } from 'src/armamentos/armamento.interface';
 import { ArmamentosService } from 'src/armamentos/armamentos.service';
 import { GraduacoesService } from 'src/graduacoes/graduacoes.service';
+import { MateriaisConsumoService } from 'src/materiais-consumo/materiais-consumo.service';
+import { MateriaisConsumo } from 'src/materiais-consumo/material-consumo.interface';
+import { MateriaisPoliciaisService } from 'src/materiais-policiais/materiais-policiais.service';
+import { MateriaisPoliciais } from 'src/materiais-policiais/material-policial.interface';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
 import { PoliciaisFeriasService } from 'src/policiais-ferias/policiais-ferias.service';
 import { PoliciaisService } from 'src/policiais/policiais.service';
@@ -24,6 +28,8 @@ export class HomeService {
         private armamentosService: ArmamentosService,
         private armamentosEmprestimosService: ArmamentosEmprestimosService,
         private graduacoesService: GraduacoesService,
+        private materiaisConsumoService: MateriaisConsumoService,
+        private materiaisPoliciaisService: MateriaisPoliciaisService,
         private policiaisService: PoliciaisService,
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisFeriasService: PoliciaisFeriasService,
@@ -72,6 +78,18 @@ export class HomeService {
 
     async veiculosEmprestados(idUser: User): Promise<VeiculosPoliciais>{
         return this.veiculosPoliciaisService.emprestados(idUser);
+    }
+
+    async materiaisVencendo(idUser: User): Promise<MateriaisConsumo>{
+        return this.materiaisConsumoService.vencendo(idUser);
+    }
+
+    async materiaisAlerta(idUser: User): Promise<MateriaisConsumo>{
+        return this.materiaisConsumoService.alerta(idUser);
+    }
+
+    async materiaisEmprestados(idUser: User): Promise<MateriaisPoliciais>{
+        return this.materiaisPoliciaisService.emprestados(idUser);
     }
 
 }

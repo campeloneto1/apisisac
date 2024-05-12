@@ -24,11 +24,6 @@ export class MaterialConsumo {
       quantidade!: number;
 
       @Column({
-        nullable: false,
-      })
-      quantidade_disponivel!: number;
-
-      @Column({
         nullable: true,
       })
       quantidade_alerta!: number;

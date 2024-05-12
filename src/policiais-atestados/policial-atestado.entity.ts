@@ -19,6 +19,12 @@ export class PolicialAtestado {
         type: 'date'
     })
     data_inicial!: Date;
+
+    @Column({
+      nullable: true,
+        type: 'date'
+    })
+    data_copem!: Date;
   
     @Column({
       nullable: false,

@@ -51,6 +51,12 @@ import { MateriaisConsumoTiposModule } from './materiais-consumo-tipos/materiais
 import { MateriaisConsumoModule } from './materiais-consumo/materiais-consumo.module';
 import { MateriaisConsumoSaidasModule } from './materiais-consumo-saidas/materiais-consumo-saidas.module';
 import { MateriaisConsumoSaidasItensModule } from './materiais-consumo-saidas-itens/materiais-consumo-saidas-itens.module';
+import { MateriaisConsumoEntradasModule } from './materiais-consumo-entradas/materiais-consumo-entradas.module';
+import { MateriaisConsumoEntradasItensModule } from './materiais-consumo-entradas-itens/materiais-consumo-entradas-itens.module';
+import { MateriaisModule } from './materiais/materiais.module';
+import { MateriaisTiposModule } from './materiais-tipos/materiais-tipos.module';
+import { MateriaisPoliciaisModule } from './materiais-policiais/materiais-policiais.module';
+import { MateriaisPoliciaisItensModule } from './materiais-policiais-itens/materiais-policiais-itens.module';
 
 
 @Module({
@@ -117,6 +123,12 @@ import { MateriaisConsumoSaidasItensModule } from './materiais-consumo-saidas-it
     MateriaisConsumoModule,
     MateriaisConsumoSaidasModule,
     MateriaisConsumoSaidasItensModule,
+    MateriaisConsumoEntradasModule,
+    MateriaisConsumoEntradasItensModule,
+    MateriaisModule,
+    MateriaisTiposModule,
+    MateriaisPoliciaisModule,
+    MateriaisPoliciaisItensModule,
   ],
   controllers: [AppController],
   providers: [AppService,

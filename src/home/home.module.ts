@@ -11,6 +11,8 @@ import { VeiculosModule } from 'src/veiculos/veiculos.module';
 import { VeiculosPoliciaisModule } from 'src/veiculos-policiais/veiculos-policiais.module';
 import { ArmamentosEmprestimosModule } from 'src/armamentos-emprestimos/armamentos-emprestimos.module';
 import { GraduacoesModule } from 'src/graduacoes/graduacoes.module';
+import { MateriaisConsumoModule } from 'src/materiais-consumo/materiais-consumo.module';
+import { MateriaisPoliciaisModule } from 'src/materiais-policiais/materiais-policiais.module';
 
 
 @Module({
@@ -18,6 +20,8 @@ import { GraduacoesModule } from 'src/graduacoes/graduacoes.module';
     ArmamentosModule,
     ArmamentosEmprestimosModule,
     GraduacoesModule,
+    MateriaisConsumoModule,
+    MateriaisPoliciaisModule,
     PoliciaisModule,
     PoliciaisAtestadosModule,
     PoliciaisFeriasModule,

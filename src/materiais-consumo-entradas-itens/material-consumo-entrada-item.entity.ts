@@ -11,11 +11,11 @@ import {
   } from 'typeorm';
   import { User } from 'src/users/user.entity';
 import { MaterialConsumo } from 'src/materiais-consumo/material-consumo.entity';
-import { MaterialConsumoSaida } from 'src/materiais-consumo-saidas/material-consumo-saida.entity';
+import { MaterialConsumoEntrada } from 'src/materiais-consumo-entradas/material-consumo-entrada.entity';
   
-  @Entity('materiais_consumo_saidas_itens')
-  @Index(['material_consumo', 'material_consumo_saida'], { unique: true }) 
-  export class MaterialConsumoSaidaItem {
+  @Entity('materiais_consumo_entradas_itens')
+  @Index(['material_consumo', 'material_consumo_entrada'], { unique: true }) 
+  export class MaterialConsumoEntradaItem {
     @PrimaryGeneratedColumn()
     id!: number;
   
@@ -32,15 +32,15 @@ import { MaterialConsumoSaida } from 'src/materiais-consumo-saidas/material-cons
     material_consumo!: MaterialConsumo;
   
     @ManyToOne(
-      () => MaterialConsumoSaida,
-      (materialconsumosaida) => materialconsumosaida.id,
+      () => MaterialConsumoEntrada,
+      (materialconsumoentrada) => materialconsumoentrada.id,
       {
         eager: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
     )
-    material_consumo_saida!: MaterialConsumoSaida;
+    material_consumo_entrada!: MaterialConsumoEntrada;
   
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',

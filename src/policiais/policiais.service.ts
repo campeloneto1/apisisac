@@ -80,6 +80,14 @@ export class PoliciaisService {
             }
           }
         },
+        materiais_policiais: { 
+          policial: false,
+          materiais_policiais_itens: {
+            material: {
+              modelo: true
+            }
+          }
+        },
         veiculos_policiais: {
           policial: false,
           veiculo: {
@@ -89,6 +97,20 @@ export class PoliciaisService {
           }
         }
       },
+    });
+  }
+
+  async find2(id: number, idUser: User): Promise<PolicialInterface | null> {
+    return await this.policialRepository.findOne({
+      where: { 
+        id: id,
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: idUser.subunidade.id
+          }
+        }
+       },
     });
   }
 
@@ -110,12 +132,16 @@ export class PoliciaisService {
 
     var salt = await this.utilitiesService.generateSalt(10);
     var password = await this.utilitiesService.hashString(`${object.cpf}${salt}`);
+    var save = await this.policialRepository.findOne({relations: {
+      setor: true,
+    },where: {id: policial.id}});
     var user: User = {
         nome: object.nome,
         cpf: object.cpf,
         password: password,
         salt: salt,
-        subunidade: policial.setor.subunidade,
+        //@ts-ignore
+        subunidade: save.setor.subunidade.id,
         policial: policial,
         //@ts-ignore
         perfil: 3

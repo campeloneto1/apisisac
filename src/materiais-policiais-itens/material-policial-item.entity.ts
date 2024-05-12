@@ -10,12 +10,12 @@ import {
     Index,
   } from 'typeorm';
   import { User } from 'src/users/user.entity';
-import { MaterialConsumo } from 'src/materiais-consumo/material-consumo.entity';
-import { MaterialConsumoSaida } from 'src/materiais-consumo-saidas/material-consumo-saida.entity';
+  import { Material } from 'src/materiais/material.entity';
+  import { MaterialPolicial } from 'src/materiais-policiais/material-policial.entity';
   
-  @Entity('materiais_consumo_saidas_itens')
-  @Index(['material_consumo', 'material_consumo_saida'], { unique: true }) 
-  export class MaterialConsumoSaidaItem {
+  @Entity('materiais_policiais_itens')
+  @Index(['material', 'material_policial'], { unique: true }) 
+  export class MaterialPolicialItem {
     @PrimaryGeneratedColumn()
     id!: number;
   
@@ -24,23 +24,29 @@ import { MaterialConsumoSaida } from 'src/materiais-consumo-saidas/material-cons
     })
     quantidade!: number;
   
-    @ManyToOne(() => MaterialConsumo, (materialconsumo) => materialconsumo.id, {
+    @Column({
+      nullable: true,
+    })
+    quantidade_devolucao!: number;
+  
+    @ManyToOne(() => Material, (material) => material.id, {
       eager: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     })
-    material_consumo!: MaterialConsumo;
+    material!: Material;
   
     @ManyToOne(
-      () => MaterialConsumoSaida,
-      (materialconsumosaida) => materialconsumosaida.id,
+      () => MaterialPolicial,
+      (material_policial) => material_policial.id,
       {
         eager: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
     )
-    material_consumo_saida!: MaterialConsumoSaida;
+    @JoinColumn()
+    material_policial!: MaterialPolicial;
   
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',

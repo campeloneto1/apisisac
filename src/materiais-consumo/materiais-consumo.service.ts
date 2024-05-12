@@ -3,9 +3,10 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { User } from 'src/users/user.interface';
-import { IsNull, MoreThan, Repository } from 'typeorm';
+import { IsNull, LessThanOrEqual, MoreThan, Raw, Repository } from 'typeorm';
 import { MaterialConsumo as MaterialConsumoEntity } from './material-consumo.entity';
 import { MaterialConsumo as MaterialConsumoInterface, MateriaisConsumo as MateriaisConsumoInterface } from './material-consumo.interface';
+import { format } from 'date-fns';
 
 @Injectable()
 export class MateriaisConsumoService {
@@ -54,7 +55,7 @@ export class MateriaisConsumoService {
   
   
       async create(object: MaterialConsumoInterface, idUser: User) {
-        var object:MaterialConsumoInterface = this.materialConsumoRepository.create({...object, quantidade_disponivel: object.quantidade, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:MaterialConsumoInterface = this.materialConsumoRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
         var save = await this.materialConsumoRepository.save(object);  
         await this.logsService.create({
           object: JSON.stringify(save),
@@ -68,7 +69,7 @@ export class MateriaisConsumoService {
   
       async update(id:number, object: MaterialConsumoInterface, idUser: User) {
         var data: MaterialConsumoInterface = await this.materialConsumoRepository.findOneBy({id: id});
-        data = {...object, quantidade_disponivel: object.quantidade}
+        data = {...object}
         await this.materialConsumoRepository.update({id:id},{...data, updated_by: idUser});
         await this.logsService.create({
           object: JSON.stringify(object),
@@ -100,12 +101,12 @@ export class MateriaisConsumoService {
         if(idUser.perfil.administrador){
           return await this.materialConsumoRepository.find({where: {
             data_baixa: IsNull(),
-            quantidade_disponivel: MoreThan(0),
+            quantidade: MoreThan(0),
           }});
         }else{
           return await this.materialConsumoRepository.find({where: {
             data_baixa: IsNull(),
-            quantidade_disponivel: MoreThan(0),
+            quantidade: MoreThan(0),
             //@ts-ignore
             subunidade: idUser.subunidade.id
           }});
@@ -114,13 +115,13 @@ export class MateriaisConsumoService {
 
       async atualizarQuantidadeUp(id:number, quantidade:number):Promise<void>{
         var data: MaterialConsumoInterface = await this.materialConsumoRepository.findOneBy({id: id});
-        data.quantidade_disponivel = data.quantidade_disponivel + quantidade;
+        data.quantidade = Number(data.quantidade) + Number(quantidade);
         await this.materialConsumoRepository.update({id:id},{...data});
       }
 
       async atualizarQuantidadeDown(id:number, quantidade:number):Promise<void>{
         var data: MaterialConsumoInterface = await this.materialConsumoRepository.findOneBy({id: id});
-        data.quantidade_disponivel = data.quantidade_disponivel - quantidade;
+        data.quantidade = data.quantidade - quantidade;
         await this.materialConsumoRepository.update({id:id},{...data});
       }
 
@@ -145,6 +146,25 @@ export class MateriaisConsumoService {
             //@ts-ignore
             data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
           }});
+        }
+      }
+
+      async alerta(idUser: User): Promise<MateriaisConsumoInterface> {
+        if(idUser.perfil.administrador){
+          return await this.materialConsumoRepository.findBy({
+            
+            data_baixa: IsNull(),
+            quantidade: Raw((alias) => `${alias} <= quantidade_alerta`)
+          });
+        }else{
+          return await this.materialConsumoRepository.findBy({
+            //@ts-ignore
+            subunidade: {
+              id: idUser.subunidade.id
+            },
+            data_baixa: IsNull(),
+            quantidade: Raw((alias) => `${alias} <= quantidade_alerta`)
+          });
         }
       }
 

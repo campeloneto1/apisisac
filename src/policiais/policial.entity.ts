@@ -12,6 +12,7 @@ import { Unidade } from 'src/unidades/unidade.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { VeiculoPolicial } from 'src/veiculos-policiais/veiculo-policial.entity';
 import { PolicialCurso } from 'src/policiais-cursos/policial-curso.entity';
+import { MaterialPolicial } from 'src/materiais-policiais/material-policial.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -181,6 +182,9 @@ export class Policial {
 
     @OneToMany(type => ArmamentoEmprestimo, armamentoemprestimo => armamentoemprestimo.policial)
     armamentos_emprestimos: ArmamentoEmprestimo[];
+
+    @OneToMany(type => MaterialPolicial, materiaispoliciais => materiaispoliciais.policial)
+    materiais_policiais: MaterialPolicial[];
 
     @OneToMany(type => Unidade, unidade => unidade.comandante)
     comandantes_unidades: Unidade[];
