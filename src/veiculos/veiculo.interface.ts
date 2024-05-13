@@ -17,6 +17,8 @@ export interface Veiculo{
     km_inicial: number;
     km_atual:number;
     km_troca_oleo?: number;
+    km_revisao?: number;
+    data_revisao?: Date;
 
     veiculo_tipo: VeiculoTipo;
     modelo: Modelo;

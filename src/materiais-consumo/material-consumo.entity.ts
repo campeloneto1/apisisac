@@ -4,6 +4,7 @@ import { Modelo } from 'src/modelos/modelo.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { MaterialConsumoTipo } from 'src/materiais-consumo-tipos/material-consumo-tipo.entity';
 import { MaterialConsumoSaidaItem } from 'src/materiais-consumo-saidas-itens/material-consumo-saida-item.entity';
+import { MaterialConsumoEntradaItem } from 'src/materiais-consumo-entradas-itens/material-consumo-entrada-item.entity';
 
 @Entity('materiais_consumo')
 @Index(['serial', 'subunidade'], { unique: true }) 
@@ -69,6 +70,9 @@ export class MaterialConsumo {
 
       @OneToMany(type => MaterialConsumoSaidaItem, materiaisconsumosaidasitens => materiaisconsumosaidasitens.material_consumo)
       materiais_consumo_saidas_itens: MaterialConsumoSaidaItem[];
+
+      @OneToMany(type => MaterialConsumoEntradaItem, materiaisconsumoentradasitens => materiaisconsumoentradasitens.material_consumo)
+      materiais_consumo_entradas_itens: MaterialConsumoEntradaItem[];
 
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',

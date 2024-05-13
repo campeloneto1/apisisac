@@ -1,13 +1,14 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, IsNull, MoreThan, MoreThanOrEqual, Not, Raw, Repository } from 'typeorm';
+import { In, IsNull, LessThanOrEqual, MoreThan, MoreThanOrEqual, Not, Raw, Repository } from 'typeorm';
 import { Veiculo as VeiculoEntity } from './veiculo.entity';
 import { Veiculo as VeiculoInterface, Veiculos as VeiculosInterface } from './veiculo.interface';
 import { User } from 'src/users/user.interface';
 import { VeiculosOficinasService } from 'src/veiculos-oficinas/veiculos-oficinas.service';
 import { VeiculosPoliciaisService } from 'src/veiculos-policiais/veiculos-policiais.service';
 import { LogsService } from 'src/logs/logs.service';
+import { format } from 'date-fns';
 
 @Injectable()
 export class VeiculosService {
@@ -161,6 +162,34 @@ export class VeiculosService {
           }
         });
       }
+
+      async revisao(idUser: User): Promise<VeiculosInterface> {
+        let result = new Date();
+        var proxsemana = result.setDate(result.getDate() + 30);
+        return await this.veiculoRepository.find({
+          where: [
+            {
+              km_revisao: Not(IsNull()),
+              km_atual:  Raw((alias) => `${alias} >= km_revisao - 100`),
+              data_baixa: IsNull(),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            },
+            {
+              //@ts-ignore
+              data_revisao: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd')),
+              data_baixa: IsNull(),
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          ]
+        });
+      }
+
 
       async relatorio(object: any, idUser: User): Promise<VeiculosInterface>{
         var veiculos;

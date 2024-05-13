@@ -79,7 +79,7 @@ export class MateriaisService {
   
       async update(id:number, object: MaterialInterface, idUser: User) {
         var data: MaterialInterface = await this.materialRepository.findOneBy({id: id});
-        data = {...object, quantidade_disponivel: object.quantidade}
+        data = {...object}
         await this.materialRepository.update({id:id},{...data, updated_by: idUser});
         await this.logsService.create({
           object: JSON.stringify(object),

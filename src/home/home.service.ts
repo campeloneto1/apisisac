@@ -9,6 +9,8 @@ import { MateriaisConsumoService } from 'src/materiais-consumo/materiais-consumo
 import { MateriaisConsumo } from 'src/materiais-consumo/material-consumo.interface';
 import { MateriaisPoliciaisService } from 'src/materiais-policiais/materiais-policiais.service';
 import { MateriaisPoliciais } from 'src/materiais-policiais/material-policial.interface';
+import { MateriaisService } from 'src/materiais/materiais.service';
+import { Materiais } from 'src/materiais/material.interface';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
 import { PoliciaisFeriasService } from 'src/policiais-ferias/policiais-ferias.service';
 import { PoliciaisService } from 'src/policiais/policiais.service';
@@ -28,6 +30,7 @@ export class HomeService {
         private armamentosService: ArmamentosService,
         private armamentosEmprestimosService: ArmamentosEmprestimosService,
         private graduacoesService: GraduacoesService,
+        private materiaisService: MateriaisService,
         private materiaisConsumoService: MateriaisConsumoService,
         private materiaisPoliciaisService: MateriaisPoliciaisService,
         private policiaisService: PoliciaisService,
@@ -76,11 +79,15 @@ export class HomeService {
         return this.veiculosService.trocaoleo(idUser);
     }
 
+    async veiculosRevisao(idUser: User): Promise<Veiculos>{
+        return this.veiculosService.revisao(idUser);
+    }
+
     async veiculosEmprestados(idUser: User): Promise<VeiculosPoliciais>{
         return this.veiculosPoliciaisService.emprestados(idUser);
     }
 
-    async materiaisVencendo(idUser: User): Promise<MateriaisConsumo>{
+    async materiaisConsumoVencendo(idUser: User): Promise<MateriaisConsumo>{
         return this.materiaisConsumoService.vencendo(idUser);
     }
 
@@ -90,6 +97,10 @@ export class HomeService {
 
     async materiaisEmprestados(idUser: User): Promise<MateriaisPoliciais>{
         return this.materiaisPoliciaisService.emprestados(idUser);
+    }
+
+    async materiaisVencendo(idUser: User): Promise<Materiais>{
+        return this.materiaisService.vencendo(idUser);
     }
 
 }

@@ -69,6 +69,17 @@ export class Veiculo {
 
     @Column({
         nullable: true,
+    })
+    km_revisao!: number;
+
+    @Column({
+        nullable: true,
+        type: 'date'
+      })
+      data_revisao!: Date;
+
+    @Column({
+        nullable: true,
         type: 'date'
       })
       data_baixa!: Date;

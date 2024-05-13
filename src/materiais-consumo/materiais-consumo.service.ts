@@ -34,6 +34,18 @@ export class MateriaisConsumoService {
   
       async find(id: number, idUser: User): Promise<MaterialConsumoInterface | null> {
         return await this.materialConsumoRepository.findOne({
+          relations: {
+            materiais_consumo_entradas_itens: {
+              material_consumo_entrada: {
+                user: true
+              }
+            },
+            materiais_consumo_saidas_itens: {
+              material_consumo_saida: {
+                user: true
+              }
+            },
+          },
           where: {
           id: id,
           //@ts-ignore

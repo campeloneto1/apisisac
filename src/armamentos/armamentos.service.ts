@@ -79,7 +79,7 @@ export class ArmamentosService {
   
       async update(id:number, object: ArmamentoInterface, idUser: User) {
         var data: ArmamentoInterface = await this.armamentoRepository.findOneBy({id: id});
-        data = {...object, quantidade_disponivel: object.quantidade}
+        data = {...object}
         await this.armamentoRepository.update({id:id},{...data, updated_by: idUser});
         await this.logsService.create({
           object: JSON.stringify(object),

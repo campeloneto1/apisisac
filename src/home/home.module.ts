@@ -13,6 +13,7 @@ import { ArmamentosEmprestimosModule } from 'src/armamentos-emprestimos/armament
 import { GraduacoesModule } from 'src/graduacoes/graduacoes.module';
 import { MateriaisConsumoModule } from 'src/materiais-consumo/materiais-consumo.module';
 import { MateriaisPoliciaisModule } from 'src/materiais-policiais/materiais-policiais.module';
+import { MateriaisModule } from 'src/materiais/materiais.module';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { MateriaisPoliciaisModule } from 'src/materiais-policiais/materiais-poli
     ArmamentosModule,
     ArmamentosEmprestimosModule,
     GraduacoesModule,
+    MateriaisModule,
     MateriaisConsumoModule,
     MateriaisPoliciaisModule,
     PoliciaisModule,

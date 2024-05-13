@@ -7,6 +7,7 @@ import { VeiculosPoliciais } from 'src/veiculos-policiais/veiculo-policial.inter
 import { ArmamentosEmprestimos } from 'src/armamentos-emprestimos/armamento-emprestimo.interface';
 import { MateriaisConsumo } from 'src/materiais-consumo/material-consumo.interface';
 import { MateriaisPoliciais } from 'src/materiais-policiais/material-policial.interface';
+import { Materiais } from 'src/materiais/material.interface';
 
 @Controller('home')
 export class HomeController {
@@ -22,9 +23,14 @@ export class HomeController {
         return this.homeService.armamentosEmprestados(req.user);
     }
 
+    @Get('materiais-vencendo')
+    async materiaisVencendo(@Request() req):Promise<Materiais>{
+        return this.homeService.materiaisVencendo(req.user);
+    }
+
     @Get('materiais-consumo-vencendo')
     async materiaisConsumoVencendo(@Request() req):Promise<MateriaisConsumo>{
-        return this.homeService.materiaisVencendo(req.user);
+        return this.homeService.materiaisConsumoVencendo(req.user);
     }
 
     @Get('materiais-policiais-emprestados')
@@ -72,6 +78,11 @@ export class HomeController {
     @Get('veiculos-troca-oleo')
     async veiculosTrocaOleo(@Request() req):Promise<Veiculos>{
         return this.homeService.veiculosTrocaOleo(req.user);
+    }
+
+    @Get('veiculos-revisao')
+    async veiculosRevisao(@Request() req):Promise<Veiculos>{
+        return this.homeService.veiculosRevisao(req.user);
     }
 
     @Get('veiculos-emprestados')
