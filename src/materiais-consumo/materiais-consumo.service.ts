@@ -120,7 +120,9 @@ export class MateriaisConsumoService {
             data_baixa: IsNull(),
             quantidade: MoreThan(0),
             //@ts-ignore
-            subunidade: idUser.subunidade.id
+            subunidade: {
+              id: idUser.subunidade.id
+            }
           }});
         }
       }

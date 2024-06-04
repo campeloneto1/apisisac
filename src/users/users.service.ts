@@ -26,6 +26,12 @@ export class UsersService {
       return await this.usersRepository.findOne({where: {id: id}});
     }
 
+    async wherePol(id: number): Promise<UserInterface | null> {
+      return await this.usersRepository.findOne({where: {policial:{
+        id: id
+      }}});
+    }
+
     async create(object: UserInterface, idUser: UserInterface) {
       object.salt = await this.utilitiesService.generateSalt(10);
       object.password = await this.utilitiesService.hashString(`${object.cpf}${object.salt}`);

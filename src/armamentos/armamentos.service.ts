@@ -118,7 +118,9 @@ export class ArmamentosService {
             data_baixa: IsNull(),
             quantidade_disponivel: MoreThan(0),
             //@ts-ignore
-            subunidade: idUser.subunidade.id
+            subunidade: {
+              id: idUser.subunidade.id
+            }
           }});
         }
       }

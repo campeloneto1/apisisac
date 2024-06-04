@@ -160,6 +160,18 @@ export class PoliciaisService {
       { ...data, updated_by: idUser },
     );
 
+    var user = await this.usersService.wherePol(id);
+
+    user.nome = data.nome;
+    user.cpf = data.cpf;
+    if(data.telefone1 && user.telefone != data.telefone1){
+      user.telefone = data.telefone1;
+    }
+    if(data.email && user.email != data.email){
+      user.email = data.email;
+    }
+    await this.usersService.update(user.id, user, idUser);
+
     await this.logsService.create({
       object: JSON.stringify(data),
       object_old: JSON.stringify(dataold),

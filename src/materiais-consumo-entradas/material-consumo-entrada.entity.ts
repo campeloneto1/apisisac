@@ -3,7 +3,7 @@ import { User } from 'src/users/user.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { MaterialConsumoEntradaItem } from 'src/materiais-consumo-entradas-itens/material-consumo-entrada-item.entity';
 
-@Entity('materiais_consumo_entrada')
+@Entity('materiais_consumo_entradas')
 export class MaterialConsumoEntrada {
 
     @PrimaryGeneratedColumn()
