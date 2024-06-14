@@ -59,6 +59,10 @@ import { MateriaisPoliciaisModule } from './materiais-policiais/materiais-polici
 import { MateriaisPoliciaisItensModule } from './materiais-policiais-itens/materiais-policiais-itens.module';
 import { EscolaridadesModule } from './escolaridades/escolaridades.module';
 import { PoliciaisRequeridasModule } from './policiais-requeridas/policiais-requeridas.module';
+import { EmpresasModule } from './empresas/empresas.module';
+import { ContratosModule } from './contratos/contratos.module';
+import { ContratosObjetosModule } from './contratos-objetos/contratos-objetos.module';
+import { ContratosTiposModule } from './contratos-tipos/contratos-tipos.module';
 
 
 @Module({
@@ -133,6 +137,10 @@ import { PoliciaisRequeridasModule } from './policiais-requeridas/policiais-requ
     MateriaisPoliciaisItensModule,
     EscolaridadesModule,
     PoliciaisRequeridasModule,
+    EmpresasModule,
+    ContratosModule,
+    ContratosObjetosModule,
+    ContratosTiposModule,
   ],
   controllers: [AppController],
   providers: [AppService,
