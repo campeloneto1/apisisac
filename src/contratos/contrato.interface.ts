@@ -21,6 +21,8 @@ export interface Contrato{
     gestor: Policial;
     fiscal: Policial;
 
+    observacoes?: string;
+
     created_by: User;
     updated_by: User;
     created_at: Date;

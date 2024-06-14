@@ -78,6 +78,12 @@ export class Contrato {
         nullable: true,
       })
       prorrogavel!: boolean;
+
+      @Column({
+        nullable: true,
+        type: 'text'
+      })
+      observacoes!: string;
     
 
     @ManyToOne(() => User, (user) => user.id, {
