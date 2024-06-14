@@ -35,7 +35,7 @@ export class ContratosService {
       }
   
       async create(object: ContratoInterface, idUser: User) {
-        var object:ContratoInterface = this.contratoRepository.create({...object, created_by: idUser}) 
+        var object:ContratoInterface = this.contratoRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
         var save = await this.contratoRepository.save(object);     
         await this.logsService.create({
           object: JSON.stringify(save),

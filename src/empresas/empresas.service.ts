@@ -35,7 +35,7 @@ export class EmpresasService {
       }
   
       async create(object: EmpresaInterface, idUser: User) {
-        var object:EmpresaInterface = this.empresaRepository.create({...object, created_by: idUser}) 
+        var object:EmpresaInterface = this.empresaRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
         var save = await this.empresaRepository.save(object);     
         await this.logsService.create({
           object: JSON.stringify(save),

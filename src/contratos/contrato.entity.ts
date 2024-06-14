@@ -13,24 +13,28 @@ export class Contrato {
     id!: number;
 
       @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
+        eager: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       })
       subunidade!: Subunidade;
 
       @ManyToOne(() => Empresa, (empresa) => empresa.id, {
+        eager: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       })
       empresa!: Empresa;
 
       @ManyToOne(() => ContratoTipo, (contratotipo) => contratotipo.id, {
+        eager: true,
         onDelete: 'SET NULL',
           onUpdate: 'CASCADE'
       })
       contrato_tipo!: ContratoTipo;
 
       @ManyToOne(() => ContratoObjeto, (contratoobjeto) => contratoobjeto.id, {
+        eager: true,
         onDelete: 'SET NULL',
           onUpdate: 'CASCADE'
       })
@@ -64,7 +68,9 @@ export class Contrato {
 
       @Column({
         nullable: false,
-        type: 'decimal'
+        type: 'decimal', 
+        precision: 10, 
+        scale: 2 
       })
       valor_global!: number;
 

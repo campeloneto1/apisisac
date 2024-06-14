@@ -27,6 +27,10 @@ export class Perfil {
     @Column({ nullable: true, }) contratos_edt!: boolean;
     @Column({ nullable: true, }) contratos_del!: boolean;
 
+    @Column({ nullable: true, }) empresas!: boolean;
+    @Column({ nullable: true, }) empresas_cad!: boolean;
+    @Column({ nullable: true, }) empresas_edt!: boolean;
+    @Column({ nullable: true, }) empresas_del!: boolean;
 
     @Column({ nullable: true, }) patrimonios!: boolean;
     @Column({ nullable: true, }) patrimonios_cad!: boolean;
