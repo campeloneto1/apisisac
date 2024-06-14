@@ -31,7 +31,13 @@ export class PolicialRequerida {
     nullable: true,
     length: 40,
   })
-  boletim!: string;
+  boletim_entrada!: string;
+
+  @Column({
+    nullable: true,
+    length: 40,
+  })
+  boletim_publicacao!: string;
 
   @Column({
     nullable: false,

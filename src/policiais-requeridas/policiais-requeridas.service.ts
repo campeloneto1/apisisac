@@ -96,7 +96,7 @@ export class PoliciaisRequeridasService {
       async quantidade(idUser: User): Promise<number> {
         return await this.policialRequeridaRepository.count({where: {
           //@ts-ignore
-          nup: Not(IsNull()),
+          boletim_publicacao: IsNull(),
           //@ts-ignore
           policial: {
             setor: {

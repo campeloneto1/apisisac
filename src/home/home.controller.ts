@@ -59,6 +59,12 @@ export class HomeController {
         return this.homeService.ferias(req.user);
     }
 
+    @Get('requeridas')
+    async requeridas(@Request() req):Promise<number>{
+        return this.homeService.requeridas(req.user);
+    }
+
+
     @Get('policiais-setores')
     async policiaisSetores(@Request() req):Promise<number>{
         return this.homeService.policiaisSetores(req.user);

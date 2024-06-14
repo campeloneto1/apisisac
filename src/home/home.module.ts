@@ -14,6 +14,7 @@ import { GraduacoesModule } from 'src/graduacoes/graduacoes.module';
 import { MateriaisConsumoModule } from 'src/materiais-consumo/materiais-consumo.module';
 import { MateriaisPoliciaisModule } from 'src/materiais-policiais/materiais-policiais.module';
 import { MateriaisModule } from 'src/materiais/materiais.module';
+import { PoliciaisRequeridasModule } from 'src/policiais-requeridas/policiais-requeridas.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { MateriaisModule } from 'src/materiais/materiais.module';
     PoliciaisModule,
     PoliciaisAtestadosModule,
     PoliciaisFeriasModule,
+    PoliciaisRequeridasModule,
     SetoresModule,
     VeiculosModule,
     VeiculosOficinasModule,

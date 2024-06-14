@@ -13,6 +13,7 @@ import { MateriaisService } from 'src/materiais/materiais.service';
 import { Materiais } from 'src/materiais/material.interface';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
 import { PoliciaisFeriasService } from 'src/policiais-ferias/policiais-ferias.service';
+import { PoliciaisRequeridasService } from 'src/policiais-requeridas/policiais-requeridas.service';
 import { PoliciaisService } from 'src/policiais/policiais.service';
 import { SetoresService } from 'src/setores/setores.service';
 import { User } from 'src/users/user.interface';
@@ -36,6 +37,7 @@ export class HomeService {
         private policiaisService: PoliciaisService,
         private policiaisAtestadosService: PoliciaisAtestadosService,
         private policiaisFeriasService: PoliciaisFeriasService,
+        private policiaisRequeridas: PoliciaisRequeridasService,
         private veiculosService: VeiculosService,
         private veiculosOficinasService: VeiculosOficinasService,
         private veiculosPoliciaisService: VeiculosPoliciaisService,
@@ -53,6 +55,10 @@ export class HomeService {
 
     async ferias(idUser: User): Promise<number> {
         return this.policiaisFeriasService.quantidade(idUser);
+    }
+
+    async requeridas(idUser: User): Promise<any>{
+        return this.policiaisRequeridas.quantidade(idUser);
     }
 
     async policiaisGraduacoes(idUser: User): Promise<any>{
