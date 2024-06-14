@@ -27,7 +27,6 @@ export interface Perfil{
     materiais_policiais_edt?: boolean;
     materiais_policiais_del?: boolean;
 
-
     materiais_consumo?: boolean;
     materiais_consumo_cad?: boolean;
     materiais_consumo_edt?: boolean;
@@ -72,6 +71,11 @@ export interface Perfil{
     policiais_publicacoes_cad?: boolean;
     policiais_publicacoes_edt?: boolean;
     policiais_publicacoes_del?: boolean;
+
+    policiais_requeridas?: boolean;
+    policiais_requeridas_cad?: boolean;
+    policiais_requeridas_edt?: boolean;
+    policiais_requeridas_del?: boolean;
 
     usuarios?: boolean;
     usuarios_cad?: boolean;

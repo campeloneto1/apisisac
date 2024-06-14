@@ -160,17 +160,31 @@ export class PoliciaisService {
       { ...data, updated_by: idUser },
     );
 
+    var upuser = false;
     var user = await this.usersService.wherePol(id);
-
-    user.nome = data.nome;
-    user.cpf = data.cpf;
-    if(data.telefone1 && user.telefone != data.telefone1){
-      user.telefone = data.telefone1;
+    if(user){
+      if(object.nome && user.nome != object.nome){
+        upuser = true;
+        user.nome = object.nome;
+      }
+      if(object.cpf && user.cpf != object.cpf){
+        upuser = true;
+        user.cpf = object.cpf;
+      }
+      if(object.telefone1 && user.telefone != object.telefone1){
+        upuser = true;
+        user.telefone = object.telefone1;
+      }
+      if(object.email && user.email != object.email){
+        upuser = true;
+        user.email = object.email;
+      }
+  
+      if(upuser){
+        await this.usersService.update(user.id, user, idUser);
+      }
     }
-    if(data.email && user.email != data.email){
-      user.email = data.email;
-    }
-    await this.usersService.update(user.id, user, idUser);
+    
 
     await this.logsService.create({
       object: JSON.stringify(data),

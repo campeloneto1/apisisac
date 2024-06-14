@@ -78,6 +78,11 @@ export class Perfil {
     @Column({ nullable: true, }) policiais_publicacoes_edt!: boolean;
     @Column({ nullable: true, }) policiais_publicacoes_del!: boolean;
 
+    @Column({ nullable: true, }) policiais_requeridas!: boolean;
+    @Column({ nullable: true, }) policiais_requeridas_cad!: boolean;
+    @Column({ nullable: true, }) policiais_requeridas_edt!: boolean;
+    @Column({ nullable: true, }) policiais_requeridas_del!: boolean;
+
     @Column({ nullable: true, }) armamentos!: boolean;
     @Column({ nullable: true, }) armamentos_cad!: boolean;
     @Column({ nullable: true, }) armamentos_edt!: boolean;

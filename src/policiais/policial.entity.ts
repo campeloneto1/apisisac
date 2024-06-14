@@ -13,6 +13,8 @@ import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { VeiculoPolicial } from 'src/veiculos-policiais/veiculo-policial.entity';
 import { PolicialCurso } from 'src/policiais-cursos/policial-curso.entity';
 import { MaterialPolicial } from 'src/materiais-policiais/material-policial.entity';
+import { PolicialRequerida } from 'src/policiais-requeridas/policial-requerida.entity';
+import { Escolaridade } from 'src/escolaridades/escolaridade.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -165,6 +167,13 @@ export class Policial {
     })
     setor!: Setor;
 
+    @ManyToOne(() => Escolaridade, (escolaridade) => escolaridade.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    escolaridade!: Escolaridade;
+
     @OneToOne(() => User, (user) => user.policial) // specify inverse side as a second parameter
     user: User
 
@@ -179,6 +188,9 @@ export class Policial {
 
     @OneToMany(type => PolicialCurso, policialcurso => policialcurso.policial)
     policiais_cursos: PolicialCurso[];
+
+    @OneToMany(type => PolicialRequerida, policialrequerida => policialrequerida.policial)
+    policiais_requeridas: PolicialRequerida[];
 
     @OneToMany(type => ArmamentoEmprestimo, armamentoemprestimo => armamentoemprestimo.policial)
     armamentos_emprestimos: ArmamentoEmprestimo[];

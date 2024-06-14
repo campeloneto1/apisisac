@@ -57,6 +57,8 @@ import { MateriaisModule } from './materiais/materiais.module';
 import { MateriaisTiposModule } from './materiais-tipos/materiais-tipos.module';
 import { MateriaisPoliciaisModule } from './materiais-policiais/materiais-policiais.module';
 import { MateriaisPoliciaisItensModule } from './materiais-policiais-itens/materiais-policiais-itens.module';
+import { EscolaridadesModule } from './escolaridades/escolaridades.module';
+import { PoliciaisRequeridasModule } from './policiais-requeridas/policiais-requeridas.module';
 
 
 @Module({
@@ -129,6 +131,8 @@ import { MateriaisPoliciaisItensModule } from './materiais-policiais-itens/mater
     MateriaisTiposModule,
     MateriaisPoliciaisModule,
     MateriaisPoliciaisItensModule,
+    EscolaridadesModule,
+    PoliciaisRequeridasModule,
   ],
   controllers: [AppController],
   providers: [AppService,

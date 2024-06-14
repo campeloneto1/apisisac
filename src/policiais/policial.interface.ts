@@ -1,4 +1,5 @@
 import { Cidade } from "src/cidades/cidade.interface";
+import { Escolaridade } from "src/escolaridades/escolaridade.entity";
 import { Graduacao } from "src/graduacoes/graduacao.interface";
 import { Setor } from "src/setores/setor.interface";
 import { Sexo } from "src/sexos/sexo.interface";
@@ -30,9 +31,10 @@ export interface Policial{
     boletim_apresentacao?: string;
     boletim_transferencia?: string;
 
-    sexo?: Sexo;
+    sexo: Sexo;
     graduacao: Graduacao;
     setor: Setor;
+    escolaridade: Escolaridade;
 
     usuario?: User;
 
