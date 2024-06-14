@@ -25,9 +25,20 @@ export class MateriaisPoliciaisService {
 
     async index(idUser: User): Promise<MateriaisPoliciaisInterface> {
         if(idUser.perfil.administrador){
-          return await this.materiaisPoliciaisRepository.find();
+          return await this.materiaisPoliciaisRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            }
+          });
         }else{
           return await this.materiaisPoliciaisRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               //@ts-ignore
               subunidade: {
@@ -48,6 +59,9 @@ export class MateriaisPoliciaisService {
             }
           } ,
           relations: {
+            policial: {
+              graduacao: true
+            },
             materiais_policiais_itens: {
               material: {
                 modelo: true
@@ -189,6 +203,9 @@ export class MateriaisPoliciaisService {
               id: "DESC"
             },
             relations: {
+              policial: {
+                graduacao: true
+              },
               materiais_policiais_itens: {
                 material: {
                   modelo: true
@@ -211,6 +228,9 @@ export class MateriaisPoliciaisService {
               id: "DESC"
             },
             relations: {
+              policial: {
+                graduacao: true
+              },
               materiais_policiais_itens: {
                 material: {
                   modelo: true

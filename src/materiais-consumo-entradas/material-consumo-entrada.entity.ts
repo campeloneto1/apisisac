@@ -29,7 +29,7 @@ export class MaterialConsumoEntrada {
       subunidade!: Subunidade;
 
       @ManyToOne(() => User, (user) => user.id, {
-        eager: true,
+        
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       })

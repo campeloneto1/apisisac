@@ -41,7 +41,7 @@ export class ArmamentoEmprestimo {
       subunidade!: Subunidade;
 
       @ManyToOne(() => Policial, (policial) => policial.id, {
-        eager: true,
+        
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       })

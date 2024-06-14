@@ -18,9 +18,20 @@ export class PoliciaisCursosService {
 
     async index(idUser: User): Promise<PoliciaisCursosInterface> {
         if(idUser.perfil.administrador){
-          return await this.policialCursoRepository.find();
+          return await this.policialCursoRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            }
+          });
         }else{
           return await this.policialCursoRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               //@ts-ignore
               policial: {
@@ -36,17 +47,24 @@ export class PoliciaisCursosService {
       }
   
       async find(id: number, idUser: User): Promise<PolicialCursoInterface | null> {
-        return await this.policialCursoRepository.findOne({where: {
-          id: id,
-          //@ts-ignore
-          policial: {
-            setor: {
-              subunidade: {
-                id: idUser.subunidade.id
+        return await this.policialCursoRepository.findOne({
+          relations: {
+            policial: {
+              graduacao: true
+            }
+          },
+          where: {
+            id: id,
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: idUser.subunidade.id
+                }
               }
             }
           }
-        }});
+        });
       }
   
       async create(object: PolicialCursoInterface, idUser: User) {

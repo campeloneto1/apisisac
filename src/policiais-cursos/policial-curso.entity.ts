@@ -10,7 +10,6 @@ export class PolicialCurso {
     id!: number;
 
     @ManyToOne(() => Policial, (policial) => policial.id, {
-      eager: true,
       onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
   })

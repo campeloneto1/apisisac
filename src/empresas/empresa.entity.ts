@@ -24,7 +24,7 @@ export class Empresa {
     nome!: string;
 
     @Column({
-        nullable: false,
+        nullable: true,
         length: 100,
     })
     nome_fantasia!: string;

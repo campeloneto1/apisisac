@@ -23,9 +23,24 @@ export class MateriaisConsumoEntradasService {
 
     async index(idUser: User): Promise<MateriaisConsumoEntradasInterface> {
         if(idUser.perfil.administrador){
-          return await this.materialConsumoEntradaRepository.find();
+          return await this.materialConsumoEntradaRepository.find({
+            relations: {
+              user: {
+                policial: {
+                  graduacao: true
+                }
+              }
+            }
+          });
         }else{
           return await this.materialConsumoEntradaRepository.find({
+            relations: {
+              user: {
+                policial: {
+                  graduacao: true
+                }
+              }
+            },
             where: {
               //@ts-ignore
               subunidade: {
@@ -46,6 +61,11 @@ export class MateriaisConsumoEntradasService {
             }
           } ,
           relations: {
+            user: {
+              policial: {
+                graduacao: true
+              }
+            },
             materiais_consumo_entradas_itens: {
               material_consumo: {
                 modelo: true
@@ -135,6 +155,11 @@ export class MateriaisConsumoEntradasService {
               id: "DESC"
             },
             relations: {
+              user: {
+                policial: {
+                  graduacao: true
+                }
+              },
               materiais_consumo_entradas_itens: {
                 material_consumo: {
                   modelo: true
@@ -157,6 +182,11 @@ export class MateriaisConsumoEntradasService {
               id: "DESC"
             },
             relations: {
+              user: {
+                policial: {
+                  graduacao: true
+                }
+              },
               materiais_consumo_entradas_itens: {
                 material_consumo: {
                   modelo: true

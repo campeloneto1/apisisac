@@ -22,9 +22,22 @@ export class VeiculosPoliciaisService {
 
     async index(idUser: User): Promise<VeiculosPoliciaisInterface> {
        if(idUser.perfil.administrador){
-        return await this.veiculoPolicialRository.find();
+        return await this.veiculoPolicialRository.find(
+          {
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            }
+          }
+        );
        }else{
         return await this.veiculoPolicialRository.find({
+          relations: {
+            policial: {
+              graduacao: true
+            }
+          },
           where: {
             //@ts-ignore
             subunidade: {
@@ -36,13 +49,20 @@ export class VeiculosPoliciaisService {
       }
   
       async find(id: number, idUser: User): Promise<VeiculoPolicialInterface | null> {
-        return await this.veiculoPolicialRository.findOne({where: {
-          id: id,
-          //@ts-ignore
-          subunidade: {
-            id: idUser.subunidade.id
+        return await this.veiculoPolicialRository.findOne({
+          relations: {
+            policial: {
+              graduacao: true
+            }
+          },
+          where: {
+            id: id,
+            //@ts-ignore
+            subunidade: {
+              id: idUser.subunidade.id
+            }
           }
-        }});
+        });
       }
   
       async create(object: VeiculoPolicialInterface, idUser: User) {
@@ -123,12 +143,22 @@ export class VeiculosPoliciaisService {
       async emprestados(idUser: User): Promise<VeiculosPoliciaisInterface> {
         if(idUser.perfil.administrador){
           return await this.veiculoPolicialRository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               data_final: IsNull(),
             }
           });
         }else{
           return await this.veiculoPolicialRository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               data_final: IsNull(),
               //@ts-ignore
@@ -147,6 +177,11 @@ export class VeiculosPoliciaisService {
         var veiculos;
         if(idUser.perfil.administrador){
           veiculos = await this.veiculoPolicialRository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               data_inicial: Between(object.data_inicial, finaldate),
             },
@@ -156,6 +191,11 @@ export class VeiculosPoliciaisService {
           });
         }else{
           veiculos = await this.veiculoPolicialRository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               data_inicial: Between(object.data_inicial, finaldate),
               //@ts-ignore

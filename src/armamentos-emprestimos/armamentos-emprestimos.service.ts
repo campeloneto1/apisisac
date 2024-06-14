@@ -25,9 +25,20 @@ export class ArmamentosEmprestimosService {
 
     async index(idUser: User): Promise<ArmamentosEmprestimosInterface> {
         if(idUser.perfil.administrador){
-          return await this.armamentoEmprestimoRepository.find();
+          return await this.armamentoEmprestimoRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            }
+          });
         }else{
           return await this.armamentoEmprestimoRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               //@ts-ignore
               subunidade: {
@@ -48,6 +59,9 @@ export class ArmamentosEmprestimosService {
             }
           } ,
           relations: {
+            policial: {
+              graduacao: true
+            },
             armamentos_emprestimos_itens: {
               armamento: {
                 modelo: true
@@ -190,6 +204,9 @@ export class ArmamentosEmprestimosService {
               id: "DESC"
             },
             relations: {
+              policial: {
+                graduacao: true
+              },
               armamentos_emprestimos_itens: {
                 armamento: {
                   modelo: true
@@ -212,6 +229,9 @@ export class ArmamentosEmprestimosService {
               id: "DESC"
             },
             relations: {
+              policial: {
+                graduacao: true
+              },
               armamentos_emprestimos_itens: {
                 armamento: {
                   modelo: true

@@ -18,9 +18,20 @@ export class PoliciaisPublicacoesService {
 
     async index(idUser: User): Promise<PoliciaisPublicacoesInterface> {
         if(idUser.perfil.administrador){
-          return await this.policialFeriasRepository.find();
+          return await this.policialFeriasRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            }
+          });
         }else{
           return await this.policialFeriasRepository.find({
+            relations: {
+              policial: {
+                graduacao: true
+              }
+            },
             where: {
               //@ts-ignore
               policial: {
@@ -36,17 +47,24 @@ export class PoliciaisPublicacoesService {
       }
   
       async find(id: number, idUser: User): Promise<PolicialPublicacaoInterface | null> {
-        return await this.policialFeriasRepository.findOne({where: {
-          id: id,
-          //@ts-ignore
-          policial: {
-            setor: {
-              subunidade: {
-                id: idUser.subunidade.id
+        return await this.policialFeriasRepository.findOne({
+          relations: {
+            policial: {
+              graduacao: true
+            }
+          },
+          where: {
+            id: id,
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: idUser.subunidade.id
+                }
               }
             }
           }
-        }});
+        });
       }
   
       async create(object: PolicialPublicacaoInterface, idUser: User) {
