@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, JoinTable } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Empresa } from 'src/empresas/empresa.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
@@ -76,9 +76,23 @@ export class Contrato {
 
       @Column({
         nullable: false,
+        type: 'decimal', 
+        precision: 10, 
+        scale: 2 
+      })
+      valor_usado!: number;
+
+      @Column({
+        nullable: false,
         type: 'date'
       })
-      prazo_vigencia!: Date;
+      data_inicial!: Date;
+
+      @Column({
+        nullable: false,
+        type: 'date'
+      })
+      data_final!: Date;
 
       @Column({
         nullable: true,

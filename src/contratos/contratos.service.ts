@@ -18,9 +18,28 @@ export class ContratosService {
 
     async index(idUser: User): Promise<ContratosInterface> {
       if(idUser.perfil.administrador){
-        return await this.contratoRepository.find();
+        return await this.contratoRepository.find(
+          {
+            relations: {
+              gestor: {
+                graduacao: true
+              },
+              fiscal: {
+                graduacao: true
+              }
+            }
+          }
+        );
       }else{
         return await this.contratoRepository.find({
+          relations: {
+            gestor: {
+              graduacao: true
+            },
+            fiscal: {
+              graduacao: true
+            }
+          },
             where: {
                 subunidade: {
                     id: idUser.subunidade.id
@@ -31,7 +50,17 @@ export class ContratosService {
     }
   
       async find(id: number): Promise<ContratoInterface | null> {
-        return await this.contratoRepository.findOne({where: {id: id}});
+        return await this.contratoRepository.findOne({
+          relations: {
+            gestor: {
+              graduacao: true
+            },
+            fiscal: {
+              graduacao: true
+            }
+          },
+          where: {id: id}
+        });
       }
   
       async create(object: ContratoInterface, idUser: User) {
