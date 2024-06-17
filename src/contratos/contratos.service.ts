@@ -52,6 +52,7 @@ export class ContratosService {
       async find(id: number): Promise<ContratoInterface | null> {
         return await this.contratoRepository.findOne({
           relations: {
+            contratos_lancamentos: true,
             gestor: {
               graduacao: true
             },
@@ -105,5 +106,17 @@ export class ContratosService {
           fk: data.id,
           user: idUser
         });
+      }
+
+      async valorUsadoUp(contrato: number, valor: number, idUser: User){
+        var data = await this.contratoRepository.findOneBy({id: contrato});
+        data.valor_usado = Number(data.valor_usado) + Number(valor);
+        await this.contratoRepository.update({id:data.id},{...data});
+      }
+
+      async valorUsadoDown(contrato: number, valor: number, idUser: User){
+        var data = await this.contratoRepository.findOneBy({id: contrato});
+        data.valor_usado = Number(data.valor_usado) - Number(valor);
+        await this.contratoRepository.update({id:data.id},{...data});
       }
 }

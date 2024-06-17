@@ -63,6 +63,7 @@ import { EmpresasModule } from './empresas/empresas.module';
 import { ContratosModule } from './contratos/contratos.module';
 import { ContratosObjetosModule } from './contratos-objetos/contratos-objetos.module';
 import { ContratosTiposModule } from './contratos-tipos/contratos-tipos.module';
+import { ContratosLancamentosModule } from './contratos-lancamentos/contratos-lancamentos.module';
 
 
 @Module({
@@ -141,6 +142,7 @@ import { ContratosTiposModule } from './contratos-tipos/contratos-tipos.module';
     ContratosModule,
     ContratosObjetosModule,
     ContratosTiposModule,
+    ContratosLancamentosModule,
   ],
   controllers: [AppController],
   providers: [AppService,

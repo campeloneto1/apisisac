@@ -5,6 +5,7 @@ import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { ContratoTipo } from 'src/contratos-tipos/contrato-tipo.entity';
 import { ContratoObjeto } from 'src/contratos-objetos/contrato-objeto.entity';
 import { Policial } from 'src/policiais/policial.entity';
+import { ContratoLancamento } from 'src/contratos-lancamentos/contrato-lancamento.entity';
 
 @Entity('contratos')
 export class Contrato {
@@ -78,7 +79,8 @@ export class Contrato {
         nullable: false,
         type: 'decimal', 
         precision: 10, 
-        scale: 2 
+        scale: 2, 
+        default: 0
       })
       valor_usado!: number;
 
@@ -104,6 +106,9 @@ export class Contrato {
         type: 'text'
       })
       observacoes!: string;
+
+      @OneToMany(type => ContratoLancamento, contratoslancamentos => contratoslancamentos.contrato)
+    contratos_lancamentos: ContratoLancamento[];
     
 
     @ManyToOne(() => User, (user) => user.id, {

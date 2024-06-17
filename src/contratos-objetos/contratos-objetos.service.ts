@@ -6,6 +6,7 @@ import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { ContratoObjeto as ContratoObjetoEntity } from './contrato-objeto.entity';
 import { ContratoObjeto as ContratoObjetoInterface, ContratosObjetos as ContratosObjetosInterface  } from './contrato-objeto.interface';
+import { ContratosService } from 'src/contratos/contratos.service';
 
 @Injectable()
 export class ContratosObjetosService {
@@ -27,6 +28,7 @@ export class ContratosObjetosService {
       async create(object: ContratoObjetoInterface, idUser: User) {
         var object:ContratoObjetoInterface = this.corRepository.create({...object, created_by: idUser}) 
         var save = await this.corRepository.save(object);    
+        
         await this.logsService.create({
           object: JSON.stringify(save),
           mensagem: 'Cadastrou uma objeto de contrato',

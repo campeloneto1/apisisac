@@ -1,3 +1,4 @@
+import { ContratosLancamentos } from "src/contratos-lancamentos/contrato-lancamento.interface";
 import { ContratoObjeto } from "src/contratos-objetos/contrato-objeto.interface";
 import { ContratoTipo } from "src/contratos-tipos/contrato-tipo.interface";
 import { Empresa } from "src/empresas/empresa.interface";
@@ -19,11 +20,13 @@ export interface Contrato{
 
     contrato_tipo: ContratoTipo;
     contrato_objeto: ContratoObjeto;
-
+   
     gestor: Policial;
     fiscal: Policial;
 
     observacoes?: string;
+
+    contratos_lancamentos: ContratosLancamentos;
 
     created_by: User;
     updated_by: User;
