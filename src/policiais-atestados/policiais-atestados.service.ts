@@ -23,7 +23,12 @@ export class PoliciaisAtestadosService {
             {
               relations: {
                 policial: {
-                  graduacao: true
+                  graduacao: true,
+                  setor: {
+                    subunidade: {
+                      unidade: true
+                    }
+                  }
                 }
               }
             }
@@ -32,7 +37,12 @@ export class PoliciaisAtestadosService {
           return await this.policialAtestadoRepository.find({
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: {
+                    unidade: true
+                  }
+                }
               }
             },
             where: {
@@ -54,7 +64,12 @@ export class PoliciaisAtestadosService {
           {
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: {
+                    unidade: true
+                  }
+                }
               }
             },
             where: {

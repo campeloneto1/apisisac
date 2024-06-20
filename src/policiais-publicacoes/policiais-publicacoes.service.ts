@@ -21,7 +21,12 @@ export class PoliciaisPublicacoesService {
           return await this.policialFeriasRepository.find({
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: {
+                    unidade: true
+                  }
+                }
               }
             }
           });
@@ -29,7 +34,12 @@ export class PoliciaisPublicacoesService {
           return await this.policialFeriasRepository.find({
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: {
+                    unidade: true
+                  }
+                }
               }
             },
             where: {
@@ -50,7 +60,12 @@ export class PoliciaisPublicacoesService {
         return await this.policialFeriasRepository.findOne({
           relations: {
             policial: {
-              graduacao: true
+              graduacao: true,
+              setor: {
+                subunidade: {
+                  unidade: true
+                }
+              }
             }
           },
           where: {

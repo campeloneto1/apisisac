@@ -9,7 +9,8 @@ async function bootstrap() {
   app.use(helmet());
   app.enableCors({
     origin: [
-      'http://localhost:4200'
+      'http://localhost:4200',
+      'http://192.168.0.14:4200'
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,

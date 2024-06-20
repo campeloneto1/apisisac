@@ -11,6 +11,8 @@ import { User } from 'src/users/user.interface';
 import { UsersService } from 'src/users/users.service';
 import { UtilitiesService } from 'src/utilities/utilities.service';
 import { LogsService } from 'src/logs/logs.service';
+import { UsersSubunidadesService } from 'src/users-subunidades/users-subunidades.service';
+import { UserSubunidade } from 'src/users-subunidades/user-subunidade.interface';
 
 @Injectable()
 export class PoliciaisService {
@@ -19,6 +21,7 @@ export class PoliciaisService {
     private policialRepository: Repository<PolicialEntity>,
     private lazyModuleLoader: LazyModuleLoader,
     private usersService: UsersService,
+    private usersSubunidadesService: UsersSubunidadesService,
     private utilitiesService: UtilitiesService,
     private logsService: LogsService
   ) {}
@@ -146,7 +149,16 @@ export class PoliciaisService {
         //@ts-ignore
         perfil: 3
     }
-    await this.usersService.create(user, idUser);
+     await this.usersService.create(user, idUser);
+     var usuario = await this.usersService.wherePol(policial.id);
+
+    var usersub:UserSubunidade = {
+      //@ts-ignore
+      user: usuario.id,
+      //@ts-ignore
+      subunidade: save.setor.subunidade.id
+    }
+    await this.usersSubunidadesService.create(usersub, idUser);
   }
 
   async update(id: number, object: PolicialInterface, idUser: User) {

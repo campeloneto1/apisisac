@@ -65,7 +65,7 @@ export class ArmamentosService {
   
   
       async create(object: ArmamentoInterface, idUser: User) {
-        var object:ArmamentoInterface = this.armamentoRepository.create({...object, quantidade_disponivel: object.quantidade, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:ArmamentoInterface = this.armamentoRepository.create({...object, quantidade_disponivel: object.quantidade, created_by: idUser}) 
         var save = await this.armamentoRepository.save(object);  
         await this.logsService.create({
           object: JSON.stringify(save),
@@ -159,6 +159,28 @@ export class ArmamentosService {
             data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
           }});
         }
+      }
+
+      async ajustarquant(id:number, object: any, idUser: User) {
+        var data: ArmamentoInterface = await this.armamentoRepository.findOneBy({id: id});
+        if(object.tipo == 1){
+          data.quantidade = Number(data.quantidade) + Number(object.quantidade);
+          data.quantidade_disponivel = Number(data.quantidade_disponivel) + Number(object.quantidade);
+        }else{
+          data.quantidade = Number(data.quantidade) - Number(object.quantidade);
+          data.quantidade_disponivel = Number(data.quantidade_disponivel) - Number(object.quantidade);
+        }
+        
+        await this.armamentoRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Ajustou a quantidade um Armamento',
+          tipo: 2,
+          table: 'armamentos',
+          fk: id,
+          user: idUser
+        });
       }
 
       async relatorio(object:any, idUser: User): Promise<ArmamentosInterface> {

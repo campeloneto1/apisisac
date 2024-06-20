@@ -6,6 +6,7 @@ import { User as UserEntity } from './user.entity';
 import { User as UserInterface, Users as UsersInterface } from './user.interface';
 import { UtilitiesService } from 'src/utilities/utilities.service';
 import { LogsService } from 'src/logs/logs.service';
+import { UsersSubunidadesService } from 'src/users-subunidades/users-subunidades.service';
 
 @Injectable()
 export class UsersService {
@@ -14,22 +15,49 @@ export class UsersService {
       @InjectRepository(UserEntity)
       private usersRepository: Repository<UserEntity>,
       private utilitiesService: UtilitiesService,
+      private usersSubunidadesService: UsersSubunidadesService,
       private logsService: LogsService,
       private lazyModuleLoader: LazyModuleLoader
     ) {}
 
     async index(): Promise<UsersInterface> {
-      return await this.usersRepository.find();
+      return await this.usersRepository.find({
+        relations: {
+          users_subunidades: {
+            subunidade: {
+              unidade: true
+            }
+          }
+        }
+      });
     }
 
     async find(id: number): Promise<UserInterface | null> {
-      return await this.usersRepository.findOne({where: {id: id}});
+      return await this.usersRepository.findOne({
+        relations: {
+          users_subunidades: {
+            subunidade: {
+              unidade: true
+            }
+          }
+        },
+        where: {id: id}
+      });
     }
 
     async wherePol(id: number): Promise<UserInterface | null> {
-      return await this.usersRepository.findOne({where: {policial:{
-        id: id
-      }}});
+      return await this.usersRepository.findOne({
+        relations: {
+          users_subunidades: {
+            subunidade: {
+              unidade: true
+            }
+          }
+        },
+        where: {policial:{
+          id: id
+        }}
+      });
     }
 
     async create(object: UserInterface, idUser: UserInterface) {
@@ -39,6 +67,13 @@ export class UsersService {
       var object:UserInterface = this.usersRepository.create({...object, created_by: idUser}) 
       var save = await this.usersRepository.save(object);      
 
+      this.usersSubunidadesService.create({
+        //@ts-ignore
+        user: save.id,
+        subunidade: object.subunidade
+      },
+      idUser);
+
       await this.logsService.create({
         object: JSON.stringify(save),
         mensagem: 'Cadastrou um usuário',
@@ -47,6 +82,8 @@ export class UsersService {
         fk: save.id,
         user: idUser
       });
+
+
     }
 
     async update(id:number, object: UserInterface, idUser: UserInterface) {
@@ -91,7 +128,14 @@ export class UsersService {
               password: true,
               salt:true,
           },
-          relations: ['perfil']
+          relations: {
+            perfil: true,
+            users_subunidades: {
+              subunidade: {
+                unidade: true
+              }
+            }
+          }
       });
       return user;
     }

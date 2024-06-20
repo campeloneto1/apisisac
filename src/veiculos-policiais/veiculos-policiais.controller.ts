@@ -45,4 +45,9 @@ export class VeiculosPoliciaisController {
     async relatorio(@Body() object: any, @Request() req) {
         return await this.veiculosPoliciaisService.relatorio(object, req.user);
     }
+
+    @Get('emprestadopolicial')
+    async emprestadoPolicial(@Request() req):Promise<VeiculoPolicial>{
+        return await this.veiculosPoliciaisService.emprestadoPolicial(req.user);
+    }
 }

@@ -21,7 +21,12 @@ export class PoliciaisCursosService {
           return await this.policialCursoRepository.find({
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: {
+                    unidade: true
+                  }
+                }
               }
             }
           });
@@ -29,7 +34,12 @@ export class PoliciaisCursosService {
           return await this.policialCursoRepository.find({
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: {
+                    unidade: true
+                  }
+                }
               }
             },
             where: {
@@ -50,7 +60,12 @@ export class PoliciaisCursosService {
         return await this.policialCursoRepository.findOne({
           relations: {
             policial: {
-              graduacao: true
+              graduacao: true,
+              setor: {
+                subunidade: {
+                  unidade: true
+                }
+              }
             }
           },
           where: {

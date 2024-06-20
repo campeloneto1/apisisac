@@ -170,6 +170,31 @@ export class VeiculosPoliciaisService {
         }
       }
 
+      async emprestadoPolicial(idUser: User): Promise<VeiculoPolicialInterface> {
+          return await this.veiculoPolicialRository.findOne({
+            relations: {
+              policial: {
+                graduacao: true
+              },
+              veiculo: {
+                modelo: {
+                  marca: true
+                }
+              }
+            },
+            where: {
+              data_final: IsNull(),
+              policial: {
+                id: idUser.policial.id
+              },
+              //@ts-ignore
+              subunidade: {
+                id: idUser.subunidade.id
+              }
+            }
+          });
+      }
+
       async relatorio(object:any, idUser: User): Promise<VeiculosPoliciaisInterface>{
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);

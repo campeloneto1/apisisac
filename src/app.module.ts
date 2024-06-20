@@ -64,6 +64,7 @@ import { ContratosModule } from './contratos/contratos.module';
 import { ContratosObjetosModule } from './contratos-objetos/contratos-objetos.module';
 import { ContratosTiposModule } from './contratos-tipos/contratos-tipos.module';
 import { ContratosLancamentosModule } from './contratos-lancamentos/contratos-lancamentos.module';
+import { UsersSubunidadesModule } from './users-subunidades/users-subunidades.module';
 
 
 @Module({
@@ -143,6 +144,7 @@ import { ContratosLancamentosModule } from './contratos-lancamentos/contratos-la
     ContratosObjetosModule,
     ContratosTiposModule,
     ContratosLancamentosModule,
+    UsersSubunidadesModule,
   ],
   controllers: [AppController],
   providers: [AppService,

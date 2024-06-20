@@ -1,6 +1,7 @@
 import { Perfil } from "src/perfis/perfil.interface";
 import { Policial } from "src/policiais/policial.interface";
 import { Subunidade } from "src/subunidades/subunidade.interface";
+import { UsersSubunidades } from "src/users-subunidades/user-subunidade.interface";
 
 export interface User{
     id?: number;
@@ -12,6 +13,8 @@ export interface User{
     salt: string;
     perfil: Perfil;
     subunidade: Subunidade;
+
+    users_subunidades: UsersSubunidades;
 
     policial: Policial;
 

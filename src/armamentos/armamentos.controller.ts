@@ -45,4 +45,9 @@ export class ArmamentosController {
     async relatorio(@Body() object: any, @Request() req) {
         return await this.armamentosService.relatorio(object, req.user);
     }
+
+    @Put(':id/ajustarquant')
+    async ajustarquant(@Param('id') id: number, @Body() object: any, @Request() req) {
+        return await this.armamentosService.ajustarquant(id, object, req.user);
+    }
 }

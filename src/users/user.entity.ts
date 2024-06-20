@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Perfil } from '../perfis/perfil.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Policial } from 'src/policiais/policial.entity';
+import { UserSubunidade } from 'src/users-subunidades/user-subunidade.entity';
 
 @Entity('users')
 export class User {
@@ -71,6 +72,9 @@ export class User {
         onUpdate: 'CASCADE'
     })
     subunidade!: Subunidade;
+
+    @OneToMany(type => UserSubunidade, usersubunidade => usersubunidade.user)
+    users_subunidades: UserSubunidade[];
 
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL'
