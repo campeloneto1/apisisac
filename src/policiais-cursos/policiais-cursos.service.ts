@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { PolicialCurso as PolicialCursoEntity } from './policial-curso.entity';
 import { PolicialCurso as PolicialCursoInterface, PoliciaisCursos as PoliciaisCursosInterface } from './policial-curso.interface';
 import { LogsService } from 'src/logs/logs.service';
@@ -17,20 +17,7 @@ export class PoliciaisCursosService {
     ){}
 
     async index(params:any,idUser: User): Promise<PoliciaisCursosInterface> {
-        if(idUser.perfil.administrador){
-          return await this.policialCursoRepository.find({
-            relations: {
-              policial: {
-                graduacao: true,
-                setor: {
-                  subunidade: {
-                    unidade: true
-                  }
-                }
-              }
-            }
-          });
-        }else{
+      
           return await this.policialCursoRepository.find({
             relations: {
               policial: {
@@ -53,10 +40,14 @@ export class PoliciaisCursosService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<PolicialCursoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.policialCursoRepository.findOne({
           relations: {
             policial: {
@@ -74,7 +65,7 @@ export class PoliciaisCursosService {
             policial: {
               setor: {
                 subunidade: {
-                  id: idUser.subunidade.id
+                  id: In(idsSubs)
                 }
               }
             }

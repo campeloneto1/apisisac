@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PolicialAtestado as PolicialAtestadoEntity } from './policial-atestado.entity';
 import { PolicialAtestado as PolicialAtestadoInterface, PoliciaisAtestados as PoliciaisAtestadosInterface } from './policial-atestado.interface';
-import { LessThan, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { In, LessThan, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { User } from 'src/users/user.interface';
 import { format } from 'date-fns';
@@ -18,22 +18,7 @@ export class PoliciaisAtestadosService {
     ){}
 
     async index(params:any,idUser: User): Promise<PoliciaisAtestadosInterface> {
-        if(idUser.perfil.administrador){
-          return await this.policialAtestadoRepository.find(
-            {
-              relations: {
-                policial: {
-                  graduacao: true,
-                  setor: {
-                    subunidade: {
-                      unidade: true
-                    }
-                  }
-                }
-              }
-            }
-          );
-        }else{
+      
           return await this.policialAtestadoRepository.find({
             relations: {
               policial: {
@@ -56,10 +41,14 @@ export class PoliciaisAtestadosService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<PolicialAtestadoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.policialAtestadoRepository.findOne(
           {
             relations: {
@@ -78,7 +67,7 @@ export class PoliciaisAtestadosService {
               policial: {
                 setor: {
                   subunidade: {
-                    id: idUser.subunidade.id
+                    id: In(idsSubs)
                   }
                 }
               }

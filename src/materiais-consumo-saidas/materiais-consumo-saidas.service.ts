@@ -3,7 +3,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { MateriaisConsumoService } from 'src/materiais-consumo/materiais-consumo.service';
-import { Between, Repository } from 'typeorm';
+import { Between, In, Repository } from 'typeorm';
 import { MaterialConsumoSaida as MaterialConsumoSaidaEntity } from './material-consumo-saida.entity';
 import { MaterialConsumoSaida as MaterialConsumoSaidaInterface, MateriaisConsumoSaidas as MateriaisConsumoSaidasInterface } from './material-consumo-saida.interface';
 import { User } from 'src/users/user.interface';
@@ -22,17 +22,7 @@ export class MateriaisConsumoSaidasService {
     ){}
 
     async index(params:any,idUser: User): Promise<MateriaisConsumoSaidasInterface> {
-        if(idUser.perfil.administrador){
-          return await this.amaterialConsumoSaidaRepository.find({
-            relations: {
-              user: {
-                policial: {
-                  graduacao: true
-                }
-              }
-            }
-          });
-        }else{
+      
           return await this.amaterialConsumoSaidaRepository.find({
             relations: {
               user: {
@@ -48,16 +38,20 @@ export class MateriaisConsumoSaidasService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<MaterialConsumoSaidaInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.amaterialConsumoSaidaRepository.findOne({
           where: {
             id: id,
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: In(idsSubs)
             }
           } ,
           relations: {
@@ -142,37 +136,13 @@ export class MateriaisConsumoSaidasService {
         finaldate = addHours(finaldate, 23);
         finaldate = addMinutes(finaldate, 59);
         var materiaisconsumo;
-        if(idUser.perfil.administrador){
-          materiaisconsumo = await this.amaterialConsumoSaidaRepository.find({
-            where: {
-              data_saida: Between(object.data_inicial, finaldate),
-              
-            },
-            order: {
-              id: "DESC"
-            },
-            relations: {
-              user: {
-                policial: {
-                  graduacao: true
-                }
-              },
-              materiais_consumo_saidas_itens: {
-                material_consumo: {
-                  modelo: true
-                },
-                material_consumo_saida: false
-              }
-            }
-          });
-  
-        }else{
+        
           materiaisconsumo = await this.amaterialConsumoSaidaRepository.find({
             where: {
               data_saida: Between(object.data_inicial, finaldate),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
@@ -193,8 +163,6 @@ export class MateriaisConsumoSaidasService {
             }
           });
   
-        }
-        
         if(object.user){
           materiaisconsumo = materiaisconsumo.filter(element => {
             return element.user.id === object.user

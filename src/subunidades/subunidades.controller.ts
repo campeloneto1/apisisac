@@ -32,7 +32,7 @@ export class SubunidadesController {
     }
 
     @Get(':id/whereUnidade')
-    async wherePais(@Param('id') id: number):Promise<Subunidades>  {
-        return await this.subunidadesService.whereUnidade(id);
+    async wherePais(@Param('id') id: number, @Request() req):Promise<Subunidades>  {
+        return await this.subunidadesService.whereUnidade(id, req.user);
     }
 }

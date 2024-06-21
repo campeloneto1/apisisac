@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Between, IsNull, LessThanOrEqual, MoreThan, Repository } from 'typeorm';
+import { Between, In, IsNull, LessThanOrEqual, MoreThan, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { Material as MaterialEntity } from './material.entity';
 import { Material as MaterialInterface, Materiais as MateriaisInterface } from './material.interface';
@@ -18,9 +18,7 @@ export class MateriaisService {
     ){}
 
     async index(params:any,idUser: User): Promise<MateriaisInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materialRepository.find();
-        }else{
+        
           return await this.materialRepository.find({
             where: {
               //@ts-ignore
@@ -29,10 +27,14 @@ export class MateriaisService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<MaterialInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.materialRepository.findOne({
            relations:{
              materiais_policiais_itens: {
@@ -48,17 +50,21 @@ export class MateriaisService {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
 
       async find2(id: number, idUser: User): Promise<MaterialInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.materialRepository.findOne({where: {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
@@ -108,12 +114,7 @@ export class MateriaisService {
       }
 
       async disponiveis(params:any,idUser: User): Promise<MateriaisInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materialRepository.find({where: {
-            data_baixa: IsNull(),
-            quantidade_disponivel: MoreThan(0),
-          }});
-        }else{
+        
           return await this.materialRepository.find({where: {
             data_baixa: IsNull(),
             quantidade_disponivel: MoreThan(0),
@@ -122,7 +123,7 @@ export class MateriaisService {
               id: params.subunidade
             }
           }});
-        }
+        
       }
 
       async atualizarQuantidadeUp(id:number, quantidade:number):Promise<void>{
@@ -141,14 +142,7 @@ export class MateriaisService {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
-        if(idUser.perfil.administrador){
-          return await this.materialRepository.find({where: {
-            
-            data_baixa: IsNull(),
-            //@ts-ignore
-            data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
-          }});
-        }else{
+        
           return await this.materialRepository.find({where: {
             //@ts-ignore
             subunidade: {
@@ -158,30 +152,24 @@ export class MateriaisService {
             //@ts-ignore
             data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
           }});
-        }
+        
       }
 
       async relatorio(object:any, idUser: User): Promise<MateriaisInterface> {
         var materiais;
-        if(idUser.perfil.administrador){
-          materiais =  await this.materialRepository.find({
-            order: {
-              serial: "ASC"
-            }
-          });
-        }else{
+       
           materiais = await this.materialRepository.find({
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
               serial: "ASC"
             }
           });
-        }
+        
 
         if(object.marca){
           materiais = materiais.filter(element => {

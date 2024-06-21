@@ -12,8 +12,8 @@ export class ContratosController {
     }
 
     @Get(':id')
-    async find(@Param('id') id: number):Promise<Contrato>  {
-        return await this.contratosService.find(id);
+    async find(@Param('id') id: number, @Request() req):Promise<Contrato>  {
+        return await this.contratosService.find(id, req.user);
     }
     
     @Post()

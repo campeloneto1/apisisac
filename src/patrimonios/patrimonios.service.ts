@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { Patrimonio as PatrimonioEntity } from './patrimonio.entity';
 import { Patrimonio as PatrimonioInterface, Patrimonios as PatrimoniosInterface } from './patrimonio.interface';
 import { LogsService } from 'src/logs/logs.service';
@@ -17,9 +17,7 @@ export class PatrimoniosService {
     ){}
 
     async index(params:any,idUser: User): Promise<PatrimoniosInterface> {
-        if (idUser.perfil.administrador) {
-          return await this.patrimonioRepository.find();
-        } else {
+        
           return await this.patrimonioRepository.find({
             where: {
               //@ts-ignore
@@ -30,16 +28,20 @@ export class PatrimoniosService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<PatrimonioInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.patrimonioRepository.findOne({where: {
           id: id,
           //@ts-ignore
           setor: {
             subunidade: {
-                id: idUser.subunidade.id
+                id: In(idsSubs)
               }
         }
         }});
@@ -103,16 +105,12 @@ export class PatrimoniosService {
       async relatorio(object:any , idUser: User): Promise<PatrimoniosInterface> {
 
         var patrimonios;
-        if(idUser.perfil.administrador){
-          patrimonios = await this.patrimonioRepository.find({order: {
-            tombo: "ASC"
-          }});
-        }else{
+        
           patrimonios = await this.patrimonioRepository.find({where: {
             //@ts-ignore
             setor: {
               subunidade: {
-                  id: idUser.subunidade.id
+                id: object.subunidade
               }
             }
           },
@@ -120,7 +118,7 @@ export class PatrimoniosService {
             tombo: "ASC"
           }
           });
-        }
+        
         
 
         if(object.data_baixa){

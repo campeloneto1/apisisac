@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Between, IsNull, Not, Raw, Repository } from 'typeorm';
+import { Between, In, IsNull, Not, Raw, Repository } from 'typeorm';
 import { MaterialPolicial as MaterialPolicialEnity } from './material-policial.entity';
 import { MaterialPolicial as MaterialPolicialInterface, MateriaisPoliciais as MateriaisPoliciaisInterface } from './material-policial.interface';
 import { addHours, addMinutes } from 'date-fns';
@@ -24,15 +24,7 @@ export class MateriaisPoliciaisService {
     ){}
 
     async index(params:any,idUser: User): Promise<MateriaisPoliciaisInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materiaisPoliciaisRepository.find({
-            relations: {
-              policial: {
-                graduacao: true
-              }
-            }
-          });
-        }else{
+      
           return await this.materiaisPoliciaisRepository.find({
             relations: {
               policial: {
@@ -46,16 +38,20 @@ export class MateriaisPoliciaisService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<MaterialPolicialInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.materiaisPoliciaisRepository.findOne({
           where: {
             id: id,
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: In(idsSubs)
             }
           } ,
           relations: {
@@ -193,35 +189,13 @@ export class MateriaisPoliciaisService {
         finaldate = addHours(finaldate, 23);
         finaldate = addMinutes(finaldate, 59);
         var materiais;
-        if(idUser.perfil.administrador){
-          materiais = await this.materiaisPoliciaisRepository.find({
-            where: {
-              data_emprestimo: Between(object.data_inicial, finaldate),
-              
-            },
-            order: {
-              id: "DESC"
-            },
-            relations: {
-              policial: {
-                graduacao: true
-              },
-              materiais_policiais_itens: {
-                material: {
-                  modelo: true
-                },
-                material_policial: false
-              }
-            }
-          });
-  
-        }else{
+        
           materiais = await this.materiaisPoliciaisRepository.find({
             where: {
               data_emprestimo: Between(object.data_inicial, finaldate),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
@@ -240,7 +214,7 @@ export class MateriaisPoliciaisService {
             }
           });
   
-        }
+        
         
         if(object.policial){
           materiais = materiais.filter(element => {

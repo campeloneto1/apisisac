@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { MateriaisConsumoService } from 'src/materiais-consumo/materiais-consumo.service';
 import { User } from 'src/users/user.interface';
-import { Between, Repository } from 'typeorm';
+import { Between, In, Repository } from 'typeorm';
 import { MaterialConsumoEntrada as MaterialConsumoEntradaEntity } from './material-consumo-entrada.entity';
 import { MaterialConsumoEntrada as MaterialConsumoEntradaInterface, MateriaisConsumoEntradas as MateriaisConsumoEntradasInterface } from './material-consumo-entrada.interface';
 import { MateriaisConsumoEntradasItensService } from 'src/materiais-consumo-entradas-itens/materiais-consumo-entradas-itens.service';
@@ -22,17 +22,7 @@ export class MateriaisConsumoEntradasService {
     ){}
 
     async index(params:any,idUser: User): Promise<MateriaisConsumoEntradasInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materialConsumoEntradaRepository.find({
-            relations: {
-              user: {
-                policial: {
-                  graduacao: true
-                }
-              }
-            }
-          });
-        }else{
+       
           return await this.materialConsumoEntradaRepository.find({
             relations: {
               user: {
@@ -48,16 +38,20 @@ export class MateriaisConsumoEntradasService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<MaterialConsumoEntradaInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.materialConsumoEntradaRepository.findOne({
           where: {
             id: id,
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: In(idsSubs)
             }
           } ,
           relations: {
@@ -146,36 +140,13 @@ export class MateriaisConsumoEntradasService {
         finaldate = addHours(finaldate, 23);
         finaldate = addMinutes(finaldate, 59);
         var materiaisconsumo;
-        if(idUser.perfil.administrador){
-          materiaisconsumo = await this.materialConsumoEntradaRepository.find({
-            where: {
-              data_entrada: Between(object.data_inicial, finaldate),
-            },
-            order: {
-              id: "DESC"
-            },
-            relations: {
-              user: {
-                policial: {
-                  graduacao: true
-                }
-              },
-              materiais_consumo_entradas_itens: {
-                material_consumo: {
-                  modelo: true
-                },
-                material_consumo_entrada: false
-              }
-            }
-          });
-  
-        }else{
+        
           materiaisconsumo = await this.materialConsumoEntradaRepository.find({
             where: {
               data_entrada: Between(object.data_inicial, finaldate),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
@@ -196,7 +167,7 @@ export class MateriaisConsumoEntradasService {
             }
           });
   
-        }
+        
         
         if(object.user){
           materiaisconsumo = materiaisconsumo.filter(element => {

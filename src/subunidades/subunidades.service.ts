@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Subunidade as SubunidadeEntity } from './subunidade.entity';
 import { Subunidade as SubunidadeInterface, Subunidades as SubunidadesInterface } from './subunidade.interface';
 import { User } from 'src/users/user.interface';
@@ -97,12 +97,17 @@ export class SubunidadesService {
         });
       }
 
-      async whereUnidade(id: number): Promise<SubunidadesInterface | null> {
+      async whereUnidade(id: number, idUser: User): Promise<SubunidadesInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.subunidadeRepository.find({
           where: {
             unidade: {
               id: id,
             },
+            id: In(idsSubs)
           },
         });
       }

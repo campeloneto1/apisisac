@@ -58,7 +58,7 @@ export class HomeService {
     }
 
     async requeridas(params:any,idUser: User): Promise<any>{
-        return this.policiaisRequeridas.quantidade(idUser);
+        return this.policiaisRequeridas.quantidade(params, idUser);
     }
 
     async policiaisGraduacoes(params:any,idUser: User): Promise<any>{

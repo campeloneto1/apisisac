@@ -24,9 +24,7 @@ export class VeiculosService {
     ){}
 
     async index(params:any,idUser: User): Promise<VeiculosInterface> {
-        if(idUser.perfil.administrador){
-          return await this.veiculoRepository.find();
-        }else{
+       
           return await this.veiculoRepository.find({
             where: {
               //@ts-ignore
@@ -35,10 +33,14 @@ export class VeiculosService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<VeiculoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.veiculoRepository.findOne({
           relations: {
             veiculos_oficinas: {
@@ -55,18 +57,22 @@ export class VeiculosService {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
 
       async find2(id: number, idUser: User): Promise<VeiculoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.veiculoRepository.findOne({
           where: {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
@@ -128,14 +134,7 @@ export class VeiculosService {
            ids.push(element.veiculo.id)
          });
 
-        if(idUser.perfil.administrador){
-          return await this.veiculoRepository.find({
-            where: {
-              id: Not(In(ids)),
-              data_baixa: IsNull()
-            }
-          });
-        }else{
+       
           return await this.veiculoRepository.find({
             where: {
               id: Not(In(ids)),
@@ -146,7 +145,7 @@ export class VeiculosService {
               }
             }
           });
-        }
+        
       }
   
       async trocaoleo(params:any, idUser: User): Promise<VeiculosInterface> {
@@ -183,7 +182,7 @@ export class VeiculosService {
               data_baixa: IsNull(),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           ]
@@ -194,29 +193,20 @@ export class VeiculosService {
       async relatorio(object: any, idUser: User): Promise<VeiculosInterface>{
         var veiculos;
 
-        if(idUser.perfil.administrador){
-          veiculos = await this.veiculoRepository.find({
-            where: {
-              data_baixa: IsNull(),
-            },
-            order: {
-              placa: 'ASC'
-            }
-          });
-        }else{
+        
           veiculos = await this.veiculoRepository.find({
             where: {
               data_baixa: IsNull(),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
               placa: 'ASC'
             }
           });
-        }
+        
 
         if(object.marca){
           veiculos = veiculos.filter(element => {

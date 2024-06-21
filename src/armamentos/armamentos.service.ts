@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Between, IsNull, LessThanOrEqual, MoreThan, Repository } from 'typeorm';
+import { Between, In, IsNull, LessThanOrEqual, MoreThan, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { Armamento as ArmamentoEntity } from './armamento.entity';
 import { Armamento as ArmamentoInterface, Armamentos as ArmamentosInterface } from './armamento.interface';
@@ -18,9 +18,7 @@ export class ArmamentosService {
     ){}
 
     async index(params:any, idUser: User): Promise<ArmamentosInterface> {
-        if(idUser.perfil.administrador){
-          return await this.armamentoRepository.find();
-        }else{
+        
           return await this.armamentoRepository.find({
             where: {
               //@ts-ignore
@@ -29,10 +27,14 @@ export class ArmamentosService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<ArmamentoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.armamentoRepository.findOne({
           relations:{
             armamentos_emprestimos_itens: {
@@ -48,17 +50,21 @@ export class ArmamentosService {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
 
       async find2(id: number, idUser: User): Promise<ArmamentoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.armamentoRepository.findOne({where: {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
@@ -108,12 +114,7 @@ export class ArmamentosService {
       }
 
       async disponiveis(params:any, idUser: User): Promise<ArmamentosInterface> {
-        if(idUser.perfil.administrador){
-          return await this.armamentoRepository.find({where: {
-            data_baixa: IsNull(),
-            quantidade_disponivel: MoreThan(0),
-          }});
-        }else{
+       
           return await this.armamentoRepository.find({where: {
             data_baixa: IsNull(),
             quantidade_disponivel: MoreThan(0),
@@ -122,7 +123,7 @@ export class ArmamentosService {
               id: params.subunidade
             }
           }});
-        }
+        
       }
 
       async atualizarQuantidadeUp(id:number, quantidade:number):Promise<void>{
@@ -141,14 +142,7 @@ export class ArmamentosService {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
-        if(idUser.perfil.administrador){
-          return await this.armamentoRepository.find({where: {
-            
-            data_baixa: IsNull(),
-            //@ts-ignore
-            data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
-          }});
-        }else{
+        
           return await this.armamentoRepository.find({where: {
             //@ts-ignore
             subunidade: {
@@ -158,7 +152,7 @@ export class ArmamentosService {
             //@ts-ignore
             data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
           }});
-        }
+        
       }
 
       async ajustarquant(id:number, object: any, idUser: User) {
@@ -185,25 +179,19 @@ export class ArmamentosService {
 
       async relatorio(object:any, idUser: User): Promise<ArmamentosInterface> {
         var armas;
-        if(idUser.perfil.administrador){
-          armas =  await this.armamentoRepository.find({
-            order: {
-              serial: "ASC"
-            }
-          });
-        }else{
+        
           armas = await this.armamentoRepository.find({
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
               serial: "ASC"
             }
           });
-        }
+        
 
         if(object.marca){
           armas = armas.filter(element => {

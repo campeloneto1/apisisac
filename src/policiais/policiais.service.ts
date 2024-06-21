@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { Policial as PolicialEntity } from './policial.entity';
 import {
   Policial as PolicialInterface,
@@ -28,17 +28,7 @@ export class PoliciaisService {
 
   async index(params:any,idUser: User): Promise<PoliciaisInterface> {
 
-    if (idUser.perfil.administrador) {
-      return await this.policialRepository.find({
-        relations: {
-          user: {
-           policial: false,
-            perfil: false
-          },
-          
-        }
-      });
-    } else {
+   
       return await this.policialRepository.find({
         where:{
           //@ts-ignore
@@ -56,17 +46,20 @@ export class PoliciaisService {
           
         }
       });
-    }
+    
   }
 
   async find(id: number, idUser: User): Promise<PolicialInterface | null> {
+    var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
     return await this.policialRepository.findOne({
       where: { 
         id: id,
-        //@ts-ignore
         setor: {
-          subunidade: {
-            id: idUser.subunidade.id
+          subunidade:{
+            id: In(idsSubs)
           }
         }
        },
@@ -104,13 +97,17 @@ export class PoliciaisService {
   }
 
   async find2(id: number, idUser: User): Promise<PolicialInterface | null> {
+    var idsSubs:any = [];
+    idUser.users_subunidades.forEach((data) => {
+      idsSubs.push(data.subunidade.id)
+    });
     return await this.policialRepository.findOne({
       where: { 
         id: id,
         //@ts-ignore
         setor: {
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }
        },
@@ -227,13 +224,7 @@ export class PoliciaisService {
   }
 
   async disponiveis(params:any,idUser: User): Promise<PoliciaisInterface> {
-    if(idUser.perfil.administrador){
-      return await this.policialRepository.find({
-        where: { 
-          boletim_transferencia: IsNull(),
-        },
-      });
-    }else{
+   
       return await this.policialRepository.find({
         where: { 
           boletim_transferencia: IsNull(),
@@ -245,7 +236,7 @@ export class PoliciaisService {
           }
         },
       });
-    }
+    
   }
 
   async quantidade(params:any,idUser: User): Promise<number> {
@@ -287,20 +278,17 @@ export class PoliciaisService {
 
   async relatorio(object:any, idUser: User): Promise<PoliciaisInterface> {
     var policiais;
-    if(idUser.perfil.administrador){
-      policiais = await this.policialRepository.find();
-    }else{
-      policiais = await this.policialRepository.find({
-        where: { 
-          //@ts-ignore
-          setor: {
-            subunidade: {
-              id: idUser.subunidade.id
-            }
+    
+    policiais = await this.policialRepository.find({
+      where: { 
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: object.subunidade
           }
-        },
-      });
-    }
+        }
+      },
+    });
 
     if(object.setor){
       policiais = policiais.filter(element => {

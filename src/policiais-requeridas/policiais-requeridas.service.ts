@@ -3,7 +3,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { User } from 'src/users/user.interface';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { PolicialRequerida as PolicialRequeridaEntity } from './policial-requerida.entity';
 import { PolicialRequerida as PolicialRequeridaInterface, PoliciaisRequeridas as PoliciaisRequeridasInterface  } from './policial-requerida.interface';
 
@@ -17,20 +17,7 @@ export class PoliciaisRequeridasService {
     ){}
 
     async index(params:any,idUser: User): Promise<PoliciaisRequeridasInterface> {
-        if(idUser.perfil.administrador){
-          return await this.policialRequeridaRepository.find({
-            relations: {
-              policial: {
-                graduacao: true,
-                setor: {
-                  subunidade: {
-                    unidade: true
-                  }
-                }
-              }
-            }
-          });
-        }else{
+        
           return await this.policialRequeridaRepository.find({
             relations: {
               policial: {
@@ -53,10 +40,14 @@ export class PoliciaisRequeridasService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<PolicialRequeridaInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.policialRequeridaRepository.findOne({
           relations: {
             policial: {
@@ -74,7 +65,7 @@ export class PoliciaisRequeridasService {
             policial: {
               setor: {
                 subunidade: {
-                  id: idUser.subunidade.id
+                  id: In(idsSubs)
                 }
               }
             }
@@ -126,7 +117,7 @@ export class PoliciaisRequeridasService {
         });
       }
 
-      async quantidade(idUser: User): Promise<number> {
+      async quantidade(params: any, idUser: User): Promise<number> {
         return await this.policialRequeridaRepository.count({where: {
           //@ts-ignore
           boletim_publicacao: IsNull(),
@@ -134,7 +125,7 @@ export class PoliciaisRequeridasService {
           policial: {
             setor: {
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           }

@@ -2,7 +2,7 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Between, IsNull, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, In, IsNull, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { VeiculoOficina as VeiculoOficinaEntity } from './veiculo-oficina.entity';
 import { VeiculoOficina as VeiculoOficinaInterface, VeiculosOficinas as VeiculosOficinasInterface } from './veiculo-oficina.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
@@ -21,9 +21,7 @@ export class VeiculosOficinasService {
     ){}
 
     async index(params:any,idUser: User): Promise<VeiculosOficinasInterface> {
-          if(idUser.perfil.administrador){
-            return await this.veiculoOficinaRository.find();
-          }else{
+          
             return await this.veiculoOficinaRository.find({
               where: {
                 //@ts-ignore
@@ -32,15 +30,19 @@ export class VeiculosOficinasService {
                 }
               }
             });
-          }
+          
       }
   
       async find(id: number, idUser: User): Promise<VeiculoOficinaInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.veiculoOficinaRository.findOne({where: {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
@@ -121,14 +123,7 @@ export class VeiculosOficinasService {
       }
 
       async emmanutencao(params:any,idUser: User): Promise<VeiculosOficinasInterface> {
-        if(idUser.perfil.administrador){
-          return await this.veiculoOficinaRository.find({
-            where: {
-              data_final: IsNull(),
-              
-            }
-          });
-        }else{
+        
           return await this.veiculoOficinaRository.find({
             where: {
               data_final: IsNull(),
@@ -138,7 +133,7 @@ export class VeiculosOficinasService {
               }
             }
           });
-        }
+        
       }
 
       async relatorio(object:any, idUser: User): Promise<VeiculosOficinasInterface>{
@@ -146,29 +141,20 @@ export class VeiculosOficinasService {
         finaldate = addHours(finaldate, 23);
         finaldate = addMinutes(finaldate, 59);
         var veiculos;
-        if(idUser.perfil.administrador){
-          veiculos = await this.veiculoOficinaRository.find({
-            where: {
-              data_inicial: Between(object.data_inicial, finaldate),
-            },
-            order: {
-              id: "DESC"
-            }
-          });
-        }else{
+        
           veiculos = await this.veiculoOficinaRository.find({
             where: {
               data_inicial: Between(object.data_inicial, finaldate),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
               id: "DESC"
             }
           });
-        }
+        
        
 
         if(object.veiculo){

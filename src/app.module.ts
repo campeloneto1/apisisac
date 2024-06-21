@@ -67,6 +67,8 @@ import { ContratosLancamentosModule } from './contratos-lancamentos/contratos-la
 import { UsersSubunidadesModule } from './users-subunidades/users-subunidades.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ServicosModule } from './servicos/servicos.module';
+import { ServicosTiposModule } from './servicos-tipos/servicos-tipos.module';
 
 
 @Module({
@@ -152,6 +154,8 @@ import { join } from 'path';
     ContratosTiposModule,
     ContratosLancamentosModule,
     UsersSubunidadesModule,
+    ServicosModule,
+    ServicosTiposModule,
   ],
   controllers: [AppController],
   providers: [AppService,

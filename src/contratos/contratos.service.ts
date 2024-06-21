@@ -3,7 +3,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { User } from 'src/users/user.interface';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Contrato as ContratoEntity } from './contrato.entity';
 import { Contrato as ContratoInterface, Contratos as ContratosInterface  } from './contrato.interface';
 
@@ -17,20 +17,7 @@ export class ContratosService {
     ){}
 
     async index(params:any,idUser: User): Promise<ContratosInterface> {
-      if(idUser.perfil.administrador){
-        return await this.contratoRepository.find(
-          {
-            relations: {
-              gestor: {
-                graduacao: true
-              },
-              fiscal: {
-                graduacao: true
-              }
-            }
-          }
-        );
-      }else{
+     
         return await this.contratoRepository.find({
           relations: {
             gestor: {
@@ -46,10 +33,14 @@ export class ContratosService {
                 }
             }
         });
-      }
+      
     }
   
-      async find(id: number): Promise<ContratoInterface | null> {
+      async find(id: number, idUser:User): Promise<ContratoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.contratoRepository.findOne({
           relations: {
             contratos_lancamentos: true,
@@ -60,7 +51,12 @@ export class ContratosService {
               graduacao: true
             }
           },
-          where: {id: id}
+          where: {
+            id: id,
+            subunidade: {
+              id: In(idsSubs)
+            }
+          }
         });
       }
   

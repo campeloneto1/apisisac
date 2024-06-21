@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Between, IsNull, Not, Raw, Repository } from 'typeorm';
+import { Between, In, IsNull, Not, Raw, Repository } from 'typeorm';
 import { ArmamentoEmprestimo as ArmamentoEmprestimoEnity } from './armamento-emprestimo.entity';
 import { ArmamentoEmprestimo as ArmamentoEmprestimoInterface, ArmamentosEmprestimos as ArmamentosEmprestimosInterface } from './armamento-emprestimo.interface';
 import { ArmamentosEmprestimosItensService } from 'src/armamentos-emprestimos-itens/armamentos-emprestimos-itens.service';
@@ -24,15 +24,7 @@ export class ArmamentosEmprestimosService {
     ){}
 
     async index(params:any,idUser: User): Promise<ArmamentosEmprestimosInterface> {
-        if(idUser.perfil.administrador){
-          return await this.armamentoEmprestimoRepository.find({
-            relations: {
-              policial: {
-                graduacao: true
-              }
-            }
-          });
-        }else{
+
           return await this.armamentoEmprestimoRepository.find({
             relations: {
               policial: {
@@ -46,13 +38,20 @@ export class ArmamentosEmprestimosService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<ArmamentoEmprestimoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.armamentoEmprestimoRepository.findOne({
           where: {
             id: id,
+            subunidade: {
+              id: In(idsSubs)
+            }
           } ,
           relations: {
             policial: {
@@ -190,35 +189,13 @@ export class ArmamentosEmprestimosService {
         finaldate = addHours(finaldate, 23);
         finaldate = addMinutes(finaldate, 59);
         var armamentos;
-        if(idUser.perfil.administrador){
-          armamentos = await this.armamentoEmprestimoRepository.find({
-            where: {
-              data_emprestimo: Between(object.data_inicial, finaldate),
-              
-            },
-            order: {
-              id: "DESC"
-            },
-            relations: {
-              policial: {
-                graduacao: true
-              },
-              armamentos_emprestimos_itens: {
-                armamento: {
-                  modelo: true
-                },
-                armamento_emprestimo: false
-              }
-            }
-          });
-  
-        }else{
+        
           armamentos = await this.armamentoEmprestimoRepository.find({
             where: {
               data_emprestimo: Between(object.data_inicial, finaldate),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
@@ -237,7 +214,7 @@ export class ArmamentosEmprestimosService {
             }
           });
   
-        }
+        
         
         if(object.policial){
           armamentos = armamentos.filter(element => {

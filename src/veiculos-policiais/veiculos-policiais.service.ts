@@ -3,7 +3,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
-import { Between, IsNull, Repository } from 'typeorm';
+import { Between, In, IsNull, Repository } from 'typeorm';
 import { VeiculoPolicial as VeiculoPolicialEntity } from './veiculo-policial.entity';
 import { VeiculoPolicial as VeiculoPolicialInterface, VeiculosPoliciais as VeiculosPoliciaisInterface } from './veiculo-policial.interface';
 import { addHours, addMinutes } from 'date-fns';
@@ -21,17 +21,7 @@ export class VeiculosPoliciaisService {
     ){}
 
     async index(params:any,idUser: User): Promise<VeiculosPoliciaisInterface> {
-       if(idUser.perfil.administrador){
-        return await this.veiculoPolicialRository.find(
-          {
-            relations: {
-              policial: {
-                graduacao: true
-              }
-            }
-          }
-        );
-       }else{
+       
         return await this.veiculoPolicialRository.find({
           relations: {
             policial: {
@@ -45,10 +35,14 @@ export class VeiculosPoliciaisService {
             }
           }
         });
-       }
+       
       }
   
       async find(id: number, idUser: User): Promise<VeiculoPolicialInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.veiculoPolicialRository.findOne({
           relations: {
             policial: {
@@ -59,7 +53,7 @@ export class VeiculosPoliciaisService {
             id: id,
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: In(idsSubs)
             }
           }
         });
@@ -141,18 +135,7 @@ export class VeiculosPoliciaisService {
       }
 
       async emprestados(params:any,idUser: User): Promise<VeiculosPoliciaisInterface> {
-        if(idUser.perfil.administrador){
-          return await this.veiculoPolicialRository.find({
-            relations: {
-              policial: {
-                graduacao: true
-              }
-            },
-            where: {
-              data_final: IsNull(),
-            }
-          });
-        }else{
+        
           return await this.veiculoPolicialRository.find({
             relations: {
               policial: {
@@ -167,7 +150,7 @@ export class VeiculosPoliciaisService {
               }
             }
           });
-        }
+        
       }
 
       async emprestadoPolicial(params:any, idUser: User): Promise<VeiculoPolicialInterface> {
@@ -200,21 +183,7 @@ export class VeiculosPoliciaisService {
         finaldate = addHours(finaldate, 23);
         finaldate = addMinutes(finaldate, 59);
         var veiculos;
-        if(idUser.perfil.administrador){
-          veiculos = await this.veiculoPolicialRository.find({
-            relations: {
-              policial: {
-                graduacao: true
-              }
-            },
-            where: {
-              data_inicial: Between(object.data_inicial, finaldate),
-            },
-            order: {
-              id: "DESC"
-            }
-          });
-        }else{
+        
           veiculos = await this.veiculoPolicialRository.find({
             relations: {
               policial: {
@@ -225,14 +194,14 @@ export class VeiculosPoliciaisService {
               data_inicial: Between(object.data_inicial, finaldate),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
               id: "DESC"
             }
           });
-        }
+        
         
 
         if(object.veiculo){

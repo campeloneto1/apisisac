@@ -3,7 +3,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { User } from 'src/users/user.interface';
-import { IsNull, LessThanOrEqual, MoreThan, Raw, Repository } from 'typeorm';
+import { In, IsNull, LessThanOrEqual, MoreThan, Raw, Repository } from 'typeorm';
 import { MaterialConsumo as MaterialConsumoEntity } from './material-consumo.entity';
 import { MaterialConsumo as MaterialConsumoInterface, MateriaisConsumo as MateriaisConsumoInterface } from './material-consumo.interface';
 import { format } from 'date-fns';
@@ -18,9 +18,7 @@ export class MateriaisConsumoService {
     ){}
 
     async index(params:any,idUser: User): Promise<MateriaisConsumoInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materialConsumoRepository.find();
-        }else{
+        
           return await this.materialConsumoRepository.find({
             where: {
               //@ts-ignore
@@ -29,10 +27,14 @@ export class MateriaisConsumoService {
               }
             }
           });
-        }
+        
       }
   
       async find(id: number, idUser: User): Promise<MaterialConsumoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.materialConsumoRepository.findOne({
           relations: {
             materiais_consumo_entradas_itens: {
@@ -50,17 +52,21 @@ export class MateriaisConsumoService {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
 
       async find2(id: number, idUser: User): Promise<MaterialConsumoInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
         return await this.materialConsumoRepository.findOne({where: {
           id: id,
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id
+            id: In(idsSubs)
           }
         }});
       }
@@ -110,12 +116,7 @@ export class MateriaisConsumoService {
       }
 
       async disponiveis(params:any,idUser: User): Promise<MateriaisConsumoInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materialConsumoRepository.find({where: {
-            data_baixa: IsNull(),
-            quantidade: MoreThan(0),
-          }});
-        }else{
+        
           return await this.materialConsumoRepository.find({where: {
             data_baixa: IsNull(),
             quantidade: MoreThan(0),
@@ -124,7 +125,7 @@ export class MateriaisConsumoService {
               id: params.subunidade
             }
           }});
-        }
+        
       }
 
       async atualizarQuantidadeUp(id:number, quantidade:number):Promise<void>{
@@ -143,14 +144,7 @@ export class MateriaisConsumoService {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
-        if(idUser.perfil.administrador){
-          return await this.materialConsumoRepository.find({where: {
-            
-            data_baixa: IsNull(),
-            //@ts-ignore
-            data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
-          }});
-        }else{
+       
           return await this.materialConsumoRepository.find({where: {
             //@ts-ignore
             subunidade: {
@@ -160,17 +154,11 @@ export class MateriaisConsumoService {
             //@ts-ignore
             data_validade: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd'))
           }});
-        }
+        
       }
 
       async alerta(params:any, idUser: User): Promise<MateriaisConsumoInterface> {
-        if(idUser.perfil.administrador){
-          return await this.materialConsumoRepository.findBy({
-            
-            data_baixa: IsNull(),
-            quantidade: Raw((alias) => `${alias} <= quantidade_alerta`)
-          });
-        }else{
+        
           return await this.materialConsumoRepository.findBy({
             //@ts-ignore
             subunidade: {
@@ -179,30 +167,24 @@ export class MateriaisConsumoService {
             data_baixa: IsNull(),
             quantidade: Raw((alias) => `${alias} <= quantidade_alerta`)
           });
-        }
+        
       }
 
       async relatorio(object:any, idUser: User): Promise<MateriaisConsumoInterface> {
         var materiais;
-        if(idUser.perfil.administrador){
-          materiais =  await this.materialConsumoRepository.find({
-            order: {
-              serial: "ASC"
-            }
-          });
-        }else{
+       
           materiais = await this.materialConsumoRepository.find({
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: object.subunidade
               }
             },
             order: {
               serial: "ASC"
             }
           });
-        }
+        
 
         if(object.marca){
           materiais = materiais.filter(element => {
