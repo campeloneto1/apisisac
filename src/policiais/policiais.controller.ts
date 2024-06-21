@@ -41,4 +41,9 @@ export class PoliciaisController {
     async relatorio(@Body() object: Policial, @Request() req) {
         return await this.policiaisService.relatorio(object, req.user);
     }
+
+    @Put(':id/updatefoto')
+    async updateFoto(@Param('id') id: number, @Body() object: Policial, @Request() req) {
+        return await this.policiaisService.updateFoto(id, object, req.user);
+    }
 }

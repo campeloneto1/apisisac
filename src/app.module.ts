@@ -65,13 +65,17 @@ import { ContratosObjetosModule } from './contratos-objetos/contratos-objetos.mo
 import { ContratosTiposModule } from './contratos-tipos/contratos-tipos.module';
 import { ContratosLancamentosModule } from './contratos-lancamentos/contratos-lancamentos.module';
 import { UsersSubunidadesModule } from './users-subunidades/users-subunidades.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [
+        ConfigModule
+      ],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get('TORM_HOST'),
@@ -88,6 +92,9 @@ import { UsersSubunidadesModule } from './users-subunidades/users-subunidades.mo
       ttl: 60000,
       limit: 30,
     }]),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..'),
+    }),
     AuthModule,
     PaisesModule,
     PerfisModule,

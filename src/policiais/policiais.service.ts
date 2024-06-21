@@ -262,6 +262,29 @@ export class PoliciaisService {
     });
   }
 
+  async updateFoto(id: number, object: any, idUser: User) {
+    var data: PolicialInterface = await this.policialRepository.findOneBy({
+      id: id,
+    });
+    var dataold = data;
+    data.foto = object.foto;
+    await this.policialRepository.update(
+      { id: id },
+      { ...data, updated_by: idUser },
+    );
+    
+    await this.logsService.create({
+      object: JSON.stringify(data),
+      object_old: JSON.stringify(dataold),
+      mensagem: 'Modificou a foto de Policial',
+      tipo: 2,
+      table: 'policiais',
+      fk: id,
+      user: idUser
+    });
+  }
+
+
   async relatorio(object:any, idUser: User): Promise<PoliciaisInterface> {
     var policiais;
     if(idUser.perfil.administrador){
