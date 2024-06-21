@@ -16,7 +16,7 @@ export class SetoresService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<SetoresInterface> {
+    async index(params:any,idUser: User): Promise<SetoresInterface> {
         
         if(idUser.perfil.administrador){
           return await this.setorRepository.find();
@@ -25,7 +25,7 @@ export class SetoresService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -89,14 +89,14 @@ export class SetoresService {
         });
       }
 
-      async policiaisSetor(idUser: User):Promise<any>{
+      async policiaisSetor(params:any,idUser: User):Promise<any>{
         return await this.setorRepository
           .query(`
             SELECT setores.nome, count(policiais.id) as quantidade
             FROM setores
             LEFT JOIN policiais ON setores.id = policiais.setorId
             WHERE policiais.boletim_transferencia IS NULL
-            AND setores.subunidadeId = ${idUser.subunidade.id}
+            AND setores.subunidadeId = ${params.subunidade}
             GROUP BY setores.nome
             ORDER BY setores.nome
           `);

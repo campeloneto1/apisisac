@@ -16,7 +16,7 @@ export class PatrimoniosService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<PatrimoniosInterface> {
+    async index(params:any,idUser: User): Promise<PatrimoniosInterface> {
         if (idUser.perfil.administrador) {
           return await this.patrimonioRepository.find();
         } else {
@@ -25,7 +25,7 @@ export class PatrimoniosService {
               //@ts-ignore
               setor: {
                   subunidade: {
-                      id: idUser.subunidade.id
+                      id: params.subunidade
                     }
               }
             }
@@ -88,13 +88,13 @@ export class PatrimoniosService {
         });
       }
 
-      async disponiveis(idUser: User): Promise<PatrimoniosInterface> {
+      async disponiveis(params:any,idUser: User): Promise<PatrimoniosInterface> {
         return await this.patrimonioRepository.find({where: {
           data_baixa: IsNull(),
           //@ts-ignore
           setor: {
             subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
             }
           }
         }});

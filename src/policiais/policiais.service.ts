@@ -26,7 +26,7 @@ export class PoliciaisService {
     private logsService: LogsService
   ) {}
 
-  async index(idUser: User): Promise<PoliciaisInterface> {
+  async index(params:any,idUser: User): Promise<PoliciaisInterface> {
 
     if (idUser.perfil.administrador) {
       return await this.policialRepository.find({
@@ -44,7 +44,7 @@ export class PoliciaisService {
           //@ts-ignore
           setor: {
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }
         },
@@ -226,7 +226,7 @@ export class PoliciaisService {
     await this.policialRepository.delete(id);
   }
 
-  async disponiveis(idUser: User): Promise<PoliciaisInterface> {
+  async disponiveis(params:any,idUser: User): Promise<PoliciaisInterface> {
     if(idUser.perfil.administrador){
       return await this.policialRepository.find({
         where: { 
@@ -240,7 +240,7 @@ export class PoliciaisService {
           //@ts-ignore
           setor: {
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }
         },
@@ -248,14 +248,14 @@ export class PoliciaisService {
     }
   }
 
-  async quantidade(idUser: User): Promise<number> {
+  async quantidade(params:any,idUser: User): Promise<number> {
     return await this.policialRepository.count({
       where: { 
         boletim_transferencia: IsNull(),
         //@ts-ignore
         setor: {
           subunidade: {
-            id: idUser.subunidade.id
+            id: params.subunidade
           }
         }
       },

@@ -17,7 +17,7 @@ export class PoliciaisAtestadosService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<PoliciaisAtestadosInterface> {
+    async index(params:any,idUser: User): Promise<PoliciaisAtestadosInterface> {
         if(idUser.perfil.administrador){
           return await this.policialAtestadoRepository.find(
             {
@@ -50,7 +50,7 @@ export class PoliciaisAtestadosService {
               policial: {
                 setor: {
                   subunidade: {
-                    id: idUser.subunidade.id
+                    id: params.subunidade
                   }
                 }
               }
@@ -130,7 +130,7 @@ export class PoliciaisAtestadosService {
         });
       }
 
-      async quantidade(idUser: User): Promise<number> {
+      async quantidade(params:any,idUser: User): Promise<number> {
         return await this.policialAtestadoRepository.count({where: {
           //@ts-ignore
           data_inicial: LessThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
@@ -140,7 +140,7 @@ export class PoliciaisAtestadosService {
           policial: {
             setor: {
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           }

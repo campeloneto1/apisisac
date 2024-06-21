@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { HomeService } from './home.service';
 import { Armamentos } from 'src/armamentos/armamento.interface';
 import { VeiculosOficinas } from 'src/veiculos-oficinas/veiculo-oficina.interface';
@@ -14,85 +14,85 @@ export class HomeController {
     constructor(private homeService: HomeService){}
 
     @Get('armamentos-vencendo')
-    async armamentosVencendo(@Request() req):Promise<Armamentos>{
-        return this.homeService.armamentosVencendo(req.user);
+    async armamentosVencendo(@Request() req, @Query() params: any):Promise<Armamentos>{
+        return this.homeService.armamentosVencendo(params, req.user);
     }
 
     @Get('armamentos-emprestados')
-    async armamentosEmprestimos(@Request() req):Promise<ArmamentosEmprestimos>{
-        return this.homeService.armamentosEmprestados(req.user);
+    async armamentosEmprestimos(@Request() req, @Query() params: any):Promise<ArmamentosEmprestimos>{
+        return this.homeService.armamentosEmprestados(params, req.user);
     }
 
     @Get('materiais-vencendo')
-    async materiaisVencendo(@Request() req):Promise<Materiais>{
-        return this.homeService.materiaisVencendo(req.user);
+    async materiaisVencendo(@Request() req, @Query() params: any):Promise<Materiais>{
+        return this.homeService.materiaisVencendo(params, req.user);
     }
 
     @Get('materiais-consumo-vencendo')
-    async materiaisConsumoVencendo(@Request() req):Promise<MateriaisConsumo>{
-        return this.homeService.materiaisConsumoVencendo(req.user);
+    async materiaisConsumoVencendo(@Request() req, @Query() params: any):Promise<MateriaisConsumo>{
+        return this.homeService.materiaisConsumoVencendo(params, req.user);
     }
 
     @Get('materiais-policiais-emprestados')
-    async materiaisPoliciaisEmprestados(@Request() req):Promise<MateriaisPoliciais>{
-        return this.homeService.materiaisEmprestados(req.user);
+    async materiaisPoliciaisEmprestados(@Request() req, @Query() params: any):Promise<MateriaisPoliciais>{
+        return this.homeService.materiaisEmprestados(params, req.user);
     }
 
     @Get('materiais-consumo-alerta')
-    async materiaisConsumoAlerta(@Request() req):Promise<MateriaisConsumo>{
-        return this.homeService.materiaisAlerta(req.user);
+    async materiaisConsumoAlerta(@Request() req, @Query() params: any):Promise<MateriaisConsumo>{
+        return this.homeService.materiaisAlerta(params, req.user);
     }
 
 
     @Get('policiais')
-    async policiais(@Request() req):Promise<number>{
-        return this.homeService.policiais(req.user);
+    async policiais(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.policiais(params, req.user);
     }
 
     @Get('atestados')
-    async atestados(@Request() req):Promise<number>{
-        return this.homeService.atestados(req.user);
+    async atestados(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.atestados(params, req.user);
     }
 
     @Get('ferias')
-    async ferias(@Request() req):Promise<number>{
-        return this.homeService.ferias(req.user);
+    async ferias(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.ferias(params, req.user);
     }
 
     @Get('requeridas')
-    async requeridas(@Request() req):Promise<number>{
-        return this.homeService.requeridas(req.user);
+    async requeridas(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.requeridas(params, req.user);
     }
 
 
     @Get('policiais-setores')
-    async policiaisSetores(@Request() req):Promise<number>{
-        return this.homeService.policiaisSetores(req.user);
+    async policiaisSetores(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.policiaisSetores(params, req.user);
     }
 
     @Get('policiais-graduacoes')
-    async policiaisGraduacoes(@Request() req):Promise<number>{
-        return this.homeService.policiaisGraduacoes(req.user);
+    async policiaisGraduacoes(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.policiaisGraduacoes(params, req.user);
     }
 
 
     @Get('veiculos-manutencao')
-    async veiculosManutencao(@Request() req):Promise<VeiculosOficinas>{
-        return this.homeService.veiculosManutencao(req.user);
+    async veiculosManutencao(@Request() req, @Query() params: any):Promise<VeiculosOficinas>{
+        return this.homeService.veiculosManutencao(params, req.user);
     }
 
     @Get('veiculos-troca-oleo')
-    async veiculosTrocaOleo(@Request() req):Promise<Veiculos>{
-        return this.homeService.veiculosTrocaOleo(req.user);
+    async veiculosTrocaOleo(@Request() req, @Query() params: any):Promise<Veiculos>{
+        return this.homeService.veiculosTrocaOleo(params, req.user);
     }
 
     @Get('veiculos-revisao')
-    async veiculosRevisao(@Request() req):Promise<Veiculos>{
-        return this.homeService.veiculosRevisao(req.user);
+    async veiculosRevisao(@Request() req, @Query() params: any):Promise<Veiculos>{
+        return this.homeService.veiculosRevisao(params, req.user);
     }
 
     @Get('veiculos-emprestados')
-    async veiculosEmprestados(@Request() req):Promise<VeiculosPoliciais>{
-        return this.homeService.veiculosEmprestados(req.user);
+    async veiculosEmprestados(@Request() req, @Query() params: any):Promise<VeiculosPoliciais>{
+        return this.homeService.veiculosEmprestados(params, req.user);
     }
 }

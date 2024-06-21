@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, Request  } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, Query  } from '@nestjs/common';
 import { PoliciaisPublicacoesService } from './policiais-publicacoes.service';
 import { PoliciaisPublicacoes, PolicialPublicacao } from './policial-publicacao.interface';
 
@@ -7,8 +7,8 @@ export class PoliciaisPublicacoesController {
     constructor(private policiaisPublicacoesService: PoliciaisPublicacoesService){}
 
     @Get()
-    async index(@Request() req):Promise<PoliciaisPublicacoes>{
-        return this.policiaisPublicacoesService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<PoliciaisPublicacoes>{
+        return this.policiaisPublicacoesService.index(params, req.user);
     }
 
     @Get(':id')

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { GraduacoesService } from './graduacoes.service';
 import { Graduacao, Graduacoes } from './graduacao.interface';
 
@@ -12,8 +12,8 @@ export class GraduacoesController {
     }
 
     @Get('policiais-graduacoes')
-    async policiaisGraduacoes(@Request() req):Promise<Graduacao>  {
-        return await this.graduacoesService.policiaisGraduacoes(req.user);
+    async policiaisGraduacoes(@Request() req, @Query() params: any):Promise<Graduacao>  {
+        return await this.graduacoesService.policiaisGraduacoes(params, req.user);
     }
 
     @Get(':id')

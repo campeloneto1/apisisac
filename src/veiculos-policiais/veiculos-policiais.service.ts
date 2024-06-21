@@ -20,7 +20,7 @@ export class VeiculosPoliciaisService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<VeiculosPoliciaisInterface> {
+    async index(params:any,idUser: User): Promise<VeiculosPoliciaisInterface> {
        if(idUser.perfil.administrador){
         return await this.veiculoPolicialRository.find(
           {
@@ -41,7 +41,7 @@ export class VeiculosPoliciaisService {
           where: {
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }
         });
@@ -140,7 +140,7 @@ export class VeiculosPoliciaisService {
         });
       }
 
-      async emprestados(idUser: User): Promise<VeiculosPoliciaisInterface> {
+      async emprestados(params:any,idUser: User): Promise<VeiculosPoliciaisInterface> {
         if(idUser.perfil.administrador){
           return await this.veiculoPolicialRository.find({
             relations: {
@@ -163,14 +163,14 @@ export class VeiculosPoliciaisService {
               data_final: IsNull(),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
         }
       }
 
-      async emprestadoPolicial(idUser: User): Promise<VeiculoPolicialInterface> {
+      async emprestadoPolicial(params:any, idUser: User): Promise<VeiculoPolicialInterface> {
           return await this.veiculoPolicialRository.findOne({
             relations: {
               policial: {
@@ -189,7 +189,7 @@ export class VeiculosPoliciaisService {
               },
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });

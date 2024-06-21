@@ -20,7 +20,7 @@ export class VeiculosOficinasService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<VeiculosOficinasInterface> {
+    async index(params:any,idUser: User): Promise<VeiculosOficinasInterface> {
           if(idUser.perfil.administrador){
             return await this.veiculoOficinaRository.find();
           }else{
@@ -28,7 +28,7 @@ export class VeiculosOficinasService {
               where: {
                 //@ts-ignore
                 subunidade: {
-                  id: idUser.subunidade.id
+                  id: params.subunidade
                 }
               }
             });
@@ -52,7 +52,6 @@ export class VeiculosOficinasService {
           ...object, 
           data_inicial: new Date(), 
           km_inicial: veiculo.km_atual,
-          subunidade: idUser.subunidade, 
           created_by: idUser}) 
         var save = await this.veiculoOficinaRository.save(object);      
 
@@ -121,7 +120,7 @@ export class VeiculosOficinasService {
         });
       }
 
-      async emmanutencao(idUser: User): Promise<VeiculosOficinasInterface> {
+      async emmanutencao(params:any,idUser: User): Promise<VeiculosOficinasInterface> {
         if(idUser.perfil.administrador){
           return await this.veiculoOficinaRository.find({
             where: {
@@ -135,7 +134,7 @@ export class VeiculosOficinasService {
               data_final: IsNull(),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });

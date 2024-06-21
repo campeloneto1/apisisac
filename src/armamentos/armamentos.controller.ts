@@ -1,4 +1,4 @@
-import { Controller,  Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller,  Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { Armamento, Armamentos } from './armamento.interface';
 import { ArmamentosService } from './armamentos.service';
 
@@ -7,18 +7,18 @@ export class ArmamentosController {
     constructor(private armamentosService: ArmamentosService){}
 
     @Get()
-    async index(@Request() req):Promise<Armamentos>{
-        return this.armamentosService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<Armamentos>{
+        return this.armamentosService.index(params, req.user);
     }
 
     @Get('disponiveis')
-    async disponiveis(@Request() req):Promise<Armamentos>{
-        return this.armamentosService.disponiveis(req.user);
+    async disponiveis(@Request() req, @Query() params: any):Promise<Armamentos>{
+        return this.armamentosService.disponiveis(params, req.user);
     }
 
     @Get('vencendo')
-    async vencendo(@Request() req):Promise<Armamentos>{
-        return this.armamentosService.vencendo(req.user);
+    async vencendo(@Request() req, @Query() params: any):Promise<Armamentos>{
+        return this.armamentosService.vencendo(params,req.user);
     }
 
     @Get(':id')

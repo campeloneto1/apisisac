@@ -23,7 +23,7 @@ export class VeiculosService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<VeiculosInterface> {
+    async index(params:any,idUser: User): Promise<VeiculosInterface> {
         if(idUser.perfil.administrador){
           return await this.veiculoRepository.find();
         }else{
@@ -31,7 +31,7 @@ export class VeiculosService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -72,7 +72,7 @@ export class VeiculosService {
       }
   
       async create(object: VeiculoInterface, idUser: User) {
-        var object:VeiculoInterface = this.veiculoRepository.create({...object, km_atual: object.km_inicial, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:VeiculoInterface = this.veiculoRepository.create({...object, km_atual: object.km_inicial, created_by: idUser}) 
         var save = await this.veiculoRepository.save(object);   
         await this.logsService.create({
           object: JSON.stringify(save),
@@ -117,9 +117,9 @@ export class VeiculosService {
         });
       }
 
-      async disponiveis(idUser: User): Promise<VeiculosInterface> {
-        var naoficina = await this.veiculosOficinasService.emmanutencao(idUser);
-        var emprestados = await this.veiculosPoliciaisService.emprestados(idUser);
+      async disponiveis(params:any,idUser: User): Promise<VeiculosInterface> {
+        var naoficina = await this.veiculosOficinasService.emmanutencao(params,idUser);
+        var emprestados = await this.veiculosPoliciaisService.emprestados(params,idUser);
         var ids = [];
         naoficina.forEach(element => {
           ids.push(element.veiculo.id)
@@ -142,14 +142,14 @@ export class VeiculosService {
               data_baixa: IsNull(),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
         }
       }
   
-      async trocaoleo(idUser: User): Promise<VeiculosInterface> {
+      async trocaoleo(params:any, idUser: User): Promise<VeiculosInterface> {
         return await this.veiculoRepository.find({
           where: {
             km_troca_oleo: Not(IsNull()),
@@ -157,13 +157,13 @@ export class VeiculosService {
             data_baixa: IsNull(),
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }
         });
       }
 
-      async revisao(idUser: User): Promise<VeiculosInterface> {
+      async revisao(params:any,idUser: User): Promise<VeiculosInterface> {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
         return await this.veiculoRepository.find({
@@ -174,7 +174,7 @@ export class VeiculosService {
               data_baixa: IsNull(),
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             },
             {

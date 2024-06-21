@@ -67,7 +67,7 @@ export class GraduacoesService {
         });
       }
 
-      async policiaisGraduacoes(idUser: User):Promise<any>{
+      async policiaisGraduacoes(params: any, idUser: User):Promise<any>{
         return await this.graduacaoRepository
           .query(`
             SELECT graduacoes.nome, count(policiais.id) as quantidade
@@ -75,7 +75,7 @@ export class GraduacoesService {
             LEFT JOIN policiais ON graduacoes.id = policiais.graduacaoId
             LEFT JOIN setores ON setores.id = policiais.setorId
             WHERE policiais.boletim_transferencia IS NULL
-            AND setores.subunidadeId = ${idUser.subunidade.id}
+            AND setores.subunidadeId = ${params.subunidade}
             GROUP BY graduacoes.nome
             ORDER BY graduacoes.id DESC
           `);

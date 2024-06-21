@@ -17,7 +17,7 @@ export class ArmamentosService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<ArmamentosInterface> {
+    async index(params:any, idUser: User): Promise<ArmamentosInterface> {
         if(idUser.perfil.administrador){
           return await this.armamentoRepository.find();
         }else{
@@ -25,7 +25,7 @@ export class ArmamentosService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -107,7 +107,7 @@ export class ArmamentosService {
         });
       }
 
-      async disponiveis(idUser: User): Promise<ArmamentosInterface> {
+      async disponiveis(params:any, idUser: User): Promise<ArmamentosInterface> {
         if(idUser.perfil.administrador){
           return await this.armamentoRepository.find({where: {
             data_baixa: IsNull(),
@@ -119,7 +119,7 @@ export class ArmamentosService {
             quantidade_disponivel: MoreThan(0),
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }});
         }
@@ -137,7 +137,7 @@ export class ArmamentosService {
         await this.armamentoRepository.update({id:id},{...data});
       }
 
-      async vencendo(idUser: User): Promise<ArmamentosInterface> {
+      async vencendo(params:any, idUser: User): Promise<ArmamentosInterface> {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
@@ -152,7 +152,7 @@ export class ArmamentosService {
           return await this.armamentoRepository.find({where: {
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             },
             data_baixa: IsNull(),
             //@ts-ignore

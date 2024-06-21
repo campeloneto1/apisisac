@@ -1,4 +1,4 @@
-import { Controller,  Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller,  Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { MateriaisConsumoSaidas, MaterialConsumoSaida } from './material-consumo-saida.interface';
 import { MateriaisConsumoSaidasService } from './materiais-consumo-saidas.service';
 
@@ -7,8 +7,8 @@ export class MateriaisConsumoSaidasController {
     constructor(private materialConsumoSaidaService: MateriaisConsumoSaidasService){}
 
     @Get()
-    async index(@Request() req):Promise<MateriaisConsumoSaidas>{
-        return this.materialConsumoSaidaService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<MateriaisConsumoSaidas>{
+        return this.materialConsumoSaidaService.index(params, req.user);
     }
 
     @Get(':id')

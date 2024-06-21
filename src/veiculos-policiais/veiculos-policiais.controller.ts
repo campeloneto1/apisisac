@@ -1,4 +1,4 @@
-import { Controller,  Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller,  Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { VeiculoPolicial, VeiculosPoliciais } from './veiculo-policial.interface';
 import { VeiculosPoliciaisService } from './veiculos-policiais.service';
 
@@ -7,13 +7,13 @@ export class VeiculosPoliciaisController {
     constructor(private veiculosPoliciaisService: VeiculosPoliciaisService){}
 
     @Get()
-    async index(@Request() req):Promise<VeiculosPoliciais>{
-        return this.veiculosPoliciaisService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<VeiculosPoliciais>{
+        return this.veiculosPoliciaisService.index(params,req.user);
     }
 
     @Get('emprestados')
-    async emprestados(@Request() req):Promise<VeiculosPoliciais>{
-        return this.veiculosPoliciaisService.emprestados(req.user);
+    async emprestados(@Request() req, @Query() params: any):Promise<VeiculosPoliciais>{
+        return this.veiculosPoliciaisService.emprestados(params,req.user);
     }
 
     @Get(':id')
@@ -47,7 +47,7 @@ export class VeiculosPoliciaisController {
     }
 
     @Get('emprestadopolicial')
-    async emprestadoPolicial(@Request() req):Promise<VeiculoPolicial>{
-        return await this.veiculosPoliciaisService.emprestadoPolicial(req.user);
+    async emprestadoPolicial(@Request() req, @Query() params: any):Promise<VeiculoPolicial>{
+        return await this.veiculosPoliciaisService.emprestadoPolicial(params,req.user);
     }
 }

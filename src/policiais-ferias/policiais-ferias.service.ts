@@ -18,7 +18,7 @@ export class PoliciaisFeriasService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<PoliciaisFeriasInterface> {
+    async index(params:any,idUser: User): Promise<PoliciaisFeriasInterface> {
         if(idUser.perfil.administrador){
           return await this.policialFeriasRepository.find({
             relations: {
@@ -49,7 +49,7 @@ export class PoliciaisFeriasService {
               policial: {
                 setor: {
                   subunidade: {
-                    id: idUser.subunidade.id
+                    id: params.subunidade
                   }
                 }
               }
@@ -127,7 +127,7 @@ export class PoliciaisFeriasService {
         });
       }
 
-      async quantidade(idUser: User): Promise<number> {
+      async quantidade(params:any,idUser: User): Promise<number> {
         return await this.policialFeriasRepository.count({where: {
           //@ts-ignore
           data_inicial: LessThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
@@ -137,7 +137,7 @@ export class PoliciaisFeriasService {
           policial: {
             setor: {
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           }

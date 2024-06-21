@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { SubunidadesService } from './subunidades.service';
 import { Subunidade, Subunidades } from './subunidade.interface';
 
@@ -7,8 +7,8 @@ export class SubunidadesController {
     constructor(private subunidadesService: SubunidadesService){}
 
     @Get()
-    async index(@Request() req):Promise<Subunidades>{
-        return await this.subunidadesService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<Subunidades>{
+        return await this.subunidadesService.index(params, req.user);
     }
 
     @Get(':id')

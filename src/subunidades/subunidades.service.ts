@@ -16,7 +16,7 @@ export class SubunidadesService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<SubunidadesInterface> {
+    async index(params:any,idUser: User): Promise<SubunidadesInterface> {
         if(idUser.perfil.administrador){
           return await this.subunidadeRepository.find({relations: {
             comandante: {
@@ -36,7 +36,7 @@ export class SubunidadesService {
             }
           },
           where: {
-            id: idUser.subunidade.id
+            id: params.subunidade
           }
         });
         }

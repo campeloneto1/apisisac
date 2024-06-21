@@ -16,7 +16,7 @@ export class PoliciaisPublicacoesService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<PoliciaisPublicacoesInterface> {
+    async index(params:any,idUser: User): Promise<PoliciaisPublicacoesInterface> {
         if(idUser.perfil.administrador){
           return await this.policialFeriasRepository.find({
             relations: {
@@ -47,7 +47,7 @@ export class PoliciaisPublicacoesService {
               policial: {
                 setor: {
                   subunidade: {
-                    id: idUser.subunidade.id
+                    id: params.subunidade
                   }
                 }
               }

@@ -23,7 +23,7 @@ export class ArmamentosEmprestimosService {
         private logsService: LogsService
     ){}
 
-    async index(idUser: User): Promise<ArmamentosEmprestimosInterface> {
+    async index(params:any,idUser: User): Promise<ArmamentosEmprestimosInterface> {
         if(idUser.perfil.administrador){
           return await this.armamentoEmprestimoRepository.find({
             relations: {
@@ -42,7 +42,7 @@ export class ArmamentosEmprestimosService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -53,10 +53,6 @@ export class ArmamentosEmprestimosService {
         return await this.armamentoEmprestimoRepository.findOne({
           where: {
             id: id,
-            //@ts-ignore
-            subunidade: {
-              id: idUser.subunidade.id
-            }
           } ,
           relations: {
             policial: {
@@ -73,7 +69,7 @@ export class ArmamentosEmprestimosService {
       }
   
       async create(object: ArmamentoEmprestimoInterface, idUser: User) {
-        var object2:ArmamentoEmprestimoInterface = this.armamentoEmprestimoRepository.create({...object, data_emprestimo: new Date(), subunidade: idUser.subunidade, created_by: idUser}) 
+        var object2:ArmamentoEmprestimoInterface = this.armamentoEmprestimoRepository.create({...object, data_emprestimo: new Date(), created_by: idUser}) 
         let emp = await this.armamentoEmprestimoRepository.save(object2);  
        
          object.armamentos.forEach(element => {
@@ -171,12 +167,12 @@ export class ArmamentosEmprestimosService {
         });
       }
 
-      async emprestados(idUser:User): Promise<ArmamentosEmprestimosInterface>{
+      async emprestados(params:any, idUser:User): Promise<ArmamentosEmprestimosInterface>{
           return this.armamentoEmprestimoRepository.find({
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               },
               cautela: IsNull(),
               data_devolucao: IsNull()

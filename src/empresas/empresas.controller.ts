@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { EmpresasService } from './empresas.service';
 import { Empresa, Empresas } from './empresa.interface';
 
@@ -7,8 +7,8 @@ export class EmpresasController {
     constructor(private empresasService: EmpresasService){}
 
     @Get()
-    async index(@Request() req):Promise<Empresas>{
-        return this.empresasService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<Empresas>{
+        return this.empresasService.index(params, req.user);
     }
 
     @Get(':id')

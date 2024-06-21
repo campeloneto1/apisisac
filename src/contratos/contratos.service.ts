@@ -16,7 +16,7 @@ export class ContratosService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<ContratosInterface> {
+    async index(params:any,idUser: User): Promise<ContratosInterface> {
       if(idUser.perfil.administrador){
         return await this.contratoRepository.find(
           {
@@ -42,7 +42,7 @@ export class ContratosService {
           },
             where: {
                 subunidade: {
-                    id: idUser.subunidade.id
+                    id: params.subunidade
                 }
             }
         });
@@ -65,7 +65,7 @@ export class ContratosService {
       }
   
       async create(object: ContratoInterface, idUser: User) {
-        var object:ContratoInterface = this.contratoRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:ContratoInterface = this.contratoRepository.create({...object, created_by: idUser}) 
         var save = await this.contratoRepository.save(object);     
         await this.logsService.create({
           object: JSON.stringify(save),

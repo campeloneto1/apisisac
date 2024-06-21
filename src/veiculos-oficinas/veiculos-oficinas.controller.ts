@@ -1,4 +1,4 @@
-import { Controller,  Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller,  Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { VeiculoOficina, VeiculosOficinas } from './veiculo-oficina.interface';
 import { VeiculosOficinasService } from './veiculos-oficinas.service';
 
@@ -7,13 +7,13 @@ export class VeiculosOficinasController {
     constructor(private veiculosOficinasService: VeiculosOficinasService){}
 
     @Get()
-    async index(@Request() req):Promise<VeiculosOficinas>{
-        return this.veiculosOficinasService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<VeiculosOficinas>{
+        return this.veiculosOficinasService.index(params, req.user);
     }
 
     @Get('emmanutencao')
-    async emmanutencao(@Request() req):Promise<VeiculosOficinas>{
-        return this.veiculosOficinasService.emmanutencao(req.user);
+    async emmanutencao(@Request() req, @Query() params: any):Promise<VeiculosOficinas>{
+        return this.veiculosOficinasService.emmanutencao(params, req.user);
     }
 
     @Get(':id')

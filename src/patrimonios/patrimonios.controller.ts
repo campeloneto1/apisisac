@@ -1,4 +1,4 @@
-import { Controller,  Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller,  Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { Patrimonio, Patrimonios } from './patrimonio.interface';
 import { PatrimoniosService } from './patrimonios.service';
 
@@ -7,13 +7,13 @@ export class PatrimoniosController {
     constructor(private patrimoniosService: PatrimoniosService){}
 
     @Get()
-    async index(@Request() req):Promise<Patrimonios>{
-        return this.patrimoniosService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<Patrimonios>{
+        return this.patrimoniosService.index(params, req.user);
     }
 
     @Get('disponiveis')
-    async disponiveis(@Request() req):Promise<Patrimonios>{
-        return this.patrimoniosService.disponiveis(req.user);
+    async disponiveis(@Request() req, @Query() params: any):Promise<Patrimonios>{
+        return this.patrimoniosService.disponiveis(params, req.user);
     }
 
     @Get(':id')

@@ -17,7 +17,7 @@ export class MateriaisConsumoService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<MateriaisConsumoInterface> {
+    async index(params:any,idUser: User): Promise<MateriaisConsumoInterface> {
         if(idUser.perfil.administrador){
           return await this.materialConsumoRepository.find();
         }else{
@@ -25,7 +25,7 @@ export class MateriaisConsumoService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -67,7 +67,7 @@ export class MateriaisConsumoService {
   
   
       async create(object: MaterialConsumoInterface, idUser: User) {
-        var object:MaterialConsumoInterface = this.materialConsumoRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:MaterialConsumoInterface = this.materialConsumoRepository.create({...object, created_by: idUser}) 
         var save = await this.materialConsumoRepository.save(object);  
         await this.logsService.create({
           object: JSON.stringify(save),
@@ -109,7 +109,7 @@ export class MateriaisConsumoService {
         });
       }
 
-      async disponiveis(idUser: User): Promise<MateriaisConsumoInterface> {
+      async disponiveis(params:any,idUser: User): Promise<MateriaisConsumoInterface> {
         if(idUser.perfil.administrador){
           return await this.materialConsumoRepository.find({where: {
             data_baixa: IsNull(),
@@ -121,7 +121,7 @@ export class MateriaisConsumoService {
             quantidade: MoreThan(0),
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }});
         }
@@ -139,7 +139,7 @@ export class MateriaisConsumoService {
         await this.materialConsumoRepository.update({id:id},{...data});
       }
 
-      async vencendo(idUser: User): Promise<MateriaisConsumoInterface> {
+      async vencendo(params:any,idUser: User): Promise<MateriaisConsumoInterface> {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
@@ -154,7 +154,7 @@ export class MateriaisConsumoService {
           return await this.materialConsumoRepository.find({where: {
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             },
             data_baixa: IsNull(),
             //@ts-ignore
@@ -163,7 +163,7 @@ export class MateriaisConsumoService {
         }
       }
 
-      async alerta(idUser: User): Promise<MateriaisConsumoInterface> {
+      async alerta(params:any, idUser: User): Promise<MateriaisConsumoInterface> {
         if(idUser.perfil.administrador){
           return await this.materialConsumoRepository.findBy({
             
@@ -174,7 +174,7 @@ export class MateriaisConsumoService {
           return await this.materialConsumoRepository.findBy({
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             },
             data_baixa: IsNull(),
             quantidade: Raw((alias) => `${alias} <= quantidade_alerta`)

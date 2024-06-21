@@ -21,7 +21,7 @@ export class MateriaisConsumoEntradasService {
         private logsService: LogsService
     ){}
 
-    async index(idUser: User): Promise<MateriaisConsumoEntradasInterface> {
+    async index(params:any,idUser: User): Promise<MateriaisConsumoEntradasInterface> {
         if(idUser.perfil.administrador){
           return await this.materialConsumoEntradaRepository.find({
             relations: {
@@ -44,7 +44,7 @@ export class MateriaisConsumoEntradasService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -77,7 +77,7 @@ export class MateriaisConsumoEntradasService {
       }
   
       async create(object: MaterialConsumoEntradaInterface, idUser: User) {
-        var object2:MaterialConsumoEntradaInterface = this.materialConsumoEntradaRepository.create({...object, data_entrada: new Date(), user: idUser, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object2:MaterialConsumoEntradaInterface = this.materialConsumoEntradaRepository.create({...object, data_entrada: new Date(), user: idUser, created_by: idUser}) 
         let emp = await this.materialConsumoEntradaRepository.save(object2);  
        
          object.materiais.forEach(element => {

@@ -1,4 +1,4 @@
-import { Controller,  Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller,  Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { MateriaisConsumo, MaterialConsumo } from './material-consumo.interface';
 import { MateriaisConsumoService } from './materiais-consumo.service';
 
@@ -7,18 +7,18 @@ export class MateriaisConsumoController {
     constructor(private materiaisConsumoService: MateriaisConsumoService){}
 
     @Get()
-    async index(@Request() req):Promise<MateriaisConsumo>{
-        return this.materiaisConsumoService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<MateriaisConsumo>{
+        return this.materiaisConsumoService.index(params, req.user);
     }
 
     @Get('disponiveis')
-    async disponiveis(@Request() req):Promise<MateriaisConsumo>{
-        return this.materiaisConsumoService.disponiveis(req.user);
+    async disponiveis(@Request() req, @Query() params: any):Promise<MateriaisConsumo>{
+        return this.materiaisConsumoService.disponiveis(params, req.user);
     }
 
     @Get('vencendo')
-    async vencendo(@Request() req):Promise<MateriaisConsumo>{
-        return this.materiaisConsumoService.vencendo(req.user);
+    async vencendo(@Request() req, @Query() params: any):Promise<MateriaisConsumo>{
+        return this.materiaisConsumoService.vencendo(params, req.user);
     }
 
     @Get(':id')

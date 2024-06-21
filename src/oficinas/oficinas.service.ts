@@ -19,7 +19,7 @@ export class OficinasService {
     private lazyModuleLoader: LazyModuleLoader,
   ) {}
 
-  async index(idUser: User): Promise<OficinasInterface> {
+  async index(params:any,idUser: User): Promise<OficinasInterface> {
     if (idUser.perfil.administrador) {
       return await this.oficinaRepository.find();
     } else {
@@ -27,7 +27,7 @@ export class OficinasService {
         where: {
           //@ts-ignore
           subunidade: {
-            id: idUser.subunidade.id,
+            id: params.subunidade
           },
         },
       });
@@ -49,7 +49,6 @@ export class OficinasService {
   async create(object: OficinaInterface, idUser: User) {
     var object: OficinaInterface = this.oficinaRepository.create({
       ...object,
-      subunidade: idUser.subunidade,
       created_by: idUser,
     });
     var save = await this.oficinaRepository.save(object);

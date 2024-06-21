@@ -16,14 +16,14 @@ export class EmpresasService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<EmpresasInterface> {
+    async index(params:any,idUser: User): Promise<EmpresasInterface> {
       if(idUser.perfil.administrador){
         return await this.empresaRepository.find();
       }else{
         return await this.empresaRepository.find({
         where: {
           subunidade: {
-            id: idUser.subunidade.id
+            id: params.subunidade
           } 
         }
       });
@@ -35,7 +35,7 @@ export class EmpresasService {
       }
   
       async create(object: EmpresaInterface, idUser: User) {
-        var object:EmpresaInterface = this.empresaRepository.create({...object, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:EmpresaInterface = this.empresaRepository.create({...object, created_by: idUser}) 
         var save = await this.empresaRepository.save(object);     
         await this.logsService.create({
           object: JSON.stringify(save),

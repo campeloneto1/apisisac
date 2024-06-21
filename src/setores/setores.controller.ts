@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, Query } from '@nestjs/common';
 import { SetoresService } from './setores.service';
 import { Setor, Setores } from './setor.interface';
 
@@ -7,8 +7,8 @@ export class SetoresController {
     constructor(private setoresService: SetoresService){}
 
     @Get()
-    async index(@Request() req):Promise<Setores>{
-        return this.setoresService.index(req.user);
+    async index(@Request() req, @Query() params: any):Promise<Setores>{
+        return this.setoresService.index(params, req.user);
     }
 
     @Get(':id')

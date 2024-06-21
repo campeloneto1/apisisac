@@ -23,7 +23,7 @@ export class MateriaisPoliciaisService {
         private logsService: LogsService
     ){}
 
-    async index(idUser: User): Promise<MateriaisPoliciaisInterface> {
+    async index(params:any,idUser: User): Promise<MateriaisPoliciaisInterface> {
         if(idUser.perfil.administrador){
           return await this.materiaisPoliciaisRepository.find({
             relations: {
@@ -42,7 +42,7 @@ export class MateriaisPoliciaisService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -73,7 +73,7 @@ export class MateriaisPoliciaisService {
       }
   
       async create(object: MaterialPolicialInterface, idUser: User) {
-        var object2:MaterialPolicialInterface = this.materiaisPoliciaisRepository.create({...object, data_emprestimo: new Date(), subunidade: idUser.subunidade, created_by: idUser}) 
+        var object2:MaterialPolicialInterface = this.materiaisPoliciaisRepository.create({...object, data_emprestimo: new Date(), created_by: idUser}) 
         let emp = await this.materiaisPoliciaisRepository.save(object2);  
          object.materiais.forEach(element => {
             this.materiaisPoliciaisIntensService.create(
@@ -170,12 +170,12 @@ export class MateriaisPoliciaisService {
         });
       }
 
-      async emprestados(idUser:User): Promise<MateriaisPoliciaisInterface>{
+      async emprestados(params:any,idUser:User): Promise<MateriaisPoliciaisInterface>{
           return this.materiaisPoliciaisRepository.find({
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               },
               cautela: IsNull(),
               data_devolucao: IsNull()

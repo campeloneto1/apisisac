@@ -17,7 +17,7 @@ export class MateriaisService {
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
-    async index(idUser: User): Promise<MateriaisInterface> {
+    async index(params:any,idUser: User): Promise<MateriaisInterface> {
         if(idUser.perfil.administrador){
           return await this.materialRepository.find();
         }else{
@@ -25,7 +25,7 @@ export class MateriaisService {
             where: {
               //@ts-ignore
               subunidade: {
-                id: idUser.subunidade.id
+                id: params.subunidade
               }
             }
           });
@@ -65,7 +65,7 @@ export class MateriaisService {
   
   
       async create(object: MaterialInterface, idUser: User) {
-        var object:MaterialInterface = this.materialRepository.create({...object, quantidade_disponivel: object.quantidade, subunidade: idUser.subunidade, created_by: idUser}) 
+        var object:MaterialInterface = this.materialRepository.create({...object, quantidade_disponivel: object.quantidade, created_by: idUser}) 
         var save = await this.materialRepository.save(object);  
         await this.logsService.create({
           object: JSON.stringify(save),
@@ -107,7 +107,7 @@ export class MateriaisService {
         });
       }
 
-      async disponiveis(idUser: User): Promise<MateriaisInterface> {
+      async disponiveis(params:any,idUser: User): Promise<MateriaisInterface> {
         if(idUser.perfil.administrador){
           return await this.materialRepository.find({where: {
             data_baixa: IsNull(),
@@ -119,7 +119,7 @@ export class MateriaisService {
             quantidade_disponivel: MoreThan(0),
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             }
           }});
         }
@@ -137,7 +137,7 @@ export class MateriaisService {
         await this.materialRepository.update({id:id},{...data});
       }
 
-      async vencendo(idUser: User): Promise<MateriaisInterface> {
+      async vencendo(params:any,idUser: User): Promise<MateriaisInterface> {
         let result = new Date();
         var proxsemana = result.setDate(result.getDate() + 30);
 
@@ -152,7 +152,7 @@ export class MateriaisService {
           return await this.materialRepository.find({where: {
             //@ts-ignore
             subunidade: {
-              id: idUser.subunidade.id
+              id: params.subunidade
             },
             data_baixa: IsNull(),
             //@ts-ignore
