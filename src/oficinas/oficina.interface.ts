@@ -17,7 +17,7 @@ export interface Oficina{
     cidade?: Cidade;
     cep?: string;
 
-    subunidade: Subunidade;
+    // subunidade: Subunidade;
 
     created_by: User;
     updated_by: User;

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { LazyModuleLoader } from '@nestjs/core';
 import { User as UserEntity } from './user.entity';
 import { User as UserInterface, Users as UsersInterface } from './user.interface';
@@ -20,13 +20,18 @@ export class UsersService {
       private lazyModuleLoader: LazyModuleLoader
     ) {}
 
-    async index(): Promise<UsersInterface> {
+    async index(params:any): Promise<UsersInterface> {
       return await this.usersRepository.find({
         relations: {
           users_subunidades: {
             subunidade: {
               unidade: true
             }
+          }
+        },
+        where: {
+          users_subunidades: {
+            subunidade: In([params.subunidade])
           }
         }
       });

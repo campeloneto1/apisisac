@@ -150,15 +150,15 @@ export class PoliciaisService {
         perfil: 3
     }
      await this.usersService.create(user, idUser);
-     var usuario = await this.usersService.wherePol(policial.id);
+     //var usuario = await this.usersService.wherePol(policial.id);
 
-    var usersub:UserSubunidade = {
-      //@ts-ignore
-      user: usuario.id,
-      //@ts-ignore
-      subunidade: save.setor.subunidade.id
-    }
-    await this.usersSubunidadesService.create(usersub, idUser);
+    // var usersub:UserSubunidade = {
+    //   //@ts-ignore
+    //   user: usuario.id,
+    //   //@ts-ignore
+    //   subunidade: save.setor.subunidade.id
+    // }
+    // await this.usersSubunidadesService.create(usersub, idUser);
   }
 
   async update(id: number, object: PolicialInterface, idUser: User) {

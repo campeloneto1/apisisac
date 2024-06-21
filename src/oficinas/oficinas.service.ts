@@ -20,28 +20,16 @@ export class OficinasService {
   ) {}
 
   async index(params:any,idUser: User): Promise<OficinasInterface> {
-    if (idUser.perfil.administrador) {
+    
       return await this.oficinaRepository.find();
-    } else {
-      return await this.oficinaRepository.find({
-        where: {
-          //@ts-ignore
-          subunidade: {
-            id: params.subunidade
-          },
-        },
-      });
-    }
+    
   }
 
   async find(id: number, idUser: User): Promise<OficinaInterface | null> {
     return await this.oficinaRepository.findOne({
       where: {
         id: id,
-        //@ts-ignore
-        subunidade: {
-          id: idUser.subunidade.id,
-        },
+        
       },
     });
   }

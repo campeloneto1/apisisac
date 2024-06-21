@@ -102,8 +102,8 @@ export class Subunidade {
     @OneToMany(type => User, user => user.subunidade)
     users: User[];
 
-    @OneToMany(type => Oficina, oficina => oficina.subunidade)
-    oficinas: Oficina[];
+    // @OneToMany(type => Oficina, oficina => oficina.subunidade)
+    // oficinas: Oficina[];
 
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',
