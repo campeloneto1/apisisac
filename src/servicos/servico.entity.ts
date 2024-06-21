@@ -41,7 +41,7 @@ export class Servico {
       data_inicial!: Date;
 
       @Column({
-        nullable: false,
+        nullable: true,
         type: 'date'
       })
       data_final!: Date;

@@ -19,7 +19,11 @@ export class ServicosService {
     async index(params:any,idUser: User): Promise<ServicosInterface> {
      
         return await this.servicoRepository.find({
-          
+            relations: {
+              subunidade: {
+                unidade: true
+              }
+            },
             where: {
                 subunidade: {
                     id: params.subunidade
@@ -35,7 +39,11 @@ export class ServicosService {
           idsSubs.push(data.subunidade.id)
         });
         return await this.servicoRepository.findOne({
-          
+          relations: {
+            subunidade: {
+              unidade: true
+            }
+          },
           where: {
             id: id,
             subunidade: {

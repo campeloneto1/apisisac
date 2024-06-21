@@ -22,6 +22,16 @@ export class Perfil {
     @Column({ nullable: true, }) usuarios_edt!: boolean;
     @Column({ nullable: true, }) usuarios_del!: boolean;
 
+    @Column({ nullable: true, }) armamentos!: boolean;
+    @Column({ nullable: true, }) armamentos_cad!: boolean;
+    @Column({ nullable: true, }) armamentos_edt!: boolean;
+    @Column({ nullable: true, }) armamentos_del!: boolean;
+
+    @Column({ nullable: true, }) armamentos_emprestimos!: boolean;
+    @Column({ nullable: true, }) armamentos_emprestimos_cad!: boolean;
+    @Column({ nullable: true, }) armamentos_emprestimos_edt!: boolean;
+    @Column({ nullable: true, }) armamentos_emprestimos_del!: boolean;
+
     @Column({ nullable: true, }) contratos!: boolean;
     @Column({ nullable: true, }) contratos_cad!: boolean;
     @Column({ nullable: true, }) contratos_edt!: boolean;
@@ -93,15 +103,10 @@ export class Perfil {
     @Column({ nullable: true, }) policiais_requeridas_edt!: boolean;
     @Column({ nullable: true, }) policiais_requeridas_del!: boolean;
 
-    @Column({ nullable: true, }) armamentos!: boolean;
-    @Column({ nullable: true, }) armamentos_cad!: boolean;
-    @Column({ nullable: true, }) armamentos_edt!: boolean;
-    @Column({ nullable: true, }) armamentos_del!: boolean;
-
-    @Column({ nullable: true, }) armamentos_emprestimos!: boolean;
-    @Column({ nullable: true, }) armamentos_emprestimos_cad!: boolean;
-    @Column({ nullable: true, }) armamentos_emprestimos_edt!: boolean;
-    @Column({ nullable: true, }) armamentos_emprestimos_del!: boolean;
+    @Column({ nullable: true, }) servicos!: boolean;
+    @Column({ nullable: true, }) servicos_cad!: boolean;
+    @Column({ nullable: true, }) servicos_edt!: boolean;
+    @Column({ nullable: true, }) servicos_del!: boolean;
 
     @Column({ nullable: true, }) veiculos!: boolean;
     @Column({ nullable: true, }) veiculos_cad!: boolean;

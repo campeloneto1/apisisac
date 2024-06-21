@@ -9,7 +9,7 @@ export interface Servico{
     empresa: Empresa;
     servico_tipo: ServicoTipo;
     data_inicial: Date;
-    data_final: Date;
+    data_final?: Date;
     observacoes: string;
 
     created_by: User;
