@@ -15,12 +15,14 @@ import { MateriaisConsumoModule } from 'src/materiais-consumo/materiais-consumo.
 import { MateriaisPoliciaisModule } from 'src/materiais-policiais/materiais-policiais.module';
 import { MateriaisModule } from 'src/materiais/materiais.module';
 import { PoliciaisRequeridasModule } from 'src/policiais-requeridas/policiais-requeridas.module';
+import { ContratosModule } from 'src/contratos/contratos.module';
 
 
 @Module({
   imports: [
     ArmamentosModule,
     ArmamentosEmprestimosModule,
+    ContratosModule,
     GraduacoesModule,
     MateriaisModule,
     MateriaisConsumoModule,

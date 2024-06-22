@@ -3,9 +3,10 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { User } from 'src/users/user.interface';
-import { In, Repository } from 'typeorm';
+import { In, LessThanOrEqual, Raw, Repository } from 'typeorm';
 import { Contrato as ContratoEntity } from './contrato.entity';
 import { Contrato as ContratoInterface, Contratos as ContratosInterface  } from './contrato.interface';
+import { format } from 'date-fns';
 
 @Injectable()
 export class ContratosService {
@@ -114,5 +115,29 @@ export class ContratosService {
         var data = await this.contratoRepository.findOneBy({id: contrato});
         data.valor_usado = Number(data.valor_usado) - Number(valor);
         await this.contratoRepository.update({id:data.id},{...data});
+      }
+
+      async acabando(params:any,idUser: User): Promise<ContratosInterface> {
+        let result = new Date();
+        var proxsemana = result.setDate(result.getDate() + 90);
+        return await this.contratoRepository.find({
+          where: [
+            {
+              valor_usado:  Raw((alias) => `(${alias} * 100)/valor_global >= 70`),
+              //@ts-ignore
+              subunidade: {
+                id: params.subunidade
+              }
+            },
+            {
+              //@ts-ignore
+              data_final: LessThanOrEqual(format(proxsemana, 'yyyy-MM-dd')),
+              //@ts-ignore
+              subunidade: {
+                id: params.subunidade
+              }
+            }
+          ]
+        });
       }
 }

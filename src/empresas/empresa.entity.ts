@@ -2,6 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, U
 import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
+import { Contrato } from 'src/contratos/contrato.entity';
+import { Servico } from 'src/servicos/servico.entity';
 
 @Entity('empresas')
 @Index(['subunidade', 'cnpj'], { unique: true }) 
@@ -11,7 +13,6 @@ export class Empresa {
     id!: number;
 
     @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
-        eager: true,
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       })
@@ -89,6 +90,12 @@ export class Empresa {
         onUpdate: 'CASCADE'
     })
     cidade!: Cidade;
+
+    @OneToMany(type => Contrato, contrato => contrato.empresa)
+    contratos: Contrato[];
+
+    @OneToMany(type => Servico, servico => servico.empresa)
+    servicos: Servico[];
 
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',

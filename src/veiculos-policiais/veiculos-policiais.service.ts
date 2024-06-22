@@ -153,30 +153,27 @@ export class VeiculosPoliciaisService {
         
       }
 
-      async emprestadoPolicial(params:any, idUser: User): Promise<VeiculoPolicialInterface> {
-          return await this.veiculoPolicialRository.findOne({
-            relations: {
-              policial: {
-                graduacao: true
-              },
-              veiculo: {
-                modelo: {
-                  marca: true
-                }
-              }
-            },
-            where: {
-              data_final: IsNull(),
-              policial: {
-                id: idUser.policial.id
-              },
-              //@ts-ignore
-              subunidade: {
-                id: params.subunidade
-              }
+      async emprestado(params:any,idUser: User): Promise<VeiculoPolicialInterface> {
+        console.log('aaaa')
+        return await this.veiculoPolicialRository.findOne({
+          relations: {
+            policial: {
+              graduacao: true
             }
-          });
-      }
+          },
+          where: {
+            data_final: IsNull(),
+            //@ts-ignore
+            subunidade: {
+              id: params.subunidade
+            },
+            policial: {
+              id: idUser.policial.id
+            }
+          }
+        });
+      
+    }
 
       async relatorio(object:any, idUser: User): Promise<VeiculosPoliciaisInterface>{
         var finaldate = new Date(object.data_final);

@@ -8,6 +8,7 @@ import { ArmamentosEmprestimos } from 'src/armamentos-emprestimos/armamento-empr
 import { MateriaisConsumo } from 'src/materiais-consumo/material-consumo.interface';
 import { MateriaisPoliciais } from 'src/materiais-policiais/material-policial.interface';
 import { Materiais } from 'src/materiais/material.interface';
+import { Contratos } from 'src/contratos/contrato.interface';
 
 @Controller('home')
 export class HomeController {
@@ -21,6 +22,11 @@ export class HomeController {
     @Get('armamentos-emprestados')
     async armamentosEmprestimos(@Request() req, @Query() params: any):Promise<ArmamentosEmprestimos>{
         return this.homeService.armamentosEmprestados(params, req.user);
+    }
+
+    @Get('contratos-acabando')
+    async contratosAcabando(@Request() req, @Query() params: any):Promise<Contratos>{
+        return this.homeService.contratosAcabando(params, req.user);
     }
 
     @Get('materiais-vencendo')

@@ -17,21 +17,27 @@ export class EmpresasService {
     ){}
 
     async index(params:any,idUser: User): Promise<EmpresasInterface> {
-      if(idUser.perfil.administrador){
-        return await this.empresaRepository.find();
-      }else{
         return await this.empresaRepository.find({
-        where: {
-          subunidade: {
-            id: params.subunidade
-          } 
-        }
-      });
-      }
+          relations: {
+            subunidade: true
+          },
+          where: {
+            subunidade: {
+              id: params.subunidade
+            } 
+          }
+        });
     }
   
       async find(id: number): Promise<EmpresaInterface | null> {
-        return await this.empresaRepository.findOne({where: {id: id}});
+        return await this.empresaRepository.findOne({
+          relations: {
+            subunidade: true,
+            contratos: true,
+            servicos: true
+          },
+          where: {id: id}
+        });
       }
   
       async create(object: EmpresaInterface, idUser: User) {
