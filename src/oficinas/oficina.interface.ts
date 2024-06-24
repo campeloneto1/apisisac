@@ -5,7 +5,7 @@ import { User } from "src/users/user.interface";
 export interface Oficina{
     id?: number;
     nome: string;
-
+    cnpj?: string;
     gerente?: string;
     telefone1?: string;
     telefone2?: string;
@@ -17,7 +17,7 @@ export interface Oficina{
     cidade?: Cidade;
     cep?: string;
 
-    // subunidade: Subunidade;
+    subunidade: Subunidade;
 
     created_by: User;
     updated_by: User;

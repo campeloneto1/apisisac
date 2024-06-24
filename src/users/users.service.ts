@@ -20,21 +20,34 @@ export class UsersService {
       private lazyModuleLoader: LazyModuleLoader
     ) {}
 
-    async index(params:any): Promise<UsersInterface> {
-      return await this.usersRepository.find({
-        relations: {
-          users_subunidades: {
-            subunidade: {
-              unidade: true
+    async index(params:any, idUser: UserInterface): Promise<UsersInterface> {
+      if(idUser.perfil.administrador){
+        return await this.usersRepository.find({
+          relations: {
+            users_subunidades: {
+              subunidade: {
+                unidade: true
+              }
             }
           }
-        },
-        where: {
-          users_subunidades: {
-            subunidade: In([params.subunidade])
+        });
+      }else{
+        return await this.usersRepository.find({
+          relations: {
+            users_subunidades: {
+              subunidade: {
+                unidade: true
+              }
+            }
+          },
+          where: {
+            users_subunidades: {
+              subunidade: In([params.subunidade])
+            }
           }
-        }
-      });
+        });
+      }
+      
     }
 
     async find(id: number): Promise<UserInterface | null> {

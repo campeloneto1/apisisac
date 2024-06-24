@@ -82,7 +82,7 @@ export class ContratosService {
         await this.logsService.create({
           object: JSON.stringify(object),
           object_old: JSON.stringify(data),
-          mensagem: 'Editou uma contrato',
+          mensagem: 'Editou um contrato',
           tipo: 2,
           table: 'contratos',
           fk: id,
@@ -138,6 +138,30 @@ export class ContratosService {
               }
             }
           ]
+        });
+      }
+
+      async aditivar(id:number, object: any, idUser: User) {
+        var data: ContratoInterface = await this.contratoRepository.findOneBy({id: id});
+        
+        data.porcentagem_aditivado = object.porcentagem_aditivado;
+        data.valor_global = Number(data.valor_global) + (Number(data.valor_global) * (Number(object.porcentagem_aditivado)/100));
+        if(data.quantidade_diarias){
+          data.quantidade_diarias = Number(data.quantidade_diarias) + (Number(data.quantidade_diarias) * (Number(object.porcentagem_aditivado)/100));
+        }
+        if(object.observacoes_aditivado){
+          data.observacoes_aditivado = object.observacoes_aditivado;
+        }
+
+        await this.contratoRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Aditivou um contrato',
+          tipo: 2,
+          table: 'contratos',
+          fk: id,
+          user: idUser
         });
       }
 }

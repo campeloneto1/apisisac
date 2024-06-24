@@ -38,7 +38,7 @@ export class VeiculosPoliciaisService {
        
       }
   
-      async find(id: number, idUser: User): Promise<VeiculoPolicialInterface | null> {
+      async find(id: number, idUser: User): Promise<VeiculoPolicialInterface> {
         var idsSubs:any = [];
         idUser.users_subunidades.forEach((data) => {
           idsSubs.push(data.subunidade.id)
@@ -154,7 +154,6 @@ export class VeiculosPoliciaisService {
       }
 
       async emprestado(params:any,idUser: User): Promise<VeiculoPolicialInterface> {
-        console.log('aaaa')
         return await this.veiculoPolicialRository.findOne({
           relations: {
             policial: {

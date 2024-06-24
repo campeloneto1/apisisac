@@ -6,7 +6,7 @@ import { Policial } from 'src/policiais/policial.entity';
 import { VeiculoOficina } from 'src/veiculos-oficinas/veiculo-oficina.entity';
 
 @Entity('oficinas')
-@Index(['nome', 'subunidade'], { unique: true }) 
+@Index(['cnpj', 'subunidade'], { unique: true }) 
 export class Oficina {
 
     @PrimaryGeneratedColumn()
@@ -15,9 +15,14 @@ export class Oficina {
     @Column({
         nullable: false,
         length: 100,
-        
     })
     nome!: string;
+
+    @Column({
+        nullable: false,
+        length: 15,
+    })
+    cnpj!: string;
 
     @Column({
         nullable: true,

@@ -5,7 +5,6 @@ export interface VeiculoPolicialAlteracao{
     id?: number;
     veiculo_policial: VeiculoPolicial;
     foto: string;
-    texto: string;
 
     created_by: User;
     updated_by: User;

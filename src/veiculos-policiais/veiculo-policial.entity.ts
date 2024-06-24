@@ -5,7 +5,7 @@ import { Veiculo } from 'src/veiculos/veiculo.entity';
 import { Policial } from 'src/policiais/policial.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 
-@Entity('veiculos-policiais')
+@Entity('veiculos_policiais')
 export class VeiculoPolicial {
     @PrimaryGeneratedColumn()
     id!: number;

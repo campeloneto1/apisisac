@@ -8,8 +8,8 @@ export class UsersController {
     constructor(private usersService: UsersService){}
     
     @Get()
-    async index(@Query() params: any):Promise<Users> {
-        return await this.usersService.index(params);
+    async index(@Query() params: any,  @Request() req):Promise<Users> {
+        return await this.usersService.index(params, req.user);
     }
 
     @Get(':id')

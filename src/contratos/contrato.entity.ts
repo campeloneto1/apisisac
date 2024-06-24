@@ -107,9 +107,36 @@ export class Contrato {
       })
       observacoes!: string;
 
+      @Column({
+        nullable: true,
+      })
+      quantidade_diarias!: number;
+
+      @Column({
+        nullable: true,
+      })
+      numero_porrogacao!: number;
+
+      @ManyToOne(() => Contrato, (contrato) => contrato.id, {
+        onDelete: 'SET NULL',
+          onUpdate: 'CASCADE'
+      })
+      contrato_prorrogado!: Contrato;
+
+      @Column({
+        nullable: true,
+      })
+      porcentagem_aditivado!: number;
+
+      @Column({
+        nullable: true,
+        type: 'text'
+      })
+      observacoes_aditivado!: string;
+
+
       @OneToMany(type => ContratoLancamento, contratoslancamentos => contratoslancamentos.contrato)
     contratos_lancamentos: ContratoLancamento[];
-    
 
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',

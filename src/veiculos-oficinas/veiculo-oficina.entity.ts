@@ -5,7 +5,7 @@ import { Veiculo } from 'src/veiculos/veiculo.entity';
 import { Oficina } from 'src/oficinas/oficina.entity';
 import { ManutencaoTipo } from 'src/manutencoes-tipos/manutencao-tipo.entity';
 
-@Entity('veiculos-oficinas')
+@Entity('veiculos_oficinas')
 export class VeiculoOficina {
     @PrimaryGeneratedColumn()
     id!: number;

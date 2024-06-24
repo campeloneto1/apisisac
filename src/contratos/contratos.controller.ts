@@ -21,6 +21,11 @@ export class ContratosController {
         return await this.contratosService.create(object, req.user);
     }
 
+    @Put(':id/aditivar')
+    async aditivar(@Param('id') id: number, @Body() object: any, @Request() req) {
+        return await this.contratosService.aditivar(id, object, req.user);
+    }
+
     @Put(':id')
     async update(@Param('id') id: number, @Body() object: Contrato, @Request() req) {
         return await this.contratosService.update(id, object, req.user);
@@ -30,4 +35,6 @@ export class ContratosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.contratosService.remove(id, req.user);
     }
+
+    
 }

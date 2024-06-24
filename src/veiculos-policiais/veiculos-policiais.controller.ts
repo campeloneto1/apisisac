@@ -16,6 +16,11 @@ export class VeiculosPoliciaisController {
         return await this.veiculosPoliciaisService.emprestados(params,req.user);
     }
 
+    @Get('emprestado')
+    async emprestado(@Request() req, @Query() params: any):Promise<VeiculoPolicial>{
+        return await this.veiculosPoliciaisService.emprestado(params,req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<VeiculoPolicial>  {
         return await this.veiculosPoliciaisService.find(id, req.user);
@@ -46,8 +51,5 @@ export class VeiculosPoliciaisController {
         return await this.veiculosPoliciaisService.relatorio(object, req.user);
     }
 
-    @Get('emprestado')
-    async emprestado(@Request() req, @Query() params: any):Promise<VeiculoPolicial>{
-        return await this.veiculosPoliciaisService.emprestado(params,req.user);
-    }
+    
 }

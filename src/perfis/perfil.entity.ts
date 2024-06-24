@@ -15,6 +15,7 @@ export class Perfil {
   
     @Column({ nullable: true, }) administrador!: boolean;
     @Column({ nullable: true, }) gestor!: boolean;
+    @Column({ nullable: true, }) usuario!: boolean;
     @Column({ nullable: true, }) relatorios!: boolean;
 
     @Column({ nullable: true, }) usuarios!: boolean;

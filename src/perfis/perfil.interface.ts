@@ -3,8 +3,10 @@ import { User } from "src/users/user.interface";
 export interface Perfil{
     id?: number;
     nome: string;
+
     administrador?: boolean;
     gestor?: boolean;
+    usuario?: boolean;
     relatorios?: boolean;
 
     armamentos?: boolean;

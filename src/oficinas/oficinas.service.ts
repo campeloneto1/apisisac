@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Oficina as OficinaEntity } from './oficina.entity';
 import {
   Oficina as OficinaInterface,
@@ -21,15 +21,28 @@ export class OficinasService {
 
   async index(params:any,idUser: User): Promise<OficinasInterface> {
     
-      return await this.oficinaRepository.find();
+      return await this.oficinaRepository.find({
+        where:{
+          //@ts-ignore
+          subunidade: {
+            id: params.subunidade
+          }
+        },
+      });
     
   }
 
   async find(id: number, idUser: User): Promise<OficinaInterface | null> {
+    var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
     return await this.oficinaRepository.findOne({
       where: {
         id: id,
-        
+        subunidade:{
+          id: In(idsSubs)
+        }
       },
     });
   }

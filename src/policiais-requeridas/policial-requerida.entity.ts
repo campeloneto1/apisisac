@@ -21,7 +21,7 @@ export class PolicialRequerida {
   policial!: Policial;
 
   @Column({
-    nullable: false,
+    nullable: true,
     length: 50,
   })
   nup!: string;
