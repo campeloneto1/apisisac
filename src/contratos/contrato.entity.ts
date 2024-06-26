@@ -130,6 +130,12 @@ export class Contrato {
 
       @Column({
         nullable: true,
+        type: 'date'
+      })
+      data_aditivado!: Date;
+
+      @Column({
+        nullable: true,
         type: 'text'
       })
       observacoes_aditivado!: string;

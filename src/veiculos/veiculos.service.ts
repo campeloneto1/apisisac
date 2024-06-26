@@ -139,6 +139,7 @@ export class VeiculosService {
             where: {
               id: Not(In(ids)),
               data_baixa: IsNull(),
+              nao_disponivel: IsNull(),
               //@ts-ignore
               subunidade: {
                 id: params.subunidade

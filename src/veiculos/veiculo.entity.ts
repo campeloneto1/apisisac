@@ -90,6 +90,11 @@ export class Veiculo {
       })
       observacoes!: string;
 
+      @Column({
+        nullable: true,
+      })
+      nao_disponivel!: boolean;
+
     @ManyToOne(() => Cor, (cor) => cor.id, {
         eager: true,
         onDelete: 'SET NULL',

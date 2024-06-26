@@ -24,6 +24,8 @@ export interface Veiculo{
     modelo: Modelo;
     cor: Cor;
 
+    nao_disponivel?: boolean;
+
     observacoes?: string;
 
     created_by: User;
