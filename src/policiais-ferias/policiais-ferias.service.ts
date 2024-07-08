@@ -134,4 +134,25 @@ export class PoliciaisFeriasService {
           }
         }});
       }
+
+      async wherePolicial(id: number, idUser: User): Promise<PoliciaisFeriasInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
+        return await this.policialFeriasRepository.find({
+          
+          where: {
+            //@ts-ignore
+            policial: {
+              id: id,
+              setor: {
+                subunidade: {
+                  id: In(idsSubs)
+                }
+              }
+            }
+          }
+      });
+      }
 }

@@ -11,6 +11,11 @@ export class ArmamentosEmprestimosController {
         return this.armamentosEmprestimosService.index(params, req.user);
     }
 
+    @Get(':id/wherepol')
+    async wherePol(@Param('id') id: number, @Request() req):Promise<ArmamentosEmprestimos>  {
+        return await this.armamentosEmprestimosService.wherePolicial(id, req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<ArmamentoEmprestimo>  {
         return await this.armamentosEmprestimosService.find(id, req.user);

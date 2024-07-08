@@ -11,6 +11,11 @@ export class PoliciaisPublicacoesController {
         return this.policiaisPublicacoesService.index(params, req.user);
     }
 
+    @Get(':id/wherepol')
+    async wherePol(@Param('id') id: number, @Request() req):Promise<PoliciaisPublicacoes>  {
+        return await this.policiaisPublicacoesService.wherePolicial(id, req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<PolicialPublicacao>  {
         return await this.policiaisPublicacoesService.find(id, req.user);

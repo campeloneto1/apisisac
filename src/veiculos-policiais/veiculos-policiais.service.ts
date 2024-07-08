@@ -174,6 +174,24 @@ export class VeiculosPoliciaisService {
       
     }
 
+    async wherePolicial(id: number, idUser: User): Promise<VeiculosPoliciaisInterface> {
+      var idsSubs:any = [];
+      idUser.users_subunidades.forEach((data) => {
+        idsSubs.push(data.subunidade.id)
+      });
+      return await this.veiculoPolicialRository.find({
+        where: {
+          policial:{
+            id: id,
+          },
+          //@ts-ignore
+          subunidade: {
+            id: In(idsSubs)
+          }
+        }
+      });
+    }
+
       async relatorio(object:any, idUser: User): Promise<VeiculosPoliciaisInterface>{
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);

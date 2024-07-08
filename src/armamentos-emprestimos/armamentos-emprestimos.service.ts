@@ -184,6 +184,32 @@ export class ArmamentosEmprestimosService {
           })
       }
 
+      async wherePolicial(id:number, idUser: User):Promise<ArmamentosEmprestimosInterface>{
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
+        return await this.armamentoEmprestimoRepository.find({
+          where: {
+            policial: {
+              id: id
+            },
+            //@ts-ignore
+            subunidade: {
+              id: In(idsSubs)
+            }
+          },
+          relations: {
+            armamentos_emprestimos_itens: {
+              armamento: {
+                modelo: true
+              },
+              armamento_emprestimo: false
+            }
+          }
+        });
+      }
+
       async relatorio(object: any, idUser: User): Promise<ArmamentoEmprestimoInterface | null> {
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);

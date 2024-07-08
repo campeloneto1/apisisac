@@ -21,6 +21,11 @@ export class VeiculosPoliciaisController {
         return await this.veiculosPoliciaisService.emprestado(params,req.user);
     }
 
+    @Get(':id/wherepol')
+    async wherePol(@Param('id') id: number, @Request() req):Promise<VeiculosPoliciais>  {
+        return await this.veiculosPoliciaisService.wherePolicial(id, req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<VeiculoPolicial>  {
         return await this.veiculosPoliciaisService.find(id, req.user);

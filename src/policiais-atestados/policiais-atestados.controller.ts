@@ -11,6 +11,11 @@ export class PoliciaisAtestadosController {
         return this.policiaisAtestadosService.index(params, req.user);
     }
 
+    @Get(':id/wherepol')
+    async wherePol(@Param('id') id: number, @Request() req):Promise<PoliciaisAtestados>  {
+        return await this.policiaisAtestadosService.wherePolicial(id, req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<PolicialAtestado>  {
         return await this.policiaisAtestadosService.find(id, req.user);

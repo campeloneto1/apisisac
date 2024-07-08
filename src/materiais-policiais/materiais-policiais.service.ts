@@ -184,6 +184,32 @@ export class MateriaisPoliciaisService {
           })
       }
 
+      async wherePolicial(id:number, idUser: User):Promise<MateriaisPoliciaisInterface>{
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
+        return await this.materiaisPoliciaisRepository.find({
+          where: {
+            policial: {
+              id: id
+            },
+            //@ts-ignore
+            subunidade: {
+              id: In(idsSubs)
+            }
+          },
+          relations: {
+            materiais_policiais_itens: {
+              material: {
+                modelo: true
+              },
+              material_policial: false
+            }
+          }
+        });
+      }
+
       async relatorio(object: any, idUser: User): Promise<MaterialPolicialInterface | null> {
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);

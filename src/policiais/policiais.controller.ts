@@ -19,7 +19,7 @@ export class PoliciaisController {
 
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<Policial>  {
-        return await this.policiaisService.find(id, req.user);
+        return await this.policiaisService.find2(id, req.user);
     }
     
     @Post()

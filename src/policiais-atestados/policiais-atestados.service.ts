@@ -135,4 +135,25 @@ export class PoliciaisAtestadosService {
           }
         }});
       }
+
+      async wherePolicial(id: number, idUser: User): Promise<PoliciaisAtestadosInterface | null> {
+        var idsSubs:any = [];
+        idUser.users_subunidades.forEach((data) => {
+          idsSubs.push(data.subunidade.id)
+        });
+        return await this.policialAtestadoRepository.find(
+          {
+            where: {
+              //@ts-ignore
+              policial: {
+                id: id,
+                setor: {
+                  subunidade: {
+                    id: In(idsSubs)
+                  }
+                }
+              }
+            }
+          });
+      }
 }
