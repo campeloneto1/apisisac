@@ -156,4 +156,76 @@ export class PoliciaisAtestadosService {
             }
           });
       }
+
+      async relatorio(object:any, idUser: User): Promise<PoliciaisAtestadosInterface> {
+        var hoje = new Date();
+         
+        var policiais;
+       
+        // var filter:any = {};
+  
+        // if(object.subunidade){
+        //   filter.policial =  {setor: { subunidade: {id: object.subunidade}}};
+        // }
+    
+        // if(object.setor){
+        //   filter.setor = {id: object.setor};
+        // }
+  
+        // if(object.graduacao){
+        //   filter.graduacao = {id: object.graduacao};
+        // }
+  
+        // if(object.ano){
+        //   filter.ano = object.ano;
+        // }
+  
+        policiais = await this.policialAtestadoRepository.find({
+          relations: {
+            policial: {
+              graduacao: true,
+              setor: {
+                subunidade: {
+                  unidade: true
+                }
+              }
+            }
+          },
+          where: {
+            policial: {
+              setor: {
+                subunidade: {
+                  id: object.subunidade
+                }
+              }
+            }
+          },
+        });
+  
+         if(object.policial){
+           policiais = policiais.filter(element => {
+             return element.policial.id === object.policial;
+           })
+         }
+    
+         if(object.setor){
+           policiais = policiais.filter(element => {
+             return element.policial.setor.id === object.setor;
+           })
+         }
+    
+         if(object.graduacao){
+           policiais = policiais.filter(element => {
+             return element.policial.graduacao.id === object.graduacao;
+           })
+         }
+
+         if(object.vigente){
+          policiais = policiais.filter(element => {
+            return new Date(element.data_final) >= hoje;
+          });
+        }
+  
+        return policiais;
+      }
 }

@@ -295,13 +295,13 @@ export class PoliciaisService {
     if(object.setor){
       policiais = policiais.filter(element => {
         return element.setor.id === object.setor;
-      })
+      });
     }
 
     if(object.graduacao){
       policiais = policiais.filter(element => {
         return element.graduacao.id === object.graduacao;
-      })
+      });
     }
 
     if(object.sexo){
@@ -310,13 +310,17 @@ export class PoliciaisService {
           return element.sexo.id === object.sexo;
         }
         
-      })
+      });
     }
 
     if(object.transferido){
       policiais = policiais.filter(element => {
         return element.boletim_transferencia !== null;
-      })
+      });
+    }else{
+      policiais = policiais.filter(element => {
+        return element.boletim_transferencia === null;
+      });
     }
 
     return policiais;

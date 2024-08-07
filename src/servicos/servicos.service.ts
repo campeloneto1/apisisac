@@ -3,7 +3,7 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogsService } from 'src/logs/logs.service';
 import { User } from 'src/users/user.entity';
-import { In, Repository } from 'typeorm';
+import { Between, In, Repository } from 'typeorm';
 import { Servico as ServicoEntity } from './servico.entity';
 import { Servico as ServicoInterface, Servicos as ServicosInterface } from './servico.interface';
 
@@ -95,5 +95,61 @@ export class ServicosService {
           fk: data.id,
           user: idUser
         });
+
+        
+      }
+
+      async relatorio(object:any, idUser: User): Promise<ServicosInterface>{
+        // var finaldate = new Date(object.data_final);
+        // finaldate = addHours(finaldate, 23);
+        // finaldate = addMinutes(finaldate, 59);
+        var servicos;
+        
+        servicos = await this.servicoRepository.find({
+            relations: {
+              subunidade: {
+                unidade: true
+              }
+            },
+            where: {
+              // data_inicial: Between(object.data_inicial, object.data_final),
+              //@ts-ignore
+              subunidade: {
+                id: object.subunidade
+              }
+            },
+            order: {
+              id: "DESC"
+            }
+          });
+        
+        
+
+        if(object.setor){
+          servicos = servicos.filter((element) => {
+            return element.setor.id === object.setor
+          })
+        }
+
+        if(object.empresa){
+          servicos = servicos.filter((element) => {
+            return element.empresa.id === object.empresa
+          })
+        }
+
+        if(object.servico_tipo){
+          servicos = servicos.filter((element) => {
+            return element.servico_tipo.id === object.servico_tipo
+          })
+        }
+
+        if(object.vigente){
+          servicos = servicos.filter((element) => {
+            return element.data_final === null;
+          })
+        }
+
+        return servicos;
+
       }
 }

@@ -196,19 +196,19 @@ export class ArmamentosService {
         if(object.marca){
           armas = armas.filter(element => {
             return element.modelo.marca.id === object.marca
-          })
+          });
         }
 
         if(object.modelo){
           armas = armas.filter(element => {
             return element.modelo.id === object.modelo
-          })
+          });
         }
 
         if(object.armamento_tipo){
           armas = armas.filter(element => {
             return element.armamento_tipo.id === object.armamento_tipo
-          })
+          });
         }
 
         if(object.armamento_calibre){
@@ -216,7 +216,7 @@ export class ArmamentosService {
             if(element.armamento_calibre){
               return element.armamento_calibre.id === object.armamento_calibre
             }
-          })
+          });
         }
 
         if(object.armamento_tamanho){
@@ -224,13 +224,17 @@ export class ArmamentosService {
             if(element.armamento_tamanho){
               return element.armamento_tamanho.id === object.armamento_tamanho
             }
-          })
+          });
         }
 
         if(object.data_baixa){
           armas = armas.filter(element => {
             return element.data_baixa !== null
-          })
+          });
+        }else{
+          armas = armas.filter(element => {
+            return element.data_baixa === null
+          });
         }
 
         return armas;

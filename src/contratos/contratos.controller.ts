@@ -36,5 +36,8 @@ export class ContratosController {
         return await this.contratosService.remove(id, req.user);
     }
 
-    
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.contratosService.relatorio(object, req.user);
+    }
 }

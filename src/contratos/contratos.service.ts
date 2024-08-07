@@ -170,4 +170,59 @@ export class ContratosService {
           user: idUser
         });
       }
+
+      async relatorio(object:any,idUser: User): Promise<ContratosInterface> {
+        var hoje = new Date();
+        var contratos;
+         contratos = await this.contratoRepository.find({
+          relations: {
+            gestor: {
+              graduacao: true
+            },
+            fiscal: {
+              graduacao: true
+            },
+            contrato_prorrogado: {
+              contrato_prorrogado: false
+            }
+          },
+            where: {
+                subunidade: {
+                    id: object.subunidade
+                }
+            }
+        });
+        
+        if(object.empresa){
+          contratos = contratos.filter((element) => {
+            return element.empresa.id === object.empresa
+          })
+        }
+
+        if(object.contrato_tipo){
+          contratos = contratos.filter((element) => {
+            return element.contrato_tipo.id === object.contrato_tipo
+          })
+        }
+
+        if(object.vigente){
+          contratos = contratos.filter((element) => {
+            return new Date(element.data_final) >= hoje
+          })
+        }
+
+        if(object.aditivado){
+          contratos = contratos.filter((element) => {
+            return element.porcentagem_aditivado != null
+          })
+        }
+
+        if(object.prorrogado){
+          contratos = contratos.filter((element) => {
+            return element.numero_porrogacao != null
+          })
+        }
+
+        return contratos;
+    }
 }

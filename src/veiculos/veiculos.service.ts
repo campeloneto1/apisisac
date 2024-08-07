@@ -212,43 +212,47 @@ export class VeiculosService {
         if(object.marca){
           veiculos = veiculos.filter(element => {
             return element.modelo.marca.id === object.marca;
-          })
+          });
         }
 
         if(object.modelo){
           veiculos = veiculos.filter(element => {
             return element.modelo.id === object.modelo;
-          })
+          });
         }
 
         if(object.veiculo_tipo){
           veiculos = veiculos.filter(element => {
             return element.veiculo_tipo.id === object.veiculo_tipo;
-          })
+          });
         }
 
         if(object.blindado){
           veiculos = veiculos.filter(element => {
             return element.blindado === true;
-          })
+          });
         }
 
         if(object.organico){
           veiculos = veiculos.filter(element => {
             return element.organico === true;
-          })
+          });
         }
 
         if(object.locado){
           veiculos = veiculos.filter(element => {
             return element.organico !== true;
-          })
+          });
         }
         
         if(object.data_baixa){
           veiculos = veiculos.filter(element => {
             return element.data_baixa !== null;
-          })
+          });
+        }else{
+          veiculos = veiculos.filter(element => {
+            return element.data_baixa === null;
+          });
         }
 
         return veiculos
