@@ -12,6 +12,12 @@ export class PoliciaisController {
         return this.policiaisService.index(params, req.user);
     }
 
+    @Get('all')
+    async index2(@Request() req, @Query() params: any):Promise<Policiais>{
+        return this.policiaisService.getAll(params, req.user);
+    }
+
+
     @Get('disponiveis')
     async disponiveis(@Request() req, @Query() params: any):Promise<Policiais>{
         return this.policiaisService.disponiveis(params, req.user);

@@ -230,6 +230,17 @@ export class PoliciaisService {
     
   }
 
+  async getAll(params:any,idUser: User): Promise<PoliciaisInterface> {
+   
+    return await this.policialRepository.find({
+      where: { 
+        boletim_transferencia: IsNull(),
+        
+      },
+    });
+  
+}
+
   async quantidade(params:any,idUser: User): Promise<number> {
     return await this.policialRepository.count({
       where: { 

@@ -35,7 +35,7 @@ export class Contrato {
       contrato_tipo!: ContratoTipo;
 
       @ManyToOne(() => ContratoObjeto, (contratoobjeto) => contratoobjeto.id, {
-        eager: true,
+        
         onDelete: 'SET NULL',
           onUpdate: 'CASCADE'
       })
@@ -52,6 +52,13 @@ export class Contrato {
           onUpdate: 'CASCADE'
       })
       fiscal!: Policial;
+
+      @Column({
+        nullable: false,
+        length: 200,
+        unique: false
+      })
+      objeto!: string;
       
       @Column({
         nullable: false,

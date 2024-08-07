@@ -9,7 +9,7 @@ export interface Veiculo{
     placa_especial?: string;
     renavam?: string;
     chassi?: string;
-    ano?: number;
+    ano?: string;
     blindado?: boolean;
     organico?: boolean;
     data_baixa?: Date;

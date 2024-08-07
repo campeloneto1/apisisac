@@ -39,8 +39,9 @@ export class Veiculo {
 
     @Column({
         nullable: true,
+        length: 20,
     })
-    ano!: number;
+    ano!: string;
 
     @Column({
         nullable: true,
