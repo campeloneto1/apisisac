@@ -69,6 +69,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ServicosModule } from './servicos/servicos.module';
 import { ServicosTiposModule } from './servicos-tipos/servicos-tipos.module';
+import { FuncoesModule } from './funcoes/funcoes.module';
 
 
 @Module({
@@ -156,6 +157,7 @@ import { ServicosTiposModule } from './servicos-tipos/servicos-tipos.module';
     UsersSubunidadesModule,
     ServicosModule,
     ServicosTiposModule,
+    FuncoesModule,
   ],
   controllers: [AppController],
   providers: [AppService,

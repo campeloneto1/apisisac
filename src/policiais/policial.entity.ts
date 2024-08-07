@@ -15,6 +15,7 @@ import { PolicialCurso } from 'src/policiais-cursos/policial-curso.entity';
 import { MaterialPolicial } from 'src/materiais-policiais/material-policial.entity';
 import { PolicialRequerida } from 'src/policiais-requeridas/policial-requerida.entity';
 import { Escolaridade } from 'src/escolaridades/escolaridade.entity';
+import { Funcao } from 'src/funcoes/funcao.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -47,6 +48,13 @@ export class Policial {
         unique: true
     })
     matricula!: string;
+
+    @Column({
+        nullable: true,
+        length: 8,
+        unique: true
+    })
+    matricula_cc!: string;
 
     @Column({
         nullable: false,
@@ -173,6 +181,13 @@ export class Policial {
         onUpdate: 'CASCADE'
     })
     escolaridade!: Escolaridade;
+
+    @ManyToOne(() => Funcao, (funcao) => funcao.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    funcao!: Funcao;
 
     @OneToOne(() => User, (user) => user.policial) // specify inverse side as a second parameter
     user: User

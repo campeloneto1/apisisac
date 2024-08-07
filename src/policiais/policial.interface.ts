@@ -11,6 +11,7 @@ export interface Policial{
     numeral?: string;
     nome_guerra: string;
     matricula: string;
+    matricula_cc?: string;
     cpf: string;
     email?: string;
     telefone1?: string;
