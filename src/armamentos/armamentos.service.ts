@@ -177,6 +177,24 @@ export class ArmamentosService {
         });
       }
 
+      async ajustarquant2(id:number, object: any, idUser: User) {
+        var data: ArmamentoInterface = await this.armamentoRepository.findOneBy({id: id});
+        
+          data.quantidade = Number(object.quantidade);
+          data.quantidade_disponivel = Number(object.quantidade_disponivel);
+      
+        await this.armamentoRepository.update({id:id},{...data, updated_by: idUser});
+        await this.logsService.create({
+          object: JSON.stringify(object),
+          object_old: JSON.stringify(data),
+          mensagem: 'Ajustou a quantidade um Armamento',
+          tipo: 2,
+          table: 'armamentos',
+          fk: id,
+          user: idUser
+        });
+      }
+
       async relatorio(object:any, idUser: User): Promise<ArmamentosInterface> {
         var armas;
         

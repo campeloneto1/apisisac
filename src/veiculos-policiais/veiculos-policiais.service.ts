@@ -61,11 +61,11 @@ export class VeiculosPoliciaisService {
   
       async create(object: VeiculoPolicialInterface, idUser: User) {
         //@ts-ignore
-        var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
+        //var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
         var object:VeiculoPolicialInterface = this.veiculoPolicialRository.create({
           ...object, 
           data_inicial: new Date(), 
-          km_inicial: veiculo.km_atual,
+         // km_inicial: veiculo.km_atual,
           subunidade: idUser.subunidade, 
           created_by: idUser}) 
         var save = await this.veiculoPolicialRository.save(object);  
@@ -82,10 +82,10 @@ export class VeiculosPoliciaisService {
   
       async update(id:number, object: VeiculoPolicialInterface, idUser: User) {
          //@ts-ignore
-         var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
-
+        // var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
+        //km_inicial: veiculo.km_atual,
         var data: VeiculoPolicialInterface = await this.veiculoPolicialRository.findOneBy({id: id});
-        data = {...object, km_inicial: veiculo.km_atual,}
+        data = {...object, }
         await this.veiculoPolicialRository.update({id:id},{...data, updated_by: idUser});
 
         await this.logsService.create({
