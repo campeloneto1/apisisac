@@ -70,6 +70,11 @@ import { join } from 'path';
 import { ServicosModule } from './servicos/servicos.module';
 import { ServicosTiposModule } from './servicos-tipos/servicos-tipos.module';
 import { FuncoesModule } from './funcoes/funcoes.module';
+import { PostosModule } from './postos/postos.module';
+import { TurnosModule } from './turnos/turnos.module';
+import { PostosTurnosModule } from './postos-turnos/postos-turnos.module';
+import { EscalasTiposModule } from './escalas-tipos/escalas-tipos.module';
+import { EscalasModule } from './escalas/escalas.module';
 
 
 @Module({
@@ -158,6 +163,11 @@ import { FuncoesModule } from './funcoes/funcoes.module';
     ServicosModule,
     ServicosTiposModule,
     FuncoesModule,
+    PostosModule,
+    TurnosModule,
+    PostosTurnosModule,
+    EscalasTiposModule,
+    EscalasModule,
   ],
   controllers: [AppController],
   providers: [AppService,
