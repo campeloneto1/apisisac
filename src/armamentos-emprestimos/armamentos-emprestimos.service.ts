@@ -262,6 +262,12 @@ export class ArmamentosEmprestimosService {
           })
         }
 
+        if(object.cautela){
+          armamentos = armamentos.filter(element => {
+            return element.cautela === true;
+          })
+        }
+
         return armamentos;
 
       }
