@@ -1,9 +1,9 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
 import { VeiculosService } from 'src/veiculos/veiculos.service';
-import { Between, In, IsNull, Repository } from 'typeorm';
+import { Between, In, IsNull, Not, Repository } from 'typeorm';
 import { VeiculoPolicial as VeiculoPolicialEntity } from './veiculo-policial.entity';
 import { VeiculoPolicial as VeiculoPolicialInterface, VeiculosPoliciais as VeiculosPoliciaisInterface } from './veiculo-policial.interface';
 import { addHours, addMinutes } from 'date-fns';
@@ -62,6 +62,19 @@ export class VeiculosPoliciaisService {
       async create(object: VeiculoPolicialInterface, idUser: User) {
         //@ts-ignore
         //var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
+        var existe = await this.veiculoPolicialRository.find({
+          where: {
+            //@ts-ignore
+            veiculo: {
+              id: object.veiculo,
+            },
+            data_final: IsNull()
+          }
+        })
+        if(existe.length > 0){
+         
+          return ;
+        }
         var object:VeiculoPolicialInterface = this.veiculoPolicialRository.create({
           ...object, 
           data_inicial: new Date(), 

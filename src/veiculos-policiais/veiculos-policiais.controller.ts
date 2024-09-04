@@ -33,7 +33,7 @@ export class VeiculosPoliciaisController {
     
     @Post()
     async create(@Body() object: VeiculoPolicial, @Request() req) {
-        return await this.veiculosPoliciaisService.create(object, req.user);
+        return await this.veiculosPoliciaisService.create(object, req.user);  
     }
 
     @Put(':id')

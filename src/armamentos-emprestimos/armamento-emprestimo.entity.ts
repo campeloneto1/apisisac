@@ -17,10 +17,22 @@ export class ArmamentoEmprestimo {
     data_emprestimo!: Date;
 
     @Column({
+      nullable: true,
+      length: 100,
+    })
+    assinatura_emprestimo!: string;
+
+    @Column({
         nullable: true,
         type: 'datetime'
       })
       data_devolucao!: Date;
+
+      @Column({
+        nullable: true,
+        length: 100,
+      })
+      assinatura_devolucao!: string;
 
       @Column({
         nullable: true,

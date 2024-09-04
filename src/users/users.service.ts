@@ -189,6 +189,29 @@ export class UsersService {
       user.password = await this.utilitiesService.hashString(`${object.password}${user.salt}`);
       var update = await this.usersRepository.update({id:object.id},{...user});
     }
+
+    async verificarSenha(object:any){
+      var pass  ='';
+      var user = await this.usersRepository.findOne({
+        select: {
+          id: true,
+          nome: true,
+          cpf: true,
+          password: true,
+          salt:true,
+      },
+        where: {
+          policial:{
+            id: object.id
+          }}
+      });
+      pass = `${object.password}${user.salt}`;
+      if(await this.utilitiesService.compareString(pass, user.password)){
+        return true;
+      }else{
+        return false;
+      }
+    }
 }
 /*
  policial: {

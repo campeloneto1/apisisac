@@ -96,7 +96,7 @@ import { FuncoesModule } from './funcoes/funcoes.module';
       limit: 30,
     }]),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..'),
+      rootPath: join(__dirname, '..'), // added ../ to get one folder back
     }),
     AuthModule,
     PaisesModule,

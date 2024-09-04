@@ -6,7 +6,9 @@ export interface ArmamentoEmprestimo{
     id?: number;
     policial: Policial;
     data_emprestimo: Date;
+    assinatura_emprestimo: string;
     data_devolucao?: Date;
+    assinatura_devolucao: string;
     observacoes? : string;
     cautela?: boolean;
     armamentos?: any;

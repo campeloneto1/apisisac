@@ -41,4 +41,9 @@ export class UsersController {
     async changePass(@Body() object:any) {
         return await this.usersService.changePass(object);
     }
+
+    @Post('verificarsenha')
+    async verificarSenha(@Body() object:any) {
+        return await this.usersService.verificarSenha(object);
+    }
 }

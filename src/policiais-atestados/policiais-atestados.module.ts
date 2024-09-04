@@ -8,7 +8,7 @@ import { LogsModule } from 'src/logs/logs.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([PolicialAtestado]),
-    LogsModule
+    LogsModule,
   ],
   controllers: [PoliciaisAtestadosController],
   providers: [PoliciaisAtestadosService],
