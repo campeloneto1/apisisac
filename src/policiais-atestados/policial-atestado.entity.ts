@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Policial } from 'src/policiais/policial.entity';
+import { AfastamentoTipo } from 'src/afastamentos-tipos/afastamento-tipo.entity';
 @Entity('policiais_atestados')
 export class PolicialAtestado {
 
@@ -54,6 +55,13 @@ export class PolicialAtestado {
         length: 20,
       })
       crm!: string;
+
+      @ManyToOne(() => AfastamentoTipo, (afastamentotipo) => afastamentotipo.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+          onUpdate: 'CASCADE'
+      })
+      afastamento_tipo!: AfastamentoTipo;
 
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',

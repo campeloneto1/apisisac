@@ -70,6 +70,7 @@ import { join } from 'path';
 import { ServicosModule } from './servicos/servicos.module';
 import { ServicosTiposModule } from './servicos-tipos/servicos-tipos.module';
 import { FuncoesModule } from './funcoes/funcoes.module';
+import { AfastamentosTiposModule } from './afastamentos-tipos/afastamentos-tipos.module';
 
 
 @Module({
@@ -158,6 +159,7 @@ import { FuncoesModule } from './funcoes/funcoes.module';
     ServicosModule,
     ServicosTiposModule,
     FuncoesModule,
+    AfastamentosTiposModule,
   ],
   controllers: [AppController],
   providers: [AppService,

@@ -7,6 +7,8 @@ import { PolicialFerias as PolicialFeriasInterface, PoliciaisFerias as Policiais
 import { User } from 'src/users/user.interface';
 import { format } from 'date-fns';
 import { LogsService } from 'src/logs/logs.service';
+import { PoliciaisPublicacoesService } from 'src/policiais-publicacoes/policiais-publicacoes.service';
+import { PolicialPublicacao } from 'src/policiais-publicacoes/policial-publicacao.interface';
 
 
 @Injectable()
@@ -15,6 +17,7 @@ export class PoliciaisFeriasService {
         @InjectRepository(PolicialFeriasEntity)
         private policialFeriasRepository: Repository<PolicialFeriasEntity>,
         private logsService: LogsService,
+        private policiaisPublicacoesService: PoliciaisPublicacoesService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -77,7 +80,23 @@ export class PoliciaisFeriasService {
   
       async create(object: PolicialFeriasInterface, idUser: User) {
         var object:PolicialFeriasInterface = this.policialFeriasRepository.create({...object, created_by: idUser}) 
-        var save = await this.policialFeriasRepository.save(object);      
+        var save = await this.policialFeriasRepository.save(object);  
+        
+        if(save){
+          //@ts-ignore
+          let date = object.data_inicial.split('-');
+          let months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+          
+            let publi : PolicialPublicacao = {
+              policial: object.policial,
+              //@ts-ignore
+              publicacao_tipo: 7,
+              boletim: object.boletim,
+              texto: `Concessão de ${object.dias} dias de férias referentes ao ano de ${object.ano}, a partir de ${date[2]} de ${months[date[1]-1]} de ${date[0]}`
+            }
+            this.policiaisPublicacoesService.create(publi, idUser);
+        }
+        
         await this.logsService.create({
           object: JSON.stringify(save),
           mensagem: 'Cadastrou uma Ferias de Policial',

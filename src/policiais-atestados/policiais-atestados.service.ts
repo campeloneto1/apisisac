@@ -7,6 +7,8 @@ import { LazyModuleLoader } from '@nestjs/core';
 import { User } from 'src/users/user.interface';
 import { format } from 'date-fns';
 import { LogsService } from 'src/logs/logs.service';
+import { PoliciaisPublicacoesService } from 'src/policiais-publicacoes/policiais-publicacoes.service';
+import { PolicialPublicacao } from 'src/policiais-publicacoes/policial-publicacao.interface';
 
 @Injectable()
 export class PoliciaisAtestadosService {
@@ -14,6 +16,7 @@ export class PoliciaisAtestadosService {
         @InjectRepository(PolicialAtestadoEntity)
         private policialAtestadoRepository: Repository<PolicialAtestadoEntity>,
         private logsService: LogsService,
+        private policiaisPublicacoesService: PoliciaisPublicacoesService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -78,6 +81,17 @@ export class PoliciaisAtestadosService {
       async create(object: PolicialAtestadoInterface, idUser: User) {
         var object:PolicialAtestadoInterface = this.policialAtestadoRepository.create({...object, created_by: idUser}) 
         var save = await this.policialAtestadoRepository.save(object);      
+
+        // if(save){
+        //   let obj: PolicialPublicacao = {
+        //     policial: object.policial,
+        //     publicacao_tipo: ,
+        //     texto: ,
+        //     boletim: ,
+        //   }
+        //   this.policiaisPublicacoesService.create(obj,idUser);
+        // }
+
         await this.logsService.create({
           object: JSON.stringify(save),
           mensagem: 'Cadastrou um Atestado de Policial',
@@ -219,6 +233,12 @@ export class PoliciaisAtestadosService {
              return element.policial.graduacao.id === object.graduacao;
            })
          }
+
+         if(object.afastamento_tipo){
+          policiais = policiais.filter(element => {
+            return element.afastamento_tipo.id === object.afastamento_tipo;
+          })
+        }
 
          if(object.vigente){
           policiais = policiais.filter(element => {
