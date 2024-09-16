@@ -25,7 +25,10 @@ export class VeiculosPoliciaisService {
         return await this.veiculoPolicialRository.find({
           relations: {
             policial: {
-              graduacao: true
+              graduacao: true,
+              setor: {
+                subunidade: true
+              }
             }
           },
           where: {

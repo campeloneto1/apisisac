@@ -233,9 +233,13 @@ export class PoliciaisService {
   async getAll(params:any,idUser: User): Promise<PoliciaisInterface> {
    
     return await this.policialRepository.find({
+      relations: {
+          setor: {
+            subunidade: true
+        },
+      },
       where: { 
         boletim_transferencia: IsNull(),
-        
       },
     });
   

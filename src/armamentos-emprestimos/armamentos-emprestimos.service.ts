@@ -28,7 +28,10 @@ export class ArmamentosEmprestimosService {
           return await this.armamentoEmprestimoRepository.find({
             relations: {
               policial: {
-                graduacao: true
+                graduacao: true,
+                setor: {
+                  subunidade: true
+                }
               }
             },
             where: {

@@ -49,11 +49,10 @@ export class VeiculosOficinasService {
   
       async create(object: VeiculoOficinaInterface, idUser: User) {
         //@ts-ignore
-        var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
+        //var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
         var object:VeiculoOficinaInterface = this.veiculoOficinaRository.create({
           ...object, 
           data_inicial: new Date(), 
-          km_inicial: veiculo.km_atual,
           created_by: idUser}) 
         var save = await this.veiculoOficinaRository.save(object);      
 
@@ -69,10 +68,10 @@ export class VeiculosOficinasService {
   
       async update(id:number, object: VeiculoOficinaInterface, idUser: User) {
          //@ts-ignore
-         var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
+         //var veiculo = await this.veiculosService.find2(object.veiculo, idUser);
 
         var data: VeiculoOficinaInterface = await this.veiculoOficinaRository.findOneBy({id: id});
-        data = {...object, km_inicial: veiculo.km_atual,}
+        data = {...object}
         await this.veiculoOficinaRository.update({id:id},{...data, updated_by: idUser});
 
         await this.logsService.create({
