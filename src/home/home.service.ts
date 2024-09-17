@@ -44,7 +44,7 @@ export class HomeService {
         private veiculosService: VeiculosService,
         private veiculosOficinasService: VeiculosOficinasService,
         private veiculosPoliciaisService: VeiculosPoliciaisService,
-        private setoresService: SetoresService
+        private setoresService: SetoresService,
 
     ){}
 
@@ -98,6 +98,10 @@ export class HomeService {
 
     async requeridas(params:any,idUser: User): Promise<any>{
         return this.policiaisRequeridas.quantidade(params, idUser);
+    }
+
+    async veiculos(params:any,idUser: User): Promise<number> {
+        return this.veiculosService.quantidade(params,idUser);
     }
 
     async veiculosManutencao(params:any,idUser: User): Promise<VeiculosOficinas>{

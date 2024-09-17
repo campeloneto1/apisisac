@@ -148,6 +148,19 @@ export class VeiculosService {
           });
         
       }
+
+      async quantidade(params:any,idUser: User): Promise<number> {
+          return await this.veiculoRepository.count({
+            where: {
+              data_baixa: IsNull(),
+              nao_disponivel: IsNull(),
+              //@ts-ignore
+              subunidade: {
+                id: params.subunidade
+              }
+            }
+          });
+      }
   
       async trocaoleo(params:any, idUser: User): Promise<VeiculosInterface> {
         return await this.veiculoRepository.find({

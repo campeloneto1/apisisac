@@ -81,6 +81,10 @@ export class HomeController {
         return this.homeService.policiaisGraduacoes(params, req.user);
     }
 
+    @Get('veiculos')
+    async veiculos(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.veiculos(params, req.user);
+    }
 
     @Get('veiculos-manutencao')
     async veiculosManutencao(@Request() req, @Query() params: any):Promise<VeiculosOficinas>{

@@ -34,7 +34,8 @@ import { ContratosModule } from 'src/contratos/contratos.module';
     SetoresModule,
     VeiculosModule,
     VeiculosOficinasModule,
-    VeiculosPoliciaisModule
+    VeiculosPoliciaisModule,
+    VeiculosModule
   ],
   providers: [HomeService],
   controllers: [HomeController],

@@ -16,6 +16,11 @@ export class VeiculosController {
         return await this.veiculosService.disponiveis(params, req.user);
     }
 
+    @Get('quantidade')
+    async quantidade(@Request() req, @Query() params: any):Promise<number>  {
+        return await this.veiculosService.quantidade(params, req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<Veiculo>  {
         return await this.veiculosService.find(id, req.user);

@@ -246,7 +246,7 @@ export class PoliciaisFeriasService {
 
        if(object.vigente){
         policiais = policiais.filter(element => {
-          return new Date(element.data_final) >= hoje;
+          return new Date(element.data_inicial) <= hoje && new Date(element.data_final) >= hoje ;
         });
       }
 
