@@ -16,6 +16,7 @@ import { MaterialPolicial } from 'src/materiais-policiais/material-policial.enti
 import { PolicialRequerida } from 'src/policiais-requeridas/policial-requerida.entity';
 import { Escolaridade } from 'src/escolaridades/escolaridade.entity';
 import { Funcao } from 'src/funcoes/funcao.entity';
+import { Banco } from 'src/bancos/banco.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -146,6 +147,37 @@ export class Policial {
         length: 100,
     })
     foto!: string;
+
+    @Column({
+        nullable: true,
+        length: 100,
+    })
+    pai!: string;
+
+    @Column({
+        nullable: true,
+        length: 100,
+    })
+    mae!: string;
+
+    @Column({
+        nullable: true,
+        length: 20,
+    })
+    agencia!: string;
+
+    @Column({
+        nullable: true,
+        length: 20,
+    })
+    conta!: string;
+
+    @ManyToOne(() => Banco, (banco) => banco.id, {
+        eager: true,
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    banco!: Banco;
 
     @ManyToOne(() => Cidade, (cidade) => cidade.id, {
         eager: true,

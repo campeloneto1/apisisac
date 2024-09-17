@@ -1,3 +1,4 @@
+import { Banco } from "src/bancos/banco.interface";
 import { Cidade } from "src/cidades/cidade.interface";
 import { Escolaridade } from "src/escolaridades/escolaridade.entity";
 import { Graduacao } from "src/graduacoes/graduacao.interface";
@@ -36,6 +37,13 @@ export interface Policial{
     graduacao: Graduacao;
     setor: Setor;
     escolaridade: Escolaridade;
+
+    banco?: Banco;
+    agencia?: string;
+    conta?: string;
+
+    pai?: string;
+    mae?: string;
 
     usuario?: User;
 
