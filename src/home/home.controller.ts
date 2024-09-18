@@ -86,6 +86,16 @@ export class HomeController {
         return this.homeService.veiculos(params, req.user);
     }
 
+    @Get('veiculos-viagem')
+    async veiculosViagem(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.veiculosViagem(params, req.user);
+    }
+
+    @Get('veiculos-dispviagem')
+    async veiculosDispViagem(@Request() req, @Query() params: any):Promise<Veiculos>{
+        return this.homeService.veiculosDispViagem(params, req.user);
+    }
+
     @Get('veiculos-manutencao')
     async veiculosManutencao(@Request() req, @Query() params: any):Promise<VeiculosOficinas>{
         return this.homeService.veiculosManutencao(params, req.user);

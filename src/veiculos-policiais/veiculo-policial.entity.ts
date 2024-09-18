@@ -4,6 +4,7 @@ import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Veiculo } from 'src/veiculos/veiculo.entity';
 import { Policial } from 'src/policiais/policial.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
+import { VeiculoPolicialAlteracao } from 'src/veiculos-policiais-alteracoes/veiculo-policial-alteracao.entity';
 
 @Entity('veiculos_policiais')
 export class VeiculoPolicial {
@@ -62,6 +63,9 @@ export class VeiculoPolicial {
         onUpdate: 'CASCADE'
     })
     subunidade!: Subunidade;
+
+    @OneToMany(type => VeiculoPolicialAlteracao, veiculospoliciais => veiculospoliciais.veiculo_policial)
+    veiculos_policiais_alteracoes: VeiculoPolicialAlteracao[];
 
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',

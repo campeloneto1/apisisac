@@ -161,6 +161,45 @@ export class VeiculosService {
             }
           });
       }
+
+      async quantidadeViagem(params:any,idUser: User): Promise<number> {
+        return await this.veiculoRepository.count({
+          where: {
+            data_baixa: IsNull(),
+            nao_disponivel: IsNull(),
+            disponivel_viagem: true,
+            //@ts-ignore
+            subunidade: {
+              id: params.subunidade
+            }
+          }
+        });
+    }
+
+    async disponiveisViagem(params:any, idUser: User): Promise<VeiculosInterface> {
+        var naoficina = await this.veiculosOficinasService.emmanutencao(params,idUser);
+        var emprestados = await this.veiculosPoliciaisService.emprestados(params,idUser);
+        var ids = [];
+        naoficina.forEach(element => {
+          ids.push(element.veiculo.id)
+        });
+         emprestados.forEach(element => {
+           ids.push(element.veiculo.id)
+         });
+
+      return await this.veiculoRepository.find({
+        where: {
+          id: Not(In(ids)),
+          data_baixa: IsNull(),
+          nao_disponivel: IsNull(),
+          disponivel_viagem: true,
+          //@ts-ignore
+          subunidade: {
+            id: params.subunidade
+          }
+        }
+      });
+    }
   
       async trocaoleo(params:any, idUser: User): Promise<VeiculosInterface> {
         return await this.veiculoRepository.find({

@@ -104,6 +104,14 @@ export class HomeService {
         return this.veiculosService.quantidade(params,idUser);
     }
 
+    async veiculosViagem(params:any,idUser: User): Promise<number> {
+        return this.veiculosService.quantidadeViagem(params,idUser);
+    }
+
+    async veiculosDispViagem(params:any,idUser: User): Promise<Veiculos> {
+        return this.veiculosService.disponiveisViagem(params,idUser);
+    }
+
     async veiculosManutencao(params:any,idUser: User): Promise<VeiculosOficinas>{
         return this.veiculosOficinasService.emmanutencao(params,idUser);
     }

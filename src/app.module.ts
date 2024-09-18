@@ -95,7 +95,7 @@ import { BancosModule } from './bancos/bancos.module';
     }),
     ThrottlerModule.forRoot([{
       ttl: 60000,
-      limit: 30,
+      limit: 50,
     }]),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..'), // added ../ to get one folder back

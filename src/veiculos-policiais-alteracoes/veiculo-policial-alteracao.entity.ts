@@ -22,6 +22,12 @@ export class VeiculoPolicialAlteracao {
         length: 100,
       })
       foto!: string;
+
+      @Column({
+        nullable: true,
+        length: 100,
+      })
+      observacoes!: string;
       
     @ManyToOne(() => User, (user) => user.id, {
         onDelete: 'SET NULL',

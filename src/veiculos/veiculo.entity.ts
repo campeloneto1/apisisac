@@ -54,6 +54,11 @@ export class Veiculo {
     organico!: boolean;
 
     @Column({
+        nullable: true,
+    })
+    disponivel_viagem!: boolean;
+
+    @Column({
         nullable: false,
     })
     km_inicial!: number;

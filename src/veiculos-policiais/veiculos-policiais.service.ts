@@ -50,7 +50,8 @@ export class VeiculosPoliciaisService {
           relations: {
             policial: {
               graduacao: true
-            }
+            },
+            veiculos_policiais_alteracoes: true,
           },
           where: {
             id: id,
@@ -174,7 +175,8 @@ export class VeiculosPoliciaisService {
           relations: {
             policial: {
               graduacao: true
-            }
+            },
+            veiculos_policiais_alteracoes: true
           },
           where: {
             data_final: IsNull(),

@@ -1,8 +1,9 @@
-import { Cidade } from "src/cidades/cidade.entity";
-import { Policial } from "src/policiais/policial.entity";
-import { Subunidade } from "src/subunidades/subunidade.entity";
+import { Cidade } from "src/cidades/cidade.interface";
+import { Policial } from "src/policiais/policial.interface";
+import { Subunidade } from "src/subunidades/subunidade.interface";
 import { User } from "src/users/user.interface";
-import { Veiculo } from "src/veiculos/veiculo.entity";
+import { VeiculosPoliciaisAlteracoes } from "src/veiculos-policiais-alteracoes/veiculo-policial-alteracao.interface";
+import { Veiculo } from "src/veiculos/veiculo.interface";
 
 export interface VeiculoPolicial{
     id?: number;
@@ -15,6 +16,7 @@ export interface VeiculoPolicial{
     observacoes?: string;
     cidade?: Cidade;
     subunidade: Subunidade;
+    veiculos_policiais_alteracoes?: VeiculosPoliciaisAlteracoes;
 
     created_by: User;
     updated_by: User;
