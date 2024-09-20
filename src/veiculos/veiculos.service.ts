@@ -149,6 +149,29 @@ export class VeiculosService {
         
       }
 
+      async getAll(params:any,idUser: User): Promise<VeiculosInterface> {
+        var naoficina = await this.veiculosOficinasService.emmanutencaoAll(params,idUser);
+        var emprestados = await this.veiculosPoliciaisService.emprestadosAll(params,idUser);
+        var ids = [];
+        naoficina.forEach(element => {
+          ids.push(element.veiculo.id)
+        });
+         emprestados.forEach(element => {
+           ids.push(element.veiculo.id)
+         });
+
+       
+          return await this.veiculoRepository.find({
+            where: {
+              id: Not(In(ids)),
+              data_baixa: IsNull(),
+              nao_disponivel: IsNull(),
+              
+            }
+          });
+        
+      }
+
       async quantidade(params:any,idUser: User): Promise<number> {
           return await this.veiculoRepository.count({
             where: {

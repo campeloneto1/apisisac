@@ -135,6 +135,17 @@ export class VeiculosOficinasService {
         
       }
 
+      async emmanutencaoAll(params:any,idUser: User): Promise<VeiculosOficinasInterface> {
+        
+        return await this.veiculoOficinaRository.find({
+          where: {
+            data_final: IsNull(),
+            
+          }
+        });
+      
+    }
+
       async relatorio(object:any, idUser: User): Promise<VeiculosOficinasInterface>{
         var finaldate = new Date(object.data_final);
         finaldate = addHours(finaldate, 23);

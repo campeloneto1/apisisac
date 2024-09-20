@@ -195,6 +195,32 @@ export class ArmamentosService {
         });
       }
 
+      async quantPorModelo(params:any, idUser: User): Promise<ArmamentosInterface> {
+          return await await this.armamentoRepository.createQueryBuilder('armamentos')
+          .leftJoinAndSelect('armamentos.modelo', 'modelos')
+          .leftJoinAndSelect('modelos.marca', 'marcas')
+          .leftJoinAndSelect('armamentos.armamento_tipo', 'armamentos_tipos')
+          .leftJoinAndSelect('armamentos.armamento_calibre', 'armamentos_calibres')
+          .leftJoinAndSelect('armamentos.armamento_tamanho', 'armamentos_tamanhos')
+          .where('armamentos.subunidadeId = :subunidadeId', { subunidadeId: params.subunidade })
+          .andWhere('armamentos.data_baixa IS NULL')
+          .groupBy('marcas.nome')
+          .addGroupBy('modelos.nome')
+          .addGroupBy('armamento_tipos.nome')
+          .addGroupBy('armamento_calibres.nome')
+          .addGroupBy('armamento_tamanhos.nome')
+          .select([
+            'marcas.nome AS marcaNome',
+            'modelos.nome AS modeloNome',
+            'armamentos_tipos.nome AS armamentoTipoNome',
+            'armamentos_calibres.nome AS armamentoCalibreNome',
+            'armamentos_tamanhos.nome AS armamentoTamanhoNome',
+            'COUNT(armamentos.id) AS armamentoCount'
+          ])
+          .getRawMany();
+        
+      }
+
       async relatorio(object:any, idUser: User): Promise<ArmamentosInterface> {
         var armas;
         

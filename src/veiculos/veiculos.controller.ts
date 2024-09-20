@@ -21,6 +21,11 @@ export class VeiculosController {
         return await this.veiculosService.quantidade(params, req.user);
     }
 
+    @Get('all')
+    async getAll(@Request() req, @Query() params: any):Promise<Veiculos>  {
+        return await this.veiculosService.getAll(params, req.user);
+    }
+
     @Get(':id')
     async find(@Param('id') id: number, @Request() req):Promise<Veiculo>  {
         return await this.veiculosService.find(id, req.user);

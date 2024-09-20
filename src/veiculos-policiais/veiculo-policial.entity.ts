@@ -50,6 +50,12 @@ export class VeiculoPolicial {
       })
       observacoes!: string;
 
+      @Column({
+        nullable: true,
+        type: 'text'
+      })
+      observacoes_devolucao!: string;
+
       @ManyToOne(() => Cidade, (cidade) => cidade.id, {
         eager: true,
         onDelete: 'SET NULL',

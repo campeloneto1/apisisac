@@ -133,7 +133,7 @@ export class VeiculosPoliciaisService {
 
       async receber(object:any, idUser: User){
         var data: VeiculoPolicialInterface = await this.veiculoPolicialRository.findOneBy({id: object.id});
-        data = {...data, data_final: new Date(), km_final: object.km_final, observacoes: object.observacoes}
+        data = {...data, data_final: new Date(), km_final: object.km_final, observacoes_devolucao: object.observacoes_devolucao}
         await this.veiculoPolicialRository.update({id: object.id},{...data, updated_by: idUser});
 
         var veiculo = await this.veiculosService.find2(data.veiculo.id, idUser);
@@ -169,6 +169,21 @@ export class VeiculosPoliciaisService {
           });
         
       }
+
+      async emprestadosAll(params:any,idUser: User): Promise<VeiculosPoliciaisInterface> {
+        
+        return await this.veiculoPolicialRository.find({
+          relations: {
+            policial: {
+              graduacao: true
+            }
+          },
+          where: {
+            data_final: IsNull(),
+          }
+        });
+      
+    }
 
       async emprestado(params:any,idUser: User): Promise<VeiculoPolicialInterface> {
         return await this.veiculoPolicialRository.findOne({
