@@ -14,6 +14,16 @@ export class ManutencaoTipo {
     })
     nome!: string;
 
+    @Column({
+      nullable: true,
+    })
+    revisao!: boolean;
+
+    @Column({
+      nullable: true,
+    })
+    troca_oleo!: boolean;
+
     @OneToMany(type => VeiculoOficina, veiculosoficinal => veiculosoficinal.manutencao_tipo)
     veiculos_oficinas: VeiculoOficina[];
 

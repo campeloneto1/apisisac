@@ -108,6 +108,13 @@ export class VeiculosOficinasService {
 
         var veiculo = await this.veiculosService.find2(data.veiculo.id, idUser );
         veiculo.km_atual = object.km_final;
+        if(data.manutencao_tipo.revisao){
+          veiculo.km_revisao = Number(data.km_final) + Number(object.km_troca);
+        }
+
+        if(data.manutencao_tipo.troca_oleo){
+          veiculo.km_troca_oleo = Number(data.km_final) + Number(object.km_troca);
+        }
         await this.veiculosService.update(veiculo.id, veiculo, idUser);
 
         await this.logsService.create({
