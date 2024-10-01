@@ -72,6 +72,8 @@ import { ServicosTiposModule } from './servicos-tipos/servicos-tipos.module';
 import { FuncoesModule } from './funcoes/funcoes.module';
 import { AfastamentosTiposModule } from './afastamentos-tipos/afastamentos-tipos.module';
 import { BancosModule } from './bancos/bancos.module';
+import { DocumentosTiposModule } from './documentos-tipos/documentos-tipos.module';
+import { DocumentosModule } from './documentos/documentos.module';
 
 
 @Module({
@@ -162,6 +164,8 @@ import { BancosModule } from './bancos/bancos.module';
     FuncoesModule,
     AfastamentosTiposModule,
     BancosModule,
+    DocumentosTiposModule,
+    DocumentosModule,
   ],
   controllers: [AppController],
   providers: [AppService,

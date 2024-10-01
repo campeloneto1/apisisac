@@ -63,14 +63,14 @@ export class Contrato {
       @Column({
         nullable: false,
         length: 50,
-        unique: true
+        
       })
       numero_contrato!: string;
 
       @Column({
         nullable: false,
         length: 50,
-        unique: true
+        
       })
       numero_sacc!: string;
 

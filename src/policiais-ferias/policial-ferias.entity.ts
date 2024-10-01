@@ -41,6 +41,18 @@ export class PolicialFerias {
       })
       boletim!: string;
 
+      @Column({
+        nullable: true,
+        length: 30,
+      })
+      boletim_inicio!: string;
+
+      @Column({
+        nullable: true,
+        length: 30,
+      })
+      boletim_retorno!: string;
+
     @ManyToOne(() => User, (user) => user.id, {
       onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
