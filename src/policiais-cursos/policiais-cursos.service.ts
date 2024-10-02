@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.interface';
-import { In, Repository } from 'typeorm';
+import { In, IsNull, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { PolicialCurso as PolicialCursoEntity } from './policial-curso.entity';
 import { PolicialCurso as PolicialCursoInterface, PoliciaisCursos as PoliciaisCursosInterface } from './policial-curso.interface';
 import { LogsService } from 'src/logs/logs.service';
+import { format } from 'date-fns';
 
 @Injectable()
 export class PoliciaisCursosService {
@@ -119,6 +120,38 @@ export class PoliciaisCursosService {
         });
       }
 
+      async quantidade(params:any,idUser: User): Promise<number> {
+        return await this.policialCursoRepository.count({where: [
+          {
+            //@ts-ignore
+            data_inicial: LessThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
+            //@ts-ignore
+            data_final: MoreThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: params.subunidade
+                }
+              }
+            }
+          },
+          {
+            //@ts-ignore
+            data_final: IsNull(),
+            //@ts-ignore
+            policial: {
+              setor: {
+                subunidade: {
+                  id: params.subunidade
+                }
+              }
+            }
+          }
+        ]
+        });
+      }
+
       async wherePolicial(id: number, idUser: User): Promise<PoliciaisCursosInterface | null> {
         var idsSubs:any = [];
         idUser.users_subunidades.forEach((data) => {
@@ -139,5 +172,65 @@ export class PoliciaisCursosService {
             }
           }
         });
+      }
+
+      async relatorio(object:any, idUser: User): Promise<PoliciaisCursosInterface> {
+        var hoje = new Date();
+         
+        var policiais;
+  
+        policiais = await this.policialCursoRepository.find({
+          relations: {
+            policial: {
+              graduacao: true,
+              setor: {
+                subunidade: {
+                  unidade: true
+                }
+              }
+            }
+          },
+          where: {
+            policial: {
+              setor: {
+                subunidade: {
+                  id: object.subunidade
+                }
+              }
+            }
+          },
+        });
+  
+         if(object.policial){
+           policiais = policiais.filter(element => {
+             return element.policial.id === object.policial;
+           })
+         }
+    
+         if(object.setor){
+           policiais = policiais.filter(element => {
+             return element.policial.setor.id === object.setor;
+           })
+         }
+    
+         if(object.graduacao){
+           policiais = policiais.filter(element => {
+             return element.policial.graduacao.id === object.graduacao;
+           })
+         }
+
+         if(object.curso){
+          policiais = policiais.filter(element => {
+            return element.curso.id === object.curso;
+          })
+        }
+  
+         if(object.vigente){
+          policiais = policiais.filter(element => {
+            return (new Date(element.data_inicial) <= hoje && new Date(element.data_final) >= hoje) || element.data_final == null ;
+          });
+        }
+  
+        return policiais;
       }
 }

@@ -6,6 +6,7 @@ import { User } from 'src/users/user.interface';
 import { In, IsNull, Repository } from 'typeorm';
 import { PolicialRequerida as PolicialRequeridaEntity } from './policial-requerida.entity';
 import { PolicialRequerida as PolicialRequeridaInterface, PoliciaisRequeridas as PoliciaisRequeridasInterface  } from './policial-requerida.interface';
+import { PoliciaisService } from 'src/policiais/policiais.service';
 
 @Injectable()
 export class PoliciaisRequeridasService {
@@ -13,6 +14,7 @@ export class PoliciaisRequeridasService {
         @InjectRepository(PolicialRequeridaEntity)
         private policialRequeridaRepository: Repository<PolicialRequeridaEntity>,
         private logsService: LogsService,
+        private policiaisService: PoliciaisService,
         private lazyModuleLoader: LazyModuleLoader
     ){}
 
@@ -89,6 +91,12 @@ export class PoliciaisRequeridasService {
       async update(id:number, object: PolicialRequeridaInterface, idUser: User) {
         var data: PolicialRequeridaInterface = await this.policialRequeridaRepository.findOneBy({id: id});
         data = {...object}
+
+        if(object.boletim_publicacao){
+          //@ts-ignore
+          this.policiaisService.setBoletimTransferencia(object.policial, object.boletim_publicacao, idUser);
+        }
+
         await this.policialRequeridaRepository.update({id:id},{...data, updated_by: idUser});
         await this.logsService.create({
           object: JSON.stringify(object),
@@ -130,5 +138,65 @@ export class PoliciaisRequeridasService {
             }
           }
         }});
+      }
+
+      async relatorio(object:any, idUser: User): Promise<PoliciaisRequeridasInterface> {
+        var hoje = new Date();
+         
+        var policiais;
+  
+        policiais = await this.policialRequeridaRepository.find({
+          relations: {
+            policial: {
+              graduacao: true,
+              setor: {
+                subunidade: {
+                  unidade: true
+                }
+              }
+            }
+          },
+          where: {
+            policial: {
+              setor: {
+                subunidade: {
+                  id: object.subunidade
+                }
+              }
+            }
+          },
+        });
+  
+         if(object.policial){
+           policiais = policiais.filter(element => {
+             return element.policial.id === object.policial;
+           })
+         }
+    
+         if(object.setor){
+           policiais = policiais.filter(element => {
+             return element.policial.setor.id === object.setor;
+           })
+         }
+    
+         if(object.graduacao){
+           policiais = policiais.filter(element => {
+             return element.policial.graduacao.id === object.graduacao;
+           })
+         }
+  
+         if(object.vigente){
+            policiais = policiais.filter(element => {
+              return element.boletim_publicacao === null ;
+            });
+          }
+
+          if(object.publicado){
+            policiais = policiais.filter(element => {
+              return element.boletim_publicacao !== null ;
+            });
+          }
+  
+        return policiais;
       }
 }

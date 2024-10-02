@@ -16,6 +16,7 @@ import { MateriaisPoliciaisModule } from 'src/materiais-policiais/materiais-poli
 import { MateriaisModule } from 'src/materiais/materiais.module';
 import { PoliciaisRequeridasModule } from 'src/policiais-requeridas/policiais-requeridas.module';
 import { ContratosModule } from 'src/contratos/contratos.module';
+import { PoliciaisCursosModule } from 'src/policiais-cursos/policiais-cursos.module';
 
 
 @Module({
@@ -31,6 +32,7 @@ import { ContratosModule } from 'src/contratos/contratos.module';
     PoliciaisAtestadosModule,
     PoliciaisFeriasModule,
     PoliciaisRequeridasModule,
+    PoliciaisCursosModule,
     SetoresModule,
     VeiculosModule,
     VeiculosOficinasModule,

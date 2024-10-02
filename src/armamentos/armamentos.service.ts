@@ -196,7 +196,7 @@ export class ArmamentosService {
       }
 
       async quantPorModelo(params:any, idUser: User): Promise<ArmamentosInterface> {
-          return await await this.armamentoRepository.createQueryBuilder('armamentos')
+          return await this.armamentoRepository.createQueryBuilder('armamentos')
           .leftJoinAndSelect('armamentos.modelo', 'modelos')
           .leftJoinAndSelect('modelos.marca', 'marcas')
           .leftJoinAndSelect('armamentos.armamento_tipo', 'armamentos_tipos')

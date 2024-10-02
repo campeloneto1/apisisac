@@ -30,4 +30,9 @@ export class PoliciaisRequeridasController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.policiaisRequeridasService.remove(id, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.policiaisRequeridasService.relatorio(object, req.user);
+    }
 }

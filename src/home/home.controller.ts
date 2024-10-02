@@ -24,9 +24,24 @@ export class HomeController {
         return this.homeService.armamentosEmprestados(params, req.user);
     }
 
+    @Get('atestados')
+    async atestados(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.atestados(params, req.user);
+    }
+
     @Get('contratos-acabando')
     async contratosAcabando(@Request() req, @Query() params: any):Promise<Contratos>{
         return this.homeService.contratosAcabando(params, req.user);
+    }
+
+    @Get('cursos')
+    async cursos(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.cursos(params, req.user);
+    }
+
+    @Get('ferias')
+    async ferias(@Request() req, @Query() params: any):Promise<number>{
+        return this.homeService.ferias(params, req.user);
     }
 
     @Get('materiais-vencendo')
@@ -53,16 +68,6 @@ export class HomeController {
     @Get('policiais')
     async policiais(@Request() req, @Query() params: any):Promise<number>{
         return this.homeService.policiais(params, req.user);
-    }
-
-    @Get('atestados')
-    async atestados(@Request() req, @Query() params: any):Promise<number>{
-        return this.homeService.atestados(params, req.user);
-    }
-
-    @Get('ferias')
-    async ferias(@Request() req, @Query() params: any):Promise<number>{
-        return this.homeService.ferias(params, req.user);
     }
 
     @Get('requeridas')

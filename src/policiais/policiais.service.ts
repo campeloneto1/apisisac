@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, IsNull, Repository } from 'typeorm';
+import { In, IsNull, MoreThanOrEqual, Repository } from 'typeorm';
 import { Policial as PolicialEntity } from './policial.entity';
 import {
   Policial as PolicialInterface,
@@ -13,6 +13,7 @@ import { UtilitiesService } from 'src/utilities/utilities.service';
 import { LogsService } from 'src/logs/logs.service';
 import { UsersSubunidadesService } from 'src/users-subunidades/users-subunidades.service';
 import { UserSubunidade } from 'src/users-subunidades/user-subunidade.interface';
+import { format } from 'date-fns';
 
 @Injectable()
 export class PoliciaisService {
@@ -245,6 +246,15 @@ export class PoliciaisService {
   
 }
 
+  async setBoletimTransferencia(id:number, boletim:string, idUser:User){
+    var policial = await this.policialRepository.findOneBy({id: id});
+    policial.boletim_transferencia = boletim;
+    await this.policialRepository.update(
+      { id: id },
+      { ...policial, updated_by: idUser },
+    );
+  }
+
   async quantidade(params:any,idUser: User): Promise<number> {
     return await this.policialRepository.count({
       where: { 
@@ -313,7 +323,6 @@ export class PoliciaisService {
         if(element.sexo){
           return element.sexo.id === object.sexo;
         }
-        
       });
     }
 

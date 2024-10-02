@@ -35,4 +35,9 @@ export class PoliciaisCursosController {
     async remove(@Param('id') id: number, @Request() req) {
         return await this.policiaisCursosService.remove(id, req.user);
     }
+
+    @Post('relatorio')
+    async relatorio(@Body() object: any, @Request() req) {
+        return await this.policiaisCursosService.relatorio(object, req.user);
+    }
 }
