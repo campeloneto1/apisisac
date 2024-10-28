@@ -74,15 +74,13 @@ import { AfastamentosTiposModule } from './afastamentos-tipos/afastamentos-tipos
 import { BancosModule } from './bancos/bancos.module';
 import { DocumentosTiposModule } from './documentos-tipos/documentos-tipos.module';
 import { DocumentosModule } from './documentos/documentos.module';
-
+import { PoliciaisHistoricoModule } from './policiais-historico/policiais-historico.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      imports: [
-        ConfigModule
-      ],
+      imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get('TORM_HOST'),
@@ -95,10 +93,12 @@ import { DocumentosModule } from './documentos/documentos.module';
       }),
       inject: [ConfigService],
     }),
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 50,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 50,
+      },
+    ]),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..'), // added ../ to get one folder back
     }),
@@ -166,18 +166,19 @@ import { DocumentosModule } from './documentos/documentos.module';
     BancosModule,
     DocumentosTiposModule,
     DocumentosModule,
+    PoliciaisHistoricoModule,
   ],
   controllers: [AppController],
-  providers: [AppService,
+  providers: [
+    AppService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }
-    
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {

@@ -1,17 +1,16 @@
+import { Policial } from 'src/policiais/policial.entity';
+import { Setor } from 'src/setores/setor.entity';
+import { User } from 'src/users/user.entity';
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
   CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from 'src/users/user.entity';
-import { Policial } from 'src/policiais/policial.entity';
-import { Curso } from 'src/cursos/curso.entity';
 
-@Entity('policiais_cursos')
-export class PolicialCurso {
+@Entity('policiais_historicos')
+export class PolicialHistorico {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -21,35 +20,17 @@ export class PolicialCurso {
   })
   policial!: Policial;
 
-  @ManyToOne(() => Curso, (curso) => curso.id, {
-    eager: true,
+  @ManyToOne(() => Setor, (setor) => setor.id, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
-  curso!: Curso;
+  setor_origem!: Setor;
 
-  @Column({
-    nullable: true,
+  @ManyToOne(() => Setor, (setor) => setor.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   })
-  carga_horaria!: number;
-
-  @Column({
-    nullable: true,
-    length: 100,
-  })
-  boletim!: string;
-
-  @Column({
-    nullable: false,
-    type: 'date',
-  })
-  data_inicial!: Date;
-
-  @Column({
-    nullable: true,
-    type: 'date',
-  })
-  data_final!: Date;
+  setor_destino!: Setor;
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
