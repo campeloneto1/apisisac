@@ -1,53 +1,59 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Policial } from 'src/policiais/policial.entity';
 import { PublicacaoTipo } from 'src/publicacoes-tipos/publicacao-tipo.entity';
 @Entity('policiais_publicacoes')
 export class PolicialPublicacao {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
-
-    @ManyToOne(() => Policial, (policial) => policial.id, {
-      onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+  @ManyToOne(() => Policial, (policial) => policial.id, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
-    policial!: Policial;
+  policial!: Policial;
 
-    @ManyToOne(() => PublicacaoTipo, (publicacaoTipo) => publicacaoTipo.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    publicacao_tipo!: PublicacaoTipo;
-  
-    @Column({
-        nullable: false,
-        length: 2000,
-      })
-      texto!: string;
+  @ManyToOne(() => PublicacaoTipo, (publicacaoTipo) => publicacaoTipo.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  publicacao_tipo!: PublicacaoTipo;
 
-    @Column({
-        nullable: false,
-        length: 40,
-      })
-      boletim!: string;
+  @Column({
+    nullable: false,
+    length: 2000,
+  })
+  texto!: string;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    created_by!: User;
+  @Column({
+    nullable: false,
+    length: 40,
+  })
+  boletim!: string;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    updated_by!: User;
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  created_by!: User;
 
-    @CreateDateColumn()
-    created_at!: Date;
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  updated_by!: User;
 
-    @UpdateDateColumn()
-    updated_at!: Date;
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

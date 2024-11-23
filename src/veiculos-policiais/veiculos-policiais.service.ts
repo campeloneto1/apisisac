@@ -79,13 +79,14 @@ export class VeiculosPoliciaisService {
     if (existe.length > 0) {
       return;
     }
-    const object: VeiculoPolicialInterface = this.veiculoPolicialRository.create({
-      ...request,
-      data_inicial: new Date(),
-      // km_inicial: veiculo.km_atual,
-      subunidade: idUser.subunidade,
-      created_by: idUser,
-    });
+    const object: VeiculoPolicialInterface =
+      this.veiculoPolicialRository.create({
+        ...request,
+        data_inicial: new Date(),
+        // km_inicial: veiculo.km_atual,
+        subunidade: idUser.subunidade,
+        created_by: idUser,
+      });
     const save = await this.veiculoPolicialRository.save(object);
 
     await this.logsService.create({

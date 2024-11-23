@@ -6,12 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Estado]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Estado]), LogsModule],
   providers: [EstadosService],
   controllers: [EstadosController],
-  exports: [EstadosService]
+  exports: [EstadosService],
 })
 export class EstadosModule {}

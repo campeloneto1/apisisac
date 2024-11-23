@@ -6,12 +6,9 @@ import { PatrimonioTipo } from './patrimonio-tipo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([PatrimonioTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([PatrimonioTipo]), LogsModule],
   providers: [PatrimoniosTiposService],
   controllers: [PatrimoniosTiposController],
-  exports: [PatrimoniosTiposService]
+  exports: [PatrimoniosTiposService],
 })
 export class PatrimoniosTiposModule {}

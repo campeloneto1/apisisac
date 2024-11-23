@@ -14,6 +14,6 @@ import { PoliciaisPublicacoesModule } from 'src/policiais-publicacoes/policiais-
   ],
   controllers: [PoliciaisAtestadosController],
   providers: [PoliciaisAtestadosService],
-  exports: [PoliciaisAtestadosService]
+  exports: [PoliciaisAtestadosService],
 })
 export class PoliciaisAtestadosModule {}

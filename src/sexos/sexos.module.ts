@@ -6,12 +6,9 @@ import { Sexo } from './sexo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Sexo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Sexo]), LogsModule],
   providers: [SexosService],
   controllers: [SexosController],
-  exports: [SexosService]
+  exports: [SexosService],
 })
 export class SexosModule {}

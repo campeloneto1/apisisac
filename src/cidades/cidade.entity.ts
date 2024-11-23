@@ -15,7 +15,7 @@ import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Policial } from 'src/policiais/policial.entity';
 
 @Entity('cidades')
-@Index(['nome', 'estado'], { unique: true }) 
+@Index(['nome', 'estado'], { unique: true })
 export class Cidade {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -35,7 +35,7 @@ export class Cidade {
   @ManyToOne(() => Estado, (estado) => estado.id, {
     eager: true,
     onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   estado!: Estado;
 
@@ -50,13 +50,13 @@ export class Cidade {
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   created_by!: User;
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   updated_by!: User;
 

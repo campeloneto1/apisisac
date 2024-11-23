@@ -17,14 +17,14 @@ import { join } from 'path';
 
 @Controller('utilities')
 export class UtilitiesController {
-
-  @UseInterceptors(FileInterceptor(
-    'file', {
+  @UseInterceptors(
+    FileInterceptor('file', {
       storage: diskStorage({
         destination: 'public/img',
         filename: (req, file, cb) => {
-          const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-          let result = "";
+          const chars =
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          let result = '';
           for (let i = 0; i < 80; i++) {
             result += chars.charAt(Math.floor(Math.random() * chars.length));
           }
@@ -32,8 +32,8 @@ export class UtilitiesController {
           cb(null, `${result}.${split[1]}`);
         },
       }),
-    }
-  ))
+    }),
+  )
   @Post('upload')
   uploadFile(
     @Body() body: any,
@@ -48,17 +48,15 @@ export class UtilitiesController {
     )
     file: Express.Multer.File,
   ) {
-    
     return {
       statusCode: 200,
       data: file.path,
     };
   }
 
-
   // Or even:
   @Post('getfile')
-  getFile( @Body() body: any): StreamableFile {
+  getFile(@Body() body: any): StreamableFile {
     const file = createReadStream(join(process.cwd(), body.file));
     return new StreamableFile(file, {
       type: 'image/png|jpg|jpeg|gif',
@@ -66,5 +64,4 @@ export class UtilitiesController {
       // length: 123,
     });
   }
-  
 }

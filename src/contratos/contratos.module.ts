@@ -6,12 +6,9 @@ import { Contrato } from './contrato.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Contrato]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Contrato]), LogsModule],
   providers: [ContratosService],
   controllers: [ContratosController],
-  exports: [ContratosService]
+  exports: [ContratosService],
 })
 export class ContratosModule {}

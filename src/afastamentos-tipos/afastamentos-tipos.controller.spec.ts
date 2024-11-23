@@ -9,7 +9,9 @@ describe('AfastamentosTiposController', () => {
       controllers: [AfastamentosTiposController],
     }).compile();
 
-    controller = module.get<AfastamentosTiposController>(AfastamentosTiposController);
+    controller = module.get<AfastamentosTiposController>(
+      AfastamentosTiposController,
+    );
   });
 
   it('should be defined', () => {

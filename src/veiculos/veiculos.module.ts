@@ -16,6 +16,6 @@ import { LogsModule } from 'src/logs/logs.module';
   ],
   providers: [VeiculosService],
   controllers: [VeiculosController],
-  exports: [VeiculosService]
+  exports: [VeiculosService],
 })
 export class VeiculosModule {}

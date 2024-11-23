@@ -8,12 +8,12 @@ import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ArmamentoEmprestimoItem]), 
+    TypeOrmModule.forFeature([ArmamentoEmprestimoItem]),
     ArmamentosModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [ArmamentosEmprestimosItensService],
   controllers: [ArmamentosEmprestimosItensController],
-  exports: [ArmamentosEmprestimosItensService]
+  exports: [ArmamentosEmprestimosItensService],
 })
 export class ArmamentosEmprestimosItensModule {}

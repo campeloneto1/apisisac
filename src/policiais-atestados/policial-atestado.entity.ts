@@ -1,83 +1,88 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Policial } from 'src/policiais/policial.entity';
 import { AfastamentoTipo } from 'src/afastamentos-tipos/afastamento-tipo.entity';
 @Entity('policiais_atestados')
 export class PolicialAtestado {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
-
-    @ManyToOne(() => Policial, (policial) => policial.id, {
-      onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+  @ManyToOne(() => Policial, (policial) => policial.id, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
-    policial!: Policial;
-  
-    @Column({
-      nullable: true,
-        type: 'date'
-    })
-    data_inicial!: Date;
+  policial!: Policial;
 
-    @Column({
-      nullable: true,
-        type: 'date'
-    })
-    data_copem!: Date;
-  
-    @Column({
-      nullable: false,
-    })
-    dias!: number;
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_inicial!: Date;
 
-    @Column({
-      nullable: true,
-        type: 'date'
-    })
-    data_final!: Date;
-  
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_copem!: Date;
 
-    @Column({
-        nullable: true,
-        length: 20,
-      })
-      cid!: string;
+  @Column({
+    nullable: false,
+  })
+  dias!: number;
 
-      @Column({
-        nullable: true,
-        length: 100,
-      })
-      hospital!: string;
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_final!: Date;
 
-      @Column({
-        nullable: true,
-        length: 20,
-      })
-      crm!: string;
+  @Column({
+    nullable: true,
+    length: 20,
+  })
+  cid!: string;
 
-      @ManyToOne(() => AfastamentoTipo, (afastamentotipo) => afastamentotipo.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-          onUpdate: 'CASCADE'
-      })
-      afastamento_tipo!: AfastamentoTipo;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  hospital!: string;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    created_by!: User;
+  @Column({
+    nullable: true,
+    length: 20,
+  })
+  crm!: string;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    updated_by!: User;
+  @ManyToOne(() => AfastamentoTipo, (afastamentotipo) => afastamentotipo.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  afastamento_tipo!: AfastamentoTipo;
 
-    @CreateDateColumn()
-    created_at!: Date;
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  created_by!: User;
 
-    @UpdateDateColumn()
-    updated_at!: Date;
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  updated_by!: User;
+
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

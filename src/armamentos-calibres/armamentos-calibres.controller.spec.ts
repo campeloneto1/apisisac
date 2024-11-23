@@ -9,7 +9,9 @@ describe('ArmamentosCalibresController', () => {
       controllers: [ArmamentosCalibresController],
     }).compile();
 
-    controller = module.get<ArmamentosCalibresController>(ArmamentosCalibresController);
+    controller = module.get<ArmamentosCalibresController>(
+      ArmamentosCalibresController,
+    );
   });
 
   it('should be defined', () => {

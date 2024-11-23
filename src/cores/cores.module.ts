@@ -6,12 +6,9 @@ import { Cor } from './cor.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Cor]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Cor]), LogsModule],
   providers: [CoresService],
   controllers: [CoresController],
-  exports: [CoresService]
+  exports: [CoresService],
 })
 export class CoresModule {}

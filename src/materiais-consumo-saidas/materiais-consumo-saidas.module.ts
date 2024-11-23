@@ -12,10 +12,10 @@ import { MateriaisConsumoSaidasItensModule } from 'src/materiais-consumo-saidas-
     TypeOrmModule.forFeature([MaterialConsumoSaida]),
     MateriaisConsumoModule,
     MateriaisConsumoSaidasItensModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [MateriaisConsumoSaidasService],
   controllers: [MateriaisConsumoSaidasController],
-  exports: [MateriaisConsumoSaidasService]
+  exports: [MateriaisConsumoSaidasService],
 })
 export class MateriaisConsumoSaidasModule {}

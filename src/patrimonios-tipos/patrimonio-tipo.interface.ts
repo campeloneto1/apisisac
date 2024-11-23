@@ -1,13 +1,13 @@
-import { User } from "src/users/user.interface";
+import { User } from 'src/users/user.interface';
 
-export interface PatrimonioTipo{
-    id?: number;
-    nome: string;
+export interface PatrimonioTipo {
+  id?: number;
+  nome: string;
 
-    created_by: User;
-    updated_by: User;
-    created_at: Date;
-    updated_at: Date;
+  created_by: User;
+  updated_by: User;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export type PatrimoniosTipos = Array<PatrimonioTipo>;

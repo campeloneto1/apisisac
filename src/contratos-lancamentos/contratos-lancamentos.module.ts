@@ -10,10 +10,10 @@ import { ContratosModule } from 'src/contratos/contratos.module';
   imports: [
     TypeOrmModule.forFeature([ContratoLancamento]),
     ContratosModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [ContratosLancamentosService],
   controllers: [ContratosLancamentosController],
-  exports: [ContratosLancamentosService]
+  exports: [ContratosLancamentosService],
 })
 export class ContratosLancamentosModule {}

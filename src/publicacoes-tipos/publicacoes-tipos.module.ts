@@ -6,12 +6,9 @@ import { PublicacaoTipo } from './publicacao-tipo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([PublicacaoTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([PublicacaoTipo]), LogsModule],
   providers: [PublicacoesTiposService],
   controllers: [PublicacoesTiposController],
-  exports: [PublicacoesTiposService]
+  exports: [PublicacoesTiposService],
 })
 export class PublicacoesTiposModule {}

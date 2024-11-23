@@ -6,12 +6,9 @@ import { ManutencaoTipo } from './manutencao-tipo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ManutencaoTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([ManutencaoTipo]), LogsModule],
   providers: [ManutencoesTiposService],
   controllers: [ManutencoesTiposController],
-  exports: [ManutencoesTiposService]
+  exports: [ManutencoesTiposService],
 })
 export class ManutencoesTiposModule {}

@@ -60,14 +60,18 @@ export class ContratosLancamentosService {
   }
 
   async create(object: ContratoLancamentoInterface, idUser: User) {
-    var object2: ContratoLancamentoInterface =
+    const object2: ContratoLancamentoInterface =
       this.contratoLancamentoRepository.create({
         ...object,
         created_by: idUser,
       });
-    var save = await this.contratoLancamentoRepository.save(object2);
-    //@ts-ignore
-    await this.constatrosService.valorUsadoUp(object.contrato, object.valor, idUser);
+    const save = await this.contratoLancamentoRepository.save(object2);
+    await this.constatrosService.valorUsadoUp(
+      //@ts-ignore
+      object.contrato,
+      object.valor,
+      idUser,
+    );
     await this.logsService.create({
       object: JSON.stringify(save),
       mensagem: 'Cadastrou um lançamento de contrato',
@@ -79,7 +83,7 @@ export class ContratosLancamentosService {
   }
 
   async update(id: number, object: ContratoLancamentoInterface, idUser: User) {
-    var data: ContratoLancamentoInterface =
+    let data: ContratoLancamentoInterface =
       await this.contratoLancamentoRepository.findOneBy({ id: id });
 
     data = { ...object };
@@ -99,16 +103,20 @@ export class ContratosLancamentosService {
   }
 
   async remove(id: number, idUser: User) {
-    var data = await this.contratoLancamentoRepository.findOne({
-      relations:{
-        contrato: true
+    const data = await this.contratoLancamentoRepository.findOne({
+      relations: {
+        contrato: true,
       },
       where: {
         id: id,
       },
     });
     await this.contratoLancamentoRepository.delete(id);
-    await this.constatrosService.valorUsadoDown(data.contrato.id, data.valor, idUser);
+    await this.constatrosService.valorUsadoDown(
+      data.contrato.id,
+      data.valor,
+      idUser,
+    );
     await this.logsService.create({
       object: JSON.stringify(data),
       mensagem: 'Excluiu um lançamento de contrato',

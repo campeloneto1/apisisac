@@ -1,14 +1,14 @@
-import { User } from "src/users/user.interface";
+import { User } from 'src/users/user.interface';
 
-export interface Pais{
-    id?: number;
-    nome: string;
-    abreviatura: string;
+export interface Pais {
+  id?: number;
+  nome: string;
+  abreviatura: string;
 
-    created_by: User;
-    updated_by: User;
-    created_at: Date;
-    updated_at: Date;
+  created_by: User;
+  updated_by: User;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export type Paises = Array<Pais>;

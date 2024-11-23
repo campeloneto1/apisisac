@@ -1,4 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { Perfil } from '../perfis/perfil.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
 import { Policial } from 'src/policiais/policial.entity';
@@ -6,89 +16,88 @@ import { UserSubunidade } from 'src/users-subunidades/user-subunidade.entity';
 
 @Entity('users')
 export class User {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
-  
-    @Column({
-      nullable: false,
-      length: 100,
-    })
-    nome!: string;
-  
-    @Column({
-      length: 11,
-      nullable: true,
-    })
-    telefone!: string;
-  
-    @Column({
-      length: 100,
-      nullable: true,
-      unique: true
-    })
-    email!: string;
-  
-    @Column({
-      length: 11,
-      unique: true,
-      nullable: false,
-    })
-    cpf!: string;
-  
-    @Column({
-      length: 100,
-      nullable: false,
-      select: false
-    })
-    password!: string;
-  
-    @Column({
-      length: 100,
-      unique: true,
-      nullable: false,
-      select: false
-    })
-    salt!: string;
+  @Column({
+    nullable: false,
+    length: 100,
+  })
+  nome!: string;
 
-    @OneToOne(() => Policial, (policial) => policial.id, {
-        eager: true,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    }) // specify inverse side as a second parameter
-    @JoinColumn()
-    policial: Policial
+  @Column({
+    length: 11,
+    nullable: true,
+  })
+  telefone!: string;
 
-    @ManyToOne(() => Perfil, (perfil) => perfil.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    perfil!: User;
+  @Column({
+    length: 100,
+    nullable: true,
+    unique: true,
+  })
+  email!: string;
 
-    @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    subunidade!: Subunidade;
+  @Column({
+    length: 11,
+    unique: true,
+    nullable: false,
+  })
+  cpf!: string;
 
-    @OneToMany(type => UserSubunidade, usersubunidade => usersubunidade.user)
-    users_subunidades: UserSubunidade[];
+  @Column({
+    length: 100,
+    nullable: false,
+    select: false,
+  })
+  password!: string;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL'
-    })
-    created_by!: User;
+  @Column({
+    length: 100,
+    unique: true,
+    nullable: false,
+    select: false,
+  })
+  salt!: string;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL'
-    })
-    updated_by!: User;
+  @OneToOne(() => Policial, (policial) => policial.id, {
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  }) // specify inverse side as a second parameter
+  @JoinColumn()
+  policial: Policial;
 
-    @CreateDateColumn()
-    created_at!: Date;
+  @ManyToOne(() => Perfil, (perfil) => perfil.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  perfil!: User;
 
-    @UpdateDateColumn()
-    updated_at!: Date;
+  @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  subunidade!: Subunidade;
+
+  @OneToMany((type) => UserSubunidade, (usersubunidade) => usersubunidade.user)
+  users_subunidades: UserSubunidade[];
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+  })
+  created_by!: User;
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+  })
+  updated_by!: User;
+
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

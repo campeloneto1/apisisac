@@ -9,7 +9,9 @@ describe('UsersSubunidadesController', () => {
       controllers: [UsersSubunidadesController],
     }).compile();
 
-    controller = module.get<UsersSubunidadesController>(UsersSubunidadesController);
+    controller = module.get<UsersSubunidadesController>(
+      UsersSubunidadesController,
+    );
   });
 
   it('should be defined', () => {

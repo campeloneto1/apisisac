@@ -16,7 +16,7 @@ import { Armamento } from 'src/armamentos/armamento.entity';
 import { ArmamentoEmprestimo } from 'src/armamentos-emprestimos/armamento-emprestimo.entity';
 
 @Entity('armamentos_emprestimos_itens')
-@Index(['armamento', 'armamento_emprestimo'], { unique: true }) 
+@Index(['armamento', 'armamento_emprestimo'], { unique: true })
 export class ArmamentoEmprestimoItem {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -34,7 +34,7 @@ export class ArmamentoEmprestimoItem {
   @ManyToOne(() => Armamento, (armamento) => armamento.id, {
     eager: true,
     onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   armamento!: Armamento;
 
@@ -44,7 +44,7 @@ export class ArmamentoEmprestimoItem {
     {
       eager: true,
       onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
+      onUpdate: 'CASCADE',
     },
   )
   @JoinColumn()
@@ -52,13 +52,13 @@ export class ArmamentoEmprestimoItem {
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   created_by!: User;
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
+    onUpdate: 'CASCADE',
   })
   updated_by!: User;
 

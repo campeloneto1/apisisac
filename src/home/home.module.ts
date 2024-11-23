@@ -18,7 +18,6 @@ import { PoliciaisRequeridasModule } from 'src/policiais-requeridas/policiais-re
 import { ContratosModule } from 'src/contratos/contratos.module';
 import { PoliciaisCursosModule } from 'src/policiais-cursos/policiais-cursos.module';
 
-
 @Module({
   imports: [
     ArmamentosModule,
@@ -37,10 +36,10 @@ import { PoliciaisCursosModule } from 'src/policiais-cursos/policiais-cursos.mod
     VeiculosModule,
     VeiculosOficinasModule,
     VeiculosPoliciaisModule,
-    VeiculosModule
+    VeiculosModule,
   ],
   providers: [HomeService],
   controllers: [HomeController],
-  exports: [HomeService]
+  exports: [HomeService],
 })
 export class HomeModule {}

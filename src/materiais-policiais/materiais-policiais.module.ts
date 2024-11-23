@@ -12,10 +12,10 @@ import { MateriaisPoliciaisItensModule } from 'src/materiais-policiais-itens/mat
     TypeOrmModule.forFeature([MaterialPolicial]),
     MateriaisModule,
     MateriaisPoliciaisItensModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [MateriaisPoliciaisService],
   controllers: [MateriaisPoliciaisController],
-  exports: [MateriaisPoliciaisService]
+  exports: [MateriaisPoliciaisService],
 })
 export class MateriaisPoliciaisModule {}

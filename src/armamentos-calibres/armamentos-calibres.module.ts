@@ -6,12 +6,9 @@ import { ArmamentoCalibre } from './armamento-calibre.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ArmamentoCalibre]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([ArmamentoCalibre]), LogsModule],
   providers: [ArmamentosCalibresService],
   controllers: [ArmamentosCalibresController],
-  exports: [ArmamentosCalibresService]
+  exports: [ArmamentosCalibresService],
 })
 export class ArmamentosCalibresModule {}

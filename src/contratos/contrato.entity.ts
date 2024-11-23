@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  JoinTable,
+} from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Empresa } from 'src/empresas/empresa.entity';
 import { Subunidade } from 'src/subunidades/subunidade.entity';
@@ -9,163 +18,161 @@ import { ContratoLancamento } from 'src/contratos-lancamentos/contrato-lancament
 
 @Entity('contratos')
 export class Contrato {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  subunidade!: Subunidade;
 
-      @ManyToOne(() => Subunidade, (subunidade) => subunidade.id, {
-        eager: true,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      })
-      subunidade!: Subunidade;
+  @ManyToOne(() => Empresa, (empresa) => empresa.id, {
+    eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  empresa!: Empresa;
 
-      @ManyToOne(() => Empresa, (empresa) => empresa.id, {
-        eager: true,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      })
-      empresa!: Empresa;
+  @ManyToOne(() => ContratoTipo, (contratotipo) => contratotipo.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  contrato_tipo!: ContratoTipo;
 
-      @ManyToOne(() => ContratoTipo, (contratotipo) => contratotipo.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-          onUpdate: 'CASCADE'
-      })
-      contrato_tipo!: ContratoTipo;
+  @ManyToOne(() => ContratoObjeto, (contratoobjeto) => contratoobjeto.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  contrato_objeto!: ContratoObjeto;
 
-      @ManyToOne(() => ContratoObjeto, (contratoobjeto) => contratoobjeto.id, {
-        
-        onDelete: 'SET NULL',
-          onUpdate: 'CASCADE'
-      })
-      contrato_objeto!: ContratoObjeto;
+  @ManyToOne(() => Policial, (gestor) => gestor.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  gestor!: Policial;
 
-      @ManyToOne(() => Policial, (gestor) => gestor.id, {
-        onDelete: 'SET NULL',
-          onUpdate: 'CASCADE'
-      })
-      gestor!: Policial;
+  @ManyToOne(() => Policial, (fiscal) => fiscal.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  fiscal!: Policial;
 
-      @ManyToOne(() => Policial, (fiscal) => fiscal.id, {
-        onDelete: 'SET NULL',
-          onUpdate: 'CASCADE'
-      })
-      fiscal!: Policial;
+  @Column({
+    nullable: false,
+    length: 200,
+    unique: false,
+  })
+  objeto!: string;
 
-      @Column({
-        nullable: false,
-        length: 200,
-        unique: false
-      })
-      objeto!: string;
-      
-      @Column({
-        nullable: false,
-        length: 50,
-        
-      })
-      numero_contrato!: string;
+  @Column({
+    nullable: false,
+    length: 50,
+  })
+  numero_contrato!: string;
 
-      @Column({
-        nullable: false,
-        length: 50,
-        
-      })
-      numero_sacc!: string;
+  @Column({
+    nullable: false,
+    length: 50,
+  })
+  numero_sacc!: string;
 
-      @Column({
-        nullable: false,
-        type: 'decimal', 
-        precision: 10, 
-        scale: 2 
-      })
-      valor_global!: number;
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+  })
+  valor_global!: number;
 
-      @Column({
-        nullable: false,
-        type: 'decimal', 
-        precision: 10, 
-        scale: 2, 
-        default: 0
-      })
-      valor_usado!: number;
+  @Column({
+    nullable: false,
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
+  valor_usado!: number;
 
-      @Column({
-        nullable: false,
-        type: 'date'
-      })
-      data_inicial!: Date;
+  @Column({
+    nullable: false,
+    type: 'date',
+  })
+  data_inicial!: Date;
 
-      @Column({
-        nullable: false,
-        type: 'date'
-      })
-      data_final!: Date;
+  @Column({
+    nullable: false,
+    type: 'date',
+  })
+  data_final!: Date;
 
-      @Column({
-        nullable: true,
-      })
-      prorrogavel!: boolean;
+  @Column({
+    nullable: true,
+  })
+  prorrogavel!: boolean;
 
-      @Column({
-        nullable: true,
-        type: 'text'
-      })
-      observacoes!: string;
+  @Column({
+    nullable: true,
+    type: 'text',
+  })
+  observacoes!: string;
 
-      @Column({
-        nullable: true,
-      })
-      quantidade_diarias!: number;
+  @Column({
+    nullable: true,
+  })
+  quantidade_diarias!: number;
 
-      @Column({
-        nullable: true,
-      })
-      numero_porrogacao!: number;
+  @Column({
+    nullable: true,
+  })
+  numero_porrogacao!: number;
 
-      @ManyToOne(() => Contrato, (contrato) => contrato.id, {
-        onDelete: 'SET NULL',
-          onUpdate: 'CASCADE'
-      })
-      contrato_prorrogado!: Contrato;
+  @ManyToOne(() => Contrato, (contrato) => contrato.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  contrato_prorrogado!: Contrato;
 
-      @Column({
-        nullable: true,
-      })
-      porcentagem_aditivado!: number;
+  @Column({
+    nullable: true,
+  })
+  porcentagem_aditivado!: number;
 
-      @Column({
-        nullable: true,
-        type: 'date'
-      })
-      data_aditivado!: Date;
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_aditivado!: Date;
 
-      @Column({
-        nullable: true,
-        type: 'text'
-      })
-      observacoes_aditivado!: string;
+  @Column({
+    nullable: true,
+    type: 'text',
+  })
+  observacoes_aditivado!: string;
 
+  @OneToMany(
+    (type) => ContratoLancamento,
+    (contratoslancamentos) => contratoslancamentos.contrato,
+  )
+  contratos_lancamentos: ContratoLancamento[];
 
-      @OneToMany(type => ContratoLancamento, contratoslancamentos => contratoslancamentos.contrato)
-    contratos_lancamentos: ContratoLancamento[];
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  created_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    created_by!: User;
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  updated_by!: User;
 
-    @ManyToOne(() => User, (user) => user.id, {
-      onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    updated_by!: User;
+  @CreateDateColumn()
+  created_at!: Date;
 
-    @CreateDateColumn()
-    created_at!: Date;
-
-    @UpdateDateColumn()
-    updated_at!: Date;
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

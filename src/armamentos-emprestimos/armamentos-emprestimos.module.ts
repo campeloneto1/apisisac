@@ -7,16 +7,15 @@ import { ArmamentosEmprestimosItensModule } from 'src/armamentos-emprestimos-ite
 import { ArmamentosModule } from 'src/armamentos/armamentos.module';
 import { LogsModule } from 'src/logs/logs.module';
 
-
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ArmamentoEmprestimo]), 
-    ArmamentosEmprestimosItensModule, 
+    TypeOrmModule.forFeature([ArmamentoEmprestimo]),
+    ArmamentosEmprestimosItensModule,
     ArmamentosModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [ArmamentosEmprestimosService],
   controllers: [ArmamentosEmprestimosController],
-  exports: [ArmamentosEmprestimosService]
+  exports: [ArmamentosEmprestimosService],
 })
 export class ArmamentosEmprestimosModule {}

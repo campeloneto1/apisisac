@@ -9,7 +9,9 @@ describe('ArmamentosEmprestimosService', () => {
       providers: [ArmamentosEmprestimosService],
     }).compile();
 
-    service = module.get<ArmamentosEmprestimosService>(ArmamentosEmprestimosService);
+    service = module.get<ArmamentosEmprestimosService>(
+      ArmamentosEmprestimosService,
+    );
   });
 
   it('should be defined', () => {

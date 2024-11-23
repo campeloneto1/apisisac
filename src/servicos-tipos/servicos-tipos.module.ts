@@ -6,12 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ServicoTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([ServicoTipo]), LogsModule],
   providers: [ServicosTiposService],
   controllers: [ServicosTiposController],
-  exports: [ServicosTiposService]
+  exports: [ServicosTiposService],
 })
 export class ServicosTiposModule {}

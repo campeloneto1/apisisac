@@ -6,12 +6,9 @@ import { AfastamentoTipo } from './afastamento-tipo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([AfastamentoTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([AfastamentoTipo]), LogsModule],
   providers: [AfastamentosTiposService],
   controllers: [AfastamentosTiposController],
-  exports: [AfastamentosTiposService]
+  exports: [AfastamentosTiposService],
 })
 export class AfastamentosTiposModule {}

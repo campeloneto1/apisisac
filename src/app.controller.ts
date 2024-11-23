@@ -7,7 +7,5 @@ export class AppController {
 
   @Get()
   @Redirect('http://localhost:4200', 301)
-  getHello() {
-    
-  }
+  getHello() {}
 }

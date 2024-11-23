@@ -6,12 +6,9 @@ import { PolicialCurso } from './policial-curso.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([PolicialCurso]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([PolicialCurso]), LogsModule],
   providers: [PoliciaisCursosService],
   controllers: [PoliciaisCursosController],
-  exports: [PoliciaisCursosService]
+  exports: [PoliciaisCursosService],
 })
 export class PoliciaisCursosModule {}

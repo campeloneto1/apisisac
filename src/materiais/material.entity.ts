@@ -75,8 +75,11 @@ export class Material {
   })
   material_tipo!: MaterialTipo;
 
-  @OneToMany(type => MaterialPolicialItem, materiaispoliciaisitens => materiaispoliciaisitens.material)
-    materiais_policiais_itens: MaterialPolicialItem[];
+  @OneToMany(
+    (type) => MaterialPolicialItem,
+    (materiaispoliciaisitens) => materiaispoliciaisitens.material,
+  )
+  materiais_policiais_itens: MaterialPolicialItem[];
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',

@@ -8,16 +8,16 @@ import { UtilitiesModule } from 'src/utilities/utilities.module';
 
 @Module({
   imports: [
-      JwtModule.register({
+    JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: 86400 },
     }),
     UsersModule,
-    UtilitiesModule
+    UtilitiesModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule {}

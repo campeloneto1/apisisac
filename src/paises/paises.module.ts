@@ -6,12 +6,9 @@ import { Pais } from './pais.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Pais]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Pais]), LogsModule],
   controllers: [PaisesController],
   providers: [PaisesService],
-  exports: [PaisesService]
+  exports: [PaisesService],
 })
 export class PaisesModule {}

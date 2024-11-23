@@ -9,7 +9,9 @@ describe('MateriaisConsumoTiposService', () => {
       providers: [MateriaisConsumoTiposService],
     }).compile();
 
-    service = module.get<MateriaisConsumoTiposService>(MateriaisConsumoTiposService);
+    service = module.get<MateriaisConsumoTiposService>(
+      MateriaisConsumoTiposService,
+    );
   });
 
   it('should be defined', () => {

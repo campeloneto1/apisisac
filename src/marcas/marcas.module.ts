@@ -6,12 +6,9 @@ import { Marca } from './marca.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Marca]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Marca]), LogsModule],
   providers: [MarcasService],
   controllers: [MarcasController],
-  exports: [MarcasService]
+  exports: [MarcasService],
 })
 export class MarcasModule {}

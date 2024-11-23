@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn , ManyToOne, CreateDateColumn, UpdateDateColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Cidade } from 'src/cidades/cidade.entity';
 import { Sexo } from 'src/sexos/sexo.entity';
@@ -20,261 +29,285 @@ import { Banco } from 'src/bancos/banco.entity';
 
 @Entity('policiais')
 export class Policial {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @Column({
+    nullable: true,
+    length: 10,
+    unique: true,
+  })
+  numeral!: string;
 
-    @Column({
-        nullable: true,
-        length: 10,
-        unique: true
-    })
-    numeral!: string;
+  @Column({
+    nullable: false,
+    length: 100,
+  })
+  nome!: string;
 
-    @Column({
-        nullable: false,
-        length: 100,
-    })
-    nome!: string;
+  @Column({
+    nullable: false,
+    length: 50,
+  })
+  nome_guerra!: string;
 
-    @Column({
-        nullable: false,
-        length: 50,
-    })
-    nome_guerra!: string;
+  @Column({
+    nullable: false,
+    length: 8,
+    unique: true,
+  })
+  matricula!: string;
 
-    @Column({
-        nullable: false,
-        length: 8,
-        unique: true
-    })
-    matricula!: string;
+  @Column({
+    nullable: true,
+    length: 8,
+    unique: true,
+  })
+  matricula_cc!: string;
 
-    @Column({
-        nullable: true,
-        length: 8,
-        unique: true
-    })
-    matricula_cc!: string;
+  @Column({
+    nullable: false,
+    length: 11,
+    unique: true,
+  })
+  cpf!: string;
 
-    @Column({
-        nullable: false,
-        length: 11,
-        unique: true
-    })
-    cpf!: string;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  email!: string;
 
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    email!: string;
+  @Column({
+    nullable: true,
+    length: 11,
+  })
+  telefone1!: string;
 
-    @Column({
-        nullable: true,
-        length: 11,
-    })
-    telefone1!: string;
+  @Column({
+    nullable: true,
+    length: 11,
+  })
+  telefone2!: string;
 
-    @Column({
-        nullable: true,
-        length: 11,
-    })
-    telefone2!: string;
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_nascimento!: Date;
 
-    @Column({
-        nullable: true,
-        type: 'date'
-    })
-    data_nascimento!: Date;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  rua!: string;
 
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    rua!: string;
+  @Column({
+    nullable: true,
+    length: 20,
+  })
+  numero!: string;
 
-    @Column({
-        nullable: true,
-        length: 20,
-    })
-    numero!: string;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  bairro!: string;
 
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    bairro!: string;
+  @Column({
+    nullable: true,
+    length: 8,
+  })
+  cep!: string;
 
-    @Column({
-        nullable: true,
-        length: 8,
-    })
-    cep!: string;
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_inclusao!: Date;
 
-    @Column({
-        nullable: true,
-        type: 'date'
-    })
-    data_inclusao!: Date;
+  @Column({
+    nullable: true,
+    type: 'date',
+  })
+  data_apresentacao!: Date;
 
-    @Column({
-        nullable: true,
-        type: 'date'
-    })
-    data_apresentacao!: Date;
+  @Column({
+    nullable: true,
+    length: 50,
+  })
+  boletim_inclusao!: string;
 
-    @Column({
-        nullable: true,
-        length: 50,
-    })
-    boletim_inclusao!: string;
+  @Column({
+    nullable: true,
+    length: 50,
+  })
+  boletim_apresentacao!: string;
 
-    @Column({
-        nullable: true,
-        length: 50,
-    })
-    boletim_apresentacao!: string;
+  @Column({
+    nullable: true,
+    length: 50,
+  })
+  boletim_transferencia!: string;
 
-    @Column({
-        nullable: true,
-        length: 50,
-    })
-    boletim_transferencia!: string;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  foto!: string;
 
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    foto!: string;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  pai!: string;
 
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    pai!: string;
+  @Column({
+    nullable: true,
+    length: 100,
+  })
+  mae!: string;
 
-    @Column({
-        nullable: true,
-        length: 100,
-    })
-    mae!: string;
+  @Column({
+    nullable: true,
+    length: 20,
+  })
+  agencia!: string;
 
-    @Column({
-        nullable: true,
-        length: 20,
-    })
-    agencia!: string;
+  @Column({
+    nullable: true,
+    length: 20,
+  })
+  conta!: string;
 
-    @Column({
-        nullable: true,
-        length: 20,
-    })
-    conta!: string;
+  @Column({
+    nullable: true,
+  })
+  inativo!: boolean;
 
-    @ManyToOne(() => Banco, (banco) => banco.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    banco!: Banco;
+  @ManyToOne(() => Banco, (banco) => banco.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  banco!: Banco;
 
-    @ManyToOne(() => Cidade, (cidade) => cidade.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    cidade!: Cidade;
+  @ManyToOne(() => Cidade, (cidade) => cidade.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  cidade!: Cidade;
 
-    @ManyToOne(() => Sexo, (sexo) => sexo.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    sexo!: Sexo;
+  @ManyToOne(() => Sexo, (sexo) => sexo.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  sexo!: Sexo;
 
-    @ManyToOne(() => Graduacao, (graduacao) => graduacao.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    graduacao!: Graduacao;
+  @ManyToOne(() => Graduacao, (graduacao) => graduacao.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  graduacao!: Graduacao;
 
-    @ManyToOne(() => Setor, (setor) => setor.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    setor!: Setor;
+  @ManyToOne(() => Setor, (setor) => setor.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  setor!: Setor;
 
-    @ManyToOne(() => Escolaridade, (escolaridade) => escolaridade.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    escolaridade!: Escolaridade;
+  @ManyToOne(() => Escolaridade, (escolaridade) => escolaridade.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  escolaridade!: Escolaridade;
 
-    @ManyToOne(() => Funcao, (funcao) => funcao.id, {
-        eager: true,
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    funcao!: Funcao;
+  @ManyToOne(() => Funcao, (funcao) => funcao.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  funcao!: Funcao;
 
-    @OneToOne(() => User, (user) => user.policial) // specify inverse side as a second parameter
-    user: User
+  @OneToOne(() => User, (user) => user.policial) // specify inverse side as a second parameter
+  user: User;
 
-    @OneToMany(type => PolicialPublicacao, policialpublicacao => policialpublicacao.policial)
-    policiais_publicacoes: PolicialPublicacao[];
+  @OneToMany(
+    (type) => PolicialPublicacao,
+    (policialpublicacao) => policialpublicacao.policial,
+  )
+  policiais_publicacoes: PolicialPublicacao[];
 
-    @OneToMany(type => PolicialFerias, policialferias => policialferias.policial)
-    policiais_ferias: PolicialFerias[];
+  @OneToMany(
+    (type) => PolicialFerias,
+    (policialferias) => policialferias.policial,
+  )
+  policiais_ferias: PolicialFerias[];
 
-    @OneToMany(type => PolicialAtestado, policialatestado => policialatestado.policial)
-    policiais_atestados: PolicialAtestado[];
+  @OneToMany(
+    (type) => PolicialAtestado,
+    (policialatestado) => policialatestado.policial,
+  )
+  policiais_atestados: PolicialAtestado[];
 
-    @OneToMany(type => PolicialCurso, policialcurso => policialcurso.policial)
-    policiais_cursos: PolicialCurso[];
+  @OneToMany((type) => PolicialCurso, (policialcurso) => policialcurso.policial)
+  policiais_cursos: PolicialCurso[];
 
-    @OneToMany(type => PolicialRequerida, policialrequerida => policialrequerida.policial)
-    policiais_requeridas: PolicialRequerida[];
+  @OneToMany(
+    (type) => PolicialRequerida,
+    (policialrequerida) => policialrequerida.policial,
+  )
+  policiais_requeridas: PolicialRequerida[];
 
-    @OneToMany(type => ArmamentoEmprestimo, armamentoemprestimo => armamentoemprestimo.policial)
-    armamentos_emprestimos: ArmamentoEmprestimo[];
+  @OneToMany(
+    (type) => ArmamentoEmprestimo,
+    (armamentoemprestimo) => armamentoemprestimo.policial,
+  )
+  armamentos_emprestimos: ArmamentoEmprestimo[];
 
-    @OneToMany(type => MaterialPolicial, materiaispoliciais => materiaispoliciais.policial)
-    materiais_policiais: MaterialPolicial[];
+  @OneToMany(
+    (type) => MaterialPolicial,
+    (materiaispoliciais) => materiaispoliciais.policial,
+  )
+  materiais_policiais: MaterialPolicial[];
 
-    @OneToMany(type => Unidade, unidade => unidade.comandante)
-    comandantes_unidades: Unidade[];
-    
-    @OneToMany(type => Unidade, unidade => unidade.subcomandante)
-    subcomandantes_unidades: Unidade[];
+  @OneToMany((type) => Unidade, (unidade) => unidade.comandante)
+  comandantes_unidades: Unidade[];
 
-    @OneToMany(type => Subunidade, subunidade => subunidade.comandante)
-    comandantes_subunidades: Subunidade[];
-    
-    @OneToMany(type => Subunidade, subunidade => subunidade.subcomandante)
-    subcomandantes_subunidades: Subunidade[];
+  @OneToMany((type) => Unidade, (unidade) => unidade.subcomandante)
+  subcomandantes_unidades: Unidade[];
 
-    @OneToMany(type => VeiculoPolicial, veiculospolicial => veiculospolicial.policial)
-    veiculos_policiais: VeiculoPolicial[];
+  @OneToMany((type) => Subunidade, (subunidade) => subunidade.comandante)
+  comandantes_subunidades: Subunidade[];
 
-    @ManyToOne(() => User, (user) => user.id, {
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    created_by!: User;
+  @OneToMany((type) => Subunidade, (subunidade) => subunidade.subcomandante)
+  subcomandantes_subunidades: Subunidade[];
 
-    @ManyToOne(() => User, (user) => user.id, {
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-    })
-    updated_by!: User;
+  @OneToMany(
+    (type) => VeiculoPolicial,
+    (veiculospolicial) => veiculospolicial.policial,
+  )
+  veiculos_policiais: VeiculoPolicial[];
 
-    @CreateDateColumn()
-    created_at!: Date;
-    @UpdateDateColumn()
-    updated_at!: Date;
-    
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  created_by!: User;
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  updated_by!: User;
+
+  @CreateDateColumn()
+  created_at!: Date;
+  @UpdateDateColumn()
+  updated_at!: Date;
 }

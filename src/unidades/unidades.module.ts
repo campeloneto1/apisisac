@@ -6,12 +6,9 @@ import { Unidade } from './unidade.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Unidade]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Unidade]), LogsModule],
   providers: [UnidadesService],
   controllers: [UnidadesController],
-  exports: [UnidadesService]
+  exports: [UnidadesService],
 })
 export class UnidadesModule {}

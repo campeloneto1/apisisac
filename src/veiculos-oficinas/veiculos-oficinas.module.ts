@@ -10,10 +10,10 @@ import { LogsModule } from 'src/logs/logs.module';
   imports: [
     TypeOrmModule.forFeature([VeiculoOficina]),
     forwardRef(() => VeiculosModule),
-    LogsModule
+    LogsModule,
   ],
   providers: [VeiculosOficinasService],
   controllers: [VeiculosOficinasController],
-  exports: [VeiculosOficinasService]
+  exports: [VeiculosOficinasService],
 })
 export class VeiculosOficinasModule {}

@@ -10,10 +10,10 @@ import { PoliciaisPublicacoesModule } from 'src/policiais-publicacoes/policiais-
   imports: [
     TypeOrmModule.forFeature([PolicialFerias]),
     PoliciaisPublicacoesModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [PoliciaisFeriasService],
   controllers: [PoliciaisFeriasController],
-  exports: [PoliciaisFeriasService]
+  exports: [PoliciaisFeriasService],
 })
 export class PoliciaisFeriasModule {}

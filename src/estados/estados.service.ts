@@ -39,7 +39,7 @@ export class EstadosService {
       tipo: 1,
       table: 'estados',
       fk: save.id,
-      user: idUser
+      user: idUser,
     });
   }
 
@@ -60,14 +60,16 @@ export class EstadosService {
       tipo: 2,
       table: 'estados',
       fk: id,
-      user: idUser
+      user: idUser,
     });
   }
 
   async remove(id: number, idUser: User) {
-    var data = await this.estadoRepository.findOne({where: {
-      id: id,
-    }});
+    var data = await this.estadoRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
     await this.estadoRepository.delete(id);
     await this.logsService.create({
       object: JSON.stringify(data),
@@ -75,7 +77,7 @@ export class EstadosService {
       tipo: 3,
       table: 'estados',
       fk: data.id,
-      user: idUser
+      user: idUser,
     });
   }
 

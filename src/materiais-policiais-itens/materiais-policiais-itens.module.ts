@@ -10,10 +10,10 @@ import { MateriaisModule } from 'src/materiais/materiais.module';
   imports: [
     TypeOrmModule.forFeature([MaterialPolicialItem]),
     MateriaisModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [MateriaisPoliciaisItensService],
   controllers: [MateriaisPoliciaisItensController],
-  exports: [MateriaisPoliciaisItensService]
+  exports: [MateriaisPoliciaisItensService],
 })
 export class MateriaisPoliciaisItensModule {}

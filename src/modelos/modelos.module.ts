@@ -6,12 +6,9 @@ import { Modelo } from './modelo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Modelo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Modelo]), LogsModule],
   providers: [ModelosService],
   controllers: [ModelosController],
-  exports: [ModelosService]
+  exports: [ModelosService],
 })
 export class ModelosModule {}

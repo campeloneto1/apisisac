@@ -6,12 +6,9 @@ import { Graduacao } from './graduacao.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Graduacao]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Graduacao]), LogsModule],
   providers: [GraduacoesService],
   controllers: [GraduacoesController],
-  exports: [GraduacoesService]
+  exports: [GraduacoesService],
 })
 export class GraduacoesModule {}

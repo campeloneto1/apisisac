@@ -6,12 +6,9 @@ import { LogsModule } from 'src/logs/logs.module';
 import { Escolaridade } from './escolaridade.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Escolaridade]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Escolaridade]), LogsModule],
   providers: [EscolaridadesService],
   controllers: [EscolaridadesController],
-  exports: [EscolaridadesService]
+  exports: [EscolaridadesService],
 })
 export class EscolaridadesModule {}

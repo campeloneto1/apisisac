@@ -6,12 +6,9 @@ import { DocumentoTipo } from './documento-tipo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([DocumentoTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([DocumentoTipo]), LogsModule],
   providers: [DocumentosTiposService],
   controllers: [DocumentosTiposController],
-  exports: [DocumentosTiposService]
+  exports: [DocumentosTiposService],
 })
 export class DocumentosTiposModule {}

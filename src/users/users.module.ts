@@ -7,16 +7,15 @@ import { UtilitiesModule } from 'src/utilities/utilities.module';
 import { LogsModule } from 'src/logs/logs.module';
 import { UsersSubunidadesModule } from 'src/users-subunidades/users-subunidades.module';
 
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     UsersSubunidadesModule,
     UtilitiesModule,
-    LogsModule
+    LogsModule,
   ],
-    controllers: [UsersController],
+  controllers: [UsersController],
   providers: [UsersService],
-  exports: [TypeOrmModule, UsersService]
+  exports: [TypeOrmModule, UsersService],
 })
 export class UsersModule {}

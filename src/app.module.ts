@@ -96,7 +96,7 @@ import { PoliciaisHistoricoModule } from './policiais-historico/policiais-histor
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
-        limit: 50,
+        limit: 150,
       },
     ]),
     ServeStaticModule.forRoot({

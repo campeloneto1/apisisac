@@ -10,10 +10,10 @@ import { MateriaisConsumoModule } from 'src/materiais-consumo/materiais-consumo.
   imports: [
     TypeOrmModule.forFeature([MaterialConsumoEntradaItem]),
     MateriaisConsumoModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [MateriaisConsumoEntradasItensService],
   controllers: [MateriaisConsumoEntradasItensController],
-  exports: [MateriaisConsumoEntradasItensService]
+  exports: [MateriaisConsumoEntradasItensService],
 })
 export class MateriaisConsumoEntradasItensModule {}

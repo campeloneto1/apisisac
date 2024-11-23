@@ -6,12 +6,9 @@ import { MaterialTipo } from './material-tipo.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([MaterialTipo]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([MaterialTipo]), LogsModule],
   providers: [MateriaisTiposService],
   controllers: [MateriaisTiposController],
-  exports: [MateriaisTiposService]
+  exports: [MateriaisTiposService],
 })
 export class MateriaisTiposModule {}

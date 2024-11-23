@@ -1,15 +1,15 @@
-import { User } from "src/users/user.interface";
+import { User } from 'src/users/user.interface';
 
-export interface ManutencaoTipo{
-    id?: number;
-    nome: string;
-    revisao?: boolean;
-    troca_oleo?: boolean;
+export interface ManutencaoTipo {
+  id?: number;
+  nome: string;
+  revisao?: boolean;
+  troca_oleo?: boolean;
 
-    created_by: User;
-    updated_by: User;
-    created_at: Date;
-    updated_at: Date;
+  created_by: User;
+  updated_by: User;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export type ManutencoesTipos = Array<ManutencaoTipo>;

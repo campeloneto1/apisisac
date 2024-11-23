@@ -6,12 +6,9 @@ import { Perfil } from './perfil.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Perfil]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Perfil]), LogsModule],
   controllers: [PerfisController],
   providers: [PerfisService],
-  exports: [PerfisService]
+  exports: [PerfisService],
 })
 export class PerfisModule {}

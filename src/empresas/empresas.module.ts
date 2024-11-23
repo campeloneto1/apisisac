@@ -6,12 +6,9 @@ import { Empresa } from './empresa.entity';
 import { LogsModule } from 'src/logs/logs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Empresa]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Empresa]), LogsModule],
   providers: [EmpresasService],
   controllers: [EmpresasController],
-  exports: [EmpresasService]
+  exports: [EmpresasService],
 })
 export class EmpresasModule {}

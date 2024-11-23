@@ -19,30 +19,28 @@ export class OficinasService {
     private lazyModuleLoader: LazyModuleLoader,
   ) {}
 
-  async index(params:any,idUser: User): Promise<OficinasInterface> {
-    
-      return await this.oficinaRepository.find({
-        where:{
-          //@ts-ignore
-          subunidade: {
-            id: params.subunidade
-          }
+  async index(params: any, idUser: User): Promise<OficinasInterface> {
+    return await this.oficinaRepository.find({
+      where: {
+        //@ts-ignore
+        subunidade: {
+          id: params.subunidade,
         },
-      });
-    
+      },
+    });
   }
 
   async find(id: number, idUser: User): Promise<OficinaInterface | null> {
-    var idsSubs:any = [];
-        idUser.users_subunidades.forEach((data) => {
-          idsSubs.push(data.subunidade.id)
-        });
+    var idsSubs: any = [];
+    idUser.users_subunidades.forEach((data) => {
+      idsSubs.push(data.subunidade.id);
+    });
     return await this.oficinaRepository.findOne({
       where: {
         id: id,
-        subunidade:{
-          id: In(idsSubs)
-        }
+        subunidade: {
+          id: In(idsSubs),
+        },
       },
     });
   }
@@ -59,7 +57,7 @@ export class OficinasService {
       tipo: 1,
       table: 'oficinas',
       fk: save.id,
-      user: idUser
+      user: idUser,
     });
   }
 
@@ -79,14 +77,16 @@ export class OficinasService {
       tipo: 2,
       table: 'oficinas',
       fk: id,
-      user: idUser
+      user: idUser,
     });
   }
 
   async remove(id: number, idUser: User) {
-    var data = await this.oficinaRepository.findOne({where: {
-      id: id,
-    }});
+    var data = await this.oficinaRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
     await this.oficinaRepository.delete(id);
     await this.logsService.create({
       object: JSON.stringify(data),
@@ -94,7 +94,7 @@ export class OficinasService {
       tipo: 3,
       table: 'oficinas',
       fk: data.id,
-      user: idUser
+      user: idUser,
     });
   }
 }

@@ -29,111 +29,126 @@ import { VeiculosService } from 'src/veiculos/veiculos.service';
 
 @Injectable()
 export class HomeService {
-    constructor(
-        private lazyModuleLoader: LazyModuleLoader,
-        private armamentosService: ArmamentosService,
-        private armamentosEmprestimosService: ArmamentosEmprestimosService,
-        private contratosService: ContratosService,
-        private graduacoesService: GraduacoesService,
-        private materiaisService: MateriaisService,
-        private materiaisConsumoService: MateriaisConsumoService,
-        private materiaisPoliciaisService: MateriaisPoliciaisService,
-        private policiaisService: PoliciaisService,
-        private policiaisAtestadosService: PoliciaisAtestadosService,
-        private policiaisCursosService: PoliciaisCursosService,
-        private policiaisFeriasService: PoliciaisFeriasService,
-        private policiaisRequeridas: PoliciaisRequeridasService,
-        private veiculosService: VeiculosService,
-        private veiculosOficinasService: VeiculosOficinasService,
-        private veiculosPoliciaisService: VeiculosPoliciaisService,
-        private setoresService: SetoresService,
+  constructor(
+    private lazyModuleLoader: LazyModuleLoader,
+    private armamentosService: ArmamentosService,
+    private armamentosEmprestimosService: ArmamentosEmprestimosService,
+    private contratosService: ContratosService,
+    private graduacoesService: GraduacoesService,
+    private materiaisService: MateriaisService,
+    private materiaisConsumoService: MateriaisConsumoService,
+    private materiaisPoliciaisService: MateriaisPoliciaisService,
+    private policiaisService: PoliciaisService,
+    private policiaisAtestadosService: PoliciaisAtestadosService,
+    private policiaisCursosService: PoliciaisCursosService,
+    private policiaisFeriasService: PoliciaisFeriasService,
+    private policiaisRequeridas: PoliciaisRequeridasService,
+    private veiculosService: VeiculosService,
+    private veiculosOficinasService: VeiculosOficinasService,
+    private veiculosPoliciaisService: VeiculosPoliciaisService,
+    private setoresService: SetoresService,
+  ) {}
 
-    ){}
+  async armamentosEmprestados(
+    params: any,
+    idUser: User,
+  ): Promise<ArmamentosEmprestimos> {
+    return this.armamentosEmprestimosService.emprestados(params, idUser);
+  }
 
-    async armamentosEmprestados(params:any,idUser: User): Promise<ArmamentosEmprestimos>{
-        return this.armamentosEmprestimosService.emprestados(params,idUser);
-    }
+  async armamentosVencendo(params: any, idUser: User): Promise<Armamentos> {
+    return this.armamentosService.vencendo(params, idUser);
+  }
 
-    async armamentosVencendo(params:any,idUser: User): Promise<Armamentos>{
-        return this.armamentosService.vencendo(params,idUser);
-    }
+  async atestados(params: any, idUser: User): Promise<number> {
+    return this.policiaisAtestadosService.quantidade(params, idUser);
+  }
 
-    async atestados(params:any,idUser: User): Promise<number> {
-        return this.policiaisAtestadosService.quantidade(params,idUser);
-    }
+  async contratosAcabando(params: any, idUser: User): Promise<Contratos> {
+    return this.contratosService.acabando(params, idUser);
+  }
 
-    async contratosAcabando(params:any,idUser: User): Promise<Contratos> {
-        return this.contratosService.acabando(params,idUser);
-    }
+  async cursos(params: any, idUser: User): Promise<number> {
+    return this.policiaisCursosService.quantidade(params, idUser);
+  }
 
-    async cursos(params:any,idUser: User): Promise<number> {
-        return this.policiaisCursosService.quantidade(params,idUser);
-    }
+  async ferias(params: any, idUser: User): Promise<number> {
+    return this.policiaisFeriasService.quantidade(params, idUser);
+  }
 
-    async ferias(params:any,idUser: User): Promise<number> {
-        return this.policiaisFeriasService.quantidade(params,idUser);
-    }
+  async materiaisConsumoVencendo(
+    params: any,
+    idUser: User,
+  ): Promise<MateriaisConsumo> {
+    return this.materiaisConsumoService.vencendo(params, idUser);
+  }
 
-    async materiaisConsumoVencendo(params:any,idUser: User): Promise<MateriaisConsumo>{
-        return this.materiaisConsumoService.vencendo(params,idUser);
-    }
+  async materiaisAlerta(params: any, idUser: User): Promise<MateriaisConsumo> {
+    return this.materiaisConsumoService.alerta(params, idUser);
+  }
 
-    async materiaisAlerta(params:any,idUser: User): Promise<MateriaisConsumo>{
-        return this.materiaisConsumoService.alerta(params,idUser);
-    }
+  async materiaisEmprestados(
+    params: any,
+    idUser: User,
+  ): Promise<MateriaisPoliciais> {
+    return this.materiaisPoliciaisService.emprestados(params, idUser);
+  }
 
-    async materiaisEmprestados(params:any,idUser: User): Promise<MateriaisPoliciais>{
-        return this.materiaisPoliciaisService.emprestados(params,idUser);
-    }
+  async materiaisVencendo(params: any, idUser: User): Promise<Materiais> {
+    return this.materiaisService.vencendo(params, idUser);
+  }
 
-    async materiaisVencendo(params:any,idUser: User): Promise<Materiais>{
-        return this.materiaisService.vencendo(params, idUser);
-    }
+  async policiais(params: any, idUser: User): Promise<number> {
+    return this.policiaisService.quantidade(params, idUser);
+  }
 
-    async policiais(params:any,idUser: User): Promise<number> {
-        return this.policiaisService.quantidade(params,idUser)
-    }
+  async policiaisInativos(params: any, idUser: User): Promise<number> {
+    return this.policiaisService.quantidadeInativos(params, idUser);
+  }
 
-    async policiaisGraduacoes(params:any,idUser: User): Promise<any>{
-        return this.graduacoesService.policiaisGraduacoes(params,idUser);
-    } 
+  async policiaisGraduacoes(params: any, idUser: User): Promise<any> {
+    return this.graduacoesService.policiaisGraduacoes(params, idUser);
+  }
 
-    async policiaisSetores(params:any,idUser: User): Promise<any>{
-        return this.setoresService.policiaisSetor(params,idUser);
-    }
+  async policiaisSetores(params: any, idUser: User): Promise<any> {
+    return this.setoresService.policiaisSetor(params, idUser);
+  }
 
-    async requeridas(params:any,idUser: User): Promise<any>{
-        return this.policiaisRequeridas.quantidade(params, idUser);
-    }
+  async requeridas(params: any, idUser: User): Promise<any> {
+    return this.policiaisRequeridas.quantidade(params, idUser);
+  }
 
-    async veiculos(params:any,idUser: User): Promise<number> {
-        return this.veiculosService.quantidade(params,idUser);
-    }
+  async veiculos(params: any, idUser: User): Promise<number> {
+    return this.veiculosService.quantidade(params, idUser);
+  }
 
-    async veiculosViagem(params:any,idUser: User): Promise<number> {
-        return this.veiculosService.quantidadeViagem(params,idUser);
-    }
+  async veiculosViagem(params: any, idUser: User): Promise<number> {
+    return this.veiculosService.quantidadeViagem(params, idUser);
+  }
 
-    async veiculosDispViagem(params:any,idUser: User): Promise<Veiculos> {
-        return this.veiculosService.disponiveisViagem(params,idUser);
-    }
+  async veiculosDispViagem(params: any, idUser: User): Promise<Veiculos> {
+    return this.veiculosService.disponiveisViagem(params, idUser);
+  }
 
-    async veiculosManutencao(params:any,idUser: User): Promise<VeiculosOficinas>{
-        return this.veiculosOficinasService.emmanutencao(params,idUser);
-    }
+  async veiculosManutencao(
+    params: any,
+    idUser: User,
+  ): Promise<VeiculosOficinas> {
+    return this.veiculosOficinasService.emmanutencao(params, idUser);
+  }
 
-    async veiculosTrocaOleo(params:any,idUser: User): Promise<Veiculos>{
-        return this.veiculosService.trocaoleo(params,idUser);
-    }
+  async veiculosTrocaOleo(params: any, idUser: User): Promise<Veiculos> {
+    return this.veiculosService.trocaoleo(params, idUser);
+  }
 
-    async veiculosRevisao(params:any,idUser: User): Promise<Veiculos>{
-        return this.veiculosService.revisao(params,idUser);
-    }
+  async veiculosRevisao(params: any, idUser: User): Promise<Veiculos> {
+    return this.veiculosService.revisao(params, idUser);
+  }
 
-    async veiculosEmprestados(params:any,idUser: User): Promise<VeiculosPoliciais>{
-        return this.veiculosPoliciaisService.emprestados(params,idUser);
-    }
-
-    
-
+  async veiculosEmprestados(
+    params: any,
+    idUser: User,
+  ): Promise<VeiculosPoliciais> {
+    return this.veiculosPoliciaisService.emprestados(params, idUser);
+  }
 }

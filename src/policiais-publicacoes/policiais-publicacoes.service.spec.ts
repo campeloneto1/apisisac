@@ -9,7 +9,9 @@ describe('PoliciaisPublicacoesService', () => {
       providers: [PoliciaisPublicacoesService],
     }).compile();
 
-    service = module.get<PoliciaisPublicacoesService>(PoliciaisPublicacoesService);
+    service = module.get<PoliciaisPublicacoesService>(
+      PoliciaisPublicacoesService,
+    );
   });
 
   it('should be defined', () => {

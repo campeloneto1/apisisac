@@ -9,7 +9,9 @@ describe('PoliciaisFeriasController', () => {
       controllers: [PoliciaisFeriasController],
     }).compile();
 
-    controller = module.get<PoliciaisFeriasController>(PoliciaisFeriasController);
+    controller = module.get<PoliciaisFeriasController>(
+      PoliciaisFeriasController,
+    );
   });
 
   it('should be defined', () => {

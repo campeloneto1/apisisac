@@ -6,12 +6,9 @@ import { LogsModule } from 'src/logs/logs.module';
 import { Servico } from './servico.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Servico]),
-    LogsModule
-  ],
+  imports: [TypeOrmModule.forFeature([Servico]), LogsModule],
   providers: [ServicosService],
   controllers: [ServicosController],
-  exports: [ServicosService]
+  exports: [ServicosService],
 })
 export class ServicosModule {}

@@ -14,10 +14,10 @@ import { UsersSubunidadesModule } from 'src/users-subunidades/users-subunidades.
     UsersModule,
     UsersSubunidadesModule,
     UtilitiesModule,
-    LogsModule
+    LogsModule,
   ],
   providers: [PoliciaisService],
   controllers: [PoliciaisController],
-  exports: [PoliciaisService]
+  exports: [PoliciaisService],
 })
 export class PoliciaisModule {}

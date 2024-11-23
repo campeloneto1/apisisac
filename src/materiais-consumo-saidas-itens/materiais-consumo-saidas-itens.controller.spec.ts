@@ -9,7 +9,9 @@ describe('MateriaisConsumoSaidasItensController', () => {
       controllers: [MateriaisConsumoSaidasItensController],
     }).compile();
 
-    controller = module.get<MateriaisConsumoSaidasItensController>(MateriaisConsumoSaidasItensController);
+    controller = module.get<MateriaisConsumoSaidasItensController>(
+      MateriaisConsumoSaidasItensController,
+    );
   });
 
   it('should be defined', () => {

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { LazyModuleLoader } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, IsNull, MoreThanOrEqual, Repository } from 'typeorm';
+import { In, IsNull, Repository } from 'typeorm';
 import { Policial as PolicialEntity } from './policial.entity';
 import {
   Policial as PolicialInterface,
@@ -12,14 +11,12 @@ import { UsersService } from 'src/users/users.service';
 import { UtilitiesService } from 'src/utilities/utilities.service';
 import { LogsService } from 'src/logs/logs.service';
 import { UsersSubunidadesService } from 'src/users-subunidades/users-subunidades.service';
-import { format } from 'date-fns';
 
 @Injectable()
 export class PoliciaisService {
   constructor(
     @InjectRepository(PolicialEntity)
     private policialRepository: Repository<PolicialEntity>,
-    private lazyModuleLoader: LazyModuleLoader,
     private usersService: UsersService,
     private usersSubunidadesService: UsersSubunidadesService,
     private utilitiesService: UtilitiesService,
@@ -27,23 +24,55 @@ export class PoliciaisService {
   ) {}
 
   async index(params: any, idUser: User): Promise<PoliciaisInterface> {
-    return await this.policialRepository.find({
-      where: {
-        //@ts-ignore
-        setor: {
-          subunidade: {
-            id: params.subunidade,
+    let pols: PoliciaisInterface;
+    if (idUser.perfil.administrador) {
+      pols = await this.policialRepository.find({
+        where: {
+          setor: {
+            subunidade: {
+              id: params.subunidade,
+            },
           },
         },
-        boletim_transferencia: IsNull(),
-      },
-      relations: {
-        user: {
-          policial: false,
-          perfil: false,
+        relations: {
+          user: {
+            policial: false,
+            perfil: false,
+          },
         },
-      },
-    });
+      });
+    } else {
+      pols = await this.policialRepository.find({
+        where: {
+          boletim_transferencia: IsNull(),
+          setor: {
+            subunidade: {
+              id: params.subunidade,
+            },
+          },
+        },
+        relations: {
+          user: {
+            policial: false,
+            perfil: false,
+          },
+        },
+      });
+    }
+
+    if (params.ativo) {
+      pols = pols.filter((element) => {
+        return element.boletim_transferencia === null;
+      });
+    }
+
+    if (params.inativo) {
+      pols = pols.filter((element) => {
+        return element.inativo;
+      });
+    }
+
+    return pols;
   }
 
   async find(id: number, idUser: User): Promise<PolicialInterface | null> {
@@ -229,6 +258,24 @@ export class PoliciaisService {
     });
   }
 
+  async porSetor(
+    id: number,
+    params: any,
+    idUser: User,
+  ): Promise<PoliciaisInterface> {
+    return await this.policialRepository.find({
+      where: {
+        boletim_transferencia: IsNull(),
+        setor: {
+          id: id,
+          subunidade: {
+            id: params.subunidade,
+          },
+        },
+      },
+    });
+  }
+
   async getAll(params: any, idUser: User): Promise<PoliciaisInterface> {
     return await this.policialRepository.find({
       relations: {
@@ -255,6 +302,21 @@ export class PoliciaisService {
     return await this.policialRepository.count({
       where: {
         boletim_transferencia: IsNull(),
+        //@ts-ignore
+        setor: {
+          subunidade: {
+            id: params.subunidade,
+          },
+        },
+      },
+    });
+  }
+
+  async quantidadeInativos(params: any, idUser: User): Promise<number> {
+    return await this.policialRepository.count({
+      where: {
+        boletim_transferencia: IsNull(),
+        inativo: true,
         //@ts-ignore
         setor: {
           subunidade: {
@@ -328,6 +390,16 @@ export class PoliciaisService {
     } else {
       policiais = policiais.filter((element) => {
         return element.boletim_transferencia === null;
+      });
+    }
+
+    if (object.inativo) {
+      policiais = policiais.filter((element) => {
+        return element.inativo !== null;
+      });
+    } else {
+      policiais = policiais.filter((element) => {
+        return element.inativo === null;
       });
     }
 
