@@ -25,8 +25,9 @@ export class PoliciaisRequeridasService {
     params: any,
     idUser: User,
   ): Promise<PoliciaisRequeridasInterface> {
+    let polsreq: PoliciaisRequeridasInterface;
     if (idUser.perfil.administrador) {
-      return await this.policialRequeridaRepository.find({
+      polsreq = await this.policialRequeridaRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -48,7 +49,7 @@ export class PoliciaisRequeridasService {
         },
       });
     } else {
-      return await this.policialRequeridaRepository.find({
+      polsreq = await this.policialRequeridaRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -71,6 +72,14 @@ export class PoliciaisRequeridasService {
         },
       });
     }
+
+    if (params.ativo) {
+      polsreq = polsreq.filter((element) => {
+        return element.boletim_publicacao === null;
+      });
+    }
+
+    return polsreq;
   }
 
   async find(

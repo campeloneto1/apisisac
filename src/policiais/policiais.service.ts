@@ -273,6 +273,12 @@ export class PoliciaisService {
           },
         },
       },
+      order: {
+        graduacao: {
+          id: 'DESC',
+        },
+        numeral: 'ASC',
+      },
     });
   }
 

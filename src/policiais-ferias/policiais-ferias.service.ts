@@ -30,8 +30,10 @@ export class PoliciaisFeriasService {
   ) {}
 
   async index(params: any, idUser: User): Promise<PoliciaisFeriasInterface> {
+    const hoje = new Date();
+    let polsferias: PoliciaisFeriasInterface;
     if (idUser.perfil.administrador) {
-      return await this.policialFeriasRepository.find({
+      polsferias = await this.policialFeriasRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -54,7 +56,7 @@ export class PoliciaisFeriasService {
         },
       });
     } else {
-      return await this.policialFeriasRepository.find({
+      polsferias = await this.policialFeriasRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -78,6 +80,17 @@ export class PoliciaisFeriasService {
         },
       });
     }
+
+    if (params.ativo) {
+      polsferias = polsferias.filter((element) => {
+        return (
+          new Date(element.data_inicial) <= hoje &&
+          new Date(element.data_final) >= hoje
+        );
+      });
+    }
+
+    return polsferias;
   }
 
   async find(

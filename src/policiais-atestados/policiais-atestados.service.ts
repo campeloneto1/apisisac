@@ -8,7 +8,6 @@ import {
 import {
   In,
   IsNull,
-  LessThan,
   LessThanOrEqual,
   MoreThanOrEqual,
   Repository,
@@ -18,7 +17,6 @@ import { User } from 'src/users/user.interface';
 import { format } from 'date-fns';
 import { LogsService } from 'src/logs/logs.service';
 import { PoliciaisPublicacoesService } from 'src/policiais-publicacoes/policiais-publicacoes.service';
-import { PolicialPublicacao } from 'src/policiais-publicacoes/policial-publicacao.interface';
 
 @Injectable()
 export class PoliciaisAtestadosService {
@@ -31,8 +29,10 @@ export class PoliciaisAtestadosService {
   ) {}
 
   async index(params: any, idUser: User): Promise<PoliciaisAtestadosInterface> {
+    const hoje = new Date();
+    let polsatest: PoliciaisAtestadosInterface;
     if (idUser.perfil.administrador) {
-      return await this.policialAtestadoRepository.find({
+      polsatest = await this.policialAtestadoRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -55,7 +55,7 @@ export class PoliciaisAtestadosService {
         },
       });
     } else {
-      return await this.policialAtestadoRepository.find({
+      polsatest = await this.policialAtestadoRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -79,13 +79,23 @@ export class PoliciaisAtestadosService {
         },
       });
     }
+    if (params.ativo) {
+      polsatest = polsatest.filter((element) => {
+        return (
+          new Date(element.data_inicial) <= hoje &&
+          new Date(element.data_final) >= hoje
+        );
+      });
+    }
+
+    return polsatest;
   }
 
   async find(
     id: number,
     idUser: User,
   ): Promise<PolicialAtestadoInterface | null> {
-    var idsSubs: any = [];
+    const idsSubs: any = [];
     idUser.users_subunidades.forEach((data) => {
       idsSubs.push(data.subunidade.id);
     });
@@ -115,9 +125,9 @@ export class PoliciaisAtestadosService {
   }
 
   async create(object: PolicialAtestadoInterface, idUser: User) {
-    var object: PolicialAtestadoInterface =
+    const object2: PolicialAtestadoInterface =
       this.policialAtestadoRepository.create({ ...object, created_by: idUser });
-    var save = await this.policialAtestadoRepository.save(object);
+    const save = await this.policialAtestadoRepository.save(object2);
 
     // if(save){
     //   let obj: PolicialPublicacao = {
@@ -140,7 +150,7 @@ export class PoliciaisAtestadosService {
   }
 
   async update(id: number, object: PolicialAtestadoInterface, idUser: User) {
-    var data: PolicialAtestadoInterface =
+    let data: PolicialAtestadoInterface =
       await this.policialAtestadoRepository.findOneBy({ id: id });
     data = { ...object };
     await this.policialAtestadoRepository.update(
@@ -159,7 +169,7 @@ export class PoliciaisAtestadosService {
   }
 
   async remove(id: number, idUser: User) {
-    var data = await this.policialAtestadoRepository.findOne({
+    const data = await this.policialAtestadoRepository.findOne({
       where: {
         id: id,
       },
@@ -222,9 +232,9 @@ export class PoliciaisAtestadosService {
     object: any,
     idUser: User,
   ): Promise<PoliciaisAtestadosInterface> {
-    var hoje = new Date();
+    const hoje = new Date();
 
-    var policiais;
+    let policiais;
 
     // var filter:any = {};
 

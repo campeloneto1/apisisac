@@ -27,8 +27,10 @@ export class PoliciaisCursosService {
   ) {}
 
   async index(params: any, idUser: User): Promise<PoliciaisCursosInterface> {
+    const hoje = new Date();
+    let polscursos: PoliciaisCursosInterface;
     if (idUser.perfil.administrador) {
-      return await this.policialCursoRepository.find({
+      polscursos = await this.policialCursoRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -51,7 +53,7 @@ export class PoliciaisCursosService {
         },
       });
     } else {
-      return await this.policialCursoRepository.find({
+      polscursos = await this.policialCursoRepository.find({
         relations: {
           policial: {
             graduacao: true,
@@ -75,10 +77,21 @@ export class PoliciaisCursosService {
         },
       });
     }
+
+    if (params.ativo) {
+      polscursos = polscursos.filter((element) => {
+        return (
+          new Date(element.data_inicial) <= hoje &&
+          (new Date(element.data_final) >= hoje || element.data_final === null)
+        );
+      });
+    }
+
+    return polscursos;
   }
 
   async find(id: number, idUser: User): Promise<PolicialCursoInterface | null> {
-    var idsSubs: any = [];
+    const idsSubs: any = [];
     idUser.users_subunidades.forEach((data) => {
       idsSubs.push(data.subunidade.id);
     });
@@ -108,11 +121,12 @@ export class PoliciaisCursosService {
   }
 
   async create(object: PolicialCursoInterface, idUser: User) {
-    var object: PolicialCursoInterface = this.policialCursoRepository.create({
-      ...object,
-      created_by: idUser,
-    });
-    var save = await this.policialCursoRepository.save(object);
+    const object2: PolicialCursoInterface = this.policialCursoRepository.create({
+        ...object,
+        created_by: idUser,
+      },
+    );
+    const save = await this.policialCursoRepository.save(object2);
 
     await this.logsService.create({
       object: JSON.stringify(save),
@@ -125,7 +139,7 @@ export class PoliciaisCursosService {
   }
 
   async update(id: number, object: PolicialCursoInterface, idUser: User) {
-    var data: PolicialCursoInterface =
+    let data: PolicialCursoInterface =
       await this.policialCursoRepository.findOneBy({ id: id });
     data = { ...object };
     await this.policialCursoRepository.update(
@@ -145,7 +159,7 @@ export class PoliciaisCursosService {
   }
 
   async remove(id: number, idUser: User) {
-    var data = await this.policialCursoRepository.findOne({
+    const data = await this.policialCursoRepository.findOne({
       where: {
         id: id,
       },
@@ -180,6 +194,8 @@ export class PoliciaisCursosService {
           },
         },
         {
+           //@ts-ignore
+           data_inicial: LessThanOrEqual(format(new Date(), 'yyyy-MM-dd')),
           //@ts-ignore
           data_final: IsNull(),
           //@ts-ignore
@@ -199,7 +215,7 @@ export class PoliciaisCursosService {
     id: number,
     idUser: User,
   ): Promise<PoliciaisCursosInterface | null> {
-    var idsSubs: any = [];
+    const idsSubs: any = [];
     idUser.users_subunidades.forEach((data) => {
       idsSubs.push(data.subunidade.id);
     });
@@ -222,9 +238,9 @@ export class PoliciaisCursosService {
     object: any,
     idUser: User,
   ): Promise<PoliciaisCursosInterface> {
-    var hoje = new Date();
+    const hoje = new Date();
 
-    var policiais;
+    let policiais;
 
     policiais = await this.policialCursoRepository.find({
       relations: {
