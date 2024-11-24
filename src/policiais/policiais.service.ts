@@ -94,6 +94,7 @@ export class PoliciaisService {
         policiais_cursos: { policial: false },
         policiais_ferias: { policial: false },
         policiais_atestados: { policial: false },
+        policiais_historico: { policial: false },
         armamentos_emprestimos: {
           policial: false,
           armamentos_emprestimos_itens: {
@@ -248,6 +249,7 @@ export class PoliciaisService {
     return await this.policialRepository.find({
       where: {
         boletim_transferencia: IsNull(),
+        inativo: IsNull(),
         //@ts-ignore
         setor: {
           subunidade: {
@@ -266,6 +268,7 @@ export class PoliciaisService {
     return await this.policialRepository.find({
       where: {
         boletim_transferencia: IsNull(),
+        inativo: IsNull(),
         setor: {
           id: id,
           subunidade: {
@@ -291,6 +294,7 @@ export class PoliciaisService {
       },
       where: {
         boletim_transferencia: IsNull(),
+        inativo: IsNull(),
       },
     });
   }

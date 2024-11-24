@@ -26,6 +26,7 @@ import { PolicialRequerida } from 'src/policiais-requeridas/policial-requerida.e
 import { Escolaridade } from 'src/escolaridades/escolaridade.entity';
 import { Funcao } from 'src/funcoes/funcao.entity';
 import { Banco } from 'src/bancos/banco.entity';
+import { PolicialHistorico } from 'src/policiais-historico/policial-historico.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -263,6 +264,12 @@ export class Policial {
     (policialrequerida) => policialrequerida.policial,
   )
   policiais_requeridas: PolicialRequerida[];
+
+  @OneToMany(
+    (type) => PolicialHistorico,
+    (policialhistorico) => policialhistorico.policial,
+  )
+  policiais_historico: PolicialHistorico[];
 
   @OneToMany(
     (type) => ArmamentoEmprestimo,
