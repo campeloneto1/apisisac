@@ -375,13 +375,13 @@ export class PoliciaisService {
 
     if (object.setor) {
       policiais = policiais.filter((element) => {
-        return element.setor.id === object.setor;
+        return object.setor.includes(element.setor.id);
       });
     }
 
     if (object.graduacao) {
       policiais = policiais.filter((element) => {
-        return element.graduacao.id === object.graduacao;
+        return object.graduacao.includes(element.graduacao.id);
       });
     }
 

@@ -281,13 +281,13 @@ export class VeiculosPoliciaisService {
 
     if (object.veiculo) {
       veiculos = veiculos.filter((element) => {
-        return element.veiculo.id === object.veiculo;
+        return object.veiculo.includes(element.veiculo.id);
       });
     }
 
     if (object.policial) {
       veiculos = veiculos.filter((element) => {
-        return element.policial.id === object.policial;
+        return object.policial.includes(element.policial.id);
       });
     }
     return veiculos;

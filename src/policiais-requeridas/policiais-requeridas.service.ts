@@ -225,19 +225,19 @@ export class PoliciaisRequeridasService {
 
     if (object.policial) {
       policiais = policiais.filter((element) => {
-        return element.policial.id === object.policial;
+        return object.policial.includes(element.policial.id);
       });
     }
 
     if (object.setor) {
       policiais = policiais.filter((element) => {
-        return element.policial.setor.id === object.setor;
+        return object.setor.includes(element.policial.setor.id);
       });
     }
 
     if (object.graduacao) {
       policiais = policiais.filter((element) => {
-        return element.policial.graduacao.id === object.graduacao;
+        return object.graduacao.includes(element.policial.graduacao.id);
       });
     }
 

@@ -296,7 +296,7 @@ export class ArmamentosEmprestimosService {
 
     if (object.policial) {
       armamentos = armamentos.filter((element) => {
-        return element.policial.id === object.policial;
+        return object.policial.includes(element.policial.id);
       });
     }
 
@@ -304,7 +304,7 @@ export class ArmamentosEmprestimosService {
       armamentos = armamentos.filter((element) => {
         let teste = false;
         element.armamentos_emprestimos_itens.forEach((item) => {
-          if (object.armamento === item.armamento.id) {
+          if (object.armamento.includes(item.armamento.id)) {
             teste = true;
           }
         });
