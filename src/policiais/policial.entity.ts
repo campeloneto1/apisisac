@@ -27,6 +27,7 @@ import { Escolaridade } from 'src/escolaridades/escolaridade.entity';
 import { Funcao } from 'src/funcoes/funcao.entity';
 import { Banco } from 'src/bancos/banco.entity';
 import { PolicialHistorico } from 'src/policiais-historico/policial-historico.entity';
+import { PolicialDiaria } from 'src/policiais-diarias/policial-diaria.entity';
 
 @Entity('policiais')
 export class Policial {
@@ -282,6 +283,12 @@ export class Policial {
     (materiaispoliciais) => materiaispoliciais.policial,
   )
   materiais_policiais: MaterialPolicial[];
+
+  @OneToMany(
+    (type) => PolicialDiaria,
+    (policialdiaria) => policialdiaria.policial,
+  )
+  policiais_diarias: PolicialDiaria[];
 
   @OneToMany((type) => Unidade, (unidade) => unidade.comandante)
   comandantes_unidades: Unidade[];

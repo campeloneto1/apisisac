@@ -209,7 +209,7 @@ export class PoliciaisAtestadosService {
     id: number,
     idUser: User,
   ): Promise<PoliciaisAtestadosInterface | null> {
-    var idsSubs: any = [];
+    const idsSubs: any = [];
     idUser.users_subunidades.forEach((data) => {
       idsSubs.push(data.subunidade.id);
     });

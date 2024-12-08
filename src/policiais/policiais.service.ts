@@ -312,6 +312,7 @@ export class PoliciaisService {
     return await this.policialRepository.count({
       where: {
         boletim_transferencia: IsNull(),
+        inativo: IsNull(),
         //@ts-ignore
         setor: {
           subunidade: {

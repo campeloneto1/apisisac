@@ -119,6 +119,27 @@ export class HomeController {
     return this.homeService.policiaisGraduacoes(params, req.user);
   }
 
+  @Get('policiais-diarias')
+  async policiaisDiarias(@Request() req, @Query() params: any): Promise<any> {
+    return this.homeService.policiaisDiarias(params, req.user);
+  }
+
+  @Get('policiais-diarias-quant')
+  async policiaisDiariasQuant(
+    @Request() req,
+    @Query() params: any,
+  ): Promise<any> {
+    return this.homeService.policiaisDiariasQuant(params, req.user);
+  }
+
+  @Get('policiais-diarias-quantaberto')
+  async policiaisDiariasQuantAberto(
+    @Request() req,
+    @Query() params: any,
+  ): Promise<any> {
+    return this.homeService.policiaisDiariasQuantAberto(params, req.user);
+  }
+
   @Get('veiculos')
   async veiculos(@Request() req, @Query() params: any): Promise<number> {
     return this.homeService.veiculos(params, req.user);

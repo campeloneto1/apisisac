@@ -75,6 +75,9 @@ import { BancosModule } from './bancos/bancos.module';
 import { DocumentosTiposModule } from './documentos-tipos/documentos-tipos.module';
 import { DocumentosModule } from './documentos/documentos.module';
 import { PoliciaisHistoricoModule } from './policiais-historico/policiais-historico.module';
+import { PoliciaisDiariasModule } from './policiais-diarias/policiais-diarias.module';
+import { DiariasStatusModule } from './diarias-status/diarias-status.module';
+import { DiariasTiposModule } from './diarias-tipos/diarias-tipos.module';
 
 @Module({
   imports: [
@@ -167,6 +170,9 @@ import { PoliciaisHistoricoModule } from './policiais-historico/policiais-histor
     DocumentosTiposModule,
     DocumentosModule,
     PoliciaisHistoricoModule,
+    PoliciaisDiariasModule,
+    DiariasStatusModule,
+    DiariasTiposModule,
   ],
   controllers: [AppController],
   providers: [

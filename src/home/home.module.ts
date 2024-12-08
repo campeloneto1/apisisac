@@ -17,6 +17,7 @@ import { MateriaisModule } from 'src/materiais/materiais.module';
 import { PoliciaisRequeridasModule } from 'src/policiais-requeridas/policiais-requeridas.module';
 import { ContratosModule } from 'src/contratos/contratos.module';
 import { PoliciaisCursosModule } from 'src/policiais-cursos/policiais-cursos.module';
+import { PoliciaisDiariasModule } from 'src/policiais-diarias/policiais-diarias.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PoliciaisCursosModule } from 'src/policiais-cursos/policiais-cursos.mod
     MateriaisConsumoModule,
     MateriaisPoliciaisModule,
     PoliciaisModule,
+    PoliciaisDiariasModule,
     PoliciaisAtestadosModule,
     PoliciaisFeriasModule,
     PoliciaisRequeridasModule,

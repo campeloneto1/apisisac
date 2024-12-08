@@ -15,6 +15,7 @@ import { MateriaisService } from 'src/materiais/materiais.service';
 import { Materiais } from 'src/materiais/material.interface';
 import { PoliciaisAtestadosService } from 'src/policiais-atestados/policiais-atestados.service';
 import { PoliciaisCursosService } from 'src/policiais-cursos/policiais-cursos.service';
+import { PoliciaisDiariasService } from 'src/policiais-diarias/policiais-diarias.service';
 import { PoliciaisFeriasService } from 'src/policiais-ferias/policiais-ferias.service';
 import { PoliciaisRequeridasService } from 'src/policiais-requeridas/policiais-requeridas.service';
 import { PoliciaisService } from 'src/policiais/policiais.service';
@@ -39,6 +40,7 @@ export class HomeService {
     private materiaisConsumoService: MateriaisConsumoService,
     private materiaisPoliciaisService: MateriaisPoliciaisService,
     private policiaisService: PoliciaisService,
+    private policiaisDiariasService: PoliciaisDiariasService,
     private policiaisAtestadosService: PoliciaisAtestadosService,
     private policiaisCursosService: PoliciaisCursosService,
     private policiaisFeriasService: PoliciaisFeriasService,
@@ -100,6 +102,21 @@ export class HomeService {
 
   async policiais(params: any, idUser: User): Promise<number> {
     return this.policiaisService.quantidade(params, idUser);
+  }
+
+  async policiaisDiariasQuant(params: any, idUser: User): Promise<number> {
+    return this.policiaisDiariasService.quantidade(params, idUser);
+  }
+
+  async policiaisDiariasQuantAberto(
+    params: any,
+    idUser: User,
+  ): Promise<number> {
+    return this.policiaisDiariasService.quantidadeEmAberto(params, idUser);
+  }
+
+  async policiaisDiarias(params: any, idUser: User): Promise<any> {
+    return this.policiaisDiariasService.quantidadePorPol(params, idUser);
   }
 
   async policiaisInativos(params: any, idUser: User): Promise<number> {

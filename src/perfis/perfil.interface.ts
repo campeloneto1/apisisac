@@ -24,6 +24,11 @@ export interface Perfil {
   contratos_edt?: boolean;
   contratos_del?: boolean;
 
+  policiais_diarias?: boolean;
+  policiais_diarias_cad?: boolean;
+  policiais_diarias_edt?: boolean;
+  policiais_diarias_del?: boolean;
+
   documentos?: boolean;
   documentos_cad?: boolean;
   documentos_edt?: boolean;

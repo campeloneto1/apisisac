@@ -45,6 +45,11 @@ export class Perfil {
   @Column({ nullable: true }) contratos_edt!: boolean;
   @Column({ nullable: true }) contratos_del!: boolean;
 
+  @Column({ nullable: true }) policiais_diarias!: boolean;
+  @Column({ nullable: true }) policiais_diarias_cad!: boolean;
+  @Column({ nullable: true }) policiais_diarias_edt!: boolean;
+  @Column({ nullable: true }) policiais_diarias_del!: boolean;
+
   @Column({ nullable: true }) documentos!: boolean;
   @Column({ nullable: true }) documentos_cad!: boolean;
   @Column({ nullable: true }) documentos_edt!: boolean;

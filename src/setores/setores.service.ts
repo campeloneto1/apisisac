@@ -116,6 +116,7 @@ export class SetoresService {
             FROM setores
             LEFT JOIN policiais ON setores.id = policiais.setorId
             WHERE policiais.boletim_transferencia IS NULL
+             AND policiais.inativo IS NULL
             AND setores.subunidadeId = ${params.subunidade}
             GROUP BY setores.nome
             ORDER BY setores.nome
