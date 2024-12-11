@@ -28,6 +28,11 @@ export class Graduacao {
   })
   abreviatura!: string;
 
+  @Column({
+    nullable: true,
+  })
+  intersticio!: number;
+
   @OneToMany((type) => Policial, (policial) => policial.graduacao)
   policiais: Policial[];
 

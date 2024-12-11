@@ -78,6 +78,7 @@ import { PoliciaisHistoricoModule } from './policiais-historico/policiais-histor
 import { PoliciaisDiariasModule } from './policiais-diarias/policiais-diarias.module';
 import { DiariasStatusModule } from './diarias-status/diarias-status.module';
 import { DiariasTiposModule } from './diarias-tipos/diarias-tipos.module';
+import { PoliciaisPromocoesModule } from './policiais-promocoes/policiais-promocoes.module';
 
 @Module({
   imports: [
@@ -173,6 +174,7 @@ import { DiariasTiposModule } from './diarias-tipos/diarias-tipos.module';
     PoliciaisDiariasModule,
     DiariasStatusModule,
     DiariasTiposModule,
+    PoliciaisPromocoesModule,
   ],
   controllers: [AppController],
   providers: [

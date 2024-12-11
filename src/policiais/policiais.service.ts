@@ -245,6 +245,21 @@ export class PoliciaisService {
     await this.policialRepository.delete(id);
   }
 
+  async promover(id: number, graduacao: number, idUser: User) {
+    const pol = await this.policialRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    //@ts-ignore
+    pol.graduacao = graduacao;
+
+    await this.policialRepository.update(
+      { id: id },
+      { ...pol, updated_by: idUser },
+    );
+  }
+
   async disponiveis(params: any, idUser: User): Promise<PoliciaisInterface> {
     return await this.policialRepository.find({
       where: {

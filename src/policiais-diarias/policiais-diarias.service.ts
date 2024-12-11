@@ -36,7 +36,7 @@ export class PoliciaisDiariasService {
       object: JSON.stringify(save),
       mensagem: 'Cadastrou uma diária',
       tipo: 1,
-      table: 'diarias',
+      table: 'policiais_diarias',
       fk: save.id,
       user: idUser,
     });
@@ -57,7 +57,7 @@ export class PoliciaisDiariasService {
       object_old: JSON.stringify(data),
       mensagem: 'Editou uma diária',
       tipo: 2,
-      table: 'diatias',
+      table: 'policiais_diarias',
       fk: id,
       user: idUser,
     });
@@ -74,7 +74,7 @@ export class PoliciaisDiariasService {
       object: JSON.stringify(data),
       mensagem: 'Excluiu uma diária',
       tipo: 3,
-      table: 'diarias',
+      table: 'policiais_diarias',
       fk: data.id,
       user: idUser,
     });
@@ -184,6 +184,7 @@ export class PoliciaisDiariasService {
     object: any,
     idUser: User,
   ): Promise<PoliciaisDiariasInterface> {
+    const hoje = new Date();
     let policiais;
 
     policiais = await this.policialDiariaRepository.find({
@@ -237,6 +238,15 @@ export class PoliciaisDiariasService {
     if (object.diaria_tipo) {
       policiais = policiais.filter((element) => {
         return object.diaria_tipo.includes(element.diaria_tipo.id);
+      });
+    }
+
+    if (object.data_inicial) {
+      policiais = policiais.filter((element) => {
+        return (
+          new Date(element.data_inicial) >= new Date(object.data_inicial) &&
+          new Date(element.data_inicial) <= new Date(object.data_final)
+        );
       });
     }
 
